@@ -1,0 +1,24 @@
+
+@import "tailwindcss";
+
+
+/* Fonts */
+body {
+  font-family: 'Inter';
+}
+
+
+@font-face {
+    font-family: 'Inter';
+    src : url('../src/assets/fonts/Inter-VariableFont_opsz\,wght.ttf') format('truetype');
+    font-weight: 100 900 ;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src : url('../src/assets/fonts/Inter-Italic-VariableFont_opsz\,wght.ttf') format('truetype');
+    font-weight: 100 900 ;
+    font-style: italic;
+    
+} 
