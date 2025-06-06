@@ -1,24 +1,50 @@
-
 @import "tailwindcss";
 
+.nav-ele {
+  @apply relative p-4 cursor-pointer hover:text-sky-600 text-lg;
+}
 
 /* Fonts */
 body {
-  font-family: 'Inter';
-}
-
-
-@font-face {
-    font-family: 'Inter';
-    src : url('../src/assets/fonts/Inter-VariableFont_opsz\,wght.ttf') format('truetype');
-    font-weight: 100 900 ;
-    font-style: normal;
+  font-family: "Inter";
 }
 
 @font-face {
-    font-family: 'Inter';
-    src : url('../src/assets/fonts/Inter-Italic-VariableFont_opsz\,wght.ttf') format('truetype');
-    font-weight: 100 900 ;
-    font-style: italic;
-    
-} 
+  font-family: "Inter";
+  src: url("../src/assets/fonts/Inter-VariableFont_opsz\,wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../src/assets/fonts/Inter-Italic-VariableFont_opsz\,wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+}
+
+/* Small */
+@media (max-width: 767px) {
+  .custum-container {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .custum-container {
+    width: 750px;
+  }
+}
+/* Medium */
+@media (min-width: 992px) {
+  .custum-container {
+    width: 970px;
+  }
+}
+/* Large */
+@media (min-width: 1200px) {
+  .custum-container {
+    width: 1170px;
+  }
+}
