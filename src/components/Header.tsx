@@ -2,7 +2,7 @@ import "../App.css";
 
 export function Header() {
   return (
-    <header className="flex justify-between items-center p-2.5 shadow-xs">
+    <header className="flex justify-between items-center p-2.5 shadow-lg bg-white sticky top-0 z-1000">
       {/* Logo */}
       <div className="font-bold text-2xl text-sky-500">UpLink</div>
 
