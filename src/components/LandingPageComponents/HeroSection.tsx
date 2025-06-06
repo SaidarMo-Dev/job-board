@@ -3,7 +3,7 @@ import { MapPin, Search } from "lucide-react";
 export function HeroSection() {
   return (
     <>
-      <div className="bg-white p-15">
+      <section className="bg-white p-15">
         {/* Descriptions */}
         <div className="text-center">
           <h1 className="text-6xl font-bold">Find Your Dream Job</h1>
@@ -42,20 +42,7 @@ export function HeroSection() {
             Search
           </button>
         </div>
-        {/* Popular Search */}
-
-        {/* <div className="text-center">
-          <h4 className="font-semibold mt-15 text-xl">Popular Search:</h4>
-        
-          <div className="flex mt-4 justify-center">
-            <button className="popular-search-btn">Software Engineer</button>
-            <button className="popular-search-btn">Data Scientist</button>
-            <button className="popular-search-btn"> Designer</button>
-            <button className="popular-search-btn">Product Manager</button>
-            <button className="popular-search-btn">Marketing</button>
-          </div>
-        </div> */}
-      </div>
+      </section>
     </>
   );
 }
