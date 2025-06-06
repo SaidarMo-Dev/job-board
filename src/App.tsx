@@ -1,10 +1,10 @@
 import "./App.css";
-import { Header } from "./components/Header";
+import { LandingPage } from "./pages/LandingPage";
 
 function App() {
   return (
     <div className="custum-container mx-auto px-5">
-      <Header />
+      <LandingPage />
     </div>
   );
 }
