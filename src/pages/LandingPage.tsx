@@ -1,6 +1,6 @@
-import { Header } from "../components/Header";
-import { HeroSection } from "../components/HeroSection";
-
+import { Header } from "../components/LandingPageComponents/Header";
+import { HeroSection } from "../components/LandingPageComponents/HeroSection";
+import "../App.css";
 export function LandingPage() {
   return (
     <>

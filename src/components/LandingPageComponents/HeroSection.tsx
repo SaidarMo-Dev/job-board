@@ -3,7 +3,7 @@ import { MapPin, Search } from "lucide-react";
 export function HeroSection() {
   return (
     <>
-      <div className="bg-blue-50 p-15">
+      <div className="bg-white p-15">
         {/* Descriptions */}
         <div className="text-center">
           <h1 className="text-6xl font-bold">Find Your Dream Job</h1>
@@ -14,16 +14,20 @@ export function HeroSection() {
           </p>
         </div>
 
-        <div className="bg-white mt-12 p-5 flex gap-3 rounded-xl">
+        {/* Find Job */}
+        <div className="flex bg-white mt-12 gap-3 rounded-full border border-gray-100 items-center pr-2">
           {/* Job Title Input */}
           <div className="relative w-1/2">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6 pointer-events-none" />
             <input
               type="text"
               placeholder="Job Title"
-              className="w-full border pl-12 p-5 outline-0 rounded-lg border-gray-200 text-lg"
+              className="w-full pl-12 p-5 outline-0 rounded-lg border-gray-200 text-lg"
             />
           </div>
+
+          {/* Separator */}
+          <div className="h-10 w-0.5 bg-gray-400"></div>
 
           {/* Location Input */}
           <div className="relative w-1/2">
@@ -31,18 +35,18 @@ export function HeroSection() {
             <input
               type="text"
               placeholder="Location"
-              className="w-full border pl-12 p-5 outline-0 rounded-lg border-gray-200 text-lg"
+              className="w-full pl-12 p-5 outline-0 rounded-lg border-gray-200 text-lg"
             />
           </div>
-          <button className="cursor-pointer w-60 rounded-lg bg-sky-500 text-white text-lg hover:bg-sky-500/90">
-            search Jobs
+          <button className="cursor-pointer w-35 p-3 rounded-3xl bg-sky-500 text-white text-lg hover:bg-sky-500/90">
+            Search
           </button>
         </div>
-
         {/* Popular Search */}
-        <div className="text-center">
+
+        {/* <div className="text-center">
           <h4 className="font-semibold mt-15 text-xl">Popular Search:</h4>
-          {/* Searches */}
+        
           <div className="flex mt-4 justify-center">
             <button className="popular-search-btn">Software Engineer</button>
             <button className="popular-search-btn">Data Scientist</button>
@@ -50,7 +54,7 @@ export function HeroSection() {
             <button className="popular-search-btn">Product Manager</button>
             <button className="popular-search-btn">Marketing</button>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
