@@ -13,6 +13,10 @@ body {
   font-family: "Inter";
 }
 
+.custum-container {
+  margin: auto;
+  padding: 10px;
+}
 @font-face {
   font-family: "Inter";
   src: url("../src/assets/fonts/Inter-VariableFont_opsz\,wght.ttf")
