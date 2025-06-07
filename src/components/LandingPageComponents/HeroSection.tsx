@@ -16,7 +16,7 @@ export function HeroSection() {
           </div>
 
           {/* Find Job */}
-          <div className="flex bg-white mt-12 gap-3 rounded-full border border-gray-100 items-center pr-2">
+          <div className="flex bg-white mt-12 gap-3 rounded-full border border-gray-100 items-center pr-2 shadow-lg">
             {/* Job Title Input */}
             <div className="relative w-1/2">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6 pointer-events-none" />
@@ -39,7 +39,7 @@ export function HeroSection() {
                 className="w-full pl-12 p-5 outline-0 rounded-lg border-gray-200 text-lg"
               />
             </div>
-            <button className="cursor-pointer w-35 p-3 rounded-3xl bg-sky-500 text-white text-lg hover:bg-sky-500/90">
+            <button className="cursor-pointer w-35 p-3 rounded-3xl bg-sky-600 text-white text-lg hover:bg-sky-600/90">
               Search
             </button>
           </div>

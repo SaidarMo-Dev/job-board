@@ -13,22 +13,18 @@ import { Solution } from "../Solution";
 export function Solutions() {
   return (
     <section className="p-20 bg-slate-100">
-      <div
-        className="custom-container
-      
-      "
-      >
+      <div className="custom-container">
         <div>
           {" "}
           {/* Title */}
           <div className="text-center font-bold text-4xl tracking-wide">
             <h2>One Platform</h2>
-            <h2>
+            <h2 className="mt-0.5">
               Many <span className="text-sky-500">Solutions</span>
             </h2>
           </div>
           {/* Solutions */}
-          <div className="grid grid-cols-4 gap-5 mt-10">
+          <div className="grid grid-cols-4 gap-5 mt-15">
             <Solution
               solutionName={"Marketing &\nCommunication"}
               jobsCount={12}
