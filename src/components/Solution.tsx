@@ -2,7 +2,7 @@ import type { SolutionProps } from "../types/SolutionProps";
 
 export function Solution({ solutionName, jobsCount, icon }: SolutionProps) {
   return (
-    <div className="bg-white p-4 flex gap-4 rounded-lg hover:bg-sky-600 duration-200 hover:text-white transform hover:-translate-y-1">
+    <div className="bg-white p-4 flex gap-4 rounded-lg hover:bg-sky-600 duration-300 hover:text-white transform hover:-translate-y-1">
       {/* ICON */}
       <div className="mt-1.5">{icon}</div>
 
