@@ -13,9 +13,11 @@ import { Solution } from "../Solution";
 export function Solutions() {
   return (
     <section className="p-20 bg-slate-100">
-      <div className="custom-container
+      <div
+        className="custom-container
       
-      ">
+      "
+      >
         <div>
           {" "}
           {/* Title */}
@@ -28,49 +30,49 @@ export function Solutions() {
           {/* Solutions */}
           <div className="grid grid-cols-4 gap-5 mt-10">
             <Solution
-              solutionName="Marketing & Communication"
+              solutionName={"Marketing &\nCommunication"}
               jobsCount={12}
               icon={<MicVocal color="#e53935" width="25px" height="25px" />}
             />
 
             <Solution
-              solutionName="Design & Development"
+              solutionName={`Design &\nDevelopment`}
               jobsCount={12}
               icon={<PaintBucket color="#7b1fa2" width="25px" height="25px" />}
             />
 
             <Solution
-              solutionName="Human Research & Development"
+              solutionName={"Human Research &\nDevelopment"}
               jobsCount={12}
               icon={<EarthLock color="#2979ff" width="25px" height="25px" />}
             />
 
             <Solution
-              solutionName="Finance & Management"
+              solutionName={"Finance &\nManagement"}
               jobsCount={12}
               icon={<HandCoins color="#ffab40" width="25px" height="25px" />}
             />
 
             <Solution
-              solutionName="Armforce Guide & Security"
+              solutionName={"Armforce Guide &\nSecurity"}
               jobsCount={12}
               icon={<ShieldCheck color="#6200ea" width="25px" height="25px" />}
             />
 
             <Solution
-              solutionName="Business & Consulting"
+              solutionName={"Business &\nConsulting"}
               jobsCount={12}
               icon={<Handshake color="#29b6f6" width="25px" height="25px" />}
             />
 
             <Solution
-              solutionName="Customer Support Care"
+              solutionName={"Customer\nSupport Care"}
               jobsCount={12}
               icon={<MicVocal color="#009688" width="25px" height="25px" />}
             />
 
             <Solution
-              solutionName="Project Management"
+              solutionName={"Project\nManagement"}
               jobsCount={12}
               icon={<FolderKanban color="#e040fb" width="25px" height="25px" />}
             />
