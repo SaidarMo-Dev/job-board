@@ -8,7 +8,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-import { Solution } from "../Solution";
+import { Solution } from "./Solution";
 
 export function Solutions() {
   return (

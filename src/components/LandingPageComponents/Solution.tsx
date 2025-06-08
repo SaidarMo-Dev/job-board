@@ -1,4 +1,4 @@
-import type { SolutionProps } from "../types/SolutionProps";
+import type { SolutionProps } from "../../types/SolutionProps";
 
 export function Solution({ solutionName, jobsCount, icon }: SolutionProps) {
   return (
