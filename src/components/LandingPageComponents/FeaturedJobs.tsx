@@ -15,12 +15,89 @@ export function FeaturedJobs() {
 
         {/* jobs */}
         <div className="mt-15 grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-5">
-          <JobCard />
-          <JobCard />
-          <JobCard />
-          <JobCard />
-          <JobCard />
-          <JobCard />
+          <JobCard
+            job={{
+              Title: "Senior Frontend Developer",
+              Company: "Microsoft",
+              Location: "Now York, NY",
+              JobType: "Full Time",
+              SalaryRange: "$90k - $120k",
+              Skills: [
+                { Id: 1, Skill: "Typescript" },
+                { Id: 2, Skill: "React" },
+                { Id: 3, Skill: "JS" },
+              ],
+            }}
+          />
+          <JobCard
+            job={{
+              Title: "Product Manager",
+              Company: "MS Solutions",
+              Location: "Morocco Eljadida",
+              JobType: "Full Time",
+              SalaryRange: "$40k - $70k",
+              Skills: [
+                { Id: 1, Skill: "Strategy" },
+                { Id: 2, Skill: "Analytics" },
+                { Id: 3, Skill: "Saas" },
+              ],
+            }}
+          />
+          <JobCard
+            job={{
+              Title: "UX Designer",
+              Company: "Oracle",
+              Location: "Morocoo Tanger, Af",
+              JobType: "Part Time",
+              SalaryRange: "$97k - $100k",
+              Skills: [
+                { Id: 1, Skill: "Figma" },
+                { Id: 2, Skill: "Mobile" },
+              ],
+            }}
+          />
+          <JobCard
+            job={{
+              Title: "Senior Frontend Developer",
+              Company: "Microsoft",
+              Location: "Now York, NY",
+              JobType: "Full Time",
+              SalaryRange: "$90k - $120k",
+              Skills: [
+                { Id: 1, Skill: "Typescript" },
+                { Id: 2, Skill: "React" },
+                { Id: 3, Skill: "JS" },
+              ],
+            }}
+          />
+          <JobCard
+            job={{
+              Title: "Senior Frontend Developer",
+              Company: "Microsoft",
+              Location: "Now York, NY",
+              JobType: "Full Time",
+              SalaryRange: "$90k - $120k",
+              Skills: [
+                { Id: 1, Skill: "Typescript" },
+                { Id: 2, Skill: "React" },
+                { Id: 3, Skill: "JS" },
+              ],
+            }}
+          />
+          <JobCard
+            job={{
+              Title: "Senior Frontend Developer",
+              Company: "Microsoft",
+              Location: "Now York, NY",
+              JobType: "Full Time",
+              SalaryRange: "$90k - $120k",
+              Skills: [
+                { Id: 1, Skill: "Typescript" },
+                { Id: 2, Skill: "React" },
+                { Id: 3, Skill: "JS" },
+              ],
+            }}
+          />
         </div>
 
         <button>Viwe All Jobs</button>

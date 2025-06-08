@@ -1,6 +1,15 @@
 import { Bookmark, Clock, MapPin } from "lucide-react";
+import type { JobProps } from "../types/JobProps";
 
-export function JobCard() {
+export function JobCard({ job }: { job: JobProps }) {
+  const skillsList = job.Skills.map((s) => {
+    return (
+      <div className="p-1 pl-2 pr-2 rounded-xl bg-blue-50 text-sm mr-3 font-semibold">
+        {s.Skill}
+      </div>
+    );
+  });
+
   return (
     <div className="relative p-5 border-2 border-gray-100 rounded-md">
       {/* JOB CARD HEADER */}
@@ -11,8 +20,8 @@ export function JobCard() {
 
         <div className="flex items-start">
           <div>
-            <h4 className="font-bold">Senior Frontend Developer</h4>
-            <h5 className="text-sm text-neutral-500">Microsoft</h5>
+            <h4 className="font-bold">{job.Title}</h4>
+            <h5 className="text-sm text-neutral-500">{job.Company}</h5>
           </div>
           <button className="absolute right-4">
             <Bookmark color="#9E9E9E" width="20px" height="20px" />
@@ -27,25 +36,25 @@ export function JobCard() {
           <div className="text-sm text-neutral-500 mt-3">
             <div className="flex gap-2.5">
               <MapPin width="20px" height="20px" />
-              <h5>Now York, NY</h5>
+              <h5 className="text-sm">{job.Location}</h5>
             </div>
 
             <div className="flex gap-2.5 mt-4">
               <Clock width="20px" height="20px" />
-              <h5>Full Time</h5>
+              <h5 className="text-sm">{job.JobType}</h5>
             </div>
           </div>
 
           {/* SALARY RANDGE */}
-          <div className="self-end text-green-600">$50k - $110k</div>
+          <div className="self-end text-green-600">{job.SalaryRange}</div>
         </div>
-        <hr className="mt-5 mb-4 text-neutral-200 border-1" />
-        {/* JOB SKILLS */}
-        <div></div>
-      </div>
 
+        {/* JOB SKILLS */}
+        <div className="flex flex-wrap mt-5 mb-5">{skillsList}</div>
+      </div>
+      <hr className="text-neutral-200 border-1" />
       {/* JOB CARD FOOTER */}
-      <div className="flex items-center justify-between text-sm text-neutral-500">
+      <div className="flex items-center justify-between text-sm text-neutral-500 mt-5">
         <h4>2 Day ago</h4>
         <button className="bg-blue-50 text-sky-600 p-2 rounded-md duration-75 hover:bg-sky-500 hover:text-white">
           Apply Now
