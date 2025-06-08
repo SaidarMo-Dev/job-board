@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import { JobCard } from "../JobCard";
 
 export function FeaturedJobs() {
@@ -100,7 +101,10 @@ export function FeaturedJobs() {
           />
         </div>
 
-        <button>Viwe All Jobs</button>
+        <button className="relative mt-15 block m-auto font-semibold border border-neutral-200 pt-2 pr-10 pb-2 pl-4 rounded hover:bg-neutral-100">
+          <ArrowRight className="absolute right-2" width="20px" />
+          Viwe All Jobs
+        </button>
       </div>
     </section>
   );
