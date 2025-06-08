@@ -4,6 +4,8 @@ import "../App.css";
 
 import { StatusSection } from "../components/LandingPageComponents/StatusSection";
 import { FeaturedJobs } from "../components/LandingPageComponents/FeaturedJobs";
+import { BrowseByCategory } from "../components/LandingPageComponents/BrowseByCategory";
+import { Solutions } from "../components/LandingPageComponents/SolutionsSection";
 // import { TopCompaniesHiring } from "../components/LandingPageComponents/TopCompaniesHiring";
 export function LandingPage() {
   return (
@@ -12,7 +14,9 @@ export function LandingPage() {
       <HeroSection />
       <StatusSection />
       <FeaturedJobs />
+      <Solutions />
       {/* <TopCompaniesHiring />  */}
+      <BrowseByCategory />
     </>
   );
 }
