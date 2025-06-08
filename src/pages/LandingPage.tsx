@@ -4,6 +4,7 @@ import "../App.css";
 
 import { StatusSection } from "../components/LandingPageComponents/StatusSection";
 import { FeaturedJobs } from "../components/LandingPageComponents/FeaturedJobs";
+// import { TopCompaniesHiring } from "../components/LandingPageComponents/TopCompaniesHiring";
 export function LandingPage() {
   return (
     <>
@@ -11,6 +12,7 @@ export function LandingPage() {
       <HeroSection />
       <StatusSection />
       <FeaturedJobs />
+      {/* <TopCompaniesHiring />  */}
     </>
   );
 }
