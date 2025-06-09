@@ -1,7 +1,100 @@
 import { ArrowRight } from "lucide-react";
 import { JobCard } from "../JobCard";
+import type { JobProps } from "../../types/JobProps";
 
 export function FeaturedJobs() {
+  const featuredJobs: Array<JobProps> = [
+    {
+      Title: "Senior Frontend Developer",
+      Company: "Microsoft",
+      Location: "Now York, NY",
+      JobType: "Full Time",
+      SalaryRange: "$90k - $120k",
+      CreatedAt: "2",
+      Description:
+        "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
+      Skills: [
+        { Id: 1, Skill: "Typescript" },
+        { Id: 2, Skill: "React" },
+        { Id: 3, Skill: "JS" },
+      ],
+    },
+    {
+      Title: "Product Manager",
+      Company: "MS Solutions",
+      Location: "Morocco Eljadida",
+      JobType: "Full Time",
+      SalaryRange: "$40k - $70k",
+      CreatedAt: "2",
+      Description: "",
+      Skills: [
+        { Id: 1, Skill: "Strategy" },
+        { Id: 2, Skill: "Analytics" },
+        { Id: 3, Skill: "Saas" },
+      ],
+    },
+    {
+      Title: "Senior Frontend Developer",
+      Company: "Microsoft",
+      Location: "Now York, NY",
+      JobType: "Full Time",
+      SalaryRange: "$90k - $120k",
+      CreatedAt: "2",
+      Description:
+        "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
+      Skills: [
+        { Id: 1, Skill: "Typescript" },
+        { Id: 2, Skill: "React" },
+        { Id: 3, Skill: "JS" },
+      ],
+    },
+    {
+      Title: "Senior Frontend Developer",
+      Company: "Microsoft",
+      Location: "Now York, NY",
+      JobType: "Full Time",
+      SalaryRange: "$90k - $120k",
+      CreatedAt: "2",
+      Description:
+        "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
+      Skills: [
+        { Id: 1, Skill: "Typescript" },
+        { Id: 2, Skill: "React" },
+        { Id: 3, Skill: "JS" },
+      ],
+    },
+    {
+      Title: "Senior Frontend Developer",
+      Company: "Microsoft",
+      Location: "Now York, NY",
+      JobType: "Full Time",
+      SalaryRange: "$90k - $120k",
+      CreatedAt: "2",
+      Description:
+        "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
+      Skills: [
+        { Id: 1, Skill: "Typescript" },
+        { Id: 2, Skill: "React" },
+        { Id: 3, Skill: "JS" },
+      ],
+    },
+    {
+      Title: "Senior Frontend Developer",
+      Company: "Microsoft",
+      Location: "Now York, NY",
+      JobType: "Full Time",
+      SalaryRange: "$90k - $120k",
+      CreatedAt: "2",
+      Description:
+        "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
+      Skills: [
+        { Id: 1, Skill: "Typescript" },
+        { Id: 2, Skill: "React" },
+        { Id: 3, Skill: "JS" },
+      ],
+    },
+  ];
+
   return (
     <section className="bg-white py-15">
       <div className="custom-container">
@@ -15,98 +108,11 @@ export function FeaturedJobs() {
         </div>
 
         {/* jobs */}
-        <div className="mt-15 grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-5">
-          <JobCard
-            job={{
-              Title: "Senior Frontend Developer",
-              Company: "Microsoft",
-              Location: "Now York, NY",
-              JobType: "Full Time",
-              SalaryRange: "$90k - $120k",
-              CreatedAt: "2",
-              Skills: [
-                { Id: 1, Skill: "Typescript" },
-                { Id: 2, Skill: "React" },
-                { Id: 3, Skill: "JS" },
-              ],
-            }}
-          />
-          <JobCard
-            job={{
-              Title: "Product Manager",
-              Company: "MS Solutions",
-              Location: "Morocco Eljadida",
-              JobType: "Full Time",
-              SalaryRange: "$40k - $70k",
-              CreatedAt: "2",
-              Skills: [
-                { Id: 1, Skill: "Strategy" },
-                { Id: 2, Skill: "Analytics" },
-                { Id: 3, Skill: "Saas" },
-              ],
-            }}
-          />
-          <JobCard
-            job={{
-              Title: "UX Designer",
-              Company: "Oracle",
-              Location: "Morocoo Tanger, Af",
-              JobType: "Part Time",
-              SalaryRange: "$97k - $100k",
-              CreatedAt: "2",
-              Skills: [
-                { Id: 1, Skill: "Figma" },
-                { Id: 2, Skill: "Mobile" },
-              ],
-            }}
-          />
-          <JobCard
-            job={{
-              Title: "Senior Frontend Developer",
-              Company: "Microsoft",
-              Location: "Now York, NY",
-              JobType: "Full Time",
-              SalaryRange: "$90k - $120k",
-              CreatedAt: "2",
-              Skills: [
-                { Id: 1, Skill: "Typescript" },
-                { Id: 2, Skill: "React" },
-                { Id: 3, Skill: "JS" },
-              ],
-            }}
-          />
-          <JobCard
-            job={{
-              Title: "Senior Frontend Developer",
-              Company: "Microsoft",
-              Location: "Now York, NY",
-              JobType: "Full Time",
-              SalaryRange: "$90k - $120k",
-              CreatedAt: "2",
-              Skills: [
-                { Id: 1, Skill: "Typescript" },
-                { Id: 2, Skill: "React" },
-                { Id: 3, Skill: "JS" },
-              ],
-            }}
-          />
-          <JobCard
-            job={{
-              Title: "Senior Frontend Developer",
-              Company: "Microsoft",
-              Location: "Now York, NY",
-              JobType: "Full Time",
-              SalaryRange: "$90k - $120k",
-              CreatedAt: "2",
-              Skills: [
-                { Id: 1, Skill: "Typescript" },
-                { Id: 2, Skill: "React" },
-                { Id: 3, Skill: "JS" },
-              ],
-            }}
-          />
+        <div  className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-5 mt-15">
+          {featuredJobs.map((job, index) => {
+            return <JobCard job={job} key={index} />;
+          })}
         </div>
-
         <button className="relative mt-15 block m-auto font-semibold border border-neutral-200 pt-2 pr-10 pb-2 pl-4 rounded hover:bg-neutral-100">
           <ArrowRight className="absolute right-2" width="20px" />
           Viwe All Jobs
