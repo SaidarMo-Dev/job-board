@@ -46,9 +46,9 @@ export function HeroSection() {
               Find opportunities that match your skills and aspirations
             </h4>
 
-            <div className="flex mt-5 bg-white gap-3 rounded-full border border-gray-100 items-center pr-2 shadow-lg">
+            <div className="flex flex-col md:flex-row mt-5 p-3 md:p-2 bg-white gap-3 rounded-lg md:rounded-full border border-gray-100 items-center shadow-lg">
               {/* Job Title Input */}
-              <div className="relative w-1/2">
+              <div className="relative w-full md:w-1/2 border-2 border-neutral-200 md:border-none rounded-lg">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                 <input
                   type="text"
@@ -58,18 +58,18 @@ export function HeroSection() {
               </div>
 
               {/* Separator */}
-              <div className="h-10 w-0.5 bg-gray-400"></div>
+              <div className="h-10 w-0.5 bg-gray-400 hidden md:block"></div>
 
               {/* Location Input */}
-              <div className="relative w-1/2">
+              <div className="relative w-full md:w-1/2 border-2 border-neutral-200 md:border-none rounded-lg">
                 <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                 <input
                   type="text"
                   placeholder="Location"
-                  className="w-full pl-12 p-4 outline-0 rounded-lg border-gray-200"
+                  className="w-full pl-12 p-3 outline-0 rounded-lg border-gray-200"
                 />
               </div>
-              <button className="cursor-pointer w-35 p-2 rounded-3xl bg-sky-600 text-white text-lg hover:bg-sky-600/90">
+              <button className="cursor-pointer w-full md:w-36 p-3 rounded-sm md:rounded-3xl bg-sky-600 text-white text-lg hover:bg-sky-600/90">
                 Search
               </button>
             </div>
