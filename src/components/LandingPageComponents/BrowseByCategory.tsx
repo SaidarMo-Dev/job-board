@@ -16,7 +16,7 @@ import { CategoryCard } from "./CategoryCard";
 
 export function BrowseByCategory() {
   return (
-    <section className="bg-white p-15">
+    <section className="bg-white py-15">
       <div className="custom-container">
         <div className="text-center">
           <h1 className="font-bold text-4xl mb-3">Browse By Category</h1>
@@ -27,7 +27,7 @@ export function BrowseByCategory() {
         </div>
 
         {/* Categories */}
-        <div className="pt-15  grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-5">
+        <div className="py-15  grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-5">
           <CategoryCard
             category="Technology"
             jobsCount={2}

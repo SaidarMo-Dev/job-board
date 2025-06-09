@@ -12,10 +12,9 @@ import { Solution } from "./Solution";
 
 export function Solutions() {
   return (
-    <section className="py-20 bg-slate-100">
+    <section className="py-15 bg-slate-100">
       <div className="custom-container">
         <div>
-          {" "}
           {/* Title */}
           <div className="text-center font-bold text-4xl tracking-wide">
             <h2>One Platform</h2>
@@ -24,7 +23,7 @@ export function Solutions() {
             </h2>
           </div>
           {/* Solutions */}
-          <div className="grid grid-cols-4 gap-5 mt-15">
+          <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-5 mt-15">
             <Solution
               solutionName={"Marketing &\nCommunication"}
               jobsCount={12}

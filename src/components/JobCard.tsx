@@ -61,7 +61,7 @@ export function JobCard({ job }: { job: JobProps }) {
         </button>
       </div>
 
-      <button className="absolute rounded-2xl bg-yellow-500 p-0.5 pl-2 pr-2 text-white top-0 -right-4 text-sm transform -translate-y-1/2">
+      <button className="absolute rounded-2xl bg-yellow-500 p-0.5 pl-2 pr-2 text-white top-0 -right-2 text-sm transform -translate-y-1/2">
         Featured
       </button>
     </div>

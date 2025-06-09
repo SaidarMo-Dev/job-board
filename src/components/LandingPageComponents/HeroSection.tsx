@@ -11,7 +11,7 @@ export function HeroSection() {
             <span className="text-6xl font-bold text-sky-500">Today</span>
           </div>
 
-          {/* hero-media */}
+          {/* hero-media
           <div className="relative bg-white p-8 mt-15 rounded-xl shadow-2xl">
             <div>
               <img
@@ -20,19 +20,19 @@ export function HeroSection() {
                 className="w-full h-80 object-cover rounded-xl"
               />
             </div>
-            <div className="absolute -top-4 -left-5 flex items-center rounded-lg bg-white gap-2 shadow-xl p-4">
+            <div className="absolute -top-4 -left-1 flex items-center rounded-lg bg-white gap-2 shadow-xl p-4">
               <div>
                 <Users color="green" />
               </div>
               <div className="font-semibold">Remote Teams</div>
             </div>
-            <div className="absolute -right-5 -bottom-4 flex items-center rounded-lg bg-white gap-2 shadow-xl p-4">
+            <div className="absolute -right-1 -bottom-4 flex items-center rounded-lg bg-white gap-2 shadow-xl p-4">
               <div>
                 <Blocks color="#1e88e5" />
               </div>
               <div className="font-semibold">Career Growth</div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
