@@ -12,7 +12,7 @@ import { Solution } from "./Solution";
 
 export function Solutions() {
   return (
-    <section className="p-20 bg-slate-100">
+    <section className="py-20 bg-slate-100">
       <div className="custom-container">
         <div>
           {" "}

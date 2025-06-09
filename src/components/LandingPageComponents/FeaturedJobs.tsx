@@ -3,7 +3,7 @@ import { JobCard } from "../JobCard";
 
 export function FeaturedJobs() {
   return (
-    <section className="bg-white p-15">
+    <section className="bg-white py-15">
       <div className="custom-container">
         {/* title */}
         <div className="text-center">
