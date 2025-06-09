@@ -18,12 +18,12 @@ export function JobCard({ job }: { job: JobProps }) {
           <img src="../../src/assets/react.svg" alt="" />
         </div>
 
-        <div className="flex items-start">
+        <div className="flex items-start w-full justify-between">
           <div>
             <h4 className="font-bold">{job.Title}</h4>
             <h5 className="text-sm text-neutral-500">{job.Company}</h5>
           </div>
-          <button className="absolute right-4">
+          <button className="">
             <Bookmark color="#9E9E9E" width="20px" height="20px" />
           </button>
         </div>
