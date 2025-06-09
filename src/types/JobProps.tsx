@@ -6,5 +6,7 @@ export interface JobProps {
   Location: string;
   JobType: string;
   SalaryRange: string;
+  CreatedAt: string;
+  Description: string;
   Skills: Array<ISkill>;
 }

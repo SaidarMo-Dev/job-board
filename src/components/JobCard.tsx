@@ -1,4 +1,4 @@
-import { Bookmark, Clock, MapPin } from "lucide-react";
+import { Bookmark, Calendar, Clock, MapPin } from "lucide-react";
 import type { JobProps } from "../types/JobProps";
 
 export function JobCard({ job }: { job: JobProps }) {
@@ -11,19 +11,24 @@ export function JobCard({ job }: { job: JobProps }) {
   });
 
   return (
-    <div className="relative p-5 border-2 border-gray-100 rounded-md">
+    <div className="relative p-5 border border-gray-200 rounded-md">
       {/* JOB CARD HEADER */}
-      <div className="flex gap-4">
+      <div className="flex gap-4 items-center">
         <div>
           <img src="../../src/assets/react.svg" alt="" />
         </div>
 
         <div className="flex items-start w-full justify-between">
           <div>
+            <button className="rounded-3xl mb-1 border border-sky-200 bg-sky-50 pl-2 pr-2 text-sky-600 font-semibold text-sm">
+              Featured
+            </button>
             <h4 className="font-bold">{job.Title}</h4>
-            <h5 className="text-sm text-neutral-500">{job.Company}</h5>
+            <h5 className="text-sm text-neutral-500 font-semibold">
+              {job.Company}
+            </h5>
           </div>
-          <button className="">
+          <button className="cursor-pointer">
             <Bookmark color="#9E9E9E" width="20px" height="20px" />
           </button>
         </div>
@@ -32,38 +37,51 @@ export function JobCard({ job }: { job: JobProps }) {
       {/* JOB CARD BODY */}
       <div>
         {/* JOB INFO */}
-        <div className="flex justify-between">
-          <div className="text-sm text-neutral-500 mt-3">
+        <div className="flex mt-4 justify-between lg:gap-30 lg:justify-normal text-neutral-600">
+          <div className="text-sm text-neutral-500">
             <div className="flex gap-2.5">
               <MapPin width="20px" height="20px" />
               <h5 className="text-sm">{job.Location}</h5>
             </div>
 
             <div className="flex gap-2.5 mt-4">
-              <Clock width="20px" height="20px" />
-              <h5 className="text-sm">{job.JobType}</h5>
+              <Calendar width="18px" height="18px" />
+              <h5 className="text-sm">{job.CreatedAt} days ago</h5>
             </div>
           </div>
 
-          {/* SALARY RANDGE */}
-          <div className="self-end text-green-600">{job.SalaryRange}</div>
+          <div>
+            <div className="flex gap-2.5">
+              <Clock width="18px" height="18px" />
+              <h5 className="text-sm">{job.JobType}</h5>
+            </div>
+          </div>
+        </div>
+
+        <hr className="text-neutral-200 my-5" />
+        <div>
+          <div className="text-green-600 font-semibold">{job.SalaryRange}</div>
         </div>
 
         {/* JOB SKILLS */}
-        <div className="flex flex-wrap mt-5 mb-5">{skillsList}</div>
-      </div>
-      <hr className="text-neutral-200 border-1" />
-      {/* JOB CARD FOOTER */}
-      <div className="flex items-center justify-between text-sm text-neutral-500 mt-5">
-        <h4>2 Day ago</h4>
-        <button className="bg-blue-50 text-sky-600 p-2 rounded-md duration-75 hover:bg-sky-500 hover:text-white">
-          Apply Now
-        </button>
+        <div className="mt-5">
+          <h4 className="block">Required Skills:</h4>
+          <div className="flex flex-wrap mt-1 mb-5">{skillsList}</div>
+        </div>
+        <div className="bg-neutral-50 p-3 rounded-lg text-sm text-neutral-500">
+          {job.Description ? "No Description" : job.Description}
+        </div>
       </div>
 
-      <button className="absolute rounded-2xl bg-yellow-500 p-0.5 pl-2 pr-2 text-white top-0 -right-2 text-sm transform -translate-y-1/2">
-        Featured
-      </button>
+      {/* JOB CARD FOOTER */}
+      <div className="flex items-center text-sm text-neutral-500 mt-5 gap-2">
+        <button className="bg-sky-600 text-white font-semibold text-sm p-2 rounded-md w-full hover:bg-sky-600/90 cursor-pointer">
+          Apply Now
+        </button>
+        <button className="bg-white font-semibold text-sm p-2 rounded-md w-40 border border-neutral-300 hover:bg-gray-50 cursor-pointer">
+          Learn More
+        </button>
+      </div>
     </div>
   );
 }

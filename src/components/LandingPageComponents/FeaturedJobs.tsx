@@ -23,6 +23,7 @@ export function FeaturedJobs() {
               Location: "Now York, NY",
               JobType: "Full Time",
               SalaryRange: "$90k - $120k",
+              CreatedAt: "2",
               Skills: [
                 { Id: 1, Skill: "Typescript" },
                 { Id: 2, Skill: "React" },
@@ -37,6 +38,7 @@ export function FeaturedJobs() {
               Location: "Morocco Eljadida",
               JobType: "Full Time",
               SalaryRange: "$40k - $70k",
+              CreatedAt: "2",
               Skills: [
                 { Id: 1, Skill: "Strategy" },
                 { Id: 2, Skill: "Analytics" },
@@ -51,6 +53,7 @@ export function FeaturedJobs() {
               Location: "Morocoo Tanger, Af",
               JobType: "Part Time",
               SalaryRange: "$97k - $100k",
+              CreatedAt: "2",
               Skills: [
                 { Id: 1, Skill: "Figma" },
                 { Id: 2, Skill: "Mobile" },
@@ -64,6 +67,7 @@ export function FeaturedJobs() {
               Location: "Now York, NY",
               JobType: "Full Time",
               SalaryRange: "$90k - $120k",
+              CreatedAt: "2",
               Skills: [
                 { Id: 1, Skill: "Typescript" },
                 { Id: 2, Skill: "React" },
@@ -78,6 +82,7 @@ export function FeaturedJobs() {
               Location: "Now York, NY",
               JobType: "Full Time",
               SalaryRange: "$90k - $120k",
+              CreatedAt: "2",
               Skills: [
                 { Id: 1, Skill: "Typescript" },
                 { Id: 2, Skill: "React" },
@@ -92,6 +97,7 @@ export function FeaturedJobs() {
               Location: "Now York, NY",
               JobType: "Full Time",
               SalaryRange: "$90k - $120k",
+              CreatedAt: "2",
               Skills: [
                 { Id: 1, Skill: "Typescript" },
                 { Id: 2, Skill: "React" },
