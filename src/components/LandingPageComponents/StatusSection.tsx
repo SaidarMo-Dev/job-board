@@ -3,7 +3,7 @@ import { TrendingUp } from "lucide-react";
 export function StatusSection() {
   return (
     <section className="p-15">
-      <div className="custum-container grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-4">
+      <div className="custom-container grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-4">
         <div className="flex flex-col items-center">
           <div className="bg-blue-100 p-3 rounded-full">
             <TrendingUp className="text-sky-600" />

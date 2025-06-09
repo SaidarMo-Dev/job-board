@@ -3,7 +3,7 @@ import { CompanyMiniCard } from "../CompanyMiniCard";
 export function TopCompaniesHiring() {
   return (
     <section className="p-15">
-      <div className="custum-container">
+      <div className="custom-container">
         <div className="text-center">
           <h3 className="font-bold text-4xl">Top Companies Hiring</h3>
           <p className="text-neutral-600 mt-3">

@@ -3,23 +3,19 @@ import { Blocks, MapPin, Search, Users } from "lucide-react";
 export function HeroSection() {
   return (
     <>
-      <section className="bg-slate-50 p-15">
-        <div className="custum-container">
+      <section className="bg-slate-50 py-15">
+        <div className="custom-container">
           {/* Descriptions */}
           <div className="text-center">
             <h1 className="text-6xl font-bold">Find Your Dream Job</h1>
             <span className="text-6xl font-bold text-sky-500">Today</span>
-            <p className="text-2xl mt-5 text-gray-600">
-              Connect with thousands of companies hiring now. Your next career
-              opportunity is just a search away.
-            </p>
           </div>
 
           {/* hero-media */}
           <div className="relative bg-white p-8 mt-15 rounded-xl shadow-2xl">
             <div>
               <img
-                src="/public/images/heroImage.jpg"
+                src="/images/heroImage.jpg"
                 alt="hero image"
                 className="w-full h-80 object-cover rounded-xl"
               />
@@ -41,13 +37,15 @@ export function HeroSection() {
       </section>
 
       {/* Find Job */}
-      <section className="mt-15 p-15 bg-white text-center">
+      <section className="mt-15 py-15 bg-white text-center">
         <div className="custom-container">
           {/* main container find job */}
           <div>
             <h2 className="font-bold text-4xl">Start Your Job Search</h2>
-            <h4 className="mt-2 text-lg text-gray-500">Find opportunities that match your skills and aspirations</h4>
-            
+            <h4 className="mt-2 text-lg text-gray-500">
+              Find opportunities that match your skills and aspirations
+            </h4>
+
             <div className="flex mt-5 bg-white gap-3 rounded-full border border-gray-100 items-center pr-2 shadow-lg">
               {/* Job Title Input */}
               <div className="relative w-1/2">

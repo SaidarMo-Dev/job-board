@@ -15,7 +15,7 @@ export function LandingPage() {
       <StatusSection />
       <FeaturedJobs />
       <Solutions />
-      {/* <TopCompaniesHiring />  */}
+
       <BrowseByCategory />
     </>
   );

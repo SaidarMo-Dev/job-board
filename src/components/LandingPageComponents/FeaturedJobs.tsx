@@ -4,7 +4,7 @@ import { JobCard } from "../JobCard";
 export function FeaturedJobs() {
   return (
     <section className="bg-white p-15">
-      <div className="custum-container">
+      <div className="custom-container">
         {/* title */}
         <div className="text-center">
           <h2 className="text-4xl font-bold">Featured Jobs</h2>

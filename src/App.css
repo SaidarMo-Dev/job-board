@@ -13,10 +13,6 @@ body {
   font-family: "Inter";
 }
 
-.custum-container {
-  margin: auto;
-  padding: 10px;
-}
 @font-face {
   font-family: "Inter";
   src: url("../src/assets/fonts/Inter-VariableFont_opsz\,wght.ttf")
@@ -33,26 +29,30 @@ body {
   font-style: italic;
 }
 
-/* Small */
-@media (max-width: 767px) {
-  .custum-container {
-    width: 100%;
-  }
+/* Small: Mobile (default) */
+.custom-container {
+  width: 100%;
+  margin: auto;
+  padding: 10px;
 }
-@media (min-width: 768px) {
-  .custum-container {
+
+/* Medium: Tablet */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .custom-container {
     width: 750px;
   }
 }
-/* Medium */
-@media (min-width: 992px) {
-  .custum-container {
+
+/* Large: Desktop */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .custom-container {
     width: 970px;
   }
 }
-/* Large */
+
+/* Extra Large: Large Desktop */
 @media (min-width: 1200px) {
-  .custum-container {
+  .custom-container {
     width: 1170px;
   }
 }

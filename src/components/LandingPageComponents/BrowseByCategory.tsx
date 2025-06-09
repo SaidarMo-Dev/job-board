@@ -17,7 +17,7 @@ import { CategoryCard } from "./CategoryCard";
 export function BrowseByCategory() {
   return (
     <section className="bg-white p-15">
-      <div className="custum-container">
+      <div className="custom-container">
         <div className="text-center">
           <h1 className="font-bold text-4xl mb-3">Browse By Category</h1>
           <p className="text-neutral-500">

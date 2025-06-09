@@ -24,7 +24,7 @@ export function Header() {
 
   return (
     <header className="p-2.5 shadow-lg bg-white sticky top-0 z-1000">
-      <div className="custum-container">
+      <div className="custom-container">
         <div className="relative flex justify-between items-center">
           {/* Logo */}
           <div className="font-bold text-2xl text-sky-500">UpLink</div>
