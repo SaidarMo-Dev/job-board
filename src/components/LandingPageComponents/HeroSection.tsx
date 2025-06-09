@@ -1,17 +1,10 @@
-import {
-  ArrowRight,
-  Blocks,
-  Briefcase,
-  MapPin,
-  Search,
-  Users,
-} from "lucide-react";
+import { ArrowRight, Briefcase, MapPin, Search } from "lucide-react";
 import { PopularSearch } from "../PopularSearch";
 
 export function HeroSection() {
   return (
     <>
-      <section className="bg-slate-50 py-15">
+      <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-15">
         <div className="custom-container">
           {/* Descriptions */}
           <div>

@@ -2,7 +2,7 @@ import { TrendingUp } from "lucide-react";
 
 export function StatusSection() {
   return (
-    <section className="py-15">
+    <section className=" bg-gradient-to-br from-slate-50 to-blue-50 py-15">
       <div className="custom-container grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-4">
         <div className="flex flex-col items-center">
           <div className="bg-blue-100 p-3 rounded-full">

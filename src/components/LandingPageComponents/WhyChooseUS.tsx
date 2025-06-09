@@ -21,7 +21,7 @@ interface WhyChooseUsProps {
   className?: string;
 }
 
-export default function WhyChooseUs({ className = "" }) {
+export default function WhyChooseUs() {
   const features: Feature[] = [
     {
       icon: Users,
@@ -93,7 +93,7 @@ export default function WhyChooseUs({ className = "" }) {
 
   return (
     <section
-      className={`py-16 lg:py-24 bg-gradient-to-br from-slate-50 to-blue-50 ${className}`}
+      className={`py-16 lg:py-24 bg-gradient-to-br from-slate-50 to-blue-50`}
     >
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         {/* Header */}
@@ -103,7 +103,7 @@ export default function WhyChooseUs({ className = "" }) {
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6 text-gray-900">
             The Smart Choice for Your
-            <span className="text-blue-600 block">Career Journey</span>
+            <span className="text-sky-600 block">Career Journey</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Join millions of professionals who trust our platform to find their
@@ -122,10 +122,10 @@ export default function WhyChooseUs({ className = "" }) {
                 className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-8 border border-white/20"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-blue-100 text-blue-600">
+                  <div className="p-3 rounded-xl bg-blue-100 text-sky-600">
                     <IconComponent className="h-6 w-6" />
                   </div>
-                  <div className="px-3 py-1 rounded-full border border-blue-200 text-blue-600 text-sm font-medium">
+                  <div className="px-3 py-1 rounded-full border border-blue-200 text-sky-600 text-sm font-medium">
                     {feature.stats}
                   </div>
                 </div>
@@ -176,7 +176,7 @@ export default function WhyChooseUs({ className = "" }) {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
-              <div className="text-3xl lg:text-4xl font-bold text-blue-600 mb-2">
+              <div className="text-3xl lg:text-4xl font-bold text-sky-600 mb-2">
                 {stat.number}
               </div>
               <div className="text-gray-600">{stat.label}</div>

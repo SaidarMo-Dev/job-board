@@ -15,7 +15,7 @@ export function FeaturedJobs() {
         </div>
 
         {/* jobs */}
-        <div className="mt-15 grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-5">
+        <div className="mt-15 grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-5">
           <JobCard
             job={{
               Title: "Senior Frontend Developer",
