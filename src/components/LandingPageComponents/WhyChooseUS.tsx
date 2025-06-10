@@ -99,11 +99,11 @@ export default function WhyChooseUs() {
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-slate-100 text-slate-600 text-sm font-medium mb-4">
-            Why Choose Us
+            Why Choose iLink?
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6 text-gray-900">
             The Smart Choice for Your
-            <span className="text-sky-600 block">Career Journey</span>
+            <span className="text-sky-600 block">Career</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Join millions of professionals who trust our platform to find their
