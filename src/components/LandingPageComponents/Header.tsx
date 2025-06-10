@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
+import { useToast } from "../../contexts/ToastContext";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -35,6 +36,8 @@ const Header = () => {
     { name: "Education", href: "#" },
     { name: "Engineering", href: "#" },
   ];
+
+  const { handleShowCloseToast } = useToast();
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-lg">
@@ -120,12 +123,28 @@ const Header = () => {
               <a
                 href="/login"
                 className="text-sm md:text-base text-gray-700 hover:text-sky-600  hover:bg-sky-100 font-medium transition-colors duration-200 py-2 px-6 rounded-md"
+                onClick={(event) => {
+                  event.preventDefault();
+                  handleShowCloseToast({
+                    title: "Not Yet Available",
+                    description:
+                      "Coming soon! This feature is under development.",
+                  });
+                }}
               >
                 Log in
               </a>
               <a
                 href="/register"
                 className=" text-sm md:text-base bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 font-medium rounded-md transition-colors duration-200 inline-block"
+                onClick={(event) => {
+                  event.preventDefault();
+                  handleShowCloseToast({
+                    title: "Not Yet Available",
+                    description:
+                      "Coming soon! This feature is under development.",
+                  });
+                }}
               >
                 Register
               </a>

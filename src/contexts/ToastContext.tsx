@@ -7,28 +7,32 @@ interface ToastInfoType {
 }
 
 type ToastContextType = {
-  handleShowCloseToast: (toastnfo: ToastInfoType) => void;
+  handleShowCloseToast: (toastInfo: ToastInfoType) => void;
 };
 
-const ToastContext = createContext<ToastContextType | undefined>(undefined);
+const ToastContext = createContext<ToastContextType | null>(null);
 
-const ToastContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [open, setOpen] = useState(false);
+export const ToastContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [toastInfo, setToastInfo] = useState({ title: "", description: "" });
 
   function handleShowCloseToast(toastInfo: ToastInfoType) {
-    setOpen(true);
-    setTimeout(() => {
-      setOpen(false);
-    }, 2000);
-
     setToastInfo(toastInfo);
+    setIsOpen(true);
   }
 
+  function handleClose() {
+    setIsOpen(false);
+  }
   return (
     <ToastContext.Provider value={{ handleShowCloseToast }}>
       <InformationToast
-        isOpen={open}
+        isOpen={isOpen}
+        onClose={handleClose}
         title={toastInfo.title}
         description={toastInfo.description}
       />
@@ -38,5 +42,8 @@ const ToastContextProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const useToast = () => {
-  return useContext(ToastContext);
+  const toast = useContext(ToastContext);
+  if (!toast) throw new Error("useToast must be used within a Provider");
+
+  return toast;
 };

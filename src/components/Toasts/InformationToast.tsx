@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 
 interface ToastProps {
   isOpen: boolean;
+  onClose: () => void;
   title: string;
   description?: string;
 }
 
 export default function InformationToast({
   isOpen,
+  onClose,
   title,
   description,
 }: ToastProps) {
@@ -24,7 +26,7 @@ export default function InformationToast({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50">
+    <div className="fixed w-full h-full inset-0 flex items-center justify-center z-1001 bg-black/25">
       <div
         className={`
           bg-sky-600 text-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4
@@ -50,9 +52,9 @@ export default function InformationToast({
           </div>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-end">
           <button
-            onClick={() => setIsVisible(false)}
+            onClick={onClose}
             className="px-6 py-2 bg-white text-sky-600 font-medium rounded hover:bg-sky-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-600 transition-colors"
           >
             OK
