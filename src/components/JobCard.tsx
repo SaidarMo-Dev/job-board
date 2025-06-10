@@ -11,7 +11,7 @@ export function JobCard({ job }: { job: JobProps }) {
   });
 
   return (
-    <div className="relative p-5 border border-gray-200 rounded-md">
+    <div className="relative p-5 border border-gray-200 rounded-md border-l-4 border-l-sky-600">
       {/* JOB CARD HEADER */}
       <div className="flex gap-4 items-center">
         <div>

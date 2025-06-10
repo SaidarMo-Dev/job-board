@@ -43,7 +43,7 @@ export function HeroSection() {
       </section>
 
       {/* Find Job */}
-      <section className="mt-15 py-15 bg-white ">
+      <section className="py-15 bg-white ">
         <div className="custom-container">
           {/* main container find job */}
           <div>
