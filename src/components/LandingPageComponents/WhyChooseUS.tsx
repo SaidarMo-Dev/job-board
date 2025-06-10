@@ -17,10 +17,6 @@ interface Feature {
   stats: string;
 }
 
-interface WhyChooseUsProps {
-  className?: string;
-}
-
 export default function WhyChooseUs() {
   const features: Feature[] = [
     {
