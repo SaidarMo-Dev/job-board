@@ -1,5 +1,6 @@
 import { Bookmark, Calendar, Clock, MapPin } from "lucide-react";
 import type { JobProps } from "../types/JobProps";
+import { useToast } from "../contexts/ToastContext";
 
 export function JobCard({ job }: { job: JobProps }) {
   const skillsList = job.Skills.map((s) => {
@@ -10,6 +11,7 @@ export function JobCard({ job }: { job: JobProps }) {
     );
   });
 
+  const { handleShowCloseToast } = useToast();
   return (
     <div className="relative p-5 border border-gray-200 rounded-md border-l-4 border-l-sky-600">
       {/* JOB CARD HEADER */}
@@ -75,10 +77,26 @@ export function JobCard({ job }: { job: JobProps }) {
 
       {/* JOB CARD FOOTER */}
       <div className="flex items-center text-sm text-neutral-500 mt-5 gap-2">
-        <button className="bg-sky-600 text-white font-semibold text-sm p-2 rounded-md w-full hover:bg-sky-600/90 cursor-pointer">
+        <button
+          className="bg-sky-600 text-white font-semibold text-sm p-2 rounded-md w-full hover:bg-sky-600/90 cursor-pointer"
+          onClick={() =>
+            handleShowCloseToast({
+              title: "Not Yet Available",
+              description: "Coming soon! This feature is under development.",
+            })
+          }
+        >
           Apply Now
         </button>
-        <button className="bg-white font-semibold text-sm p-2 rounded-md w-40 border border-neutral-300 hover:bg-gray-50 cursor-pointer">
+        <button
+          className="bg-white font-semibold text-sm p-2 rounded-md w-40 border border-neutral-300 hover:bg-gray-50 cursor-pointer"
+          onClick={() =>
+            handleShowCloseToast({
+              title: "Not Yet Available",
+              description: "Coming soon! This feature is under development.",
+            })
+          }
+        >
           Learn More
         </button>
       </div>

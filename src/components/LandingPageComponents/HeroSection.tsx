@@ -1,23 +1,34 @@
 import { ArrowRight, Briefcase, MapPin, Search } from "lucide-react";
 import { PopularSearch } from "../PopularSearch";
+import { useToast } from "../../contexts/ToastContext";
 
 export function HeroSection() {
+  const { handleShowCloseToast } = useToast();
   return (
     <>
       <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-15">
         <div className="custom-container">
           {/* Descriptions */}
           <div>
-            <h1 className="text-6xl font-bold">
+            <h1 className="text-5xl md:text-6xl font-bold">
               Find Your <span className="text-sky-600">Dream Job</span>
             </h1>
-            <span className="font-bold text-6xl">Today</span>
+            <span className="font-bold text-5xl md:text-6xl">Today</span>
             <p className="my-5 text-lg text-neutral-700 max-w-200">
               Connect with top employers and discover opportunities that match
               your skills, experience, and career goals. Your next career move
               starts here.{" "}
             </p>
-            <button className="bg-sky-600 py-2.5 px-13 text-white rounded-md relative hover:bg-sky-600/90">
+            <button
+              className="bg-sky-600 py-2.5 px-13 text-white rounded-md relative hover:bg-sky-600/90"
+              onClick={() =>
+                handleShowCloseToast({
+                  title: "Not Yet Available",
+                  description:
+                    "Coming soon! This feature is under development.",
+                })
+              }
+            >
               <Search
                 className="absolute left-6 top-1/2 transform -translate-y-1/2"
                 width="17px"
@@ -30,7 +41,16 @@ export function HeroSection() {
                 height="17px"
               />
             </button>
-            <button className="relative bg-white border-2 py-2.5 pl-12 pr-8 ml-5 border-neutral-100 rounded-md hover:bg-neutral-50 hover:border-neutral-200">
+            <button
+              className="relative bg-white border-2 py-2.5 pl-12 pr-8 ml-5 border-neutral-100 rounded-md hover:bg-neutral-50 hover:border-neutral-200"
+              onClick={() =>
+                handleShowCloseToast({
+                  title: "Not Yet Available",
+                  description:
+                    "Coming soon! This feature is under development.",
+                })
+              }
+            >
               <Briefcase
                 className="absolute top-1/2 transform -translate-y-1/2 left-5"
                 width="17px"

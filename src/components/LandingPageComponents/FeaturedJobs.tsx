@@ -1,8 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import { JobCard } from "../JobCard";
 import type { JobProps } from "../../types/JobProps";
+import { useToast } from "../../contexts/ToastContext";
 
 export function FeaturedJobs() {
+  const { handleShowCloseToast } = useToast();
   const featuredJobs: Array<JobProps> = [
     {
       Title: "Senior Frontend Developer",
@@ -108,12 +110,16 @@ export function FeaturedJobs() {
         </div>
 
         {/* jobs */}
-        <div  className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-5 mt-15">
+        <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-5 mt-15">
           {featuredJobs.map((job, index) => {
             return <JobCard job={job} key={index} />;
           })}
         </div>
-        <button className="relative mt-15 block m-auto font-semibold border border-neutral-200 pt-2 pr-10 pb-2 pl-4 rounded hover:bg-neutral-100">
+        <button className="relative mt-15 block m-auto font-semibold border border-neutral-200 pt-2 pr-10 pb-2 pl-4 rounded hover:bg-neutral-100"
+        onClick={() => handleShowCloseToast({
+                title: "Not Yet Available",
+                description: "Coming soon! This feature is under development.",
+              })}>
           <ArrowRight className="absolute right-2" width="20px" />
           Viwe All Jobs
         </button>
