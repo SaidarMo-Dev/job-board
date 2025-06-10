@@ -27,7 +27,7 @@ export function BrowseByCategory() {
         </div>
 
         {/* Categories */}
-        <div className="py-15  grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-5">
+        <div className="py-15 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           <CategoryCard
             category="Technology"
             jobsCount={2}
