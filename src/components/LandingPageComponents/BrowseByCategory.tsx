@@ -1,20 +1,72 @@
 import {
-  ChartCandlestick,
-  Code,
-  GraduationCap,
-  Home,
+  ChevronRight,
+  Code2,
   Megaphone,
   Palette,
-  PencilLine,
   Stethoscope,
-  TrendingUp,
-  Truck,
   Users,
   Wrench,
 } from "lucide-react";
-import { CategoryCard } from "./CategoryCard";
 
 export function BrowseByCategory() {
+  const categories = [
+    {
+      id: "healthcare",
+      name: "Healthcare",
+      jobCount: 1344,
+      icon: Stethoscope,
+      color: "bg-sky-50 text-sky-700 border-sky-200",
+      iconBg: "bg-sky-100",
+      featured: true,
+    },
+    {
+      id: "design",
+      name: "Design",
+      jobCount: 100,
+      icon: Palette,
+      color: "bg-violet-50 text-violet-600 border-violet-200",
+      iconBg: "bg-violet-100",
+    },
+    {
+      id: "human-resources",
+      name: "Human Resources",
+      jobCount: 35,
+      icon: Users,
+      color: "bg-emerald-50 text-emerald-600 border-emerald-200",
+      iconBg: "bg-emerald-100",
+    },
+    {
+      id: "engineering",
+      name: "Engineering",
+      jobCount: 33,
+      icon: Wrench,
+      color: "bg-slate-50 text-slate-600 border-slate-200",
+      iconBg: "bg-slate-100",
+    },
+    {
+      id: "marketing",
+      name: "Marketing",
+      jobCount: 23,
+      icon: Megaphone,
+      color: "bg-amber-50 text-amber-600 border-amber-200",
+      iconBg: "bg-amber-100",
+    },
+    {
+      id: "technology",
+      name: "Technology",
+      jobCount: 2,
+      icon: Code2,
+      color: "bg-indigo-50 text-indigo-600 border-indigo-200",
+      iconBg: "bg-indigo-100",
+    },
+  ];
+
+  const availableCategories = categories
+    .filter((cat) => {
+      return cat.jobCount > 0;
+    })
+    .sort((a, b) => b.jobCount - a.jobCount);
+
   return (
     <section className="bg-white py-15">
       <div className="custom-container">
@@ -27,143 +79,40 @@ export function BrowseByCategory() {
         </div>
 
         {/* Categories */}
-        <div className="py-15 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          <CategoryCard
-            category="Technology"
-            jobsCount={2}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-blue-100">
-                <Code width="20px" height="20px" className="text-sky-500" />
-              </div>
-            }
-          />
-          <CategoryCard
-            category="Design"
-            jobsCount={100}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-purple-100">
-                <Palette
-                  width="20px"
-                  height="20px"
-                  className="text-purple-700"
-                />
-              </div>
-            }
-          />
-          <CategoryCard
-            category="Marketing"
-            jobsCount={23}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-amber-100">
-                <Megaphone
-                  width="20px"
-                  height="20px"
-                  className="text-amber-600"
-                />
-              </div>
-            }
-          />
-          <CategoryCard
-            category="Healthcare"
-            jobsCount={1344}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-red-100">
-                <Stethoscope
-                  width="20px"
-                  height="20px"
-                  className="text-red-600"
-                />
-              </div>
-            }
-          />
-          <CategoryCard
-            category="Finance"
-            jobsCount={0}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-green-100">
-                <ChartCandlestick
-                  width="20px"
-                  height="20px"
-                  className="text-green-600"
-                />
-              </div>
-            }
-          />
-          <CategoryCard
-            category="Sales"
-            jobsCount={0}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-blue-100">
-                <TrendingUp
-                  width="20px"
-                  height="20px"
-                  className="text-blue-600"
-                />
-              </div>
-            }
-          />
-          <CategoryCard
-            category="Human Resources"
-            jobsCount={35}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-orange-100">
-                <Users width="20px" height="20px" className="text-orange-600" />
-              </div>
-            }
-          />
-          <CategoryCard
-            category="Engineering"
-            jobsCount={33}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-gray-100">
-                <Wrench width="20px" height="20px" className="text-gray-600" />
-              </div>
-            }
-          />
-          <CategoryCard
-            category="Education"
-            jobsCount={0}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-yellow-100">
-                <GraduationCap
-                  width="20px"
-                  height="20px"
-                  className="text-yellow-600"
-                />
-              </div>
-            }
-          />
-          <CategoryCard
-            category="Legal"
-            jobsCount={0}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-green-100">
-                <PencilLine
-                  width="20px"
-                  height="20px"
-                  className="text-green-600"
-                />
-              </div>
-            }
-          />
-          <CategoryCard
-            category="Real Estate"
-            jobsCount={0}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-teal-100">
-                <Home width="20px" height="20px" className="text-teal-600" />
-              </div>
-            }
-          />
-          <CategoryCard
-            category="Logistics"
-            jobsCount={0}
-            icon={
-              <div className="flex items-center p-2.5 rounded-lg bg-indigo-100">
-                <Truck width="20px" height="20px" className="text-indigo-600" />
-              </div>
-            }
-          />
+        <div className="py-15">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {availableCategories.map((cat, index) => {
+              const Icon = cat.icon;
+
+              return (
+                <div
+                  key={index}
+                  className={`${cat.color} p-5 rounded-xl border-2 transform duration-300 hover:scale-102 hover:shadow-xl`}
+                >
+                  <div className="flex justify-between items-start">
+                    <div
+                      className={`${cat.iconBg} p-3 rounded-xl flex items-center`}
+                    >
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-right font-bold text-2xl">
+                        {cat.jobCount}
+                      </h3>
+                      <p className="text-sm">jobs available</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-3">
+                    <h4 className="font-bold text-xl">{cat.name}</h4>
+                    <div className=" flex items-center gap-2 mt-1 text-sm">
+                      View All Jobs <ChevronRight width="18px" height="18px" />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
