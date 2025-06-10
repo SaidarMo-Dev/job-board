@@ -3,7 +3,6 @@ import {
   Twitter,
   Linkedin,
   Instagram,
-  Youtube,
   Mail,
   Phone,
   MapPin,
@@ -13,30 +12,6 @@ import {
 
 const Footer = () => {
   return (
-    // <footer>
-    //   <div className="cutom-container">
-    //     {/* Main footer section */}
-    //     <div>
-    //       {/* for Website Info */}
-    //       <div>
-    //         <div>
-    //           <span>iLink</span>
-    //           <h3>iLink Pro</h3>
-    //         </div>
-    //         <p>
-    //           Connecting talented professionals with their dream careers. Find
-    //           your next opportunity or discover top talent for your
-    //           organization.
-    //         </p>
-    //         <div>
-    //           <ul>
-    //             <li></li>
-    //           </ul>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </footer>
     <footer className="bg-gray-900 text-white">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -308,7 +283,7 @@ const Footer = () => {
                 </div>
                 <div className="flex items-center text-gray-300">
                   <Phone className="h-4 w-4 mr-3 text-blue-500" />
-                  <span>+1 (555) 123-4567</span>
+                  <span>+212 656852262</span>
                 </div>
                 <div className="flex items-center text-gray-300">
                   <MapPin className="h-4 w-4 mr-3 text-blue-500" />
