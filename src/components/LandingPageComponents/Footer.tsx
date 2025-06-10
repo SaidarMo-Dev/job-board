@@ -79,12 +79,6 @@ const Footer = () => {
               >
                 <Instagram className="h-5 w-5" />
               </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors duration-200"
-              >
-                <Youtube className="h-5 w-5" />
-              </a>
             </div>
           </div>
 
@@ -221,9 +215,9 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-400 focus:border-blue-500"
+                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-400 focus:border-blue-500 py-2 px-4 border w-full rounded-lg outline-none"
               />
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">
                 Subscribe
               </button>
             </div>

@@ -6,6 +6,7 @@ import { StatusSection } from "../components/LandingPageComponents/StatusSection
 import { FeaturedJobs } from "../components/LandingPageComponents/FeaturedJobs";
 import { BrowseByCategory } from "../components/LandingPageComponents/BrowseByCategory";
 import WhyChooseUs from "../components/LandingPageComponents/WhyChooseUS";
+import Footer from "../components/LandingPageComponents/Footer";
 
 export function LandingPage() {
   return (
@@ -17,6 +18,7 @@ export function LandingPage() {
 
       <BrowseByCategory />
       <WhyChooseUs />
+      <Footer />
     </>
   );
 }
