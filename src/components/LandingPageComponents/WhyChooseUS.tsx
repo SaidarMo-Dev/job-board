@@ -82,7 +82,7 @@ export default function WhyChooseUs() {
   ];
 
   const trustIndicators = [
-    { icon: HeartHandshake, label: "Fortune 500" },
+    { icon: HeartHandshake, label: "IWork 400" },
     { icon: Award, label: "Industry Leaders" },
     { icon: TrendingUp, label: "Growing Startups" },
   ];
