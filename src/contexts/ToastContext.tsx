@@ -10,7 +10,7 @@ type ToastContextType = {
   handleShowCloseToast: (toastInfo: ToastInfoType) => void;
 };
 
-const ToastContext = createContext<ToastContextType | null>(null);
+const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 export const ToastContextProvider = ({
   children,
