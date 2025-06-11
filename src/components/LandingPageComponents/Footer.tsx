@@ -19,8 +19,8 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center mb-4">
-              <div className="bg-blue-600 p-2 rounded-lg mr-3">
-                <Briefcase className="h-6 w-6 text-white" />
+              <div className="bg-blue-600 p-2 px-3 rounded-lg mr-3">
+                <span className="font-bold">iL</span>
               </div>
               <span className="text-2xl font-bold">iLink</span>
             </div>
