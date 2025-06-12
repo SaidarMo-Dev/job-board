@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
+import { Link } from "react-router";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -120,34 +121,19 @@ const Header = () => {
 
             {/* Desktop Auth Buttons */}
             <div className=" hidden md:flex items-center space-x-4">
-              <a
-                href="/login"
+              <Link
+                to="/login"
                 className="text-sm md:text-base text-gray-700 hover:text-sky-600  hover:bg-sky-100 font-medium transition-colors duration-200 py-2 px-6 rounded-md"
-                onClick={(event) => {
-                  event.preventDefault();
-                  handleShowCloseToast({
-                    title: "Not Yet Available",
-                    description:
-                      "Coming soon! This feature is under development.",
-                  });
-                }}
               >
                 Log in
-              </a>
-              <a
-                href="/register"
+              </Link>
+
+              <Link
+                to="/register"
                 className=" text-sm md:text-base bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 font-medium rounded-md transition-colors duration-200 inline-block"
-                onClick={(event) => {
-                  event.preventDefault();
-                  handleShowCloseToast({
-                    title: "Not Yet Available",
-                    description:
-                      "Coming soon! This feature is under development.",
-                  });
-                }}
               >
                 Register
-              </a>
+              </Link>
             </div>
 
             {/* Mobile menu button */}
