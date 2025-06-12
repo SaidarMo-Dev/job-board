@@ -29,7 +29,7 @@ export default function RegisterPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle registration logic here
-    console.log("Registration attempt:", { ...formData, accountType });
+    console.log("Registration attempt:", { ...formData, role : accountType });
   };
 
   return (
@@ -65,9 +65,9 @@ export default function RegisterPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
-                    onClick={() => setAccountType("job-seeker")}
+                    onClick={() => setAccountType("JobSeeker")}
                     className={`flex items-center justify-center h-11 px-4 rounded-md border transition-colors ${
-                      accountType === "job-seeker"
+                      accountType === "JobSeeker"
                         ? "border-sky-600 bg-sky-50 text-sky-700"
                         : "border-gray-300 hover:bg-gray-50"
                     }`}
@@ -77,9 +77,9 @@ export default function RegisterPage() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setAccountType("employer")}
+                    onClick={() => setAccountType("Employer")}
                     className={`flex items-center justify-center h-11 px-4 rounded-md border transition-colors ${
-                      accountType === "employer"
+                      accountType === "Employer"
                         ? "border-sky-600 bg-sky-50 text-sky-700"
                         : "border-gray-300 hover:bg-gray-50"
                     }`}
