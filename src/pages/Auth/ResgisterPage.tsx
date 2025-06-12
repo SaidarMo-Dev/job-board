@@ -63,7 +63,7 @@ export default function RegisterPage() {
 
   const onSubmit: SubmitHandler<RegisterFormData> = (data) => {
     // Handle registration logic here
-    console.log(data);
+    
   };
 
   return (
