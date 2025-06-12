@@ -66,7 +66,7 @@ export default function RegisterPage() {
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
-
+  
   const onSubmit: SubmitHandler<formData> = (data) => {
     // Handle registration logic here
     console.log(data);
