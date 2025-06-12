@@ -7,6 +7,7 @@ import { useToast } from "../../contexts/ToastContext";
 import z from "zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type RegisterFormData from "../../types/types/RegisterFormData";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
 
@@ -25,19 +26,12 @@ const signInSchema = z
           "Password must include uppercase, lowercase, number, and special character",
       }),
     confirmPassword: z.string().min(1, { message: "Confirm your password" }),
+    role: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "Passwords do not match",
   });
-
-type formData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
 
 export default function RegisterPage() {
   const { handleShowCloseToast } = useToast();
@@ -66,8 +60,8 @@ export default function RegisterPage() {
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
-  
-  const onSubmit: SubmitHandler<formData> = (data) => {
+
+  const onSubmit: SubmitHandler<RegisterFormData> = (data) => {
     // Handle registration logic here
     console.log(data);
   };
