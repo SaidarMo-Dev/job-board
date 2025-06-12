@@ -1,12 +1,55 @@
-"use client";
-
-import type React from "react";
 import { useState } from "react";
 import { Link } from "react-router";
 import { Eye, EyeOff, User, Building } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
 
+// React hook form
+import z from "zod";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
+
+// schema
+const signInSchema = z
+  .object({
+    firstName: z.string().min(1, { message: "First Name is Required" }),
+    lastName: z.string().min(1, { message: "Last Name is Required" }),
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(8, { message: "Password must contain at least 8 character(s)" })
+      .max(20)
+      .regex(passwordRegex, {
+        message:
+          "Password must include uppercase, lowercase, number, and special character",
+      }),
+    confirmPassword: z.string().min(1, { message: "Confirm your password" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords do not match",
+  });
+
+type formData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
 export default function RegisterPage() {
+  const { handleShowCloseToast } = useToast();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signInSchema),
+  });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accountType, setAccountType] = useState("");
@@ -20,16 +63,13 @@ export default function RegisterPage() {
     subscribeNewsletter: false,
   });
 
-  const { handleShowCloseToast } = useToast();
-
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<formData> = (data) => {
     // Handle registration logic here
-    console.log("Registration attempt:", { ...formData, role : accountType });
+    console.log(data);
   };
 
   return (
@@ -56,7 +96,7 @@ export default function RegisterPage() {
 
           {/* Card Content */}
           <div className="p-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {/* Account Type Selection */}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
@@ -100,16 +140,17 @@ export default function RegisterPage() {
                     First name
                   </label>
                   <input
+                    {...register("firstName")}
                     id="firstName"
                     type="text"
                     placeholder="John"
-                    value={formData.firstName}
-                    onChange={(e) =>
-                      handleInputChange("firstName", e.target.value)
-                    }
                     className="w-full h-11 px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-sky-600 transition-colors"
-                    required
                   />
+                  {errors.firstName && (
+                    <p className="text-sm text-red-400">
+                      {errors.firstName.message}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label
@@ -119,16 +160,17 @@ export default function RegisterPage() {
                     Last name
                   </label>
                   <input
+                    {...register("lastName")}
                     id="lastName"
                     type="text"
                     placeholder="Doe"
-                    value={formData.lastName}
-                    onChange={(e) =>
-                      handleInputChange("lastName", e.target.value)
-                    }
                     className="w-full h-11 px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-sky-600 transition-colors"
-                    required
                   />
+                  {errors.lastName && (
+                    <p className="text-sm text-red-400">
+                      {errors.lastName.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -141,14 +183,15 @@ export default function RegisterPage() {
                   Email address
                 </label>
                 <input
+                  {...register("email")}
                   id="email"
                   type="email"
                   placeholder="john.doe@example.com"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
                   className="w-full h-11 px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-sky-600 transition-colors"
-                  required
                 />
+                {errors.email && (
+                  <p className="text-sm text-red-400">{errors.email.message}</p>
+                )}
               </div>
 
               {/* Password Field */}
@@ -161,16 +204,13 @@ export default function RegisterPage() {
                 </label>
                 <div className="relative">
                   <input
+                    {...register("password")}
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Create a strong password"
-                    value={formData.password}
-                    onChange={(e) =>
-                      handleInputChange("password", e.target.value)
-                    }
                     className="w-full h-11 px-3 py-2 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-sky-600 transition-colors"
-                    required
                   />
+
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -183,6 +223,12 @@ export default function RegisterPage() {
                     )}
                   </button>
                 </div>
+
+                {errors.password && (
+                  <p className="text-sm text-red-400">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
               {/* Confirm Password Field */}
@@ -195,16 +241,13 @@ export default function RegisterPage() {
                 </label>
                 <div className="relative">
                   <input
+                    {...register("confirmPassword")}
                     id="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm your password"
-                    value={formData.confirmPassword}
-                    onChange={(e) =>
-                      handleInputChange("confirmPassword", e.target.value)
-                    }
                     className="w-full h-11 px-3 py-2 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-sky-600 transition-colors"
-                    required
                   />
+
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -217,6 +260,11 @@ export default function RegisterPage() {
                     )}
                   </button>
                 </div>
+                {errors.confirmPassword && (
+                  <p className="text-sm text-red-400">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
               </div>
 
               {/* Terms and Conditions */}
@@ -230,7 +278,6 @@ export default function RegisterPage() {
                       handleInputChange("agreeToTerms", e.target.checked)
                     }
                     className="h-4 w-4 mt-1 rounded border-gray-300 text-sky-600 focus:ring-sky-600"
-                    required
                   />
                   <label
                     htmlFor="terms"
@@ -275,7 +322,7 @@ export default function RegisterPage() {
               {/* Create Account Button */}
               <button
                 type="submit"
-                className="w-full h-11 bg-sky-600 hover:bg-sky-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-sky-600 focus:ring-offset-2"
+                className="w-full h-11 bg-sky-600 hover:bg-sky-700 text-white font-medium rounded-md transition-colors focus:outline-none cursor-pointer"
               >
                 Create account
               </button>
