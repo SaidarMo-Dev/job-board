@@ -7,7 +7,8 @@ import { useToast } from "../../contexts/ToastContext";
 import z from "zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type RegisterFormData from "../../types/types/RegisterFormData";
+import type RegisterFormData from "../../types/RegisterFormData";
+import { createUser } from "../../services/userService";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
 
@@ -26,12 +27,16 @@ const signInSchema = z
           "Password must include uppercase, lowercase, number, and special character",
       }),
     confirmPassword: z.string().min(1, { message: "Confirm your password" }),
-    role: z.string(),
+    role: z
+      .string()
+      .min(1, { message: "Please choose Job Seeker or Employer!" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "Passwords do not match",
   });
+
+type FormData = z.infer<typeof signInSchema>;
 
 export default function RegisterPage() {
   const { handleShowCloseToast } = useToast();
@@ -39,20 +44,22 @@ export default function RegisterPage() {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(signInSchema),
   });
 
+  const selectedRole = watch("role");
+
+  function handleRoleSelect(role: string) {
+    setValue("role", role, { shouldValidate: true });
+  }
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [accountType, setAccountType] = useState("");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
     agreeToTerms: false,
     subscribeNewsletter: false,
   });
@@ -61,9 +68,16 @@ export default function RegisterPage() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const onSubmit: SubmitHandler<RegisterFormData> = (data) => {
-    // Handle registration logic here
-    
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    //Handle registration logic here
+    console.log(data);
+    createUser({ ...data, username: data.email })
+      .then(function (res) {
+        console.log(res.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -99,9 +113,9 @@ export default function RegisterPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
-                    onClick={() => setAccountType("JobSeeker")}
+                    onClick={() => handleRoleSelect("JobSeeker")}
                     className={`flex items-center justify-center h-11 px-4 rounded-md border transition-colors ${
-                      accountType === "JobSeeker"
+                      selectedRole === "JobSeeker"
                         ? "border-sky-600 bg-sky-50 text-sky-700"
                         : "border-gray-300 hover:bg-gray-50"
                     }`}
@@ -111,9 +125,9 @@ export default function RegisterPage() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setAccountType("Employer")}
+                    onClick={() => handleRoleSelect("Employer")}
                     className={`flex items-center justify-center h-11 px-4 rounded-md border transition-colors ${
-                      accountType === "Employer"
+                      selectedRole === "Employer"
                         ? "border-sky-600 bg-sky-50 text-sky-700"
                         : "border-gray-300 hover:bg-gray-50"
                     }`}
@@ -121,6 +135,11 @@ export default function RegisterPage() {
                     <Building className="w-4 h-4 mr-2" />
                     Employer
                   </button>
+                  {errors.role && (
+                    <p className="text-sm text-red-400">
+                      {errors.role.message}
+                    </p>
+                  )}
                 </div>
               </div>
 

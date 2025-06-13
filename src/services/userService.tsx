@@ -1,8 +1,12 @@
 import api from "../api/axiosInstance";
-import type RegisterFormData from "../types/types/RegisterFormData";
+import type { ApiResponse } from "../types/ApiResponse";
+import type RegisterFormData from "../types/RegisterFormData";
 
-const USER_BASE_URL = "/Users";
+const USER_BASE_URL = "/users";
 
 export const createUser = (data: RegisterFormData) =>
-  api.post(`${USER_BASE_URL}/Register`, data);
-
+  api<ApiResponse<number>>({
+    method: "post",
+    url: `${USER_BASE_URL}/register`,
+    data: { ...data },
+  });
