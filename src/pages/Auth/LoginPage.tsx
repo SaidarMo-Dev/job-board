@@ -2,6 +2,7 @@ import type React from "react";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
+import { Link } from "react-router";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -209,12 +210,12 @@ export default function LoginPage() {
           <div className="px-6 py-6 bg-gray-50 border-t border-gray-100">
             <p className="text-center text-sm text-gray-600 w-full">
               Don't have an account?{" "}
-              <a
-                href="/register"
+              <Link
+                to="/auth/register"
                 className="text-sky-600 hover:text-sky-700 font-medium"
               >
                 Sign up for free
-              </a>
+              </Link>
             </p>
           </div>
         </div>

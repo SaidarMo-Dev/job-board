@@ -18,7 +18,7 @@ export default function ConfirmEmail() {
         </div>
 
         <Link
-          to="/login"
+          to="/auth/login"
           className="w-full font-semibold text-sm border border-gray-200 mt-6 py-2 px-3 rounded-sm hover:bg-gray-100"
         >
           GO to login page

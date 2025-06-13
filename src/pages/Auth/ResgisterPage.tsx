@@ -433,7 +433,7 @@ export default function RegisterPage() {
             <p className="text-center text-sm text-gray-600 w-full">
               Already have an account?
               <Link
-                to="/login"
+                to="/auth/login"
                 className="text-sky-600 hover:text-sky-700 font-medium"
               >
                 Sign in here

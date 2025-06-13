@@ -122,14 +122,14 @@ const Header = () => {
             {/* Desktop Auth Buttons */}
             <div className=" hidden md:flex items-center space-x-4">
               <Link
-                to="/login"
+                to="/auth/login"
                 className="text-sm md:text-base text-gray-700 hover:text-sky-600  hover:bg-sky-100 font-medium transition-colors duration-200 py-2 px-6 rounded-md"
               >
                 Log in
               </Link>
 
               <Link
-                to="/register"
+                to="/auth/register"
                 className=" text-sm md:text-base bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 font-medium rounded-md transition-colors duration-200 inline-block"
               >
                 Register

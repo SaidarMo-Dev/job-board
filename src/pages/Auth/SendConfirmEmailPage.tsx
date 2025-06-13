@@ -10,7 +10,7 @@ export default function SendConfirmEmailPage() {
   }, []);
 
   if (!fromRegister) {
-    return <Navigate to="/register" replace />;
+    return <Navigate to="/auth/register" replace />;
   }
 
   return (
@@ -30,7 +30,7 @@ export default function SendConfirmEmailPage() {
         </div>
 
         <Link
-          to="/login"
+          to="/auth/login"
           className="font-semibold bg-sky-600 text-xs mt-5 py-2 px-3 rounded-sm hover:bg-sky-600/90 text-white"
         >
           Return to login{" "}
