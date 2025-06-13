@@ -428,7 +428,7 @@ export default function RegisterPage() {
           {/* Card Footer */}
           <div className="px-6 py-6 bg-gray-50 border-t border-gray-100">
             <p className="text-center text-sm text-gray-600 w-full">
-              Already have an account?{" "}
+              Already have an account?
               <Link
                 to="/login"
                 className="text-sky-600 hover:text-sky-700 font-medium"
