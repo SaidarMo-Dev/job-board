@@ -11,15 +11,3 @@ export const createUser = (data: RegisterFormData) =>
     data: { ...data },
   });
 
-interface ConfirmEmailType {
-  userId: number;
-  token: string;
-}
-
-export const ConfirmEmail = (data: ConfirmEmailType) => {
-  api.get<ApiResponse<string>>(
-    `${USER_BASE_URL}/ConfirmEmail?userId=${
-      data.userId
-    }&token=${encodeURIComponent(data.token)}`
-  );
-};
