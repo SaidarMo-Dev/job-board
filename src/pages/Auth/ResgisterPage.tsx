@@ -7,16 +7,23 @@ import { useToast } from "../../contexts/ToastContext";
 import z from "zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type RegisterFormData from "../../types/RegisterFormData";
+// User Service
 import { createUser } from "../../services/userService";
+// react toastidy
+import { toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
+
+// axios
+import axios from "axios";
+import type { ApiResponse } from "../../types/ApiResponse";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
 
 // schema
 const signInSchema = z
   .object({
-    firstName: z.string().min(1, { message: "First Name is Required" }),
-    lastName: z.string().min(1, { message: "Last Name is Required" }),
+    firstName: z.string().min(1, { message: "First Name is Required" }).max(30),
+    lastName: z.string().min(1, { message: "Last Name is Required" }).max(30),
     email: z.string().email(),
     password: z
       .string()
@@ -26,10 +33,10 @@ const signInSchema = z
         message:
           "Password must include uppercase, lowercase, number, and special character",
       }),
-    confirmPassword: z.string().min(1, { message: "Confirm your password" }),
-    role: z
+    confirmPassword: z
       .string()
-      .min(1, { message: "Please choose Job Seeker or Employer!" }),
+      .min(1, { message: "Please confirm your password" }),
+    role: z.string().min(1, { message: "Please choose one!" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -38,6 +45,7 @@ const signInSchema = z
 
 type FormData = z.infer<typeof signInSchema>;
 
+// register page
 export default function RegisterPage() {
   const { handleShowCloseToast } = useToast();
 
@@ -53,31 +61,44 @@ export default function RegisterPage() {
 
   const selectedRole = watch("role");
 
+  // handle select role
   function handleRoleSelect(role: string) {
     setValue("role", role, { shouldValidate: true });
   }
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    agreeToTerms: false,
-    subscribeNewsletter: false,
-  });
 
-  const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
+  // handle submit data
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      if (agreeToTerms === false) {
+        toast.error("Please agree to the Terms of Service before continuing.");
+        return;
+      }
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    //Handle registration logic here
-    console.log(data);
-    createUser({ ...data, username: data.email })
-      .then(function (res) {
-        console.log(res.data.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      setLoading(true);
+      // create the user and make sure to send email as username
+      const response = await createUser({ ...data, username: data.email });
+
+      if (response.data.succeeded) {
+        toast.success("Account Created successfull.");
+      } else {
+        toast.info(response.data.message);
+      }
+    } catch (error) {
+      // if axios error then take the returned message from api and display it otherwise display Unknown error
+      if (axios.isAxiosError(error)) {
+        const errorResponse = error.response?.data as ApiResponse<null>;
+        toast.error(errorResponse.message);
+      } else {
+        toast.error("Something went wrong!");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -286,10 +307,8 @@ export default function RegisterPage() {
                   <input
                     id="terms"
                     type="checkbox"
-                    checked={formData.agreeToTerms}
-                    onChange={(e) =>
-                      handleInputChange("agreeToTerms", e.target.checked)
-                    }
+                    checked={agreeToTerms}
+                    onChange={(e) => setAgreeToTerms(e.target.checked)}
                     className="h-4 w-4 mt-1 rounded border-gray-300 text-sky-600 focus:ring-sky-600"
                   />
                   <label
@@ -312,30 +331,13 @@ export default function RegisterPage() {
                     </Link>
                   </label>
                 </div>
-
-                <div className="flex items-start space-x-2">
-                  <input
-                    id="newsletter"
-                    type="checkbox"
-                    checked={formData.subscribeNewsletter}
-                    onChange={(e) =>
-                      handleInputChange("subscribeNewsletter", e.target.checked)
-                    }
-                    className="h-4 w-4 mt-1 rounded border-gray-300 text-sky-600 focus:ring-sky-600"
-                  />
-                  <label
-                    htmlFor="newsletter"
-                    className="text-sm text-gray-600 cursor-pointer leading-5"
-                  >
-                    Send me job alerts and career tips via email
-                  </label>
-                </div>
               </div>
 
               {/* Create Account Button */}
               <button
                 type="submit"
-                className="w-full h-11 bg-sky-600 hover:bg-sky-700 text-white font-medium rounded-md transition-colors focus:outline-none cursor-pointer"
+                className="w-full h-11 bg-sky-600 hover:bg-sky-700 text-white font-medium rounded-md transition-colors focus:outline-none cursor-pointer disabled:bg-gray-100 disabled:text-black"
+                disabled={loading}
               >
                 Create account
               </button>
