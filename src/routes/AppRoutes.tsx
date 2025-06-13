@@ -12,7 +12,7 @@ export default function AppRoutes() {
 
       <Route path="/register">
         <Route index element={<RegisterPage />} />
-        <Route path="confirm-email" element={<SendConfirmEmailPage />} />
+        <Route path="send-confirm-email" element={<SendConfirmEmailPage />} />
       </Route>
     </Routes>
   );

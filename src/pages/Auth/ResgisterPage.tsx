@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff, User, Building } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
 
@@ -49,6 +49,8 @@ type FormData = z.infer<typeof signInSchema>;
 export default function RegisterPage() {
   const { handleShowCloseToast } = useToast();
 
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -84,7 +86,8 @@ export default function RegisterPage() {
       const response = await createUser({ ...data, username: data.email });
 
       if (response.data.succeeded) {
-        toast.success("Account Created successfull.");
+        localStorage.setItem("fromRegister", "true");
+        navigate("send-confirm-email");
       } else {
         toast.info(response.data.message);
       }
