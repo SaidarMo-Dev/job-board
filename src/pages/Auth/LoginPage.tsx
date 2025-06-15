@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
 import { Link } from "react-router";
+import { Login } from "../../services/authService";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,10 +12,20 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
 
   const { handleShowCloseToast } = useToast();
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Handle login logic here
-  };
+    setErrorMessage("");
+    const result = await Login(email, password);
+
+    if (!result) {
+      setErrorMessage("Incorect email or password ");
+    } else {
+      // navigate to home page
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-sky-100 flex items-center justify-center p-4">
@@ -49,12 +60,11 @@ export default function LoginPage() {
                 </label>
                 <input
                   id="email"
-                  type="email"
+                  type="text"
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full h-11 px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-2 focus:border-sky-600 transition-colors"
-                  required
                 />
               </div>
 
@@ -89,6 +99,13 @@ export default function LoginPage() {
                   </button>
                 </div>
               </div>
+
+              {errorMessage && (
+                <div className="bg-red-100 p-4 text-red-500 font-light  rounded-md">
+                  <span className="font-medium text-red-600 mr-1">Oops!</span>
+                  Invalid Email Address/Password
+                </div>
+              )}
 
               {/* Remember Me & Forgot Password */}
               <div className="flex items-center justify-between">
@@ -209,7 +226,7 @@ export default function LoginPage() {
           {/* Card Footer */}
           <div className="px-6 py-6 bg-gray-50 border-t border-gray-100">
             <p className="text-center text-sm text-gray-600 w-full">
-              Don't have an account?{" "}
+              Don't have an account?
               <Link
                 to="/auth/register"
                 className="text-sky-600 hover:text-sky-700 font-medium"
