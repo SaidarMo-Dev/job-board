@@ -8,6 +8,7 @@ import {
   MapPin,
   Search,
   Star,
+  User,
   Users,
   Zap,
 } from "lucide-react";
@@ -52,7 +53,7 @@ const JobFeaturesInfo = [
 
 export default function Home() {
   return (
-    <div>
+    <div className="mb-15">
       <HomeHeader />
 
       <main className="custom-container">
@@ -182,36 +183,87 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            {/* Job matches  */}
+
+            {/* Profile and job matches  */}
             <div>
-              <h2 className="text-3xl font-semibold">Get better matches</h2>
-              <p className="text-gray-600 mt-3">
-                Get better matches We’ll use your responses to give you better
-                matches in the future. Update your answers anytime on
-                <Link to="" className="text-sky-600 font-semibold">
-                  {" "}
-                  your profile
-                </Link>
-              </p>
-              <div className= "bg-white mt-8 p-5 text-center rounded-md">
-                <h3 className="font-semibold text-2xl">
-                  Are you currently looking for a job in El Jadida?
-                </h3>
-                <div className="grid grid-cols-2 mt-8 gap-3 text-sm font-bold">
-                  <button className="border border-gray-300 rounded-md p-3 hover:bg-gray-100 cursor-pointer">
-                    Yes
-                  </button>
-                  <button className="border border-gray-300 rounded-md p-3 hover:bg-gray-100 cursor-pointer">
-                    No
-                  </button>
-                  <button className="rounded-md p-3 hover:bg-gray-100 cursor-pointer">
-                    Skip
-                  </button>
-                  <button className="rounded-md p-3 text-white bg-sky-600 hover:bg-sky-700 cursor-pointer">
-                    Save
+              {/* Job matches  */}
+              <div>
+                <h2 className="text-3xl font-semibold">Get better matches</h2>
+                <p className="text-gray-600 mt-3">
+                  Get better matches We’ll use your responses to give you better
+                  matches in the future. Update your answers anytime on
+                  <Link to="" className="text-sky-600 font-semibold">
+                    your profile
+                  </Link>
+                </p>
+                <div className="bg-white mt-3 p-5 text-center rounded-md">
+                  <h3 className="font-semibold text-2xl">
+                    Are you currently looking for a job in El Jadida?
+                  </h3>
+                  <div className="grid grid-cols-2 mt-8 gap-3 text-sm font-bold">
+                    <button className="border border-gray-300 rounded-md p-2 hover:bg-gray-100 cursor-pointer">
+                      Yes
+                    </button>
+                    <button className="border border-gray-300 rounded-md p-2 hover:bg-gray-100 cursor-pointer">
+                      No
+                    </button>
+                    <button className="rounded-md p-2 hover:bg-gray-100 cursor-pointer">
+                      Skip
+                    </button>
+                    <button className="rounded-md p-2 text-white bg-sky-600 hover:bg-sky-700 cursor-pointer">
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* Complete Profile */}
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 p-4 rounded-md mt-2">
+                {/* header */}
+                <div>
+                  <div className="flex items-center gap-2 text-sky-900 font-bold text-xl mb-1">
+                    <User className="h-5 w-5" />
+                    Complete Your Profile
+                  </div>
+                  <div className="text-sky-700 text-sm font-meduim">
+                    Get better job matches by completing your profile
+                  </div>
+                </div>
+                {/* centent */}
+                <div className="space-y-4 mt-7">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-black">
+                      Profile strength
+                    </span>
+                    <span className="text-sm text-sky-700">14%</span>
+                  </div>
+                  {/* progress */}
+                  <div className="w-full bg-white h-2 rounded-full">
+                    <div className="w-1/6 bg-black h-full rounded-full"></div>
+                  </div>
+                  <button className="w-full bg-sky-600 hover:bg-sky-700 p-2 mt-1 text-white rounded-md text-sm font-semibold cursor-pointer">
+                    Edit Profile
                   </button>
                 </div>
               </div>
+              {/* end complete profile */}
+            </div>
+          </div>
+          {/* Quick tips */}
+          <div className="border bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 p-5 rounded-md">
+            <div>
+              <div className="flex items-center gap-2 text-green-900 font-bold text-2xl">
+                <Zap className="h-5 w-5" />
+                Quick Tip
+              </div>
+            </div>
+            <div className="mt-7">
+              <p className="text-sm text-green-800 mb-3">
+                Complete your profile to get 3x more job matches and stand out
+                to employers.
+              </p>
+              <button className="border border-green-300 text-green-700 hover:bg-green-100 bg-white py-2 px-4 rounded-md cursor-pointer">
+                Learn More
+              </button>
             </div>
           </div>
         </section>
