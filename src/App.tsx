@@ -5,7 +5,7 @@ import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
-    <div className="bg-slate-50">
+    <div className="">
       <ToastContextProvider>
         <ToastContainer
           position="top-center"

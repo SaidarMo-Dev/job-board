@@ -38,8 +38,6 @@ const Header = () => {
     { name: "Engineering", href: "#" },
   ];
 
-  const { handleShowCloseToast } = useToast();
-
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-lg">
       <div className="custom-container">

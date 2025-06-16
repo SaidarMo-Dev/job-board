@@ -184,19 +184,32 @@ export default function Home() {
             </div>
             {/* Job matches  */}
             <div>
-              <h2>Get better matches</h2>
-              <p>
+              <h2 className="text-3xl font-semibold">Get better matches</h2>
+              <p className="text-gray-600 mt-3">
                 Get better matches We’ll use your responses to give you better
                 matches in the future. Update your answers anytime on
-                <Link to="">your profile</Link>
+                <Link to="" className="text-sky-600 font-semibold">
+                  {" "}
+                  your profile
+                </Link>
               </p>
-              <div>
-                <h3>Are you currently looking for a job in El Jadida?</h3>
-                <div>
-                  <button>Yes</button>
-                  <button>No</button>
-                  <button>Skip</button>
-                  <button>Save</button>
+              <div className= "bg-white mt-8 p-5 text-center rounded-md">
+                <h3 className="font-semibold text-2xl">
+                  Are you currently looking for a job in El Jadida?
+                </h3>
+                <div className="grid grid-cols-2 mt-8 gap-3 text-sm font-bold">
+                  <button className="border border-gray-300 rounded-md p-3 hover:bg-gray-100 cursor-pointer">
+                    Yes
+                  </button>
+                  <button className="border border-gray-300 rounded-md p-3 hover:bg-gray-100 cursor-pointer">
+                    No
+                  </button>
+                  <button className="rounded-md p-3 hover:bg-gray-100 cursor-pointer">
+                    Skip
+                  </button>
+                  <button className="rounded-md p-3 text-white bg-sky-600 hover:bg-sky-700 cursor-pointer">
+                    Save
+                  </button>
                 </div>
               </div>
             </div>
