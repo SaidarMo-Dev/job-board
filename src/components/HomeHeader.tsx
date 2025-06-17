@@ -1,5 +1,6 @@
 import { Bell, ChevronUp, Menu, User } from "lucide-react";
 import { useState } from "react";
+import UserMenu from "./UserMenu";
 
 const jobCategories = [
   { name: "Technology", href: "#" },
@@ -14,10 +15,10 @@ const jobCategories = [
 
 const HomeHeader = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const [isUsermenuOpen, setIsUsermenuOpen] = useState(false);
   return (
     <header className="shadow-sm bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-      <div className="custom-container">
+      <div className="custom-container relative">
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center space-x-8">
             <h1 className="text-2xl font-bold text-sky-600">iLink</h1>
@@ -69,9 +70,17 @@ const HomeHeader = () => {
             <button className="p-2 rounded-sm hover:bg-gray-100">
               <User className="h-5 w-5" />
             </button>
-            <button className="p-2 rounded-sm hover:bg-gray-100">
-              <Menu className="h-5 w-5" />
-            </button>
+            <div
+              className=""
+              onClick={() => {
+                setIsUsermenuOpen(!isUsermenuOpen);
+              }}
+            >
+              <button className="p-2 rounded-sm hover:bg-gray-100">
+                <Menu className="h-5 w-5" />
+              </button>
+              {isUsermenuOpen && <UserMenu />}
+            </div>
           </div>
         </div>
       </div>

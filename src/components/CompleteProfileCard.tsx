@@ -1,4 +1,5 @@
 import { User } from "lucide-react";
+import ProgressBar from "./ProgressBar";
 
 export default function CompleteProfileCard() {
   return (
@@ -21,10 +22,7 @@ export default function CompleteProfileCard() {
           </span>
           <span className="text-sm text-sky-700">14%</span>
         </div>
-        {/* progress */}
-        <div className="w-full bg-white h-2 rounded-full">
-          <div className="w-1/6 bg-black h-full rounded-full"></div>
-        </div>
+        <ProgressBar value={16} />
         <button className="w-full bg-sky-600 hover:bg-sky-700 p-2 mt-1 text-white rounded-md text-sm font-semibold cursor-pointer">
           Edit Profile
         </button>

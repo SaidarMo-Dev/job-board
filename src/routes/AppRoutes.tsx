@@ -5,13 +5,15 @@ import { LandingPage } from "../pages/LandingPage";
 import SendConfirmEmailPage from "../pages/Auth/SendConfirmEmailPage";
 import ConfirmEmail from "../pages/Auth/ConfirmEmail";
 import Home from "../pages/Home";
+import JobsPage from "../pages/JobsPage";
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/home" element={<Home />} />
-      
+      <Route path="/jobs" element={<JobsPage />} />
+
       <Route path="/auth">
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
