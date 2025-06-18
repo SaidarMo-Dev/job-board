@@ -15,7 +15,7 @@ export default function JobFilter() {
   const [jobSalaryFilter, setJobSalaryFilter] = useState("");
 
   return (
-    <Card>
+    <Card className="w-full lg:w-68">
       <CardHeader>
         <CardTitle className="flex items-center gap-3 text-2xl font-bold">
           <Filter className="w-4 h-4" />

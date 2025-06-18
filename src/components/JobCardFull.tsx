@@ -30,8 +30,8 @@ export default function JobCardFull({ jobInfo }: { jobInfo: JobProps }) {
         onClick={() => setSelectedJob(jobInfo)}
       >
         <CardContent>
-          <div className="flex items-start justify-between">
-            <div className="flex items-start space-x-4 flex-1">
+          <div className="flex flex-col sm:flex-row items-start justify-between">
+            <div className="items-start space-x-4 flex-1 flex">
               <img
                 src="/public/images/logov2.png"
                 alt={`${jobInfo.Company} logo`}
@@ -75,7 +75,7 @@ export default function JobCardFull({ jobInfo }: { jobInfo: JobProps }) {
                 </div>
               </div>
             </div>
-            <div className="text-right ml-4">
+            <div className="text-right ml-4 flex flex-row-reverse sm:flex-col mt-5 sm:mt-0 justify-between w-full sm:w-auto">
               <p className="text-sm text-gray-500 mb-2">
                 {jobInfo.CreatedAt} day ago
               </p>
