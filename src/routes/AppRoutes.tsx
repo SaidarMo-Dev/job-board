@@ -7,6 +7,8 @@ import ConfirmEmail from "../pages/Auth/ConfirmEmail";
 import Home from "../pages/Home";
 import JobsPage from "../pages/JobsPage";
 import UserProfilePage from "@/pages/UserProfile";
+import UserApplications from "@/pages/UserApplicationsPage";
+import UserSavedJobs from "@/pages/Auth/UserSavedJobs";
 
 export default function AppRoutes() {
   return (
@@ -15,6 +17,8 @@ export default function AppRoutes() {
       <Route path="/home" element={<Home />} />
       <Route path="/jobs" element={<JobsPage />} />
       <Route path="/user/profile" element={<UserProfilePage />} />
+      <Route path="/user/applications" element={<UserApplications />} />
+      <Route path="/user/jobs" element={<UserSavedJobs />} />
 
       <Route path="/auth">
         <Route path="login" element={<LoginPage />} />
