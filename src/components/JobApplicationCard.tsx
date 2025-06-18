@@ -8,6 +8,7 @@ import {
 } from "./ui/card";
 import {
   CheckCircle,
+  CircleAlert,
   Clock,
   FileBarChart,
   MapPin,
@@ -33,6 +34,15 @@ export default function JobApplicationCard({
             <CheckCircle className="w-5 h-5 text-green-600" />
             <div className="text-xs py-1 px-2 rounded-full font-semibold text-green-600 bg-green-100">
               Submitted
+            </div>
+          </div>
+        )}
+
+        {status === "incompleted" && (
+          <div className="flex gap-2 items-center">
+            <CircleAlert className="w-5 h-5 text-red-400" />
+            <div className="text-xs py-1 px-3 rounded-full font-semibold text-orange-600 bg-orange-100">
+              Incomplete
             </div>
           </div>
         )}
