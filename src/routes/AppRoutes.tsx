@@ -8,7 +8,7 @@ import Home from "../pages/Home";
 import JobsPage from "../pages/JobsPage";
 import UserProfilePage from "@/pages/UserProfile";
 import UserApplications from "@/pages/UserApplicationsPage";
-import UserSavedJobs from "@/pages/Auth/UserSavedJobs";
+import UserSavedJobs from "@/pages/UserSavedJobs";
 
 export default function AppRoutes() {
   return (
