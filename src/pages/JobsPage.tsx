@@ -123,8 +123,8 @@ export default function JobsPage() {
 
       {/* Jobs section */}
       <div className="custom-container">
-        <div className="flex py-7 gap-7">
-          <aside className="md:w-64 space-y-5">
+        <div className="flex flex-col py-7 gap-7 lg:flex-row">
+          <aside className="w-full lg:w-68 space-y-5">
             <JobFilter />
             <PopularCategories />
           </aside>

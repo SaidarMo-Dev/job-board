@@ -6,6 +6,7 @@ import SendConfirmEmailPage from "../pages/Auth/SendConfirmEmailPage";
 import ConfirmEmail from "../pages/Auth/ConfirmEmail";
 import Home from "../pages/Home";
 import JobsPage from "../pages/JobsPage";
+import UserProfilePage from "@/pages/UserProfile";
 
 export default function AppRoutes() {
   return (
@@ -13,6 +14,7 @@ export default function AppRoutes() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/home" element={<Home />} />
       <Route path="/jobs" element={<JobsPage />} />
+      <Route path="/user/profile" element={<UserProfilePage />} />
 
       <Route path="/auth">
         <Route path="login" element={<LoginPage />} />
