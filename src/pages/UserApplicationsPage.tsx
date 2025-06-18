@@ -1,4 +1,21 @@
+import JobApplicationCard from "@/components/JobApplicationCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+const jobTest = {
+  Title: "Senior Frontend Developer",
+  Company: "Microsoft",
+  Location: "Now York, NY",
+  JobType: "Full Time",
+  SalaryRange: "$90k - $120k",
+  CreatedAt: "2",
+  Description:
+    "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
+  Skills: [
+    { Id: 1, Skill: "Typescript" },
+    { Id: 2, Skill: "React" },
+    { Id: 3, Skill: "JS" },
+  ],
+};
 
 export default function UserApplications() {
   return (
@@ -15,7 +32,11 @@ export default function UserApplications() {
             <TabsTrigger value="incomplete">Incomplete</TabsTrigger>
             <TabsTrigger value="expired">Expired</TabsTrigger>
           </TabsList>
-          <TabsContent value="all"> hello</TabsContent>
+          <TabsContent value="all">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              <JobApplicationCard jobInfo={jobTest} status="incompleted" />
+            </div>
+          </TabsContent>
         </Tabs>
       </div>
     </div>
