@@ -31,7 +31,7 @@ export default function UserMenu() {
       href: "/members/jobs",
       badge: savedJobsCount,
     },
-    { icon: History, label: "History", href: "/history" },
+    { icon: History, label: "History", href: "/members/history" },
   ];
 
   const settingsItems: MenuItem[] = [
@@ -40,7 +40,7 @@ export default function UserMenu() {
       label: "Settings & Notifications",
       href: "/settings",
     },
-    { icon: Shield, label: "Password & Security", href: "/security" },
+    { icon: Shield, label: "Password & Security", href: "/members/password-security" },
   ];
 
   const supportItems: MenuItem[] = [

@@ -10,6 +10,9 @@ import UserProfilePage from "@/pages/UserProfile";
 import UserApplications from "@/pages/UserApplicationsPage";
 import UserSavedJobs from "@/pages/UserSavedJobs";
 import MainLayout from "@/layouts/MainLayout";
+import JobsHistoryPage from "@/pages/JobsHistoryPage";
+import PasswordSecurityPage from "@/pages/PasswordAndSecurity";
+import SettingsAndNotificationsPage from "@/pages/SettingsNotifications";
 
 export default function AppRoutes() {
   return (
@@ -22,6 +25,15 @@ export default function AppRoutes() {
         <Route path="/members/profile" element={<UserProfilePage />} />
         <Route path="/members/applications" element={<UserApplications />} />
         <Route path="/members/jobs" element={<UserSavedJobs />} />
+        <Route path="/members/history" element={<JobsHistoryPage />} />
+        <Route
+          path="/members/password-security"
+          element={<PasswordSecurityPage />}
+        />
+        <Route
+          path="/members/settings-notifications"
+          element={<SettingsAndNotificationsPage />}
+        />
       </Route>
 
       <Route path="/auth">

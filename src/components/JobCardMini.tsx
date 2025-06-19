@@ -17,7 +17,15 @@ import {
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 
-export default function JobCardMini({ jobInfo }: { jobInfo: JobProps }) {
+interface JobCardMiniProps {
+  jobInfo: JobProps;
+  savedSection?: boolean;
+}
+
+export default function JobCardMini({
+  jobInfo,
+  savedSection = false,
+}: JobCardMiniProps) {
   return (
     <Card>
       <CardHeader>
@@ -29,9 +37,11 @@ export default function JobCardMini({ jobInfo }: { jobInfo: JobProps }) {
             </span>
             per year
           </p>
-          <button className="cursor-pointer hover:bg-gray-200 p-2 rounded-md">
-            <Heart className="w-5 h-5" color="red" fill="red" />
-          </button>
+          {savedSection && (
+            <button className="cursor-pointer hover:bg-gray-200 p-2 rounded-md">
+              <Heart className="w-5 h-5" color="red" fill="red" />
+            </button>
+          )}
         </div>
         <CardTitle className="text-xl">{jobInfo.Title}</CardTitle>
         <div className="flex gap-2 text-gray-600 text-sm">
