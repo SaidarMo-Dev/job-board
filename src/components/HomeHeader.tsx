@@ -1,6 +1,7 @@
 import { Bell, ChevronUp, Menu, User } from "lucide-react";
 import { useState } from "react";
 import UserMenu from "./UserMenu";
+import { Link } from "react-router";
 
 const jobCategories = [
   { name: "Technology", href: "#" },
@@ -26,7 +27,7 @@ const HomeHeader = () => {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="text-gray-600 hover:text-blue-600 transition-colors"
+                  className="text-gray-600 hover:text-sky-600 transition-colors"
                 >
                   Find Jobs
                   <ChevronUp
@@ -50,7 +51,7 @@ const HomeHeader = () => {
                     ))}
                     <div className="border-t border-gray-100 mt-1 pt-1">
                       <a
-                        href="/jobs"
+                        href="/members/jobs"
                         className="text-sm md:text-base block px-4 py-2 font-medium text-sky-600 hover:bg-blue-50 transition-colors duration-200"
                         onClick={() => setDropdownOpen(false)}
                       >
@@ -67,9 +68,12 @@ const HomeHeader = () => {
             <button className="p-2 rounded-sm hover:bg-gray-100">
               <Bell className="h-5 w-" />
             </button>
-            <button className="p-2 rounded-sm hover:bg-gray-100">
+            <Link
+              to={"/members/profile"}
+              className="block p-2 rounded-sm hover:bg-gray-100"
+            >
               <User className="h-5 w-5" />
-            </button>
+            </Link>
             <div
               className=""
               onClick={() => {

@@ -1,5 +1,6 @@
 import { User } from "lucide-react";
 import ProgressBar from "./ProgressBar";
+import { Link } from "react-router";
 
 export default function CompleteProfileCard() {
   return (
@@ -22,10 +23,13 @@ export default function CompleteProfileCard() {
           </span>
           <span className="text-sm text-sky-700">14%</span>
         </div>
-        <ProgressBar value={16} />
-        <button className="w-full bg-sky-600 hover:bg-sky-700 p-2 mt-1 text-white rounded-md text-sm font-semibold cursor-pointer">
+        <ProgressBar value={16} color="bg-sky-600" />
+        <Link
+          to={"/members/profile"}
+          className=" block text-center w-full bg-sky-600 hover:bg-sky-700 p-2 mt-1 text-white rounded-md text-sm font-semibold cursor-pointer"
+        >
           Edit Profile
-        </button>
+        </Link>
       </div>
     </div>
   );

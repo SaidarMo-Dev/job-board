@@ -15,9 +15,9 @@ export default function AuthGuard({ children }: AuthGuardProps) {
     if (token) {
       setIsAuthenticated(true);
     } else {
-      navigate("/login");
+      navigate("/auth/login");
     }
-    
+
     setIsLoading(false);
   }, [navigate]);
 
@@ -33,5 +33,6 @@ export default function AuthGuard({ children }: AuthGuardProps) {
     return null;
   }
 
+  console.log("i am in children");
   return <>{children}</>;
 }

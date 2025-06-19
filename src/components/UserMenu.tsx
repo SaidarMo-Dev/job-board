@@ -15,20 +15,20 @@ import { useState } from "react";
 import type { MenuItem } from "../types/MenuItem";
 import ProgressBar from "./ProgressBar";
 import MenuButton from "./MenuButton";
-
+import { Link } from "react-router";
 
 export default function UserMenu() {
   const [savedJobsCount] = useState<number>(0);
   const [profileCompletion] = useState<number>(16);
 
   const menuItems: MenuItem[] = [
-    { icon: User2, label: "Profile", href: "/profile" },
-    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
-    { icon: FileText, label: "Applications", href: "/applications" },
+    { icon: User2, label: "Profile", href: "/members/profile" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/members" },
+    { icon: FileText, label: "Applications", href: "/members/applications" },
     {
       icon: Heart,
       label: "Saved Jobs",
-      href: "/saved-jobs",
+      href: "/members/jobs",
       badge: savedJobsCount,
     },
     { icon: History, label: "History", href: "/history" },
@@ -48,8 +48,9 @@ export default function UserMenu() {
   ];
 
   const handleSignOut = () => {
-    // TODO: Handle sign out logic here
-    console.log("Signing out...");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("RefreshTokenExpirationDate");
   };
 
   return (
@@ -69,7 +70,7 @@ export default function UserMenu() {
                 <span>{profileCompletion}% of Profile Completed</span>
                 <ChevronRight />
               </div>
-              <ProgressBar value={profileCompletion} />
+              <ProgressBar value={profileCompletion} color="bg-sky-600" />
             </div>
           </div>
         </div>
@@ -113,7 +114,9 @@ export default function UserMenu() {
             className="flex items-center gap-3 w-full px-3 py-2 text-left text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors duration-150"
           >
             <LogOutIcon />
-            <span className="flex-1">Sign Out</span>
+            <Link onClick={handleSignOut} to={"/auth/login"} className="flex-1">
+              Sign Out
+            </Link>
           </button>
         </div>
       </div>

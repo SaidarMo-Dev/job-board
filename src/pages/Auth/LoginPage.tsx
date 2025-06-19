@@ -2,12 +2,12 @@ import type React from "react";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Login } from "../../services/authService";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
+  const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -15,15 +15,18 @@ export default function LoginPage() {
 
   const [errorMessage, setErrorMessage] = useState("");
 
+  const navigate = useNavigate();
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErrorMessage("");
-    const result = await Login(email, password);
+    const result = await Login(emailOrUsername, password);
 
     if (!result) {
       setErrorMessage("Incorect email or password ");
     } else {
       // navigate to home page
+      navigate("/members");
     }
   }
 
@@ -59,11 +62,11 @@ export default function LoginPage() {
                   Email address
                 </label>
                 <input
-                  id="email"
+                  id="emailOrUsername"
                   type="text"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email Or Username"
+                  value={emailOrUsername}
+                  onChange={(e) => setEmailOrUsername(e.target.value)}
                   className="w-full h-11 px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-2 focus:border-sky-600 transition-colors"
                 />
               </div>
