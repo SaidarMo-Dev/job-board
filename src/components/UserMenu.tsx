@@ -38,9 +38,13 @@ export default function UserMenu() {
     {
       icon: Settings,
       label: "Settings & Notifications",
-      href: "/settings",
+      href: "/members/settings-notifications",
     },
-    { icon: Shield, label: "Password & Security", href: "/members/password-security" },
+    {
+      icon: Shield,
+      label: "Password & Security",
+      href: "/members/password-security",
+    },
   ];
 
   const supportItems: MenuItem[] = [
@@ -65,13 +69,15 @@ export default function UserMenu() {
             <h3 className="font-semibold text-lg text-gray-900">
               Your Account
             </h3>
-            <div className="mt-2">
-              <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
-                <span>{profileCompletion}% of Profile Completed</span>
-                <ChevronRight />
+            <Link to="members/profile" className="block hover:bg-neutral-50 py-1 px-2 rounded-sm">
+              <div className="mt-2">
+                <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
+                  <span>{profileCompletion}% of Profile Completed</span>
+                  <ChevronRight />
+                </div>
+                <ProgressBar value={profileCompletion} color="bg-sky-600" />
               </div>
-              <ProgressBar value={profileCompletion} color="bg-sky-600" />
-            </div>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,4 +1,3 @@
-import HomeHeader from "../components/HomeHeader";
 import HomeHeroSection from "../components/HomeHeroSection";
 import QuickStats from "../components/QuickStats";
 import ExploreJobs from "../components/ExploreJobs";

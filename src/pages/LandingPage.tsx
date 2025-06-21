@@ -6,12 +6,12 @@ import { FeaturedJobs } from "../components/LandingPageComponents/FeaturedJobs";
 import { BrowseByCategory } from "../components/LandingPageComponents/BrowseByCategory";
 import WhyChooseUs from "../components/LandingPageComponents/WhyChooseUS";
 import Footer from "../components/LandingPageComponents/Footer";
-import HeaderV2 from "../components/LandingPageComponents/Header";
 
+import Header from "../components/Header";
 export function LandingPage() {
   return (
     <>
-      <HeaderV2 />
+      <Header />
       <HeroSection />
       <StatusSection />
       <FeaturedJobs />
