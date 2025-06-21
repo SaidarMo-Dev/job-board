@@ -1,6 +1,11 @@
 import type { ApiResponse } from "../../types/ApiResponse";
 import api from "../../api/axiosInstance";
 import type { LoginToken } from "../../types/loginResponse";
+import {
+  ACCESS_TOKEN_KEY,
+  REFRESH_TOKEN_EXP_KEY,
+  REFRESH_TOKEN_KEY,
+} from "@/utils/constans";
 interface ConfirmEmailType {
   userId: number;
   token: string;
@@ -29,10 +34,10 @@ export async function Login(username: string, password: string) {
 
     const data = res.data.data;
 
-    localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("refreshToken", data.refreshToken.refreshToken);
+    localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken);
+    localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken.refreshToken);
     localStorage.setItem(
-      "RefreshTokenExpirationDate",
+      REFRESH_TOKEN_EXP_KEY,
       data.refreshToken.expirationDate.toString()
     );
 
