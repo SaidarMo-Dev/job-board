@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
 import { Link, useNavigate } from "react-router";
-import { Login } from "../../services/authService";
+import { Login } from "../../features/auth/authService";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);

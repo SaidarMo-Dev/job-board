@@ -1,6 +1,6 @@
-import api from "../api/axiosInstance";
-import type { ApiResponse } from "../types/ApiResponse";
-import type RegisterFormData from "../types/RegisterFormData";
+import api from "../../api/axiosInstance";
+import type { ApiResponse } from "../../types/ApiResponse";
+import type RegisterFormData from "../../types/RegisterFormData";
 
 const USER_BASE_URL = "/users";
 
@@ -10,4 +10,3 @@ export const createUser = (data: RegisterFormData) =>
     url: `${USER_BASE_URL}/register`,
     data: { ...data },
   });
-

@@ -1,6 +1,6 @@
-import type { ApiResponse } from "../types/ApiResponse";
-import api from "../api/axiosInstance";
-import type { LoginToken } from "../types/loginResponse";
+import type { ApiResponse } from "../../types/ApiResponse";
+import api from "../../api/axiosInstance";
+import type { LoginToken } from "../../types/loginResponse";
 interface ConfirmEmailType {
   userId: number;
   token: string;
