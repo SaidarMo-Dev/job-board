@@ -7,3 +7,15 @@ export default interface RegisterFormData {
   confirmPassword: string;
   role: string;
 }
+
+export interface User {
+  usserId : number;
+  email : string;
+  firstName: string;
+  lastName: string;
+  gendor : string;
+  dateOfBirth : string;
+  address : string;
+  imagePath : string;
+  countryName : string;
+}
