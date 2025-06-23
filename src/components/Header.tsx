@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { Bell, ChevronDown, Menu, User, X } from "lucide-react";
 import { Link } from "react-router";
 import UserMenu from "./UserMenu";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "@/features/auth/authSlice";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -9,7 +11,8 @@ const Header = () => {
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
   const [isUsermenuOpen, setIsUsermenuOpen] = useState(false);
   // Close dropdown when clicking outside
   useEffect(() => {

@@ -8,7 +8,7 @@ import z from "zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 // User Service
-import { createUser } from "../../features/users/userService";
+import { createUser } from "../../features/users/userApi";
 // react toastidy
 import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";

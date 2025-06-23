@@ -5,6 +5,6 @@ export interface LoginToken {
 
 export interface RefreshToken {
   refreshToken: string;
-  username: string;
+  userId: number;
   expirationDate: Date;
 }

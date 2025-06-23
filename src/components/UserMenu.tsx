@@ -16,6 +16,10 @@ import type { MenuItem } from "../types/MenuItem";
 import ProgressBar from "./ProgressBar";
 import MenuButton from "./MenuButton";
 import { Link } from "react-router";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/store";
+import { logout } from "@/features/auth/authSlice";
+import RemoveTokens from "@/utils/removeTokens";
 
 export default function UserMenu() {
   const [savedJobsCount] = useState<number>(0);
@@ -51,10 +55,11 @@ export default function UserMenu() {
     { icon: HelpCircle, label: "Contact Us", href: "/contact" },
   ];
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const handleSignOut = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("RefreshTokenExpirationDate");
+    RemoveTokens();
+    dispatch(logout());
   };
 
   return (
@@ -69,7 +74,10 @@ export default function UserMenu() {
             <h3 className="font-semibold text-lg text-gray-900">
               Your Account
             </h3>
-            <Link to="members/profile" className="block hover:bg-neutral-50 py-1 px-2 rounded-sm">
+            <Link
+              to="members/profile"
+              className="block hover:bg-neutral-50 py-1 px-2 rounded-sm"
+            >
               <div className="mt-2">
                 <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
                   <span>{profileCompletion}% of Profile Completed</span>
@@ -115,12 +123,9 @@ export default function UserMenu() {
 
         {/* Sign Out */}
         <div className="pb-2">
-          <button
-            onClick={handleSignOut}
-            className="flex items-center gap-3 w-full px-3 py-2 text-left text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors duration-150"
-          >
+          <button onClick={handleSignOut} className="flex items-center gap-3 w-full px-3 py-2 text-left text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors duration-150">
             <LogOutIcon />
-            <Link onClick={handleSignOut} to={"/auth/login"} className="flex-1">
+            <Link to={"/auth/login"} className="flex-1">
               Sign Out
             </Link>
           </button>
