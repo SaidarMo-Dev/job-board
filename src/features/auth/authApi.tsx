@@ -16,8 +16,8 @@ export const ConfirmEmail = (data: ConfirmEmailType) => {
   );
 };
 
-export async function Login(usernameOrEmail: string, password: string) {
-  const formData = new URLSearchParams({ usernameOrEmail, password });
+export async function Login(username: string, password: string) {
+  const formData = new URLSearchParams({ username, password });
 
   const res = await api.post<ApiResponse<LoginToken>>(
     `${AUTH_BASE_URL}/signin`,
