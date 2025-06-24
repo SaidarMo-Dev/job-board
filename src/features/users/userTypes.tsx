@@ -9,13 +9,14 @@ export default interface RegisterFormData {
 }
 
 export interface User {
-  usserId : number;
-  email : string;
+  id: number;
+  email: string;
   firstName: string;
-  lastName: string;
-  gendor : string;
-  dateOfBirth : string;
-  address : string;
-  imagePath : string;
-  countryName : string;
+  lastName?: string;
+  gender?: string;
+  dateOfBirth?: string;
+  address?: string;
+  imagePath?: string;
+  countryName?: string;
+  PhoneNumber?: string;
 }
