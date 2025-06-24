@@ -1,11 +1,15 @@
+import { selectCurrentUser } from "@/features/auth/authSlice";
 import { MapPin, Search } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function HomeHeroSection() {
+  const currentUser = useSelector(selectCurrentUser);
+
   return (
     <section>
       <div className="text-center mb-8 mt-10">
         <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          Welcome back! 👋
+          Welcome back {currentUser?.firstName}! 👋
         </h2>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
           Ready to find your next opportunity? Let's discover jobs that match

@@ -6,19 +6,29 @@ import { useState } from "react";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Badge } from "./ui/badge";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "@/features/auth/authSlice";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+
+import CountrySelector from "./BasicUserComponents/CountrySelector";
+import UserInfoLabel from "./BasicUserComponents/UserInfoLabel";
+import AddButton from "./BasicUserComponents/AddButton";
 
 export default function BasicUserInfoCard() {
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    address: "",
-    bio: "I am actively looking for new jobs and am open to all types of work experiences.",
-  });
 
+  const currentUser = useSelector(selectCurrentUser);
+  const [userInfo, setUserInfo] = useState({ ...currentUser });
+
+  // handle input change
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setUserInfo((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSave = () => {
@@ -57,111 +67,137 @@ export default function BasicUserInfoCard() {
         </Button>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Name Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* FirstName Field */}
           <div className="space-y-2">
             <Label htmlFor="firstName">First Name</Label>
             {isEditing ? (
               <Input
                 id="firstName"
-                value={formData.firstName}
+                value={userInfo.firstName}
                 onChange={(e) => handleInputChange("firstName", e.target.value)}
                 placeholder="Enter your first name"
               />
             ) : (
               <div className="flex items-center gap-2">
-                {formData.firstName ? (
-                  <span className="text-gray-900">{formData.firstName}</span>
+                {userInfo.firstName ? (
+                  <UserInfoLabel fieldInfo={userInfo.firstName} />
                 ) : (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-sky-600 p-0 h-auto"
-                  >
-                    + Add first name
-                  </Button>
+                  <AddButton field={"First Name"} />
                 )}
               </div>
             )}
           </div>
+
+          {/* LastName field */}
           <div className="space-y-2">
             <Label htmlFor="lastName">Last Name</Label>
             {isEditing ? (
               <Input
                 id="lastName"
-                value={formData.lastName}
+                value={userInfo.lastName}
                 onChange={(e) => handleInputChange("lastName", e.target.value)}
                 placeholder="Enter your last name"
               />
             ) : (
               <div className="flex items-center gap-2">
-                {formData.lastName ? (
-                  <span className="text-gray-900">{formData.lastName}</span>
+                {userInfo.lastName ? (
+                  <UserInfoLabel fieldInfo={userInfo.lastName} />
                 ) : (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-sky-600 p-0 h-auto"
-                  >
-                    + Add last name
-                  </Button>
+                  <AddButton field={"Last Name"} />
                 )}
               </div>
             )}
           </div>
-        </div>
 
-        {/* Phone Field */}
-        <div className="space-y-2">
-          <Label htmlFor="phone">Phone Number</Label>
-          {isEditing ? (
-            <Input
-              id="phone"
-              value={formData.phone}
-              onChange={(e) => handleInputChange("phone", e.target.value)}
-              placeholder="Enter your phone number"
-              type="tel"
-            />
-          ) : (
-            <div className="flex items-center gap-2">
-              {formData.phone ? (
-                <span className="text-gray-900">{formData.phone}</span>
-              ) : (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-sky-600 p-0 h-auto"
-                >
-                  + Add phone
-                </Button>
-              )}
-            </div>
-          )}
-        </div>
+          {/* Phone Field */}
+          <div className="space-y-2">
+            <Label htmlFor="phone">Phone Number</Label>
+            {isEditing ? (
+              <Input
+                id="phone"
+                value={userInfo.PhoneNumber}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
+                placeholder="Enter your phone number"
+                type="tel"
+              />
+            ) : (
+              <div className="flex items-center gap-2">
+                {userInfo.PhoneNumber ? (
+                  <UserInfoLabel fieldInfo={userInfo.PhoneNumber} />
+                ) : (
+                  <AddButton field={"Phone Number"} />
+                )}
+              </div>
+            )}
+          </div>
 
-        {/* Address Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="md:col-span-2 space-y-2">
+          {/* Address Fields */}
+
+          <div className="space-y-2">
             <Label htmlFor="address">Address</Label>
             {isEditing ? (
               <Input
                 id="address"
-                value={formData.address}
+                value={userInfo.address}
                 onChange={(e) => handleInputChange("address", e.target.value)}
                 placeholder="Enter your address"
               />
             ) : (
               <div className="flex items-center gap-2">
-                {formData.address ? (
-                  <span className="text-gray-900">{formData.address}</span>
+                {userInfo.address ? (
+                  <UserInfoLabel fieldInfo={userInfo.address} />
                 ) : (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-sky-600 p-0 h-auto"
-                  >
-                    + Add address
-                  </Button>
+                  <AddButton field={"Address"} />
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="phone">Gender</Label>
+            {isEditing ? (
+              <Select
+                value={userInfo.gender}
+                onValueChange={(value) => {
+                  handleInputChange("gender", value);
+                }}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="other">other</SelectItem>
+                </SelectContent>
+              </Select>
+            ) : (
+              <div className="flex items-center gap-2">
+                {userInfo.PhoneNumber ? (
+                  <UserInfoLabel fieldInfo={userInfo.gender} />
+                ) : (
+                  <AddButton field={"Gender"} />
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Country selection */}
+          <div className="space-y-2">
+            <Label htmlFor="phone">Nationality</Label>
+            {isEditing ? (
+              <CountrySelector
+                onSelect={(countryName) => {
+                  userInfo.countryName = countryName ? countryName : "";
+                }}
+              />
+            ) : (
+              <div className="flex items-center gap-2">
+                {userInfo.countryName ? (
+                  <UserInfoLabel fieldInfo={userInfo.countryName} />
+                ) : (
+                  <AddButton field="Country" />
                 )}
               </div>
             )}
@@ -169,20 +205,19 @@ export default function BasicUserInfoCard() {
         </div>
 
         {/* Bio Section */}
-        <div className="space-y-2">
+        {/* TODO : link with user bio */}
+        <div className="space-y-2 w-1/2">
           <Label htmlFor="bio">About</Label>
           {isEditing ? (
             <Textarea
               id="bio"
-              value={formData.bio}
-              onChange={(e) => handleInputChange("bio", e.target.value)}
               placeholder="Tell us about yourself"
               className="min-h-[100px]"
             />
           ) : (
             <div className="flex items-start gap-2">
               <Briefcase className="h-4 w-4 text-gray-500 mt-1" />
-              <p className="text-gray-900">{formData.bio}</p>
+              <p className="text-gray-900">Test user bio</p>
             </div>
           )}
         </div>
