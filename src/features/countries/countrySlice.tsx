@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { CounrtyState } from "./countryType";
 
 import { getAllCountriesThunk } from "./countryThunk";
+import type { RootState } from "@/store";
 
 const initialState: CounrtyState = {
   loading: false,
@@ -31,4 +32,9 @@ const countrySlice = createSlice({
   },
 });
 
+const selectCountries = (state: RootState) => state.countryReducer.countries;
+
 export default countrySlice.reducer;
+
+// selectors
+export { selectCountries };
