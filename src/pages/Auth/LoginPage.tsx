@@ -1,12 +1,12 @@
 import type React from "react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
 import { Link, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 
 import type { AppDispatch } from "@/store";
-import { handleLogin } from "@/features/auth/authThunk";
+import { getCurrentUserThunk, handleLogin } from "@/features/auth/authThunk";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,17 +22,22 @@ export default function LoginPage() {
 
   const navigate = useNavigate();
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setErrorMessage("");
-    const result = await dispatch(handleLogin({ emailOrUsername, password }));
+  // handle login
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setErrorMessage("");
+      const result = await dispatch(handleLogin({ emailOrUsername, password }));
 
-    if (handleLogin.fulfilled.match(result)) {
-      navigate("/members");
-    } else {
-      setErrorMessage(result.payload ? result.payload : "");
-    }
-  }
+      if (handleLogin.fulfilled.match(result)) {
+        await dispatch(getCurrentUserThunk());
+        navigate("/members");
+      } else {
+        setErrorMessage(result.payload ? result.payload : "");
+      }
+    },
+    [dispatch, emailOrUsername, password, navigate]
+  );
 
   return (
     <>
