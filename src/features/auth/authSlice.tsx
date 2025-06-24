@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AuthState } from "./authTypes";
-import { handleLogin } from "./authThunk";
+import { getCurrentUserThunk, handleLogin } from "./authThunk";
 import type { RootState } from "@/store";
 
 const initialState: AuthState = {
@@ -16,6 +16,9 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.isAuthenticated = false;
+      state.currentUser = null;
+      state.error = null;
+      state.loading = false;
     },
   },
   extraReducers: (builder) => {
@@ -31,14 +34,27 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(getCurrentUserThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCurrentUserThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentUser = action.payload;
+        state.error = null;
+      })
+      .addCase(getCurrentUserThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
 export default authSlice.reducer;
-
 export const { logout } = authSlice.actions;
 
+export const selectCurrentUser = (state: RootState) =>
+  state.authReducer.currentUser;
 export const selectIsAuthenticated = (state: RootState) =>
   state.authReducer.isAuthenticated;
 export const selectLoading = (state: RootState) => state.authReducer.loading;

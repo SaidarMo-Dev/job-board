@@ -3,6 +3,8 @@ import { Login } from "../auth/authApi";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { ApiResponse } from "@/types/ApiResponse";
+import type { User } from "../users/userTypes";
+import { getCurrentUser } from "../users/userApi";
 
 const handleLogin = createAsyncThunk<
   boolean,
@@ -22,4 +24,22 @@ const handleLogin = createAsyncThunk<
   }
 });
 
-export { handleLogin };
+const getCurrentUserThunk = createAsyncThunk<
+  User,
+  void,
+  { rejectValue: string }
+>("auth/me", async (_, thunkApi) => {
+  try {
+    const user = await getCurrentUser();
+
+    return user;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const msg = error.response?.data as ApiResponse<null>;
+      return thunkApi.rejectWithValue(msg.message);
+    }
+    return thunkApi.rejectWithValue("Something wont wrong!");
+  }
+});
+
+export { handleLogin, getCurrentUserThunk };
