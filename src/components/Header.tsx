@@ -62,7 +62,7 @@ const Header = () => {
             <nav
               className={`${
                 isAuthenticated === false ? "hidden" : ""
-              } md:flex space-x-8`}
+              } md:flex space-x-8 ${isAuthenticated === true? "mr-auto ml-10":""} `}
             >
               {/* Find Jobs Dropdown */}
               <div className={`relative`} ref={dropdownRef}>
