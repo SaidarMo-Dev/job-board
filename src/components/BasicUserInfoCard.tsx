@@ -1,12 +1,19 @@
+// Lucide react icons
 import { Edit3, Save } from "lucide-react";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Input } from "./ui/input";
+
 import { useState } from "react";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
+
+// redux
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "@/features/auth/authSlice";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/store";
+
+// ui Imports
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Textarea } from "./ui/textarea";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 import {
   Select,
   SelectContent,
@@ -15,10 +22,18 @@ import {
   SelectValue,
 } from "./ui/select";
 
+// custom components
 import CountrySelector from "./BasicUserCardComponents/CountrySelector";
 import UserInfoLabel from "./BasicUserCardComponents/UserInfoLabel";
 import AddButton from "./BasicUserCardComponents/AddButton";
 import { DateOfBirthSelector } from "./BasicUserCardComponents/DateOfBirthSelector";
+
+// features
+import { updateUserThunk } from "@/features/users/userThunk";
+import type { UpdateUserRequest } from "@/features/users/userTypes";
+import { selectAuthError, selectCurrentUser } from "@/features/auth/authSlice";
+import { Slide, toast } from "react-toastify";
+import { getCurrentUserThunk } from "@/features/auth/authThunk";
 
 export default function BasicUserInfoCard() {
   const [isEditing, setIsEditing] = useState(false);
@@ -31,9 +46,44 @@ export default function BasicUserInfoCard() {
     setUserInfo((prev) => ({ ...prev, [field]: value }));
   };
 
+  const dispatch = useDispatch<AppDispatch>();
+  const authError = useSelector(selectAuthError);
+
   const handleSave = () => {
     setIsEditing(false);
-    // Handle save logic here
+    const updatedUser: UpdateUserRequest = {
+      id: currentUser?.id,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      gender: userInfo.gender,
+      dateOfBirth: userInfo.dateOfBirth ? new Date(userInfo.dateOfBirth) : null,
+      phoneNumber: userInfo.phoneNumber,
+      address: userInfo.address,
+      imagePath: userInfo.imagePath,
+      countryName: userInfo.countryName,
+    };
+
+    async function handleUpdate() {
+      const result = await dispatch(updateUserThunk(updatedUser));
+      if (updateUserThunk.fulfilled.match(result)) {
+        toast.success("Saved Successfull", {
+          position: "bottom-left",
+          hideProgressBar: true,
+          transition: Slide,
+          autoClose: 2000,
+        });
+
+        await dispatch(getCurrentUserThunk());
+      } else {
+        toast.error(authError, {
+          position: "bottom-left",
+          hideProgressBar: true,
+          transition: Slide,
+          autoClose: 2000,
+        });
+      }
+    }
+    handleUpdate();
   };
 
   return (
@@ -120,7 +170,7 @@ export default function BasicUserInfoCard() {
             {isEditing ? (
               <Input
                 id="phone"
-                value={userInfo.PhoneNumber}
+                value={userInfo.phoneNumber}
                 onChange={(e) =>
                   handleInputChange("PhoneNumber", e.target.value)
                 }
@@ -131,8 +181,8 @@ export default function BasicUserInfoCard() {
               />
             ) : (
               <div className="flex items-center gap-2">
-                {userInfo.PhoneNumber ? (
-                  <UserInfoLabel fieldInfo={userInfo.PhoneNumber} />
+                {userInfo.phoneNumber ? (
+                  <UserInfoLabel fieldInfo={userInfo.phoneNumber} />
                 ) : (
                   <AddButton field={"Phone Number"} />
                 )}
@@ -178,14 +228,14 @@ export default function BasicUserInfoCard() {
                   <SelectValue placeholder="Gender" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
-                  <SelectItem value="other">other</SelectItem>
+                  <SelectItem value="Male">Male</SelectItem>
+                  <SelectItem value="Female">Female</SelectItem>
+                  <SelectItem value="Other">other</SelectItem>
                 </SelectContent>
               </Select>
             ) : (
               <div className="flex items-center gap-2">
-                {userInfo.PhoneNumber ? (
+                {userInfo.gender ? (
                   <UserInfoLabel fieldInfo={userInfo.gender} />
                 ) : (
                   <AddButton field={"Gender"} />
