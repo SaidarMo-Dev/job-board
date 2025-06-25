@@ -1,11 +1,10 @@
-import { Briefcase, Edit3, Save } from "lucide-react";
+import { Edit3, Save } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Input } from "./ui/input";
 import { useState } from "react";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { Badge } from "./ui/badge";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "@/features/auth/authSlice";
 import {
@@ -16,9 +15,10 @@ import {
   SelectValue,
 } from "./ui/select";
 
-import CountrySelector from "./BasicUserComponents/CountrySelector";
-import UserInfoLabel from "./BasicUserComponents/UserInfoLabel";
-import AddButton from "./BasicUserComponents/AddButton";
+import CountrySelector from "./BasicUserCardComponents/CountrySelector";
+import UserInfoLabel from "./BasicUserCardComponents/UserInfoLabel";
+import AddButton from "./BasicUserCardComponents/AddButton";
+import { DateOfBirthSelector } from "./BasicUserCardComponents/DateOfBirthSelector";
 
 export default function BasicUserInfoCard() {
   const [isEditing, setIsEditing] = useState(false);
@@ -67,9 +67,9 @@ export default function BasicUserInfoCard() {
         </Button>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* FirstName Field */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Label htmlFor="firstName">First Name</Label>
             {isEditing ? (
               <Input
@@ -77,6 +77,8 @@ export default function BasicUserInfoCard() {
                 value={userInfo.firstName}
                 onChange={(e) => handleInputChange("firstName", e.target.value)}
                 placeholder="Enter your first name"
+                className="rounded-md h-[41px]"
+                style={{ fontSize: "16px" }}
               />
             ) : (
               <div className="flex items-center gap-2">
@@ -90,7 +92,7 @@ export default function BasicUserInfoCard() {
           </div>
 
           {/* LastName field */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Label htmlFor="lastName">Last Name</Label>
             {isEditing ? (
               <Input
@@ -98,6 +100,8 @@ export default function BasicUserInfoCard() {
                 value={userInfo.lastName}
                 onChange={(e) => handleInputChange("lastName", e.target.value)}
                 placeholder="Enter your last name"
+                className="rounded-md h-[41px]"
+                style={{ fontSize: "16px" }}
               />
             ) : (
               <div className="flex items-center gap-2">
@@ -111,15 +115,19 @@ export default function BasicUserInfoCard() {
           </div>
 
           {/* Phone Field */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Label htmlFor="phone">Phone Number</Label>
             {isEditing ? (
               <Input
                 id="phone"
                 value={userInfo.PhoneNumber}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("PhoneNumber", e.target.value)
+                }
                 placeholder="Enter your phone number"
                 type="tel"
+                className="rounded-md h-[41px]"
+                style={{ fontSize: "16px" }}
               />
             ) : (
               <div className="flex items-center gap-2">
@@ -134,7 +142,7 @@ export default function BasicUserInfoCard() {
 
           {/* Address Fields */}
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Label htmlFor="address">Address</Label>
             {isEditing ? (
               <Input
@@ -142,6 +150,8 @@ export default function BasicUserInfoCard() {
                 value={userInfo.address}
                 onChange={(e) => handleInputChange("address", e.target.value)}
                 placeholder="Enter your address"
+                className="rounded-md h-[41px]"
+                style={{ fontSize: "16px" }}
               />
             ) : (
               <div className="flex items-center gap-2">
@@ -154,7 +164,8 @@ export default function BasicUserInfoCard() {
             )}
           </div>
 
-          <div className="space-y-2">
+          {/* Gender field */}
+          <div className="space-y-3">
             <Label htmlFor="phone">Gender</Label>
             {isEditing ? (
               <Select
@@ -163,7 +174,7 @@ export default function BasicUserInfoCard() {
                   handleInputChange("gender", value);
                 }}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full !h-[41px]">
                   <SelectValue placeholder="Gender" />
                 </SelectTrigger>
                 <SelectContent>
@@ -184,7 +195,7 @@ export default function BasicUserInfoCard() {
           </div>
 
           {/* Country selection */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Label htmlFor="phone">Nationality</Label>
             {isEditing ? (
               <CountrySelector
@@ -202,31 +213,41 @@ export default function BasicUserInfoCard() {
               </div>
             )}
           </div>
-        </div>
 
-        {/* Bio Section */}
-        {/* TODO : link with user bio */}
-        <div className="space-y-2 w-1/2">
-          <Label htmlFor="bio">About</Label>
-          {isEditing ? (
-            <Textarea
-              id="bio"
-              placeholder="Tell us about yourself"
-              className="min-h-[100px]"
-            />
-          ) : (
-            <div className="flex items-start gap-2">
-              <Briefcase className="h-4 w-4 text-gray-500 mt-1" />
-              <p className="text-gray-900">Test user bio</p>
-            </div>
-          )}
-        </div>
-
-        {/* Status Badge */}
-        <div className="pt-2">
-          <Badge variant="secondary" className="bg-green-100 text-green-800">
-            Open to work
-          </Badge>
+          {/* Date Of birth */}
+          <div className="space-y-2 md:col-span-2">
+            {isEditing ? (
+              <DateOfBirthSelector
+                onSelect={(date) => {
+                  userInfo.dateOfBirth = date?.toLocaleDateString();
+                }}
+              />
+            ) : (
+              <div className="flex items-center gap-2">
+                {userInfo.countryName ? (
+                  <UserInfoLabel fieldInfo={userInfo.dateOfBirth} />
+                ) : (
+                  <AddButton field="Date of birth" />
+                )}
+              </div>
+            )}
+          </div>
+          {/* Bio Section */}
+          {/* TODO : link with user bio */}
+          <div className="space-y-2 md:col-span-2">
+            <Label htmlFor="bio">About</Label>
+            {isEditing ? (
+              <Textarea
+                id="bio"
+                placeholder="Tell us about yourself"
+                className="min-h-[100px] !text-[16px]"
+              />
+            ) : (
+              <div className="p-3 bg-gray-50 rounded-lg border min-h-[80px]">
+                <span className="text-gray-900">Test user bio</span>
+              </div>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>
