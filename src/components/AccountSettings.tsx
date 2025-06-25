@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 
@@ -8,9 +9,12 @@ export default function AccountSettings() {
         <div className="space-y-4">
           <div className="text-sm text-gray-600">
             Looking to change your email? You can edit it from the{" "}
-            <Button variant="link" className="p-0 h-auto text-blus-600">
+            <Link
+              to="/members/password-security"
+              className="p-0 h-auto text-blus-600 font-medium underline-offset-4 hover:underline"
+            >
               Password and Security page
-            </Button>
+            </Link>
             .
           </div>
           <div className="pt-4 border-t">
