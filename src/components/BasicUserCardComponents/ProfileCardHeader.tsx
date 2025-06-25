@@ -13,7 +13,7 @@ export default function ProfileCarHeader() {
     <Card className="overflow-hidden py-0">
       <div className="h-32 bg-gradient-to-tr from-[#4338ca] via-[#1e40af] to-[#164e63]"></div>
       <CardContent className="relative pt-0 pb-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4 -mt-16">
+        <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 -mt-16">
           <div className="relative">
             <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
               <AvatarImage
@@ -31,7 +31,7 @@ export default function ProfileCarHeader() {
               <Camera className="w-4 h-4" />
             </Button>
           </div>
-          <div className="flex-1 sm:ml-4 mt-4 sm:mt-0">
+          <div className="flex-1 sm:ml-4 mt-4 sm:mt-0 self-start sm:self-auto">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">
