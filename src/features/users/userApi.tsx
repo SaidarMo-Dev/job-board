@@ -24,10 +24,16 @@ export async function getCurrentUser(): Promise<User> {
 }
 
 export async function updateUser(data: UpdateUserRequest) {
-  const response = await api<ApiResponse<string>>({
-    method: "put",
-    url: `${USER_BASE_URL}/update`,
-    data: { ...data },
-  });
+  const response = await api.put<ApiResponse<string>>(
+    `${USER_BASE_URL}/update`,
+    {
+      ...data,
+    },
+    {
+      headers: {
+        Authorization: `bearer ${getAccessToken()}`,
+      },
+    }
+  );
   return response.data;
 }
