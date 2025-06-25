@@ -1,7 +1,7 @@
 import { getAccessToken } from "@/utils/gitAccessToken";
 import api from "../../api/axiosInstance";
 import type { ApiResponse } from "../../types/ApiResponse";
-import type { User } from "./userTypes";
+import type { UpdateUserRequest, User } from "./userTypes";
 import type RegisterFormData from "./userTypes";
 
 const USER_BASE_URL = "/users";
@@ -21,4 +21,13 @@ export async function getCurrentUser(): Promise<User> {
   });
 
   return res.data.data;
+}
+
+export async function updateUser(data: UpdateUserRequest) {
+  const response = await api<ApiResponse<string>>({
+    method: "put",
+    url: `${USER_BASE_URL}/update`,
+    data: { ...data },
+  });
+  return response.data;
 }

@@ -20,3 +20,15 @@ export interface User {
   countryName?: string;
   PhoneNumber?: string;
 }
+
+export interface UpdateUserRequest {
+  id: number;
+  firstName: string;
+  lastName?: string;
+  gender?: string;
+  dateOfBirth?: Date;
+  phoneNumber?: string;
+  address?: string;
+  imagePath?: string;
+  countryName?: string;
+}
