@@ -8,6 +8,11 @@ import {
   DialogTitle,
   DialogHeader,
 } from "@/components/ui/dialog";
+import { useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/store";
+import { useDispatch } from "react-redux";
+import { SendChangeEmailVerificationThunk } from "@/features/auth/authThunk";
+import InlineToast from "../Toasts/InlineToast";
 
 interface ChangeEmailModelProps {
   open: boolean;
@@ -21,10 +26,28 @@ export function ChangeEmailModal({
   onNext,
 }: ChangeEmailModelProps) {
   const [newEmail, setNewEmail] = useState("");
-  const currentEmail = "";
+  const [error, setError] = useState<string>("");
+  const UserEmail = useSelector(
+    (state: RootState) => state.authReducer.currentUser?.email
+  );
 
-  function handleSendVerification() {}
-  function handleCloseModals() {}
+  const dispatch = useDispatch<AppDispatch>();
+
+  function handleSendVerification() {
+    setError("");
+    dispatch(
+      SendChangeEmailVerificationThunk({
+        currentEmail: UserEmail ?? "",
+        newEmail,
+      })
+    ).then((result) => {
+      if (SendChangeEmailVerificationThunk.fulfilled.match(result)) {
+        onNext(newEmail);
+      } else if (SendChangeEmailVerificationThunk.rejected.match(result)) {
+        setError(result.payload ?? "");
+      }
+    });
+  }
   return (
     <>
       <Dialog
@@ -37,6 +60,13 @@ export function ChangeEmailModal({
       >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
+            {error && (
+              <InlineToast
+                type="error"
+                onClose={() => setError("")}
+                message={error}
+              />
+            )}
             <DialogTitle>Change Email Address</DialogTitle>
             <DialogDescription>
               Enter your new email address. We'll send a verification code to
@@ -48,7 +78,7 @@ export function ChangeEmailModal({
               <label>Current Email</label>
               <Input
                 id="current-email"
-                value={currentEmail}
+                value={UserEmail}
                 disabled
                 className="bg-muted"
               />
@@ -71,8 +101,8 @@ export function ChangeEmailModal({
             </Button>
             <Button
               className="flex-1"
-              onClick={() => onNext(newEmail)}
-              disabled={!newEmail || newEmail === currentEmail}
+              onClick={handleSendVerification}
+              disabled={!newEmail || newEmail === UserEmail}
             >
               Send Verification
             </Button>
