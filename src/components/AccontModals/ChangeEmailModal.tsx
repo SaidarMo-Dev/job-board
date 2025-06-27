@@ -43,6 +43,7 @@ export function ChangeEmailModal({
     ).then((result) => {
       if (SendChangeEmailVerificationThunk.fulfilled.match(result)) {
         onNext(newEmail);
+        setNewEmail("");
       } else if (SendChangeEmailVerificationThunk.rejected.match(result)) {
         setError(result.payload ?? "");
       }

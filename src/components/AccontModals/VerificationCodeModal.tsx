@@ -9,6 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Input } from "../ui/input";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/store";
+import { VerifyEmailChangeThunk } from "@/features/auth/authThunk";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "@/features/auth/authSlice";
 
 interface VerificationCodeModelProps {
   newEmail: string;
@@ -22,6 +27,8 @@ export default function VerificationCodeModal({
   onBack,
   onComplete,
 }: VerificationCodeModelProps) {
+  const userOldEmail = useSelector(selectCurrentUser)?.email;
+
   const [verificationCode, setVerificationCode] = useState([
     "",
     "",
@@ -31,12 +38,48 @@ export default function VerificationCodeModal({
     "",
   ]);
 
-  function handleCodeChange(index: number, value: string) {}
+  function handleCodeChange(index: number, value: string) {
+    setError("");
+    if (value.length <= 1) {
+      const newCode = [...verificationCode];
+      newCode[index] = value;
+      setVerificationCode(newCode);
+
+      // Auto-focus next input
+      if (value && index < 5) {
+        const nextInput = document.getElementById(`code-${index + 1}`);
+        nextInput?.focus();
+      }
+    }
+  }
   function handleKeyDown(
     index: number,
     e: React.KeyboardEvent<HTMLInputElement>
-  ) {}
-  function handleVerifyCode() {}
+  ) {
+    if (e.key === "Backspace" && !verificationCode[index] && index > 0) {
+      const prevInput = document.getElementById(`code-${index - 1}`);
+      prevInput?.focus();
+    }
+  }
+
+  const dispatch = useDispatch<AppDispatch>();
+  const [error, setError] = useState<string>("");
+
+  function handleVerifyCode() {
+    setError("");
+
+    const code = verificationCode.join("");
+    dispatch(
+      VerifyEmailChangeThunk({ oldEmail: userOldEmail ?? "", newEmail, code })
+    ).then((result) => {
+      if (VerifyEmailChangeThunk.fulfilled.match(result)) {
+        setVerificationCode(["", "", "", "", "", ""]);
+        onComplete();
+      } else if (VerifyEmailChangeThunk.rejected.match(result)) {
+        setError("Incorrect verification code");
+      }
+    });
+  }
   return (
     <Dialog open={open}>
       <DialogContent className="sm:max-w-md">
@@ -62,10 +105,13 @@ export default function VerificationCodeModal({
                   value={digit}
                   onChange={(e) => handleCodeChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  className="w-12 h-12 text-center text-lg font-semibold"
+                  className={`w-12 h-12 text-center text-lg font-semibold ${
+                    error ? "border-red-500" : ""
+                  }`}
                 />
               ))}
             </div>
+            {error && <p className="my-1 text-red-500 text-center ">{error}</p>}
           </div>
 
           <div className="text-center space-y-2">
@@ -83,7 +129,7 @@ export default function VerificationCodeModal({
           </Button>
           <Button
             className="flex-1"
-            onClick={onComplete}
+            onClick={handleVerifyCode}
             disabled={verificationCode.some((digit) => !digit)}
           >
             Verify & Update
