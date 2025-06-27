@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChangeEmailModal } from "../AccontModals/ChangeEmailModal";
 import VerificationCodeModal from "../AccontModals/VerificationCodeModal";
 
@@ -6,16 +6,30 @@ type stepType = "first" | "second" | "none";
 
 interface ChangeEmailProps {
   open: boolean;
+  onClose: () => void;
 }
-export default function ChangeEmail({ open }: ChangeEmailProps) {
-  const [step, setStep] = useState<stepType>(open ? "first" : "none");
+export default function ChangeEmail({ open, onClose }: ChangeEmailProps) {
+  const [step, setStep] = useState<stepType>("first");
   const [newEmail, setNewEmail] = useState("");
+
+  useEffect(() => {
+    if (open) {
+      setStep("first");
+    } else {
+      setStep("none");
+    }
+  }, [open, setStep]);
+
+  function handleClose() {
+    setStep("none");
+    onClose();
+  }
 
   return (
     <>
       <ChangeEmailModal
         open={step === "first"}
-        onClose={() => setStep("none")}
+        onClose={() => handleClose()}
         onNext={(email) => {
           setNewEmail(email);
           setStep("second");
@@ -26,7 +40,10 @@ export default function ChangeEmail({ open }: ChangeEmailProps) {
         open={step === "second"}
         newEmail={newEmail}
         onBack={() => setStep("first")}
-        onComplete={() => setStep("none")}
+        onComplete={() => {
+          setStep("none");
+          onClose();
+        }}
       />
     </>
   );
