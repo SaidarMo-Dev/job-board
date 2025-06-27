@@ -8,6 +8,7 @@ interface ConfirmEmailType {
 }
 
 const AUTH_BASE_URL = "/auth";
+
 export const ConfirmEmail = (data: ConfirmEmailType) => {
   api.get<ApiResponse<string>>(
     `${AUTH_BASE_URL}/confirm-email?userId=${
@@ -28,4 +29,34 @@ export async function Login(username: string, password: string) {
   );
 
   return res.data.data;
+}
+
+export async function SendChangeEmailVerification(
+  currentEmail: string,
+  newEmail: string
+): Promise<ApiResponse<string>> {
+  const res = await api.put<ApiResponse<string>>(
+    `${AUTH_BASE_URL}/send-email-change?currentEmail=${encodeURIComponent(
+      currentEmail
+    )}&newEmail=${encodeURIComponent(newEmail)}`
+  );
+
+  return res.data;
+}
+
+export async function VerifyEmailChange(
+  oldEmail: string,
+  newEmail: string,
+  code
+): Promise<ApiResponse<string | null>> {
+  const res = await api.put<ApiResponse<string | null>>(
+    `${AUTH_BASE_URL}/verify-email-change`,
+    {
+      oldEmail,
+      newEmail,
+      code,
+    }
+  );
+
+  return res.data;
 }

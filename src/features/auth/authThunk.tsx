@@ -1,5 +1,9 @@
 import { saveToken } from "@/utils/saveToken";
-import { Login } from "../auth/authApi";
+import {
+  Login,
+  SendChangeEmailVerification,
+  VerifyEmailChange,
+} from "../auth/authApi";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { ApiResponse } from "@/types/ApiResponse";
@@ -42,4 +46,51 @@ const getCurrentUserThunk = createAsyncThunk<
   }
 });
 
-export { handleLogin, getCurrentUserThunk };
+const SendChangeEmailVerificationThunk = createAsyncThunk<
+  string,
+  { currentEmail: string; newEmail: string },
+  { rejectValue: string }
+>(
+  "auth/sendChangeEmailVerification",
+  async ({ currentEmail, newEmail }, thunkApi) => {
+    try {
+      await SendChangeEmailVerification(currentEmail, newEmail);
+
+      return "success";
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const msg = error.response?.data as ApiResponse<string>;
+
+        return thunkApi.rejectWithValue(msg.message);
+      }
+      return thunkApi.rejectWithValue("Something went wrong!");
+    }
+  }
+);
+
+const VerifyEmailChangeThunk = createAsyncThunk<
+  string,
+  { oldEmail: string; newEmail: string; code: string },
+  { rejectValue: string }
+>("auth/verifyEmailChange", async ({ oldEmail, newEmail, code }, thunkApi) => {
+  try {
+    await VerifyEmailChange(oldEmail, newEmail, code);
+
+    return newEmail;
+  } catch (error) {
+    console.log(error);
+    if (axios.isAxiosError(error)) {
+      const msg = error.response?.data as ApiResponse<string>;
+
+      return thunkApi.rejectWithValue(msg.message);
+    }
+    return thunkApi.rejectWithValue("Something went wrong!");
+  }
+});
+
+export {
+  handleLogin,
+  getCurrentUserThunk,
+  SendChangeEmailVerificationThunk,
+  VerifyEmailChangeThunk,
+};

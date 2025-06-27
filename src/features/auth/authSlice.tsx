@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AuthState } from "./authTypes";
-import { getCurrentUserThunk, handleLogin } from "./authThunk";
+import {
+  getCurrentUserThunk,
+  handleLogin,
+  SendChangeEmailVerificationThunk,
+  VerifyEmailChangeThunk,
+} from "./authThunk";
 import type { RootState } from "@/store";
+import { updateUserThunk } from "../users/userThunk";
 
 const initialState: AuthState = {
   isAuthenticated: false,
@@ -23,6 +29,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // handle login
       .addCase(handleLogin.pending, (state) => {
         state.loading = true;
       })
@@ -35,6 +42,8 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      // get current user
       .addCase(getCurrentUserThunk.pending, (state) => {
         state.loading = true;
       })
@@ -46,6 +55,42 @@ const authSlice = createSlice({
       .addCase(getCurrentUserThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      //update user
+      .addCase(updateUserThunk.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(updateUserThunk.fulfilled, (state) => {
+        state.error = null;
+      })
+      .addCase(updateUserThunk.rejected, (state, action) => {
+        state.error = action.payload ?? "Something wrong! ";
+      })
+
+      // handle send email change verification
+      .addCase(SendChangeEmailVerificationThunk.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(SendChangeEmailVerificationThunk.fulfilled, (state) => {
+        state.error = null;
+      })
+      .addCase(SendChangeEmailVerificationThunk.rejected, (state, action) => {
+        state.error = action.payload ?? "Something went wrong!";
+      })
+      // handle email change verification
+      .addCase(VerifyEmailChangeThunk.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(VerifyEmailChangeThunk.fulfilled, (state, action) => {
+        const newEmail = action.payload;
+
+        if (state.currentUser) {
+          state.currentUser.email = newEmail;
+        }
+      })
+      .addCase(VerifyEmailChangeThunk.rejected, (state, action) => {
+        state.error = action.payload ?? "Something went wrong!";
       });
   },
 });
@@ -53,6 +98,7 @@ const authSlice = createSlice({
 export default authSlice.reducer;
 export const { logout } = authSlice.actions;
 
+export const selectAuthError = (state: RootState) => state.authReducer.error;
 export const selectCurrentUser = (state: RootState) =>
   state.authReducer.currentUser;
 export const selectIsAuthenticated = (state: RootState) =>
