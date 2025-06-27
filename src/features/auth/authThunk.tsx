@@ -1,5 +1,6 @@
 import { saveToken } from "@/utils/saveToken";
 import {
+  ChangePassword,
   Login,
   SendChangeEmailVerification,
   VerifyEmailChange,
@@ -9,6 +10,7 @@ import axios from "axios";
 import type { ApiResponse } from "@/types/ApiResponse";
 import type { User } from "../users/userTypes";
 import { getCurrentUser } from "../users/userApi";
+import type { ChangePasswordType } from "./authTypes";
 
 const handleLogin = createAsyncThunk<
   boolean,
@@ -88,9 +90,33 @@ const VerifyEmailChangeThunk = createAsyncThunk<
   }
 });
 
+const ChangePasswordThunk = createAsyncThunk<
+  string,
+  {
+    id: number;
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  },
+  { rejectValue: string }
+>("auth/changePassword", async (data, thunkApi) => {
+  try {
+    const response = await ChangePassword(data);
+    return response.message;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const msg = error.response?.data as ApiResponse<string>;
+
+      return thunkApi.rejectWithValue(msg.message);
+    }
+    return thunkApi.rejectWithValue("Something went wrong!");
+  }
+});
+
 export {
   handleLogin,
   getCurrentUserThunk,
   SendChangeEmailVerificationThunk,
   VerifyEmailChangeThunk,
+  ChangePasswordThunk,
 };

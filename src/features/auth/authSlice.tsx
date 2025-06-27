@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AuthState } from "./authTypes";
 import {
+  ChangePasswordThunk,
   getCurrentUserThunk,
   handleLogin,
   SendChangeEmailVerificationThunk,
@@ -91,6 +92,17 @@ const authSlice = createSlice({
       })
       .addCase(VerifyEmailChangeThunk.rejected, (state, action) => {
         state.error = action.payload ?? "Something went wrong!";
+      })
+      // handle change password
+      .addCase(ChangePasswordThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(ChangePasswordThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(ChangePasswordThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

@@ -6,3 +6,10 @@ export interface AuthState {
   currentUser: User | null;
   loading: boolean;
 }
+
+export interface ChangePasswordType {
+  id: number;
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}

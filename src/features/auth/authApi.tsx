@@ -1,6 +1,7 @@
 import type { ApiResponse } from "../../types/ApiResponse";
 import api from "../../api/axiosInstance";
 import type { LoginToken } from "../../types/loginResponse";
+import type { ChangePasswordType } from "./authTypes";
 
 interface ConfirmEmailType {
   userId: number;
@@ -59,4 +60,16 @@ export async function VerifyEmailChange(
   );
 
   return res.data;
+}
+
+export async function ChangePassword(
+  data: ChangePasswordType
+): Promise<ApiResponse<string>> {
+  const response = await api.put<ApiResponse<string>>(
+    `${AUTH_BASE_URL}/change-password`,
+    {
+      ...data,
+    }
+  );
+  return response.data;
 }
