@@ -6,10 +6,17 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { selectCurrentUser } from "@/features/auth/authSlice";
+import { ChangePasswordThunk } from "@/features/auth/authThunk";
+import type { AppDispatch } from "@/store";
 import { Eye, EyeOff, Key } from "lucide-react";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import InlineToast from "../Toasts/InlineToast";
+import PasswordInput from "../PasswordInput";
 
 interface PasswordManagementCardProps {
   onPasswordChange?: (current: string, next: string) => void;
@@ -18,17 +25,42 @@ interface PasswordManagementCardProps {
 const PasswordManagementCard: React.FC<PasswordManagementCardProps> = ({
   onPasswordChange,
 }) => {
+  const [error, setError] = useState("");
+
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const dispatch = useDispatch<AppDispatch>();
+  const currentUser = useSelector(selectCurrentUser);
+
   const handlePasswordChange = () => {
-    // TODO : handle password change logic
-    if (onPasswordChange) {
-      onPasswordChange(currentPassword, newPassword);
-    }
+    setError("");
+
+    dispatch(
+      ChangePasswordThunk({
+        id: currentUser?.id ?? -1,
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
+      })
+    ).then((result) => {
+      if (ChangePasswordThunk.fulfilled.match(result)) {
+        toast.success("Password updated", {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        setIsChangingPassword(false);
+      } else if (ChangePasswordThunk.rejected.match(result)) {
+        setError(result.payload ?? "Wrong current password");
+      }
+    });
   };
 
   return (
@@ -73,61 +105,62 @@ const PasswordManagementCard: React.FC<PasswordManagementCardProps> = ({
             </Button>
           </div>
         ) : (
-          <div className="space-y-4 max-w-md">
-            <div className="space-y-2">
-              <Label htmlFor="current-password">Current Password</Label>
-              <Input
-                id="current-password"
-                type="password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                placeholder="Enter current password"
-              />
+          <>
+            {error && <InlineToast type="error" message={error} />}
+            <div className="space-y-4 max-w-md">
+              <div className="space-y-2">
+                <Label htmlFor="current-password">Current Password</Label>
+                <PasswordInput
+                  id="current-password"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  placeholder="Enter current password"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-password">New Password</Label>
+                <PasswordInput
+                  id="new-password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Enter new password"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Confirm New Password</Label>
+                <PasswordInput
+                  id="confirm-password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm new password"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  className="bg-sky-600 hover:bg-sky-700"
+                  onClick={handlePasswordChange}
+                  disabled={
+                    !currentPassword ||
+                    !newPassword ||
+                    newPassword !== confirmPassword
+                  }
+                >
+                  Update Password
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setIsChangingPassword(false);
+                    setCurrentPassword("");
+                    setNewPassword("");
+                    setConfirmPassword("");
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="new-password">New Password</Label>
-              <Input
-                id="new-password"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Enter new password"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirm New Password</Label>
-              <Input
-                id="confirm-password"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm new password"
-              />
-            </div>
-            <div className="flex gap-2">
-              <Button
-                onClick={handlePasswordChange}
-                disabled={
-                  !currentPassword ||
-                  !newPassword ||
-                  newPassword !== confirmPassword
-                }
-              >
-                Update Password
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setIsChangingPassword(false);
-                  setCurrentPassword("");
-                  setNewPassword("");
-                  setConfirmPassword("");
-                }}
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
+          </>
         )}
       </CardContent>
     </Card>
