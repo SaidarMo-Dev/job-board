@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_KEY } from "@/utils/constans";
+import { getAccessToken } from "@/utils/gitAccessToken";
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -8,8 +8,9 @@ const axiosInstance = axios.create({
   },
 });
 
-axiosInstance.defaults.headers.common["Authorization"] =
-  localStorage.getItem(ACCESS_TOKEN_KEY);
-axiosInstance.defaults.timeout = 3000;
+axiosInstance.defaults.headers.common[
+  "Authorization"
+] = `bearer ${getAccessToken()}`;
+axiosInstance.defaults.timeout = 5000;
 
 export default axiosInstance;
