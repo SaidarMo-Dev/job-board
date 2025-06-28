@@ -22,6 +22,7 @@ const handleLogin = createAsyncThunk<
     saveToken(data);
     return true;
   } catch (error) {
+    console.log(error);
     if (axios.isAxiosError(error)) {
       const msg = error.response?.data as ApiResponse<null>;
       return thunkApi.rejectWithValue(msg.message);

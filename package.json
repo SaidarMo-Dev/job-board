@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
+    "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-progress": "^1.1.7",
@@ -26,6 +28,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.513.0",
+    "nprogress": "^0.2.0",
     "react": "^19.1.0",
     "react-day-picker": "^9.7.0",
     "react-dom": "^19.1.0",

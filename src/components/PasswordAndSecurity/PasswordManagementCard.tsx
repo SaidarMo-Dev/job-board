@@ -11,20 +11,14 @@ import { selectCurrentUser } from "@/features/auth/authSlice";
 import { ChangePasswordThunk } from "@/features/auth/authThunk";
 import type { AppDispatch } from "@/store";
 import { Eye, EyeOff, Key } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import InlineToast from "../Toasts/InlineToast";
 import PasswordInput from "../PasswordInput";
 
-interface PasswordManagementCardProps {
-  onPasswordChange?: (current: string, next: string) => void;
-}
-
-const PasswordManagementCard: React.FC<PasswordManagementCardProps> = ({
-  onPasswordChange,
-}) => {
+const PasswordManagementCard = () => {
   const [error, setError] = useState("");
 
   const [currentPassword, setCurrentPassword] = useState("");

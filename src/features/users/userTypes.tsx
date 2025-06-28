@@ -1,15 +1,4 @@
-// export interface UserProfile {
-//   id: number;
-//   email: string;
-//   firstName: string;
-//   lastName: string;
-//   gender?: string;
-//   dateOfBirth?: string;
-//   address?: string;
-//   imagePath?: string;
-//   countryName?: string;
-//   phoneNumber?: string;
-// }
+
 
 export default interface RegisterFormData {
   firstName: string;

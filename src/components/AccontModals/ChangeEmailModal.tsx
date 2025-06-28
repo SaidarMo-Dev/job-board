@@ -101,7 +101,7 @@ export function ChangeEmailModal({
               Cancel
             </Button>
             <Button
-              className="flex-1"
+              className="flex-1 bg-sky-600 hover:bg-sky-700 text-white cursor-pointer"
               onClick={handleSendVerification}
               disabled={!newEmail || newEmail === UserEmail}
             >

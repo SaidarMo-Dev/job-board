@@ -5,7 +5,7 @@ import AppRoutes from "./routes/AppRoutes";
 import { Provider } from "react-redux";
 import store, { persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
-
+import "nprogress/nprogress.css";
 function App() {
   return (
     <Provider store={store}>
