@@ -1,5 +1,3 @@
-
-
 export default interface RegisterFormData {
   firstName: string;
   lastName: string;
@@ -9,6 +7,22 @@ export default interface RegisterFormData {
   confirmPassword: string;
   role: string;
 }
+
+export interface CurrentUser {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  gender?: string;
+  dateOfBirth?: string;
+  address?: string;
+  imagePath?: string;
+  countryName?: string;
+  phoneNumber?: string;
+  recoveryEmail?: string;
+  recoveryPhone?: string;
+}
+
 
 export interface User {
   id: number;
