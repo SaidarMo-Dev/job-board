@@ -1,7 +1,7 @@
 import type { ApiResponse } from "../../types/ApiResponse";
 import api from "../../api/axiosInstance";
 import type { LoginToken } from "../../types/loginResponse";
-import type { ChangePasswordType } from "./authTypes";
+import type { ChangePasswordType, RecoveryContactInfo } from "./authTypes";
 
 interface ConfirmEmailType {
   userId: number;
@@ -71,5 +71,18 @@ export async function ChangePassword(
       ...data,
     }
   );
+  return response.data;
+}
+
+export async function AddRecoveryContactInformation(
+  recoveryInfo: RecoveryContactInfo
+): Promise<ApiResponse<string>> {
+  const response = await api.put<ApiResponse<string>>(
+    `${AUTH_BASE_URL}/add-recovery-contact`,
+    {
+      ...recoveryInfo,
+    }
+  );
+
   return response.data;
 }
