@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Shield } from "lucide-react";
 import React from "react";
+import { Link } from "react-router";
 
 interface SecuritySettingsCardProps {
   onViewActivity: () => void;
@@ -50,8 +51,10 @@ const SecuritySettingsCard: React.FC<SecuritySettingsCardProps> = ({
             Set up recovery options in case you lose access to your account
           </p>
         </div>
-        <Button variant="outline" size="sm" onClick={onSetupRecovery}>
-          Setup Recovery
+        <Button variant="outline" size="sm">
+          <Link to={"/members/password-security/account-recovery"}>
+            Setup Recovery
+          </Link>
         </Button>
       </div>
     </CardContent>
