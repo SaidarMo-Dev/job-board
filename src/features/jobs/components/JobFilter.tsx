@@ -5,15 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { useState } from "react";
-import type { FilterValues, JobFilterProps } from "../jobTypes";
+import { type FilterValues, type JobFilterProps } from "../jobTypes";
+import { JobTypeFilter } from "./JobTypeFilter";
+import { ExperienceLevelFilter } from "./ExperienceLevelFilter";
+import { SalaryRangeFilter } from "./SalaryRangeFlter";
 
 export default function JobFilter({ onChange }: JobFilterProps) {
   const [filters, setFilters] = useState<FilterValues>({
@@ -40,69 +37,14 @@ export default function JobFilter({ onChange }: JobFilterProps) {
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Job type filter */}
-        <div>
-          <label className="text-sm block mb-2 font-medium" htmlFor="">
-            Job Type
-          </label>
-          <Select
-            value={filters.jobType}
-            onValueChange={(value) => updateFilters("jobType", value)}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="All Types" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="any">All Types</SelectItem>
-              <SelectItem value="Full-time">Full-time</SelectItem>
-              <SelectItem value="Part-time">Part-time</SelectItem>
-              <SelectItem value="Contract">Contract</SelectItem>
-              <SelectItem value="Freelance">Freelance</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
+        <JobTypeFilter onSelect={(value) => updateFilters("jobType", value)} />
         {/* Experience level */}
-        <div>
-          <label htmlFor="" className="text-sm block mb-2 font-medium">
-            Experience level
-          </label>
-          <Select
-            value={filters.experienceLevel ?? ""}
-            onValueChange={(value) => updateFilters("experienceLevel", value)}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Any Level" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="any">Any Level</SelectItem>
-              <SelectItem value="Entry Level">Entry Level</SelectItem>
-              <SelectItem value="Mid Level">Mid Level</SelectItem>
-              <SelectItem value="Senior Level">Senior Level</SelectItem>
-              <SelectItem value="Lead/Principal">Lead/Principal</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <ExperienceLevelFilter
+          onSelect={(value) => updateFilters("experienceLevel", value)}
+        />
         {/* Salary range */}
-        <div>
-          <label htmlFor="" className="text-sm block mb-2 font-medium">
-            Salary Range
-          </label>
-          <Select
-            value={filters.salaryRange ?? ""}
-            onValueChange={(value) => updateFilters("salaryRange", value)}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Any Salary" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="any">Any Salary</SelectItem>
-              <SelectItem value="$0 - $50k">$0 - $50k</SelectItem>
-              <SelectItem value="$50k - $100k">$50k - $100k</SelectItem>
-              <SelectItem value="$100k - $150k">$100k - $150k</SelectItem>
-              <SelectItem value="$150k+">$150k+</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        {/* TODO : Handle salary range and send it as params */}
+        <SalaryRangeFilter onSelect={(value) => console.log(value)} />
       </CardContent>
     </Card>
   );
