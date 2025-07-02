@@ -1,7 +1,7 @@
 import { getAccessToken } from "@/utils/gitAccessToken";
 import api from "../../api/axiosInstance";
 import type { ApiResponse } from "../../types/ApiResponse";
-import type { UpdateUserRequest, User } from "./userTypes";
+import type { CurrentUser, UpdateUserRequest, User } from "./userTypes";
 import type RegisterFormData from "./userTypes";
 
 const USER_BASE_URL = "/users";
@@ -13,7 +13,7 @@ export const createUser = (data: RegisterFormData) =>
     data: { ...data },
   });
 
-export async function getCurrentUser(): Promise<User> {
+export async function getCurrentUser(): Promise<CurrentUser> {
   const res = await api.get<ApiResponse<User>>(`${USER_BASE_URL}/me`, {
     headers: {
       Authorization: `bearer ${getAccessToken()}`,
