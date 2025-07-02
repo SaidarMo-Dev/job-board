@@ -1,4 +1,4 @@
-import RecoverContactInformation from "@/components/PasswordAndSecurity/RecoverContactInforamtion";
+import RecoverContactInformation from "@/components/PasswordAndSecurity/RecoverContactInformation";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router";

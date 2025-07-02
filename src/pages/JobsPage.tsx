@@ -1,6 +1,6 @@
 import { useState } from "react";
-import JobFilter from "../components/JobFilter";
-import JobSearch from "../components/JobSearch";
+import JobFilter from "../features/jobs/components/JobFilter";
+import JobSearch from "../features/jobs/components/JobSearch";
 import PopularCategories from "../components/PopularCategories";
 import {
   Select,
@@ -9,8 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import JobCardFull from "../components/JobCardFull";
+import JobCardFull from "../features/jobs/components/JobCardFull";
 import type { JobProps } from "../types/JobProps";
+import { useSearchParams } from "react-router";
+import type { FilterValues } from "@/features/jobs/jobTypes";
 
 const jobs: Array<JobProps> = [
   {
@@ -106,6 +108,51 @@ const jobs: Array<JobProps> = [
 
 export default function JobsPage() {
   const [sortOption, setSortOption] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  function updateFilter(filters: FilterValues) {
+    const params = new URLSearchParams(searchParams.toString());
+
+    // job type params
+    if (filters.jobType === "any" || !filters.jobType) {
+      params.delete("jobType");
+    } else {
+      params.set("jobType", filters.jobType);
+    }
+
+    // experience level params
+    if (filters.experienceLevel === "any" || !filters.experienceLevel) {
+      params.delete("experienceLevel");
+    } else {
+      params.set("experienceLevel", filters.experienceLevel);
+    }
+
+    // salary range params
+    if (!filters.salaryRange || filters.salaryRange === "any") {
+      params.delete("salaryRange");
+    } else {
+      params.set("salaryRange", filters.salaryRange);
+    }
+
+    setSearchParams(params);
+  }
+
+  function UpdateSearch(title?: string, location?: string) {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (title) {
+      params.set("title", title);
+    } else {
+      params.delete("title");
+    }
+    if (location) {
+      params.set("location", location);
+    } else {
+      params.delete("location");
+    }
+    setSearchParams(params);
+  }
+
   return (
     <div className="bg-gray-50">
       {/* hero section */}
@@ -116,7 +163,9 @@ export default function JobsPage() {
             Discover opportunities from top companies around the world
           </h4>
           <div className="max-w-4xl m-auto mt-7">
-            <JobSearch />
+            <JobSearch
+              onSearch={(title, location) => UpdateSearch(title, location)}
+            />
           </div>
         </div>
       </div>
@@ -125,7 +174,7 @@ export default function JobsPage() {
       <div className="custom-container">
         <div className="flex flex-col py-7 gap-7 lg:flex-row">
           <aside className="w-full lg:w-68 space-y-5">
-            <JobFilter />
+            <JobFilter onChange={(filters) => updateFilter(filters)} />
             <PopularCategories />
           </aside>
 

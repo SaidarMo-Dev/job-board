@@ -1,4 +1,4 @@
-import JobApplicationCard from "@/components/JobApplicationCard";
+import JobApplicationCard from "@/features/jobs/components/JobApplicationCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const jobs = [

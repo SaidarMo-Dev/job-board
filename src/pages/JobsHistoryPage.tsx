@@ -1,4 +1,4 @@
-import JobCardMini from "@/components/JobCardMini";
+import JobCardMini from "@/features/jobs/components/JobCardMini";
 import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
 
@@ -28,7 +28,7 @@ export default function JobsHistoryPage() {
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {jobs &&
             jobs.map((job) => {
-              return <JobCardMini jobInfo={job}/>;
+              return <JobCardMini jobInfo={job} />;
             })}
         </div>
         {jobs.length === 0 && (
