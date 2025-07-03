@@ -11,21 +11,24 @@ import { Button } from "../../../components/ui/button";
 import { useMemo, useState } from "react";
 import { Separator } from "../../../components/ui/separator";
 import { Badge } from "../../../components/ui/badge";
+import type { JobResponse } from "../jobTypes";
+import { date } from "zod";
+import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
 
-export default function JobCardFull({ jobInfo }: { jobInfo: JobProps }) {
-  const [selectedJob, setSelectedJob] = useState<JobProps | null>();
+export default function JobCardFull({ jobInfo }: { jobInfo: JobResponse }) {
+  const [selectedJob, setSelectedJob] = useState<JobResponse | null>();
 
   const description = useMemo(() => {
-    const words = jobInfo.Description.split(" ");
+    const words = jobInfo.description.split(" ");
     return words.length >= 10
       ? words.slice(0, 9).join(" ") + "..."
-      : jobInfo.Description;
-  }, [jobInfo.Description]);
+      : jobInfo.description;
+  }, [jobInfo.description]);
 
   return (
     <>
       <Card
-        key={jobInfo.Title}
+        key={jobInfo.title}
         className={`hover:shadow-md transition-shadow cursor-pointer hover:bg-neutral-50 duration-300`}
         onClick={() => setSelectedJob(jobInfo)}
       >
@@ -34,42 +37,42 @@ export default function JobCardFull({ jobInfo }: { jobInfo: JobProps }) {
             <div className="items-start space-x-4 flex-1 flex">
               <img
                 src="/public/images/logov2.png"
-                alt={`${jobInfo.Company} logo`}
+                alt={`${jobInfo.companyName} logo`}
                 className="w-12 h-12 rounded-lg object-cover"
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="text-lg font-semibold text-gray-900 truncate">
-                    {jobInfo.Title}
+                    {jobInfo.title}
                   </h3>
                 </div>
                 <p className="text-gray-600 mb-2 flex items-center">
                   <Building2 className="w-4 h-4 mr-1" />
-                  {jobInfo.Company}
+                  {jobInfo.companyName}
                 </p>
                 <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-3">
                   <span className="flex items-center">
                     <MapPin className="w-4 h-4 mr-1" />
-                    {jobInfo.Location}
+                    {jobInfo.location}
                   </span>
                   <span className="flex items-center">
                     <Clock className="w-4 h-4 mr-1" />
-                    {jobInfo.JobType}
+                    {jobInfo.jobType}
                   </span>
                   <span className="flex items-center">
                     <DollarSign className="w-4 h-4 mr-1" />
-                    {jobInfo.SalaryRange}
+                    {jobInfo.maxSalary} - {jobInfo.minSalary}
                   </span>
                 </div>
                 <p className="text-gray-600 mb-3 line-clamp-2">{description}</p>
                 <div className="flex flex-wrap gap-2">
-                  {jobInfo.Skills.map((skill) => (
+                  {jobInfo.skills.map((skill) => (
                     <Badge
                       key={skill.Id}
                       variant={"secondary"}
                       className="bg-sky-200"
                     >
-                      {skill.Skill}
+                      {skill.Name}
                     </Badge>
                   ))}
                 </div>
@@ -77,7 +80,7 @@ export default function JobCardFull({ jobInfo }: { jobInfo: JobProps }) {
             </div>
             <div className="text-right ml-4 flex flex-row-reverse sm:flex-col mt-5 sm:mt-0 justify-between w-full sm:w-auto">
               <p className="text-sm text-gray-500 mb-2">
-                {jobInfo.CreatedAt} day ago
+                {getDaysSincePosted(jobInfo.datePosted)} day ago
               </p>
               <Button
                 size="sm"
@@ -99,15 +102,15 @@ export default function JobCardFull({ jobInfo }: { jobInfo: JobProps }) {
                 <div className="flex items-start space-x-4">
                   <img
                     src="/public/images/logov2.png"
-                    alt={`${selectedJob.Company} logo`}
+                    alt={`${selectedJob.companyName} logo`}
                     className="w-16 h-16 rounded-lg object-cover"
                   />
                   <div>
                     <CardTitle className="text-xl">
-                      {selectedJob.Title}
+                      {selectedJob.title}
                     </CardTitle>
                     <CardDescription className="text-lg">
-                      {selectedJob.Company}
+                      {selectedJob.companyName}
                     </CardDescription>
                   </div>
                 </div>
@@ -124,19 +127,19 @@ export default function JobCardFull({ jobInfo }: { jobInfo: JobProps }) {
               <div className="flex flex-wrap gap-4 text-sm">
                 <span className="flex items-center">
                   <MapPin className="w-4 h-4 mr-1" />
-                  {selectedJob.Location}
+                  {selectedJob.location}
                 </span>
                 <span className="flex items-center">
                   <Clock className="w-4 h-4 mr-1" />
-                  {selectedJob.JobType}
+                  {selectedJob.jobType}
                 </span>
                 <span className="flex items-center">
                   <DollarSign className="w-4 h-4 mr-1" />
-                  {selectedJob.SalaryRange}
+                  {selectedJob.maxSalary} - {selectedJob.minSalary}
                 </span>
                 <span className="flex items-center">
                   <Users className="w-4 h-4 mr-1" />
-                  Posted {selectedJob.CreatedAt} days ago
+                  Posted {getDaysSincePosted(selectedJob.datePosted)} days ago
                 </span>
               </div>
 
@@ -145,20 +148,20 @@ export default function JobCardFull({ jobInfo }: { jobInfo: JobProps }) {
               <div>
                 <h3 className="font-semibold mb-2">Job Description</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  {selectedJob.Description}
+                  {selectedJob.description}
                 </p>
               </div>
 
               <div>
                 <h3 className="font-semibold mb-2">Required Skills</h3>
                 <div className="flex flex-wrap gap-2">
-                  {selectedJob.Skills.map((skill) => (
+                  {selectedJob.skills.map((skill) => (
                     <Badge
                       key={skill.Id}
                       variant={"secondary"}
                       className="bg-sky-200"
                     >
-                      {skill.Skill}
+                      {skill.Name}
                     </Badge>
                   ))}
                 </div>

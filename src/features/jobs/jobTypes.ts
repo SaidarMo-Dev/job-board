@@ -1,12 +1,21 @@
+import type { CategoryResponse } from "@/types/Category";
+import type { SkillResponse } from "@/types/Skill";
+
 export interface JobResponse {
-  Title: string;
-  Company: string;
-  Location: string;
-  JobType: string;
-  SalaryRange: string;
-  CreatedAt: string; // ISO date string
-  Description: string;
-  Skills: { Id: number; Skill: string }[];
+  jobId: number;
+  title: string;
+  description: string;
+  companyName: string;
+  location: string;
+  jobType: string;
+  maxSalary: number;
+  minSalary: number;
+  experienceLevel: ExperienceLevelType;
+  datePosted: Date;
+  status: string;
+  skills: SkillResponse[];
+  cretaedByUser: string;
+  categories: CategoryResponse[];
 }
 
 export interface FilterValues {
@@ -18,6 +27,11 @@ export interface FilterValues {
 export interface JobFilterProps {
   onChange: (filters: FilterValues) => void;
 }
+export const JobStatusType = {
+  New: "New",
+  Pending: "Pending",
+  Accepted: "Accepted",
+};
 
 export const JobType = {
   Any: "All Types",
@@ -37,3 +51,12 @@ export const ExperienceLevelType = {
 
 export type ExperienceLevelType = keyof typeof ExperienceLevelType;
 export type JobType = keyof typeof JobType;
+
+export interface JobState {
+  jobs: JobResponse[] | null;
+  loading: boolean;
+  error: string | null;
+  hasNextPage: boolean;
+  jobsCount: number;
+  currentPage: number;
+}
