@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AuthState } from "./authTypes";
 import {
+  AddRecoveryContactInformationThunk,
   ChangePasswordThunk,
   getCurrentUserThunk,
   handleLogin,
@@ -103,6 +104,26 @@ const authSlice = createSlice({
       .addCase(ChangePasswordThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // handle add recovery contact information
+      .addCase(AddRecoveryContactInformationThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        AddRecoveryContactInformationThunk.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.error = null;
+          if (state.currentUser) {
+            state.currentUser.recoveryEmail = action.payload.email;
+            state.currentUser.recoveryPhone = action.payload.phoneNumber;
+          }
+        }
+      )
+      .addCase(AddRecoveryContactInformationThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? "Something went wrong!";
       });
   },
 });
@@ -116,3 +137,10 @@ export const selectCurrentUser = (state: RootState) =>
 export const selectIsAuthenticated = (state: RootState) =>
   state.authReducer.isAuthenticated;
 export const selectLoading = (state: RootState) => state.authReducer.loading;
+
+export const selectCurrentUserRecoveryInfo = (state: RootState) => {
+  return {
+    recoveryEmail: state.authReducer.currentUser?.recoveryEmail,
+    recoveryPhone: state.authReducer.currentUser?.recoveryPhone,
+  };
+};

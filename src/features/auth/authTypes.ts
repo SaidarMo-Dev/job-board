@@ -1,9 +1,9 @@
-import type { User } from "../users/userTypes";
+import type { CurrentUser } from "../users/userTypes";
 
 export interface AuthState {
   isAuthenticated: boolean;
   error: string | null | undefined;
-  currentUser: User | null;
+  currentUser: CurrentUser | null;
   loading: boolean;
 }
 
@@ -12,4 +12,10 @@ export interface ChangePasswordType {
   currentPassword: string;
   newPassword: string;
   confirmPassword: string;
+}
+
+export interface RecoveryContactInfo {
+  userId: number;
+  email: string;
+  phoneNumber: string;
 }

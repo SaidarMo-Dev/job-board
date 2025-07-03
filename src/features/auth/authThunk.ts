@@ -1,16 +1,17 @@
 import { saveToken } from "@/utils/saveToken";
 import {
+  AddRecoveryContactInformation,
   ChangePassword,
   Login,
   SendChangeEmailVerification,
   VerifyEmailChange,
-} from "../auth/authApi";
+} from "./authApi";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { ApiResponse } from "@/types/ApiResponse";
 import type { User } from "../users/userTypes";
 import { getCurrentUser } from "../users/userApi";
-import type { ChangePasswordType } from "./authTypes";
+import type { ChangePasswordType, RecoveryContactInfo } from "./authTypes";
 
 const handleLogin = createAsyncThunk<
   boolean,
@@ -114,10 +115,29 @@ const ChangePasswordThunk = createAsyncThunk<
   }
 });
 
+const AddRecoveryContactInformationThunk = createAsyncThunk<
+  RecoveryContactInfo,
+  RecoveryContactInfo,
+  { rejectValue: string }
+>("auth/addRecoveryContactInformation", async (recoveryInfo, thunkApi) => {
+  try {
+    await AddRecoveryContactInformation(recoveryInfo);
+    return recoveryInfo;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error);
+      const msg = error.response?.data as ApiResponse<string>;
+      return thunkApi.rejectWithValue(msg.message);
+    }
+    return thunkApi.rejectWithValue("Something went wrong!");
+  }
+});
+
 export {
   handleLogin,
   getCurrentUserThunk,
   SendChangeEmailVerificationThunk,
   VerifyEmailChangeThunk,
   ChangePasswordThunk,
+  AddRecoveryContactInformationThunk,
 };
