@@ -36,92 +36,77 @@ export default function JobCardFull({
 
   return (
     <>
-      <Card className="w-full max-w-4xl mx-auto shadow-sm hover:shadow-md transition-shadow duration-200">
-        <CardHeader className="">
-          <div className="flex items-start justify-between">
-            <div className="flex items-start gap-4">
-              {/* Company Logo */}
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-200 to-blue-300 rounded-xl flex items-center justify-center flex-shrink-0">
-                <img
-                  src="/public/images/logov2.png"
-                  alt={`${jobInfo.companyName} logo`}
-                  className="w-12 h-12 rounded-lg object-cover"
-                />
-              </div>
-
-              {/* Job Info */}
+      <Card
+        key={jobInfo.title}
+        className={`${
+          selectedJob ? "border-2 border-sky-200 bg-blue-50/50" : ""
+        } hover:shadow-md transition-shadow cursor-pointer hover:bg-neutral-50 duration-300 ${className}`}
+      >
+        <CardContent>
+          <div className="">
+            <div className="items-start space-x-4 flex-1 flex">
+              <img
+                src="/public/images/logov2.png"
+                alt={`${jobInfo.companyName} logo`}
+                className="w-12 h-12 rounded-lg object-cover"
+              />
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-2">
-                  <h2 className="text-2xl font-semibold text-gray-900">
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="text-lg font-semibold text-gray-900 truncate">
                     {jobInfo.title}
-                  </h2>
+                  </h3>
                 </div>
-
-                <div className="flex items-center gap-2 mb-3">
-                  <Building2 className="w-4 h-4 text-gray-500" />
-                  <span className="text-gray-700 font-medium">
-                    {jobInfo.companyName}
+                <p className="text-gray-600 mb-2 flex items-center">
+                  <Building2 className="w-4 h-4 mr-1" />
+                  {jobInfo.companyName}
+                </p>
+                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-3">
+                  <span className="flex items-center">
+                    <MapPin className="w-4 h-4 mr-1" />
+                    {jobInfo.location}
+                  </span>
+                  <span className="flex items-center">
+                    <Clock className="w-4 h-4 mr-1" />
+                    {jobInfo.jobType}
+                  </span>
+                  <span className="flex items-center">
+                    <DollarSign className="w-4 h-4 mr-1" />
+                    {jobInfo.maxSalary} - {jobInfo.minSalary}
                   </span>
                 </div>
-
-                <div className="flex items-center gap-6 text-sm text-gray-600">
-                  <div className="flex items-center gap-1">
-                    <MapPin className="w-4 h-4" />
-                    <span>{jobInfo.location}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    <span>Contract</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <DollarSign className="h-4 w-4" />${jobInfo.minSalary} - $
-                    {jobInfo.maxSalary}
-                  </div>
+                <p className="text-gray-600 mb-3 line-clamp-2">{description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {jobInfo.skills ? (
+                    jobInfo.skills.map((skill, index) => (
+                      <SkillBadge skill={skill} index={index} />
+                    ))
+                  ) : (
+                    <span>No skills</span>
+                  )}
                 </div>
               </div>
             </div>
-
-            {/* Right side actions */}
-            <div className="flex flex-col items-end gap-3">
-              <span className="text-sm text-gray-500">
-                {" "}
+            <div className="mt-3 w-full">
+              <p className="text-sm text-gray-500 mb-2">
                 {getDaysSincePosted(jobInfo.datePosted)} day ago
-              </span>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="h-9 text-sm"
-                  onClick={() => setSelectedJob(jobInfo)}
-                >
-                  Show Details
-                </Button>
+              </p>
+              <div className="flex">
                 <Button
                   size="sm"
-                  className="bg-sky-600 hover:bg-sky-700 h-9 px-6 text-sm"
+                  className="bg-sky-600 hover:bg-sky-700 cursor-pointer h-9 mt-2 flex-1"
                 >
                   Apply Now
                 </Button>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  className="bg-transparent shadow-none mt-1 flex items-center cursor-pointer w-30 h-9 md:w-45"
+                  onClick={() => setSelectedJob(jobInfo)}
+                >
+                  Show Details
+                  <ChevronRight />
+                </Button>
               </div>
-            </div>
-          </div>
-        </CardHeader>
-
-        <CardContent className="-mt-2">
-          <p className="text-gray-700 mb-4 leading-relaxed">
-            {jobInfo.description}
-          </p>
-
-          {/* {skills} */}
-          <div className="flex items-center gap-2">
-            <div className="flex flex-wrap gap-2">
-              {jobInfo.skills ? (
-                jobInfo.skills.map((skill, index) => (
-                  <SkillBadge skill={skill} index={index} />
-                ))
-              ) : (
-                <span>No skills</span>
-              )}
             </div>
           </div>
         </CardContent>
