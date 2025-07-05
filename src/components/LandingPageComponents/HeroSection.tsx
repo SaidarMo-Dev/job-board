@@ -1,7 +1,7 @@
 import { ArrowRight, Briefcase, MapPin, Search } from "lucide-react";
 import { PopularSearch } from "../PopularSearch";
 import { useToast } from "../../contexts/ToastContext";
-import JobSearch from "../JobSearch";
+import JobSearch from "../../features/jobs/components/JobSearch";
 
 export function HeroSection() {
   const { handleShowCloseToast } = useToast();
@@ -76,7 +76,9 @@ export function HeroSection() {
             </h4>
 
             <div className="shadow-lg border-2  border-gray-100 mt-10 p-4">
-              <JobSearch />
+              <JobSearch
+                onSearch={(title, location) => console.log(title, location)}
+              />
               <hr className="text-neutral-200 mt-6 mb-6" />
               <div>
                 <div className="text-neutral-600">Popular Search:</div>

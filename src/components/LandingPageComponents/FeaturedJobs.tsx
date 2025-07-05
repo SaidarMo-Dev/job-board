@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { JobCard } from "../JobCard";
+import { JobCard } from "../../features/jobs/components/JobCard";
 import type { JobProps } from "../../types/JobProps";
 import { useToast } from "../../contexts/ToastContext";
 
@@ -115,11 +115,15 @@ export function FeaturedJobs() {
             return <JobCard job={job} key={index} />;
           })}
         </div>
-        <button className="relative mt-15 block m-auto font-semibold border border-neutral-200 pt-2 pr-10 pb-2 pl-4 rounded hover:bg-neutral-100"
-        onClick={() => handleShowCloseToast({
-                title: "Not Yet Available",
-                description: "Coming soon! This feature is under development.",
-              })}>
+        <button
+          className="relative mt-15 block m-auto font-semibold border border-neutral-200 pt-2 pr-10 pb-2 pl-4 rounded hover:bg-neutral-100"
+          onClick={() =>
+            handleShowCloseToast({
+              title: "Not Yet Available",
+              description: "Coming soon! This feature is under development.",
+            })
+          }
+        >
           <ArrowRight className="absolute right-2" width="20px" />
           Viwe All Jobs
         </button>
