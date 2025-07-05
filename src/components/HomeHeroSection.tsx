@@ -1,13 +1,37 @@
 import { selectCurrentUser } from "@/features/auth/authSlice";
-import { MapPin, Search } from "lucide-react";
+import JobSearch from "@/features/jobs/components/JobSearch";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
-export default function HomeHeroSection() {
+interface HomeHeroSectionProps {
+  className?: string;
+}
+export default function HomeHeroSection({
+  className = "",
+}: HomeHeroSectionProps) {
   const currentUser = useSelector(selectCurrentUser);
 
+  const navigate = useNavigate();
+
+  function performSearch(title: string, location: string) {
+    const params = new URLSearchParams();
+
+    if (title && location) {
+      params.set("searchByTitle", title);
+      params.set("searchByLocation", location);
+
+      navigate(`/jobs?${params.toString()}`);
+    } else if (title) {
+      params.set("searchByTitle", title);
+      navigate(`/jobs?${params.toString()}`);
+    } else if (location) {
+      params.set("searchByLocation", location);
+      navigate(`/jobs?${params.toString()}`);
+    }
+  }
   return (
-    <section>
-      <div className="text-center mb-8 mt-10">
+    <section className={`py-10 ${className}`}>
+      <div className="text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
           Welcome back {currentUser?.firstName}! 👋
         </h2>
@@ -19,30 +43,10 @@ export default function HomeHeroSection() {
       <div>
         {/* Job Search  */}
 
-        <div className="max-w-4xl mx-auto shadow-lg border-0 bg-white/90 backdrop-blur-sm">
-          <div className="p-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="relative w-full md:w-1/2">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
-                  placeholder="Job title"
-                  className="pl-10 h-12 text-lg focus:border-blue-500 border border-neutral-300 w-full rounded-md"
-                />
-              </div>
-              <div className="relative w-full md:w-1/2">
-                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
-                  placeholder="Location"
-                  className="pl-10 h-12 text-lg focus:border-blue-500 border border-neutral-300 focus:outline-none w-full rounded-md"
-                />
-              </div>
-              <button className="h-12 bg-sky-600 hover:bg-sky-700 text-white md:w-50 rounded-md flex items-center justify-center px-3 text-sm font-medium w-full">
-                <Search className="h-5 w-5 mr-2" />
-                Search Job
-              </button>
-            </div>
-          </div>
-        </div>
+        <JobSearch
+          onSearch={(title, location) => performSearch(title, location)}
+          className="w-220 m-auto mt-7"
+        />
       </div>
     </section>
   );
