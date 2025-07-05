@@ -12,6 +12,7 @@ const fetchJobsThunk = createAsyncThunk<
   try {
     return await fetchJobs(query.params);
   } catch (error) {
+    console.log(error);
     if (axios.isAxiosError(error)) {
       const responseError = error.response
         ?.data as ApiPaginatedResponse<string>;

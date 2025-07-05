@@ -41,6 +41,8 @@ export const JobType = {
   Freelance: "Freelance",
 } as const;
 
+export type JobType = keyof typeof JobType;
+
 export const ExperienceLevelType = {
   Any: "Any Level",
   EntryLevel: "Entry Level",
@@ -50,7 +52,15 @@ export const ExperienceLevelType = {
 };
 
 export type ExperienceLevelType = keyof typeof ExperienceLevelType;
-export type JobType = keyof typeof JobType;
+
+export const SortJobsBy = {
+  HighestSalary: "Highest Salary",
+  LowestSalary: "Lowest Salary",
+  Recent: "Recent",
+  Relevant: "Relevant",
+};
+
+export type SortJobsBy = keyof typeof SortJobsBy;
 
 export interface JobState {
   jobs: JobResponse[] | null;

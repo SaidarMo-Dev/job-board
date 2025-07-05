@@ -1,4 +1,4 @@
-import { Plus, Search, Sparkles } from "lucide-react";
+import { Search } from "lucide-react";
 
 export function NoJobs() {
   return (

@@ -1,15 +1,13 @@
 import {
-  ArrowRight,
   Building2,
-  ChevronFirst,
   ChevronRight,
   Clock,
   DollarSign,
   MapPin,
 } from "lucide-react";
 
-import { Card, CardContent, CardHeader } from "../../../components/ui/card";
-import { Button } from "../../../components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useMemo, useState } from "react";
 
 import type { JobResponse } from "../jobTypes";
@@ -43,7 +41,7 @@ export default function JobCardFull({
         } hover:shadow-md transition-shadow cursor-pointer hover:bg-neutral-50 duration-300 ${className}`}
       >
         <CardContent>
-          <div className="">
+          <div className="flex flex-col md:flex-row gap-3">
             <div className="items-start space-x-4 flex-1 flex">
               <img
                 src="/public/images/logov2.png"
@@ -69,9 +67,8 @@ export default function JobCardFull({
                     <Clock className="w-4 h-4 mr-1" />
                     {jobInfo.jobType}
                   </span>
-                  <span className="flex items-center">
-                    <DollarSign className="w-4 h-4 mr-1" />
-                    {jobInfo.maxSalary} - {jobInfo.minSalary}
+                  <span className="text-sm text-gray-700 font-semibold ">
+                    {getDaysSincePosted(jobInfo.datePosted)} day ago
                   </span>
                 </div>
                 <p className="text-gray-600 mb-3 line-clamp-2">{description}</p>
@@ -86,21 +83,24 @@ export default function JobCardFull({
                 </div>
               </div>
             </div>
-            <div className="mt-3 w-full">
-              <p className="text-sm text-gray-500 mb-2">
-                {getDaysSincePosted(jobInfo.datePosted)} day ago
-              </p>
-              <div className="flex">
+            <div className="flex flex-col md:items-end">
+              <div className="flex justify-end">
+                <span className="flex items-center text-green-600 font-bold text-xl">
+                  <DollarSign className="w-5 h-5 mr-1" />$
+                  {jobInfo.maxSalary / 1000}K - ${jobInfo.minSalary / 1000}k
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
                 <Button
                   size="sm"
-                  className="bg-sky-600 hover:bg-sky-700 cursor-pointer h-9 mt-2 flex-1"
+                  className="bg-sky-600 hover:bg-sky-700 cursor-pointer mt-2 py-5 w-35 flex-1"
                 >
                   Apply Now
                 </Button>
                 <Button
                   size="sm"
-                  variant="secondary"
-                  className="bg-transparent shadow-none mt-1 flex items-center cursor-pointer w-30 h-9 md:w-45"
+                  variant="outline"
+                  className="bg-transparent shadow-none flex items-center cursor-pointer py-5 mt-3 w-35"
                   onClick={() => setSelectedJob(jobInfo)}
                 >
                   Show Details

@@ -28,7 +28,7 @@ export default function JobFilter({ onChange }: JobFilterProps) {
     onChange(newFilters);
   }
   return (
-    <Card className="w-full lg:w-68">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-3 text-2xl font-bold">
           <Filter className="w-4 h-4" />
