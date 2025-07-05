@@ -11,7 +11,7 @@ const categories = [
 
 export default function PopularCategories() {
   return (
-    <Card className="w-full lg:w-68">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle className="text-xl font-bold">Popular Categories</CardTitle>
       </CardHeader>
