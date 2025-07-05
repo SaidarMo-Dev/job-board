@@ -13,6 +13,7 @@ import MainLayout from "@/layouts/MainLayout";
 import JobsHistoryPage from "@/pages/JobsHistoryPage";
 import PasswordSecurityPage from "@/pages/PasswordAndSecurity";
 import SettingsAndNotificationsPage from "@/pages/SettingsNotifications";
+import AccountRecovery from "@/pages/AccountRecovery";
 
 export default function AppRoutes() {
   return (
@@ -29,6 +30,10 @@ export default function AppRoutes() {
         <Route
           path="/members/password-security"
           element={<PasswordSecurityPage />}
+        />
+        <Route
+          path="/members/password-security/account-recovery"
+          element={<AccountRecovery />}
         />
         <Route
           path="/members/settings-notifications"

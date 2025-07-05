@@ -1,6 +1,8 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authSliceReducer from "./features/auth/authSlice";
+import jobSliceReducer from "./features/jobs/jobSlice";
 import countrySliceReducer from "./features/countries/countrySlice";
+
 import storage from "redux-persist/lib/storage";
 
 import { persistReducer, persistStore } from "redux-persist";
@@ -8,6 +10,7 @@ import { persistReducer, persistStore } from "redux-persist";
 const rootReducer = combineReducers({
   authReducer: authSliceReducer,
   countryReducer: countrySliceReducer,
+  jobReducer: jobSliceReducer,
 });
 
 const persistConfig = {

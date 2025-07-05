@@ -11,7 +11,7 @@ import axios from "axios";
 import type { ApiResponse } from "@/types/ApiResponse";
 import type { User } from "../users/userTypes";
 import { getCurrentUser } from "../users/userApi";
-import type { ChangePasswordType, RecoveryContactInfo } from "./authTypes";
+import type { RecoveryContactInfo } from "./authTypes";
 
 const handleLogin = createAsyncThunk<
   boolean,
@@ -125,7 +125,6 @@ const AddRecoveryContactInformationThunk = createAsyncThunk<
     return recoveryInfo;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log(error);
       const msg = error.response?.data as ApiResponse<string>;
       return thunkApi.rejectWithValue(msg.message);
     }

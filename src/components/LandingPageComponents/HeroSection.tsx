@@ -1,4 +1,4 @@
-import { ArrowRight, Briefcase, MapPin, Search } from "lucide-react";
+import { ArrowRight, Briefcase, Search } from "lucide-react";
 import { PopularSearch } from "../PopularSearch";
 import { useToast } from "../../contexts/ToastContext";
 import JobSearch from "../../features/jobs/components/JobSearch";
