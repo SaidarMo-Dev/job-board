@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authSliceReducer from "./features/auth/authSlice";
 import jobSliceReducer from "./features/jobs/jobSlice";
 import countrySliceReducer from "./features/countries/countrySlice";
+import bookmarkSliceReducer from "./features/bookmarks/bookmarksSlice";
 
 import storage from "redux-persist/lib/storage";
 
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   authReducer: authSliceReducer,
   countryReducer: countrySliceReducer,
   jobReducer: jobSliceReducer,
+  bookmarkReducer: bookmarkSliceReducer,
 });
 
 const persistConfig = {

@@ -1,25 +1,42 @@
 import JobCardMini from "@/features/jobs/components/JobCardMini";
-import { Button } from "@/components/ui/button";
-import { FileText } from "lucide-react";
+import NoSavedJobs from "@/features/bookmarks/Components/NoSavedJobs";
+import { Separator } from "@/components/ui/separator";
+import { useSelector } from "react-redux";
+import { selectBookmarkedJobs } from "@/features/bookmarks/bookmarksSlice";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import type { AppDispatch, RootState } from "@/store";
+import { getUserSavedJobsThunk } from "@/features/bookmarks/bookmarksThunk";
+import { toast } from "react-toastify";
+import CustomPagination from "@/components/CustomPagination";
+import { NoJobs } from "@/features/jobs/components/NoJobs";
 
-const jobs = [
-  {
-    Title: "Senior Frontend Developer",
-    Company: "Microsoft",
-    Location: "Now York, NY",
-    JobType: "Full Time",
-    SalaryRange: "$90k - $120k",
-    CreatedAt: "2",
-    Description:
-      "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
-    Skills: [
-      { Id: 1, Skill: "Typescript" },
-      { Id: 2, Skill: "React" },
-      { Id: 3, Skill: "JS" },
-    ],
-  },
-];
 export default function UserSavedJobs() {
+  const bookmarkedJobs = useSelector(selectBookmarkedJobs);
+  const [page, setPage] = useState(1);
+
+  const userId = useSelector(
+    (state: RootState) => state.authReducer.currentUser?.id
+  );
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const params = new URLSearchParams();
+    params.set("userId", userId?.toString());
+    params.set("page", page.toString());
+
+    dispatch(getUserSavedJobsThunk({ params: params.toString() })).then(
+      (result) => {
+        if (getUserSavedJobsThunk.rejected.match(result)) {
+          toast.error(result.payload ?? "Somethig went wrong!");
+        }
+      }
+    );
+  }, [dispatch, userId, page]);
+
   return (
     <div className="bg-neutral-50 h-dvh">
       <div className="custom-container">
@@ -28,21 +45,24 @@ export default function UserSavedJobs() {
           Keep track of jobs you're interested in
         </p>
 
-        <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {jobs &&
-            jobs.map((job) => {
-              return <JobCardMini jobInfo={job} savedSection={true} />;
-            })}
-        </div>
-        {jobs.length === 0 && (
-          <div className="text-center py-12">
-            <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No saved jobs yet</h3>
-            <p className="text-muted-foreground mb-4">
-              Start browsing jobs and save the ones you're interested in
-            </p>
-            <Button>Browse Jobs</Button>
-          </div>
+        <Separator className="!w-[40%] bg-neutral-300 my-6" />
+
+        {bookmarkedJobs !== null ? (
+          <>
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {bookmarkedJobs &&
+                bookmarkedJobs.map((bookmarkedJob) => {
+                  return (
+                    <JobCardMini job={bookmarkedJob.job} savedSection={true} />
+                  );
+                })}
+            </div>
+            <div className="flex justify-center items-center w-full">
+              <CustomPagination onChange={(page) => setPage(page)} />
+            </div>
+          </>
+        ) : (
+          <NoSavedJobs />
         )}
       </div>
     </div>

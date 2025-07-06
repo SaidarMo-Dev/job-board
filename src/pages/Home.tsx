@@ -7,23 +7,25 @@ import QuickPicks from "@/components/QuickPicks";
 
 export default function Home() {
   return (
-    <div className="mb-15">
-      <main className="custom-container">
-        <HomeHeroSection />
-        <QuickStats />
-        <section>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-            <div>
-              <QuickPicks />
+    <>
+      <div className="mb-15">
+        <HomeHeroSection className="bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100" />
+        <main className="custom-container">
+          <QuickStats />
+          <section>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+              <div>
+                <QuickPicks />
+              </div>
+              <div>
+                <ProfileMatch />
+                <CompleteProfileCard />
+              </div>
             </div>
-            <div>
-              <ProfileMatch />
-              <CompleteProfileCard />
-            </div>
-          </div>
-          <QuickTips />
-        </section>
-      </main>
-    </div>
+            <QuickTips />
+          </section>
+        </main>
+      </div>
+    </>
   );
 }
