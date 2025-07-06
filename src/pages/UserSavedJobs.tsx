@@ -9,7 +9,6 @@ import type { AppDispatch, RootState } from "@/store";
 import { getUserSavedJobsThunk } from "@/features/bookmarks/bookmarksThunk";
 import { toast } from "react-toastify";
 import CustomPagination from "@/components/CustomPagination";
-import { NoJobs } from "@/features/jobs/components/NoJobs";
 
 export default function UserSavedJobs() {
   const bookmarkedJobs = useSelector(selectBookmarkedJobs);
@@ -57,9 +56,11 @@ export default function UserSavedJobs() {
                   );
                 })}
             </div>
-            <div className="flex justify-center items-center w-full">
-              <CustomPagination onChange={(page) => setPage(page)} />
-            </div>
+            {bookmarkedJobs.length > 10 && (
+              <div className="flex justify-center items-center w-full my-5">
+                <CustomPagination onChange={(page) => setPage(page)} />
+              </div>
+            )}
           </>
         ) : (
           <NoSavedJobs />
