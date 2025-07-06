@@ -1,4 +1,3 @@
-import type { JobProps } from "@/types/JobProps";
 import {
   Card,
   CardContent,
@@ -8,6 +7,7 @@ import {
 } from "../../../components/ui/card";
 import {
   ArrowUpRightFromSquare,
+  ChevronRight,
   Clock,
   DollarSign,
   Heart,
@@ -18,6 +18,8 @@ import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
 import type { JobResponse } from "../jobTypes";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
+import { useState } from "react";
+import JobDetailsModal from "./JobDetailsModal";
 
 interface JobCardMiniProps {
   job: JobResponse;
@@ -28,6 +30,8 @@ export default function JobCardMini({
   job,
   savedSection = false,
 }: JobCardMiniProps) {
+  const [opneShowDetails, setOpenShowDetails] = useState(false);
+
   return (
     <Card>
       <CardHeader>
@@ -70,10 +74,25 @@ export default function JobCardMini({
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full bg-sky-600 hover:bg-sky-700 cursor-pointer">
-          Easy Apply <ArrowUpRightFromSquare className="w-5 h-5" />{" "}
-        </Button>
+        <div className="flex gap-2 w-full">
+          <Button className="flex-1 bg-sky-600 hover:bg-sky-700 cursor-pointer">
+            Easy Apply <ArrowUpRightFromSquare className="w-5 h-5" />{" "}
+          </Button>
+          <Button
+            variant={"outline"}
+            className="cursor-pointer"
+            onClick={() => setOpenShowDetails(true)}
+          >
+            Show Details <ChevronRight className="w-5 h-5" />
+          </Button>
+        </div>
       </CardFooter>
+      {opneShowDetails && (
+        <JobDetailsModal
+          selectedJob={job}
+          onClose={() => setOpenShowDetails(false)}
+        />
+      )}
     </Card>
   );
 }

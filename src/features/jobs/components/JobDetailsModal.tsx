@@ -15,7 +15,10 @@ interface JobDetailsProp {
   onClose: () => void;
   selectedJob;
 }
-export function JobDetailsModal({ selectedJob, onClose }: JobDetailsProp) {
+export default function JobDetailsModal({
+  selectedJob,
+  onClose,
+}: JobDetailsProp) {
   if (selectedJob) {
     return (
       <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
@@ -87,7 +90,9 @@ export function JobDetailsModal({ selectedJob, onClose }: JobDetailsProp) {
             </div>
 
             <div className="flex gap-3 pt-4">
-              <Button className="flex-1 bg-sky-600">Apply Now</Button>
+              <Button className="flex-1 bg-sky-600 hover:bg-sky-700">
+                Apply Now
+              </Button>
               <Button variant="outline">Save Job</Button>
               <Button variant="outline">Share</Button>
             </div>
