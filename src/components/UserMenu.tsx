@@ -20,9 +20,11 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store";
 import { logout } from "@/features/auth/authSlice";
 import RemoveTokens from "@/utils/removeTokens";
+import { useSelector } from "react-redux";
+import { selectStats } from "@/features/dashboard_stats/dashboardStatsSlice";
 
 export default function UserMenu() {
-  const [savedJobsCount] = useState<number>(0);
+  const savedJobsCount = useSelector(selectStats)?.totalSavedJobs;
   const [profileCompletion] = useState<number>(16);
 
   const menuItems: MenuItem[] = [
@@ -123,7 +125,10 @@ export default function UserMenu() {
 
         {/* Sign Out */}
         <div className="pb-2">
-          <button onClick={handleSignOut} className="flex items-center gap-3 w-full px-3 py-2 text-left text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors duration-150">
+          <button
+            onClick={handleSignOut}
+            className="flex items-center gap-3 w-full px-3 py-2 text-left text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors duration-150"
+          >
             <LogOutIcon />
             <Link to={"/auth/login"} className="flex-1">
               Sign Out
