@@ -26,10 +26,10 @@ export default function JobsHistoryPage() {
         <h2 className="font-semibold text-4xl pt-10">Recently viewed jobs</h2>
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {jobs &&
+          {/* {jobs &&
             jobs.map((job) => {
-              return <JobCardMini jobInfo={job} />;
-            })}
+              return <JobCardMini job={job} />;
+            })} */}
         </div>
         {jobs.length === 0 && (
           <div className="text-center py-12">

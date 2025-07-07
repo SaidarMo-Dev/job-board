@@ -4,8 +4,28 @@ import ProfileMatch from "../components/ProfileMatch";
 import CompleteProfileCard from "../components/CompleteProfileCard";
 import QuickTips from "../components/QuickTips";
 import QuickPicks from "@/components/QuickPicks";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getUserDashboardStatsThunk } from "@/features/dashboard_stats/dashboardStatsThunk";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "@/features/auth/authSlice";
+import type { AppDispatch } from "@/store";
+import { toast } from "react-toastify";
 
 export default function Home() {
+  const dispatch = useDispatch<AppDispatch>();
+  const currentUserId = useSelector(selectCurrentUser)?.id;
+
+  useEffect(() => {
+    dispatch(getUserDashboardStatsThunk({ userId: currentUserId ?? 1 })).then(
+      (result) => {
+        if (getUserDashboardStatsThunk.rejected.match(result)) {
+          toast.error(result.payload);
+        }
+      }
+    );
+  }, [currentUserId, dispatch]);
+
   return (
     <>
       <div className="mb-15">
