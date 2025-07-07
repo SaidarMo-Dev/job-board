@@ -10,6 +10,7 @@ export interface bookmarkState {
   bookmarkedJobs: bookmarkResponse[] | null;
   savedJobIds: Set<number> | null;
   loading: boolean;
+  totalRecord: number;
   error: {
     fetch: string | null;
     saved: string | null;

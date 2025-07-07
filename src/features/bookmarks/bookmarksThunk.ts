@@ -1,7 +1,7 @@
 import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { bookmarkResponse } from "./bookmarksTypes";
-import { getUserSavedJobs } from "./bookmarksApi";
+import { getTotalUserSavedJobs, getUserSavedJobs } from "./bookmarksApi";
 import axios from "axios";
 
 const getUserSavedJobsThunk = createAsyncThunk<
@@ -23,4 +23,23 @@ const getUserSavedJobsThunk = createAsyncThunk<
   }
 });
 
-export { getUserSavedJobsThunk };
+const getTotalUserSavedJobsThunk = createAsyncThunk<
+  number,
+  { params: string },
+  { rejectValue: string }
+>("/users/bookmarks/count", async (params, thunkApi) => {
+  try {
+    const response = await getTotalUserSavedJobs(params.params);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error);
+      const msg = error.response?.data as ApiPaginatedResponse<null>;
+
+      return thunkApi.rejectWithValue(msg.message);
+    }
+    return thunkApi.rejectWithValue("Something went wrong!");
+  }
+});
+
+export { getUserSavedJobsThunk, getTotalUserSavedJobsThunk };
