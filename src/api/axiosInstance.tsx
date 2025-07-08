@@ -11,6 +11,8 @@ import {
 import axios from "axios";
 import NProgress from "nprogress";
 
+const excludedEndpoints = ["/users/bookmarks/count"];
+
 NProgress.configure({
   showSpinner: false,
 });
@@ -45,7 +47,10 @@ axiosInstance.interceptors.request.use(
       config.headers["Authorization"] = `Bearer ${token}`;
     }
 
-    startProgress();
+    if (!excludedEndpoints.some((url) => config.url?.includes(url))) {
+      startProgress();
+    }
+
     return config;
   },
   (error) => {
