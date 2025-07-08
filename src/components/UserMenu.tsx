@@ -11,21 +11,33 @@ import {
   User2,
 } from "lucide-react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { MenuItem } from "../types/MenuItem";
 import ProgressBar from "./ProgressBar";
 import MenuButton from "./MenuButton";
 import { Link } from "react-router";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store";
-import { logout } from "@/features/auth/authSlice";
+import { logout, selectCurrentUser } from "@/features/auth/authSlice";
 import RemoveTokens from "@/utils/removeTokens";
 import { useSelector } from "react-redux";
-import { selectStats } from "@/features/dashboard_stats/dashboardStatsSlice";
+import { getTotalUserSavedJobsThunk } from "@/features/bookmarks/bookmarksThunk";
 
 export default function UserMenu() {
-  const savedJobsCount = useSelector(selectStats)?.totalSavedJobs;
   const [profileCompletion] = useState<number>(16);
+  const dispatch = useDispatch<AppDispatch>();
+  const userid = useSelector(selectCurrentUser)?.id ?? -1;
+  const [savedJobsCount, setSavedJobsCount] = useState(0);
+
+  useEffect(() => {
+    dispatch(getTotalUserSavedJobsThunk({ userId: userid.toString() })).then(
+      (result) => {
+        if (getTotalUserSavedJobsThunk.fulfilled.match(result)) {
+          setSavedJobsCount(result.payload);
+        }
+      }
+    );
+  }, [dispatch, userid]);
 
   const menuItems: MenuItem[] = [
     { icon: User2, label: "Profile", href: "/members/profile" },
@@ -56,8 +68,6 @@ export default function UserMenu() {
   const supportItems: MenuItem[] = [
     { icon: HelpCircle, label: "Contact Us", href: "/contact" },
   ];
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const handleSignOut = () => {
     RemoveTokens();

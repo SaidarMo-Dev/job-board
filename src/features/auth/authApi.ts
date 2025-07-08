@@ -2,6 +2,7 @@ import type { ApiResponse } from "../../types/ApiResponse";
 import api from "../../api/axiosInstance";
 import type { LoginToken } from "../../types/loginResponse";
 import type { ChangePasswordType, RecoveryContactInfo } from "./authTypes";
+import { getAccessToken, getRefreshToken } from "@/utils/gitAccessToken";
 
 interface ConfirmEmailType {
   userId: number;
@@ -9,6 +10,20 @@ interface ConfirmEmailType {
 }
 
 const AUTH_BASE_URL = "/auth";
+
+export async function RefreshToken() {
+  const data = {
+    refreshToken: getRefreshToken() ?? "",
+    accessToken: getAccessToken() ?? "",
+  };
+  const response = await api<ApiResponse<LoginToken>>({
+    method: "post",
+    url: `${AUTH_BASE_URL}/refresh-token`,
+    data,
+  });
+
+  return response.data;
+}
 
 export const ConfirmEmail = (data: ConfirmEmailType) => {
   api.get<ApiResponse<string>>(
