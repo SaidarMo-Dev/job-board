@@ -13,9 +13,9 @@ export async function getUserSavedJobs(params: string) {
   return response.data;
 }
 
-export async function getTotalUserSavedJobs(params: string) {
+export async function getTotalUserSavedJobs(userId: string) {
   const response = await api.get<ApiResponse<number>>(
-    `/users${BOOKMARKS_BASE_URL}/count?${params}`
+    `/users${BOOKMARKS_BASE_URL}/count?userId=${userId}`
   );
 
   return response.data;

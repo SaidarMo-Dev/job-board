@@ -25,11 +25,11 @@ const getUserSavedJobsThunk = createAsyncThunk<
 
 const getTotalUserSavedJobsThunk = createAsyncThunk<
   number,
-  { params: string },
+  { userId: string },
   { rejectValue: string }
 >("/users/bookmarks/count", async (params, thunkApi) => {
   try {
-    const response = await getTotalUserSavedJobs(params.params);
+    const response = await getTotalUserSavedJobs(params.userId);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

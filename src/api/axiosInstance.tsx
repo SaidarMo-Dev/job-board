@@ -1,4 +1,13 @@
-import { getAccessToken } from "@/utils/gitAccessToken";
+import { RefreshToken } from "@/features/auth/authApi";
+import { logout } from "@/features/auth/authSlice";
+import type { AppDispatch } from "@/store";
+import {
+  getAccessToken,
+  removeTokens,
+  setAccessToken,
+  setRefreshToken,
+  setRefreshTokenExpirationDate,
+} from "@/utils/gitAccessToken";
 import axios from "axios";
 import NProgress from "nprogress";
 
@@ -62,3 +71,36 @@ axiosInstance.defaults.headers.common[
 axiosInstance.defaults.timeout = 5000;
 
 export default axiosInstance;
+
+// handle refresh token
+export const setupAxiosInterceptors = (dispatch: AppDispatch) => {
+  axiosInstance.interceptors.response.use(
+    (res) => res,
+    async (error) => {
+      const originalRequest = error.config;
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+        try {
+          const response = await RefreshToken();
+
+          setAccessToken(response.data.accessToken);
+          setRefreshToken(response.data.refreshToken.refreshToken);
+          setRefreshTokenExpirationDate(
+            response.data.refreshToken.expirationDate.toString()
+          );
+
+          originalRequest.headers[
+            "Authorization"
+          ] = `Bearer ${response.data.accessToken}`;
+          return axios(originalRequest);
+        } catch (err) {
+          console.log(err);
+          removeTokens();
+          dispatch(logout());
+          return Promise.reject(err);
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
+};

@@ -45,7 +45,7 @@ export default function HomeHeroSection({
 
         <JobSearch
           onSearch={(title, location) => performSearch(title, location)}
-          className="w-220 m-auto mt-7"
+          className="max-w-220 m-auto mt-7"
         />
       </div>
     </section>
