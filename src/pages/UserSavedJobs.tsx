@@ -10,7 +10,7 @@ import { getUserSavedJobsThunk } from "@/features/bookmarks/bookmarksThunk";
 import { toast } from "react-toastify";
 import CustomPagination from "@/components/CustomPagination";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import Loading from "@/components/Loading";
+
 import PageLoader from "@/components/Loaders/PageLoader";
 
 export default function UserSavedJobs() {
