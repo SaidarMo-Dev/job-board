@@ -50,12 +50,12 @@ const Header = () => {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <a
-                href="/"
+              <Link
+                to="/"
                 className="text-2xl font-bold text-sky-600 hover:text-sky-600 transition-colors"
               >
                 iLink
-              </a>
+              </Link>
             </div>
 
             {/* Desktop Navigation */}
@@ -84,23 +84,23 @@ const Header = () => {
                 {dropdownOpen && (
                   <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50">
                     {jobCategories.map((category) => (
-                      <a
+                      <Link
                         key={category.name}
-                        href={category.href}
+                        to={category.href}
                         className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600 transition-colors duration-200"
                         onClick={() => setDropdownOpen(false)}
                       >
                         {category.name}
-                      </a>
+                      </Link>
                     ))}
                     <div className="border-t border-gray-100 mt-1 pt-1">
-                      <a
-                        href="/jobs"
+                      <Link
+                        to="/jobs"
                         className="text-sm md:text-base block px-4 py-2 font-medium text-sky-600 hover:bg-blue-50 transition-colors duration-200"
                         onClick={() => setDropdownOpen(false)}
                       >
                         View All Jobs
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 )}
@@ -108,27 +108,27 @@ const Header = () => {
 
               {isAuthenticated === false && (
                 <>
-                  <a
-                    href="/companies"
+                  <Link
+                    to="/companies"
                     className="block px-3 py-2 text-gray-700 hover:text-sky-600 text-base font-medium transition-colors duration-200"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Companies
-                  </a>
-                  <a
-                    href="/contact"
+                  </Link>
+                  <Link
+                    to="/contact"
                     className="block px-3 py-2 text-gray-700 hover:text-sky-600 text-base font-medium transition-colors duration-200"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Contact
-                  </a>
-                  <a
-                    href="/about"
+                  </Link>
+                  <Link
+                    to="/about"
                     className="block px-3 py-2 text-gray-700 hover:text-sky-600 text-base font-medium transition-colors duration-200"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     About
-                  </a>
+                  </Link>
                 </>
               )}
             </nav>
@@ -231,65 +231,65 @@ const Header = () => {
                 {mobileDropdownOpen && (
                   <div className="pl-4 space-y-2">
                     {jobCategories.map((category) => (
-                      <a
+                      <Link
                         key={category.name}
-                        href={category.href}
+                        to={category.href}
                         className="block text-gray-700 hover:text-sky-600 text-sm transition-colors duration-200 py-1"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {category.name}
-                      </a>
+                      </Link>
                     ))}
-                    <a
-                      href="/jobs"
+                    <Link
+                      to="/jobs"
                       className="block text-sky-600 font-medium text-sm transition-colors duration-200 py-1"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       View All Jobs
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>
 
               {/* Other Mobile Nav as */}
-              <a
-                href="/companies"
+              <Link
+                to="/companies"
                 className="block px-3 py-2 text-gray-700 hover:text-sky-600 text-base font-medium transition-colors duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Companies
-              </a>
-              <a
-                href="/contact"
+              </Link>
+              <Link
+                to="/contact"
                 className="block px-3 py-2 text-gray-700 hover:text-sky-600 text-base font-medium transition-colors duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Contact
-              </a>
-              <a
-                href="/about"
+              </Link>
+              <Link
+                to="/about"
                 className="block px-3 py-2 text-gray-700 hover:text-sky-600 text-base font-medium transition-colors duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 About
-              </a>
+              </Link>
 
               {/* Mobile Auth Buttons */}
               <div className="px-3 py-2 space-y-2 mt-5">
-                <a
-                  href="/auth/login"
+                <Link
+                  to="/auth/login"
                   className="block w-full py-2 rounded-md hover:bg-sky-50 text-center  text-gray-700 hover:text-sky-600 text-base font-medium transition-colors duration-200"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Log in
-                </a>
-                <a
-                  href="/auth/register"
+                </Link>
+                <Link
+                  to="/auth/register"
                   className="block w-full bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 text-sm font-medium rounded-md transition-colors duration-200 text-center"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Register
-                </a>
+                </Link>
               </div>
             </div>
           </div>

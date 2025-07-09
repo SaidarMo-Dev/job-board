@@ -7,6 +7,10 @@ import store, { persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import "nprogress/nprogress.css";
 import { setupAxiosInterceptors } from "./api/axiosInstance";
+import { enableMapSet } from "immer";
+
+enableMapSet();
+
 function App() {
   setupAxiosInterceptors(store.dispatch);
   return (

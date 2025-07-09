@@ -9,10 +9,13 @@ import type { AppDispatch, RootState } from "@/store";
 import { getUserSavedJobsThunk } from "@/features/bookmarks/bookmarksThunk";
 import { toast } from "react-toastify";
 import CustomPagination from "@/components/CustomPagination";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 export default function UserSavedJobs() {
   const bookmarkedJobs = useSelector(selectBookmarkedJobs);
   const [page, setPage] = useState(1);
+
+  const loading = useAppSelector((state) => state.bookmarkReducer.loading);
 
   const userId = useSelector(
     (state: RootState) => state.authReducer.currentUser?.id
@@ -27,7 +30,7 @@ export default function UserSavedJobs() {
     params.set("userId", userId?.toString());
     params.set("page", page.toString());
 
-    dispatch(getUserSavedJobsThunk({ params: params.toString() })).then(
+    dispatch(getUserSavedJobsThunk({ UserId: userId ?? -1, Page: 1 })).then(
       (result) => {
         if (getUserSavedJobsThunk.rejected.match(result)) {
           toast.error(result.payload ?? "Somethig went wrong!");
@@ -37,7 +40,7 @@ export default function UserSavedJobs() {
   }, [dispatch, userId, page]);
 
   return (
-    <div className="bg-neutral-50 h-dvh">
+    <div className="bg-neutral-50 pb-10">
       <div className="custom-container">
         <h2 className="font-semibold text-5xl pt-10">Saved Jobs</h2>
         <p className="text-lg text-gray-600 mt-2">

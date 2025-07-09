@@ -20,6 +20,11 @@ import type { JobResponse } from "../jobTypes";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
 import { useState } from "react";
 import JobDetailsModal from "./JobDetailsModal";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import {
+  getUserSavedJobsThunk,
+  UnsaveJobThunk,
+} from "@/features/bookmarks/bookmarksThunk";
 
 interface JobCardMiniProps {
   job: JobResponse;
@@ -32,6 +37,24 @@ export default function JobCardMini({
 }: JobCardMiniProps) {
   const [opneShowDetails, setOpenShowDetails] = useState(false);
 
+  const dispatch = useAppDispatch();
+
+  function handleUnsave() {
+    (async () => {
+      const result = await dispatch(UnsaveJobThunk({ jobId: job.jobId }));
+      if (UnsaveJobThunk.fulfilled.match(result)) {
+        dispatch(getUserSavedJobsThunk({ UserId: 1, Page: 1 }));
+      }
+    })();
+  }
+
+  const handleCloseModal = (updated: boolean) => {
+    setOpenShowDetails(false);
+
+    if (updated) {
+      dispatch(getUserSavedJobsThunk({ UserId: 1, Page: 1 }));
+    }
+  };
   return (
     <Card>
       <CardHeader>
@@ -43,7 +66,10 @@ export default function JobCardMini({
             per year
           </p>
           {savedSection && (
-            <button className="cursor-pointer hover:bg-gray-200 p-2 rounded-md">
+            <button
+              className="cursor-pointer hover:bg-gray-200 p-2 rounded-md"
+              onClick={handleUnsave}
+            >
               <Heart className="w-5 h-5" color="red" fill="red" />
             </button>
           )}
@@ -90,7 +116,7 @@ export default function JobCardMini({
       {opneShowDetails && (
         <JobDetailsModal
           selectedJob={job}
-          onClose={() => setOpenShowDetails(false)}
+          onClose={(updated) => handleCloseModal(updated)}
         />
       )}
     </Card>

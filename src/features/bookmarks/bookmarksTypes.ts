@@ -17,3 +17,19 @@ export interface bookmarkState {
     remove: string | null;
   };
 }
+
+export interface SavedJobIdsResponse {
+  savedJobIds: number[];
+}
+
+export interface AddBookmark {
+  JobId: number;
+  UserId: number;
+  DateBooked: Date;
+}
+
+export interface UserBookmarkRequest {
+  UserId: number;
+  Page: number;
+  PageSize?: number;
+}

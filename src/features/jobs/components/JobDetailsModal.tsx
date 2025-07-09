@@ -1,3 +1,4 @@
+import SaveButton from "@/components/SaveButton";
 import SkillBadge from "@/components/SkillBadge";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,15 +11,18 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
 import { Clock, DollarSign, MapPin, Users } from "lucide-react";
+import type { JobResponse } from "../jobTypes";
+import { useState } from "react";
 
 interface JobDetailsProp {
-  onClose: () => void;
-  selectedJob;
+  onClose: (updated: boolean) => void;
+  selectedJob: JobResponse;
 }
 export default function JobDetailsModal({
   selectedJob,
   onClose,
 }: JobDetailsProp) {
+  const [updated, setUpdated] = useState(false);
   if (selectedJob) {
     return (
       <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
@@ -38,7 +42,13 @@ export default function JobDetailsModal({
                   </CardDescription>
                 </div>
               </div>
-              <Button variant="ghost" size="sm" onClick={onClose}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  onClose(updated);
+                }}
+              >
                 ×
               </Button>
             </div>
@@ -93,7 +103,15 @@ export default function JobDetailsModal({
               <Button className="flex-1 bg-sky-600 hover:bg-sky-700">
                 Apply Now
               </Button>
-              <Button variant="outline">Save Job</Button>
+
+              <SaveButton
+                jobId={selectedJob.jobId}
+                onToggle={(updated) => {
+                  console.log(updated);
+                  setUpdated(updated);
+                }}
+              />
+
               <Button variant="outline">Share</Button>
             </div>
           </CardContent>

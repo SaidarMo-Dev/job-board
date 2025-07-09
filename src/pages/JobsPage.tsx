@@ -12,20 +12,23 @@ import {
 import JobCardFull from "../features/jobs/components/JobCardFull";
 import { useSearchParams } from "react-router";
 import { SortJobsBy, type FilterValues } from "@/features/jobs/jobTypes";
-import { useDispatch } from "react-redux";
-import type { AppDispatch, RootState } from "@/store";
+import type { RootState } from "@/store";
 import { fetchJobsThunk } from "@/features/jobs/jobThunk";
 import CustomPagination from "@/components/CustomPagination";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import Loading from "@/components/Loading";
 import { NoJobs } from "@/features/jobs/components/NoJobs";
+import { selectCurrentUser } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { getSavedJobIdsThunk } from "@/features/bookmarks/bookmarksThunk";
 
 export default function JobsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const currentUserId = useSelector(selectCurrentUser)?.id ?? -1;
 
   const { jobs, loading } = useSelector((state: RootState) => state.jobReducer);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   function updateFilter(filters: FilterValues) {
     const params = new URLSearchParams(searchParams.toString());
@@ -89,6 +92,11 @@ export default function JobsPage() {
     }
   }
 
+  // refresh savedJobIds
+  useEffect(() => {
+    dispatch(getSavedJobIdsThunk({ userId: currentUserId }));
+  }, [dispatch, currentUserId]);
+
   useEffect(() => {
     dispatch(fetchJobsThunk({ params: searchParams.toString() })).then(
       (result) => {
@@ -110,6 +118,7 @@ export default function JobsPage() {
           </h4>
           <div className="max-w-4xl m-auto mt-7">
             <JobSearch
+              className="w-200"
               onSearch={(title, location) => UpdateSearch(title, location)}
             />
           </div>

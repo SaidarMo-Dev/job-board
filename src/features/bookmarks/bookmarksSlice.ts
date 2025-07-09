@@ -1,14 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { bookmarkState } from "./bookmarksTypes";
 import {
+  getSavedJobIdsThunk,
   getTotalUserSavedJobsThunk,
   getUserSavedJobsThunk,
+  saveJobThunk,
+  UnsaveJobThunk,
 } from "./bookmarksThunk";
 import type { RootState } from "@/store";
 
 const initialState: bookmarkState = {
   bookmarkedJobs: null,
-  savedJobIds: null,
+  savedJobIds: new Set<number>(),
   loading: false,
   totalRecord: 0,
   error: {
@@ -56,11 +59,71 @@ const bookmarkSlice = createSlice({
         state.loading = false;
         state.error.fetch = action.payload ?? null;
         state.totalRecord = 0;
+      })
+      // saved job ids
+      .addCase(getSavedJobIdsThunk.pending, (state) => {
+        state.error.fetch = null;
+        state.loading = true;
+      })
+      .addCase(getSavedJobIdsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.savedJobIds = new Set(action.payload);
+      })
+      .addCase(getSavedJobIdsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.savedJobIds = null;
+        state.error.fetch = action.payload ?? "Something went wrong!";
+      })
+
+      // save job
+      .addCase(saveJobThunk.pending, (state, action) => {
+        state.error.saved = null;
+        state.loading = true;
+
+        // Optimistically add the jobId to savedJobIds
+        const jobId = action.meta.arg.jobId;
+        state.savedJobIds?.add(jobId);
+      })
+      .addCase(saveJobThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(saveJobThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error.saved = action.payload ?? "Something went wrong!";
+
+        // RollBack : remove the jobId that was optimistically added
+        state.savedJobIds?.delete(action.meta.arg.jobId);
+      })
+      // Unsave job
+      .addCase(UnsaveJobThunk.pending, (state, action) => {
+        state.error.saved = null;
+        state.loading = true;
+
+        // Optimistically remove the jobId to savedJobIds
+        state.savedJobIds?.delete(action.meta.arg.jobId);
+      })
+      .addCase(UnsaveJobThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(UnsaveJobThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error.saved = action.payload ?? "Something went wrong!";
+
+        // RollBack : add the jobId that was optimistically removed
+        const jobId = action.meta.arg.jobId;
+        state.savedJobIds?.add(jobId);
       });
   },
 });
 
 export default bookmarkSlice.reducer;
+
+export const selectIsJobSaved = (state: RootState, JobId) => {
+  return state.bookmarkReducer.savedJobIds?.has(JobId) ?? false;
+};
+
+export const selectBookMarkIsLoading = (state: RootState) =>
+  state.bookmarkReducer.loading;
 
 export const selectBookmarkedJobs = (state: RootState) =>
   state.bookmarkReducer.bookmarkedJobs;

@@ -11,19 +11,21 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "@/features/auth/authSlice";
 import type { AppDispatch } from "@/store";
 import { toast } from "react-toastify";
+import { getSavedJobIdsThunk } from "@/features/bookmarks/bookmarksThunk";
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
-  const currentUserId = useSelector(selectCurrentUser)?.id;
+  const currentUserId = useSelector(selectCurrentUser)?.id ?? -1;
 
   useEffect(() => {
-    dispatch(getUserDashboardStatsThunk({ userId: currentUserId ?? 1 })).then(
+    dispatch(getUserDashboardStatsThunk({ userId: currentUserId })).then(
       (result) => {
         if (getUserDashboardStatsThunk.rejected.match(result)) {
           toast.error(result.payload);
         }
       }
     );
+    dispatch(getSavedJobIdsThunk({ userId: currentUserId }));
   }, [currentUserId, dispatch]);
 
   return (
