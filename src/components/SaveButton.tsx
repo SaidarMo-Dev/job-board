@@ -22,7 +22,7 @@ interface SaveButtonProps {
 const SaveButton = ({ jobId, className = "", onToggle }: SaveButtonProps) => {
   const isSaved = useAppSelector((state) => selectIsJobSaved(state, jobId));
   const currentUserId = useSelector(selectCurrentUser)?.id ?? -1;
-  const isLoading = useAppSelector(selectBookMarkIsLoading);
+  const isLoading = useAppSelector(selectBookMarkIsLoading).save;
 
   const dispatch = useAppDispatch();
 

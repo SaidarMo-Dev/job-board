@@ -16,7 +16,11 @@ export const savedJobIdsTransform = createTransform<
       ? new Set<number>(outbound.savedJobIds)
       : new Set<number>(),
     bookmarkedJobs: null,
-    loading: false,
+    loading: {
+      fetch: false,
+      save: false,
+      remove: false,
+    },
     totalRecord: 0,
     error: {
       fetch: null,

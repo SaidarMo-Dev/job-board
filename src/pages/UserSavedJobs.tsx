@@ -10,12 +10,13 @@ import { getUserSavedJobsThunk } from "@/features/bookmarks/bookmarksThunk";
 import { toast } from "react-toastify";
 import CustomPagination from "@/components/CustomPagination";
 import { useAppSelector } from "@/hooks/useAppSelector";
+import Loading from "@/components/Loading";
 
 export default function UserSavedJobs() {
   const bookmarkedJobs = useSelector(selectBookmarkedJobs);
   const [page, setPage] = useState(1);
 
-  const loading = useAppSelector((state) => state.bookmarkReducer.loading);
+  const loading = useAppSelector((state) => state.bookmarkReducer.loading).fetch;
 
   const userId = useSelector(
     (state: RootState) => state.authReducer.currentUser?.id
@@ -49,24 +50,33 @@ export default function UserSavedJobs() {
 
         <Separator className="!w-[40%] bg-neutral-300 my-6" />
 
-        {bookmarkedJobs !== null ? (
-          <>
-            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {bookmarkedJobs &&
-                bookmarkedJobs.map((bookmarkedJob) => {
-                  return (
-                    <JobCardMini job={bookmarkedJob.job} savedSection={true} />
-                  );
-                })}
-            </div>
-            {bookmarkedJobs.length > 10 && (
-              <div className="flex justify-center items-center w-full my-5">
-                <CustomPagination onChange={(page) => setPage(page)} />
-              </div>
-            )}
-          </>
+        {loading ? (
+          <Loading />
         ) : (
-          <NoSavedJobs />
+          <div>
+            {bookmarkedJobs !== null ? (
+              <>
+                <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {bookmarkedJobs &&
+                    bookmarkedJobs.map((bookmarkedJob) => {
+                      return (
+                        <JobCardMini
+                          job={bookmarkedJob.job}
+                          savedSection={true}
+                        />
+                      );
+                    })}
+                </div>
+                {bookmarkedJobs.length > 10 && (
+                  <div className="flex justify-center items-center w-full my-5">
+                    <CustomPagination onChange={(page) => setPage(page)} />
+                  </div>
+                )}
+              </>
+            ) : (
+              <NoSavedJobs />
+            )}
+          </div>
         )}
       </div>
     </div>
