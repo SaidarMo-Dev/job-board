@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { bookmarkState } from "./bookmarksTypes";
+import type { BookmarkState } from "./bookmarksTypes";
 import {
   getSavedJobIdsThunk,
   getTotalUserSavedJobsThunk,
@@ -9,7 +9,7 @@ import {
 } from "./bookmarksThunk";
 import type { RootState } from "@/store";
 
-const initialState: bookmarkState = {
+const initialState: BookmarkState = {
   bookmarkedJobs: null,
   savedJobIds: new Set<number>(),
   loading: false,

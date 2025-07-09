@@ -6,7 +6,7 @@ export interface bookmarkResponse {
   job: JobResponse;
 }
 
-export interface bookmarkState {
+export interface BookmarkState {
   bookmarkedJobs: bookmarkResponse[] | null;
   savedJobIds: Set<number> | null;
   loading: boolean;
@@ -32,4 +32,8 @@ export interface UserBookmarkRequest {
   UserId: number;
   Page: number;
   PageSize?: number;
+}
+
+export interface PersistedBookmarkState {
+  savedJobIds: number[];
 }

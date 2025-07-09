@@ -8,6 +8,8 @@ import dashboardStatsSliceReducer from "./features/dashboard_stats/dashboardStat
 import storage from "redux-persist/lib/storage";
 
 import { persistReducer, persistStore } from "redux-persist";
+import { savedJobIdsTransform } from "./features/bookmarks/bookmarkPersistTransform";
+
 
 const rootReducer = combineReducers({
   authReducer: authSliceReducer,
@@ -20,7 +22,8 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["authReducer"],
+  tranforms: [savedJobIdsTransform],
+  whitelist: ["authReducer", "bookmarkReducer"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
