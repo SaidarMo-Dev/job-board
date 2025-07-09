@@ -17,11 +17,11 @@ import { fetchJobsThunk } from "@/features/jobs/jobThunk";
 import CustomPagination from "@/components/CustomPagination";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import Loading from "@/components/Loading";
 import { NoJobs } from "@/features/jobs/components/NoJobs";
 import { selectCurrentUser } from "@/features/auth/authSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { getSavedJobIdsThunk } from "@/features/bookmarks/bookmarksThunk";
+import PageLoader from "@/components/Loaders/PageLoader";
 
 export default function JobsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -154,7 +154,7 @@ export default function JobsPage() {
             </div>
             {/* Jobs */}
             {loading ? (
-              <Loading />
+              <PageLoader message="loading jobs..." />
             ) : (
               <div className="">
                 <div className="mt-5 grid grid-cols-1 gap-5">
