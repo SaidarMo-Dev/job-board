@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { StepProps } from "../applicationType";
 
-export default function JobApplicationStepPersonalInfo({
+export default function PersonalInfoStep({
   applicationData,
   onInputChange,
 }: StepProps) {

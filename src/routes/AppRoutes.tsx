@@ -14,6 +14,7 @@ import JobsHistoryPage from "@/pages/JobsHistoryPage";
 import PasswordSecurityPage from "@/pages/PasswordAndSecurity";
 import SettingsAndNotificationsPage from "@/pages/SettingsNotifications";
 import AccountRecovery from "@/pages/AccountRecovery";
+import JobApplicationWizardPage from "@/pages/JobApplicationWizardPage";
 
 export default function AppRoutes() {
   return (
@@ -21,24 +22,27 @@ export default function AppRoutes() {
       <Route path="/" element={<LandingPage />} />
 
       <Route element={<MainLayout />}>
-        <Route path="/members" element={<Home />} />
-        <Route path="/jobs" element={<JobsPage />} />
-        <Route path="/members/profile" element={<UserProfilePage />} />
-        <Route path="/members/applications" element={<UserApplications />} />
-        <Route path="/members/jobs" element={<UserSavedJobs />} />
-        <Route path="/members/history" element={<JobsHistoryPage />} />
-        <Route
-          path="/members/password-security"
-          element={<PasswordSecurityPage />}
-        />
-        <Route
-          path="/members/password-security/account-recovery"
-          element={<AccountRecovery />}
-        />
-        <Route
-          path="/members/settings-notifications"
-          element={<SettingsAndNotificationsPage />}
-        />
+        <Route path="/jobs">
+          <Route index element={<JobsPage />} />
+          <Route path=":jobId/apply" element={<JobApplicationWizardPage />} />
+        </Route>
+
+        <Route path="/members">
+          <Route index element={<Home />} />
+          <Route path="profile" element={<UserProfilePage />} />
+          <Route path="applications" element={<UserApplications />} />
+          <Route path="jobs" element={<UserSavedJobs />} />
+          <Route path="history" element={<JobsHistoryPage />} />
+          <Route path="password-security" element={<PasswordSecurityPage />} />
+          <Route
+            path="password-security/account-recovery"
+            element={<AccountRecovery />}
+          />
+          <Route
+            path="settings-notifications"
+            element={<SettingsAndNotificationsPage />}
+          />
+        </Route>
       </Route>
 
       <Route path="/auth">
