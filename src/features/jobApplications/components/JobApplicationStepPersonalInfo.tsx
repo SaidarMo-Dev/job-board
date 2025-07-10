@@ -1,25 +1,11 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import type { StepProps } from "../applicationType";
 
-type personInfoKey = "firstName" | "lastName" | "email" | "phoneNumber";
-
-interface JobApplicationStepPersonalInfo {
-  className?: string;
-}
-
-export default function JobApplicationStepPersonalInfo() {
-  const [personalInfo, setPersonalInfo] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: 0,
-  });
-  
-  function handleInputChange(key: personInfoKey, value: string) {
-    setPersonalInfo((prev) => ({ ...prev, [key]: value }));
-  }
-
+export default function JobApplicationStepPersonalInfo({
+  applicationData,
+  onInputChange,
+}: StepProps) {
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
@@ -27,8 +13,8 @@ export default function JobApplicationStepPersonalInfo() {
           <Label htmlFor="firstName">First Name *</Label>
           <Input
             id="firstName"
-            value={personalInfo.firstName}
-            onChange={(e) => handleInputChange("firstName", e.target.value)}
+            value={applicationData.firstName}
+            onChange={(e) => onInputChange("firstName", e.target.value)}
             placeholder="Enter your first name"
           />
         </div>
@@ -36,8 +22,8 @@ export default function JobApplicationStepPersonalInfo() {
           <Label htmlFor="lastName">Last Name *</Label>
           <Input
             id="lastName"
-            value={personalInfo.lastName}
-            onChange={(e) => handleInputChange("lastName", e.target.value)}
+            value={applicationData.lastName}
+            onChange={(e) => onInputChange("lastName", e.target.value)}
             placeholder="Enter your last name"
           />
         </div>
@@ -47,8 +33,8 @@ export default function JobApplicationStepPersonalInfo() {
         <Input
           id="email"
           type="email"
-          value={personalInfo.email}
-          onChange={(e) => handleInputChange("email", e.target.value)}
+          value={applicationData.email}
+          onChange={(e) => onInputChange("email", e.target.value)}
           placeholder="Enter your email address"
         />
       </div>
@@ -57,8 +43,8 @@ export default function JobApplicationStepPersonalInfo() {
         <Input
           id="phone"
           type="tel"
-          value={personalInfo.phoneNumber}
-          onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+          value={applicationData.phone}
+          onChange={(e) => onInputChange("phone", e.target.value)}
           placeholder="Enter your phone number"
         />
       </div>
