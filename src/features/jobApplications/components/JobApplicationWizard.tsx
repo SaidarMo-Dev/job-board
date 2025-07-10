@@ -88,13 +88,15 @@ export default function JobApplicationWizard({
 
   if (currentStep === 4) {
     return (
-      <Card>
-        <CardContent className="pt-6">{renderStepContent()}</CardContent>
-      </Card>
+      <div className="max-w-2xl py-10 m-auto">
+        <Card>
+          <CardContent className="pt-6">{renderStepContent()}</CardContent>
+        </Card>
+      </div>
     );
   }
   return (
-    <div className="max-w-4xl m-auto space-y-5">
+    <div className="max-w-4xl m-auto space-y-5 py-10">
       {/* Application flow header */}
       <ApplicationHeader jobData={jobData} />
       <Card>
@@ -105,7 +107,7 @@ export default function JobApplicationWizard({
             <span className="text-sm text-gray-500">{steps[currentStep]}</span>
           </div>
           <ProgressBar
-            value={(1 / (steps.length - 1)) * 100}
+            value={(currentStep / (steps.length - 1)) * 100}
             className="mt-2 h-[10px]"
             color=""
           />

@@ -33,7 +33,7 @@ export default function JobApplicationWizardPage() {
     resetForm,
   } = useApplicationWizard();
   return (
-    <div className="py-10">
+    <div className="custom-container">
       <JobApplicationWizard
         jobData={jobData}
         currentStep={currentStep}
