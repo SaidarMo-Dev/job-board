@@ -1,4 +1,6 @@
+import Loader from "@/components/Loaders/Loader";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/hooks/useAppSelector";
 import { ArrowLeft, ArrowRight, CheckCircle } from "lucide-react";
 
 interface ApplicationNavigationProps {
@@ -18,6 +20,11 @@ export default function ApplicationNavigation({
   onSubmit,
   isLastStep = false,
 }: ApplicationNavigationProps) {
+  const error = useAppSelector((state) => state.applicationReducer.error.fetch);
+  const loading = useAppSelector(
+    (state) => state.applicationReducer.loading.fetch
+  );
+
   return (
     <div className="flex justify-between pt-4 w-full">
       <Button
@@ -34,8 +41,9 @@ export default function ApplicationNavigation({
         <Button
           onClick={onSubmit}
           disabled={!isStepValid}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-sky-600 hover:bg-sky-700"
         >
+          {loading && <Loader size="sm" />}
           Submit Application
           <CheckCircle className="h-4 w-4" />
         </Button>
@@ -43,7 +51,7 @@ export default function ApplicationNavigation({
         <Button
           onClick={onNextStep}
           disabled={!isStepValid}
-          className="flex items-center gap-2 md:w-25"
+          className="flex items-center gap-2 md:w-25 bg-sky-600 hover:bg-sky-700"
         >
           Next
           <ArrowRight className="h-4 w-4" />
