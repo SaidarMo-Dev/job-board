@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { JobState } from "./jobTypes";
-import { fetchJobsThunk } from "./jobThunk";
+import { fetchJobsThunk, getJobByIdThunk } from "./jobThunk";
 import type { RootState } from "@/store";
 
 const initialState: JobState = {
@@ -42,6 +42,16 @@ const jobSlice = createSlice({
         state.hasNextPage = false;
         state.jobsCount = 0;
         state.currentPage = 1;
+      })
+      .addCase(getJobByIdThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getJobByIdThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(getJobByIdThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? "Something went wrong!";
       });
   },
 });

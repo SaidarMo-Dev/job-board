@@ -13,6 +13,7 @@ import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
 import { Clock, DollarSign, MapPin, Users } from "lucide-react";
 import type { JobResponse } from "../jobTypes";
 import { useState } from "react";
+import { Link } from "react-router";
 
 interface JobDetailsProp {
   onClose: (updated: boolean) => void;
@@ -100,9 +101,12 @@ export default function JobDetailsModal({
             </div>
 
             <div className="flex gap-3 pt-4">
-              <Button className="flex-1 bg-sky-600 hover:bg-sky-700">
+              <Link
+                className="flex-1 bg-sky-600 hover:bg-sky-700 flex justify-center items-center rounded-md text-white font-medium text-sm"
+                to={`/jobs/${selectedJob.jobId}/apply`}
+              >
                 Apply Now
-              </Button>
+              </Link>
 
               <SaveButton
                 jobId={selectedJob.jobId}

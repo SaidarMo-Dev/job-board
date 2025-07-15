@@ -25,6 +25,7 @@ import {
   getUserSavedJobsThunk,
   UnsaveJobThunk,
 } from "@/features/bookmarks/bookmarksThunk";
+import { Link } from "react-router";
 
 interface JobCardMiniProps {
   job: JobResponse;
@@ -101,9 +102,12 @@ export default function JobCardMini({
       </CardContent>
       <CardFooter>
         <div className="flex gap-2 w-full">
-          <Button className="flex-1 bg-sky-600 hover:bg-sky-700 cursor-pointer">
-            Easy Apply <ArrowUpRightFromSquare className="w-5 h-5" />{" "}
-          </Button>
+          <Link
+            className="flex-1 bg-sky-600 hover:bg-sky-700 flex justify-center items-center rounded-md text-white font-medium text-sm"
+            to={`/jobs/${job.jobId}/apply`}
+          >
+            Easy Apply <ArrowUpRightFromSquare className="w-5 h-5" />
+          </Link>
           <Button
             variant={"outline"}
             className="cursor-pointer"

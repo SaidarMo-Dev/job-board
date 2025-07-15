@@ -14,6 +14,7 @@ import type { JobResponse } from "../jobTypes";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
 import JobDetailsModal from "./JobDetailsModal";
 import SkillBadge from "@/components/SkillBadge";
+import { Link } from "react-router";
 
 interface JobCardFullProps {
   jobInfo: JobResponse;
@@ -91,12 +92,14 @@ export default function JobCardFull({
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <Button
-                  size="sm"
-                  className="bg-sky-600 hover:bg-sky-700 cursor-pointer mt-2 py-5 w-35 flex-1"
-                >
-                  Apply Now
-                </Button>
+                <Link to={`/jobs/${jobInfo.jobId}/apply`}>
+                  <Button
+                    size="sm"
+                    className="bg-sky-600 hover:bg-sky-700 cursor-pointer mt-2 py-5 w-35 flex-1"
+                  >
+                    Apply Now
+                  </Button>
+                </Link>
                 <Button
                   size="sm"
                   variant="outline"
