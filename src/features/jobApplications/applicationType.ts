@@ -18,3 +18,18 @@ export interface StepProps {
   onInputChange: (field: keyof ApplicationData, value: string) => void;
   onFileUpload?: (file: File | null) => void;
 }
+
+export interface ApplicationSatate {
+  addedApplicationId: number;
+  loading: {
+    fetch: boolean;
+    save: boolean;
+    remove: boolean;
+  };
+  error: {
+    fetch: string | null;
+    save: string | null;
+    remove: string | null;
+  };
+  userApplications: [];
+}

@@ -20,6 +20,7 @@ export function SuccessStep({ jobData, onReset }: SuccessStepProps) {
         We'll review your application and get back to you within 5-7 business
         days.
       </p>
+
       <div className="bg-gray-50 p-4 rounded-lg">
         <p className="text-sm text-gray-600">
           {/* TODO : handle application Id */}

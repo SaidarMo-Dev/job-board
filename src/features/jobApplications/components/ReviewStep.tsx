@@ -27,7 +27,7 @@ export function ReviewStep({ applicationData }: ReviewStepProps) {
               Documents
             </h4>
             <p>
-              Resume:{" "}
+              Resume:
               {applicationData.resume
                 ? applicationData.resume.name
                 : "Not uploaded"}
