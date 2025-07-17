@@ -1,11 +1,18 @@
 import { useState } from "react";
 import type { ApplicationData } from "../features/jobApplications/applicationType";
+import { useAppSelector } from "./useAppSelector";
+import { selectCurrentUser } from "@/features/auth/authSlice";
+import { useAppDispatch } from "./useAppDispatch";
+import { applyForJobThunk } from "@/features/jobApplications/applicationThunk";
+import { toast } from "react-toastify";
 
 export function useApplicationWizard() {
+  const currentUser = useAppSelector(selectCurrentUser)?.id ?? -1;
+
   const [currentStep, setCurrentStep] = useState(0);
   const [applicationData, setApplicationData] = useState<ApplicationData>({
-    userId: 1,
-    jobId: 1,
+    userId: currentUser,
+    jobId: -1,
     firstName: "",
     lastName: "",
     email: "",
@@ -19,7 +26,9 @@ export function useApplicationWizard() {
   });
 
   const handleInputChange = (field: keyof ApplicationData, value: string) => {
-    setApplicationData((prev) => ({ ...prev, [field]: value }));
+    if (field === "jobId" || field === "userId")
+      setApplicationData((prev) => ({ ...prev, [field]: Number(value) }));
+    else setApplicationData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleFileUpload = (file: File | null) => {
@@ -38,9 +47,16 @@ export function useApplicationWizard() {
     }
   };
 
-  const submitApplication = () => {
-    console.log("Application submitted:", applicationData);
-    nextStep();
+  const dispatch = useAppDispatch();
+
+  const submitApplication = async () => {
+    const result = await dispatch(applyForJobThunk({ applicationData }));
+
+    if (applyForJobThunk.fulfilled.match(result)) {
+      nextStep();
+    } else {
+      toast.error(result.payload ?? "Something went wrong!");
+    }
   };
 
   const isStepValid = (): boolean => {

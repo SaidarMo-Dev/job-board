@@ -6,9 +6,9 @@ export interface ApplicationData {
   email: string;
   phone: string;
   resume: File | null;
-  coverLetter: string;
-  linkedIn: string;
-  portfolio: string;
+  coverLetter?: string;
+  linkedIn?: string;
+  portfolio?: string;
   experience: string;
   availability: string;
 }

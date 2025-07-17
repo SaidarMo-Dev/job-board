@@ -20,7 +20,6 @@ export default function ApplicationNavigation({
   onSubmit,
   isLastStep = false,
 }: ApplicationNavigationProps) {
-  const error = useAppSelector((state) => state.applicationReducer.error.fetch);
   const loading = useAppSelector(
     (state) => state.applicationReducer.loading.fetch
   );
@@ -43,8 +42,8 @@ export default function ApplicationNavigation({
           disabled={!isStepValid}
           className="flex items-center gap-2 bg-sky-600 hover:bg-sky-700"
         >
-          {loading && <Loader size="sm" />}
-          Submit Application
+          {loading && <Loader size="xs" />}
+          {loading ? "Submit Application..." : "Submit Application"}
           <CheckCircle className="h-4 w-4" />
         </Button>
       ) : (

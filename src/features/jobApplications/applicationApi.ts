@@ -11,11 +11,16 @@ export async function applyForJob(applicationData: ApplicationData) {
     formData.append(key, value);
   });
 
-  const response = await api<ApiResponse<number>>({
-    method: "post",
-    url: `${APPLICATIONS_BASE_URL}/apply`,
-    data: formData,
-  });
+  console.log(formData.get("resume"));
+  const response = await api.post<ApiResponse<number>>(
+    `${APPLICATIONS_BASE_URL}/apply`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
 
   return response.data;
 }

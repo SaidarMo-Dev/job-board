@@ -1,14 +1,19 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { CheckCircle } from "lucide-react";
+import { ArrowRight, CheckCircle } from "lucide-react";
 import type { JobResponse } from "../../jobs/jobTypes";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { Link } from "react-router";
 interface SuccessStepProps {
   jobData: JobResponse;
   onReset: () => void;
 }
 
 export function SuccessStep({ jobData, onReset }: SuccessStepProps) {
+  const createdApplicationId = useAppSelector(
+    (state) => state.applicationReducer.addedApplicationId
+  );
   return (
     <div className="text-center space-y-4">
       <CheckCircle className="mx-auto h-16 w-16 text-green-500" />
@@ -24,11 +29,19 @@ export function SuccessStep({ jobData, onReset }: SuccessStepProps) {
       <div className="bg-gray-50 p-4 rounded-lg">
         <p className="text-sm text-gray-600">
           {/* TODO : handle application Id */}
-          Application ID: #APP-
+          Application ID: #APP-{createdApplicationId ?? -1}
         </p>
       </div>
       <div className="flex justify-center mt-6">
-        <Button onClick={onReset}>Apply for Another Position</Button>
+        <Link to="/jobs">
+          <Button
+            className="flex gap-2 items-center bg-sky-600 hover:bg-sky-700 cursor-pointer"
+            onClick={onReset}
+          >
+            Discover more Jobs...
+            <ArrowRight />
+          </Button>
+        </Link>
       </div>
     </div>
   );
