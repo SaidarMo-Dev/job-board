@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 interface LoaderProps {
   className?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
   variant?: "dots" | "spinner" | "pulse" | "bars";
 }
 
@@ -12,6 +12,7 @@ export default function Loader({
   variant = "spinner",
 }: LoaderProps) {
   const sizeClasses = {
+    xs: "w-7 h-7",
     sm: "w-8 h-8",
     md: "w-12 h-12",
     lg: "w-16 h-16",
@@ -51,7 +52,7 @@ export default function Loader({
     return (
       <div className={cn("relative", sizeClasses[size], className)}>
         <div className="absolute inset-0 rounded-full border-4 border-muted"></div>
-        <div className="absolute inset-0 rounded-full border-4 border-sky-600 border-t-transparent animate-spin"></div>
+        <div className="absolute inset-0 rounded-full border-4 border-sky-600 !border-t-transparent animate-spin"></div>
       </div>
     );
   }
