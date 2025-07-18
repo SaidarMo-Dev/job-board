@@ -4,12 +4,12 @@ import jobSliceReducer from "./features/jobs/jobSlice";
 import countrySliceReducer from "./features/countries/countrySlice";
 import bookmarkSliceReducer from "./features/bookmarks/bookmarksSlice";
 import dashboardStatsSliceReducer from "./features/dashboard_stats/dashboardStatsSlice";
+import applicationSliceReducer from "./features/jobApplications/applicationSlice";
 
 import storage from "redux-persist/lib/storage";
 
 import { persistReducer, persistStore } from "redux-persist";
 import { savedJobIdsTransform } from "./features/bookmarks/bookmarkPersistTransform";
-
 
 const rootReducer = combineReducers({
   authReducer: authSliceReducer,
@@ -17,6 +17,7 @@ const rootReducer = combineReducers({
   jobReducer: jobSliceReducer,
   bookmarkReducer: bookmarkSliceReducer,
   dashboardStatsReducer: dashboardStatsSliceReducer,
+  applicationReducer: applicationSliceReducer,
 });
 
 const persistConfig = {
