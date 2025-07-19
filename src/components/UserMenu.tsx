@@ -22,32 +22,42 @@ import { logout, selectCurrentUser } from "@/features/auth/authSlice";
 import RemoveTokens from "@/utils/removeTokens";
 import { useSelector } from "react-redux";
 import { getTotalUserSavedJobsThunk } from "@/features/bookmarks/bookmarksThunk";
+import { getUserDashboardStatsThunk } from "@/features/dashboard_stats/dashboardStatsThunk";
 
 export default function UserMenu() {
   const [profileCompletion] = useState<number>(16);
   const dispatch = useDispatch<AppDispatch>();
   const userid = useSelector(selectCurrentUser)?.id ?? -1;
-  const [savedJobsCount, setSavedJobsCount] = useState(0);
+  const [userStats, setUserStats] = useState({
+    totalSavedJobs: 0,
+    totalApplications: 0,
+  });
 
   useEffect(() => {
-    dispatch(getTotalUserSavedJobsThunk({ userId: userid.toString() })).then(
-      (result) => {
-        if (getTotalUserSavedJobsThunk.fulfilled.match(result)) {
-          setSavedJobsCount(result.payload);
-        }
+    dispatch(getUserDashboardStatsThunk({ userId: userid })).then((result) => {
+      if (getUserDashboardStatsThunk.fulfilled.match(result)) {
+        setUserStats({
+          totalSavedJobs: result.payload.totalSavedJobs,
+          totalApplications: result.payload.totalApplications,
+        });
       }
-    );
+    });
   }, [dispatch, userid]);
 
   const menuItems: MenuItem[] = [
     { icon: User2, label: "Profile", href: "/members/profile" },
     { icon: LayoutDashboard, label: "Dashboard", href: "/members" },
-    { icon: FileText, label: "Applications", href: "/members/applications" },
+    {
+      icon: FileText,
+      label: "Applications",
+      href: "/members/applications",
+      badge: userStats.totalApplications,
+    },
     {
       icon: Heart,
       label: "Saved Jobs",
       href: "/members/jobs",
-      badge: savedJobsCount,
+      badge: userStats.totalSavedJobs,
     },
     { icon: History, label: "History", href: "/members/history" },
   ];

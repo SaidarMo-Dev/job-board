@@ -7,25 +7,19 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { selectHasNextPage } from "@/features/jobs/jobSlice";
-import type { RootState } from "@/store";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+
+import { useState } from "react";
 
 interface CustomPaginationProps {
+  hasNextPage: boolean;
   onChange: (page) => void;
 }
-export default function CustomPagination({ onChange }: CustomPaginationProps) {
+export default function CustomPagination({
+  onChange,
+  hasNextPage,
+}: CustomPaginationProps) {
   const [selectedPage, setSelectedPage] = useState(1);
-  const hasNextPage = useSelector(selectHasNextPage);
-  const currentPage = useSelector(
-    (state: RootState) => state.jobReducer.currentPage
-  );
 
-  useEffect(() => {
-    setSelectedPage(currentPage);
-  }, [currentPage]);
-  
   function handlePrevious() {
     if (selectedPage !== 1) {
       const prevPage = selectedPage - 1;

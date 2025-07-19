@@ -6,6 +6,10 @@ interface SkillBadgeProps {
   skill: SkillResponse;
   className?: string;
 }
+
+// TODO : handle three styles for skill
+//const BgColors = ["bg-sky-300 text-white", "bg-violet-400/70 text-black"];
+
 export default function SkillBadge({
   skill,
   index,

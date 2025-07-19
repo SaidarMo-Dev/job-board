@@ -18,6 +18,23 @@ export interface JobResponse {
   categories: CategoryResponse[];
 }
 
+export interface JobSummary {
+  jobId: number;
+  title: string;
+  description: string;
+  companyName: string;
+  location: string;
+  jobType: string;
+  maxSalary: number;
+  minSalary: number;
+  experienceLevel: ExperienceLevelType;
+  datePosted: Date;
+  status: string;
+  skills: SkillResponse[];
+  cretaedByUser: string;
+  categories: CategoryResponse[];
+}
+
 export interface FilterValues {
   jobType: string;
   experienceLevel: string;
