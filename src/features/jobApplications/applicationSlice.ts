@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { ApplicationSatate } from "./applicationType";
-import { applyForJobThunk } from "./applicationThunk";
+import type {
+  ApplicationState,
+  UserApplicationResponse,
+} from "./applicationType";
+import { applyForJobThunk, getUserApplicationsThunk } from "./applicationThunk";
 
-const initialState: ApplicationSatate = {
+const initialState: ApplicationState = {
   addedApplicationId: -1,
   loading: {
     fetch: false,
@@ -14,7 +17,8 @@ const initialState: ApplicationSatate = {
     save: null,
     remove: null,
   },
-  userApplications: [],
+  userApplications: new Set<UserApplicationResponse>(),
+  hasNextPage: false,
 };
 
 const applicationSlice = createSlice({
@@ -35,6 +39,21 @@ const applicationSlice = createSlice({
         state.loading.fetch = false;
         state.error.fetch = action.payload ?? "Something went wrong!";
         state.addedApplicationId = -1;
+      })
+      // current user applications
+      .addCase(getUserApplicationsThunk.pending, (state) => {
+        state.loading.fetch = true;
+        state.error.fetch = null;
+      })
+      .addCase(getUserApplicationsThunk.fulfilled, (state, action) => {
+        state.loading.fetch = false;
+        state.userApplications = new Set(action.payload.data);
+        state.hasNextPage = action.payload.hasNextPage;
+      })
+      .addCase(getUserApplicationsThunk.rejected, (state, action) => {
+        state.loading.fetch = false;
+        state.error.fetch = action.payload ?? "Something went wrong!";
+        state.userApplications = new Set<UserApplicationResponse>();
       });
   },
 });

@@ -22,6 +22,7 @@ import { selectCurrentUser } from "@/features/auth/authSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { getSavedJobIdsThunk } from "@/features/bookmarks/bookmarksThunk";
 import PageLoader from "@/components/Loaders/PageLoader";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 export default function JobsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -29,7 +30,7 @@ export default function JobsPage() {
 
   const { jobs, loading } = useSelector((state: RootState) => state.jobReducer);
   const dispatch = useAppDispatch();
-
+  const hasNextPage = useAppSelector((state) => state.jobReducer.hasNextPage);
   function updateFilter(filters: FilterValues) {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -168,6 +169,7 @@ export default function JobsPage() {
                 </div>
                 <div className="flex justify-center my-5">
                   <CustomPagination
+                    hasNextPage={hasNextPage}
                     onChange={(page) => UpdatePageNumber(page)}
                   />
                 </div>

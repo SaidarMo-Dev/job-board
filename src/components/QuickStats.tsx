@@ -5,24 +5,15 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router";
 
 export default function QuickStats() {
-  const { handleShowCloseToast } = useToast();
   const userStats = useSelector(selectStats);
 
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-12 mt-12">
       <Link
-        to=""
+        to="/members/applications"
         className="block text-center p-4 bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-md"
       >
-        <div
-          className="p-0"
-          onClick={() =>
-            handleShowCloseToast({
-              title: "Not Yet Emplemented",
-              description: "this feature is under develepment be patient",
-            })
-          }
-        >
+        <div className="p-0">
           <FileText className="h-8 w-8 text-green-600 mx-auto mb-2" />
           <div className="text-2xl font-bold text-green-900">
             {userStats?.totalApplications ?? 0}
@@ -44,39 +35,26 @@ export default function QuickStats() {
         </div>
       </Link>
       <Link
-        to={""}
+        to="/members/applications"
         className="block text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-300 rounded-md"
       >
-        <div
-          className="p-0"
-          onClick={() =>
-            handleShowCloseToast({
-              title: "Not Yet Emplemented",
-              description: "this feature is under develepment be patient",
-            })
-          }
-        >
+        <div className="p-0">
           <Briefcase className="h-8 w-8 text-sky-600 mx-auto mb-2" />
-          <div className="text-2xl font-bold text-sky-900">0</div>
+          <div className="text-2xl font-bold text-sky-900">
+            {userStats?.rejected ?? 0}
+          </div>
           <div className="text-sm text-sky-700">Rejected Applications</div>
         </div>
       </Link>
       <Link
-        // to={"/user/history"}
-        to={""}
+        to="/members/applications"
         className="text-center p-4 bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-md"
       >
-        <div
-          className="p-0"
-          onClick={() =>
-            handleShowCloseToast({
-              title: "Not Yet Emplemented",
-              description: "this feature is under develepment be patient",
-            })
-          }
-        >
+        <div className="p-0">
           <Eye className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-          <div className="text-2xl font-bold text-orange-900">0</div>
+          <div className="text-2xl font-bold text-orange-900">
+            {userStats?.pending ?? 0}
+          </div>
           <div className="text-sm text-orange-700">Pending Applications</div>
         </div>
       </Link>
