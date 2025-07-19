@@ -1,3 +1,5 @@
+import type { JobSummary } from "../jobs/jobTypes";
+
 export interface ApplicationData {
   userId: number;
   jobId: number;
@@ -13,13 +15,22 @@ export interface ApplicationData {
   availability: string;
 }
 
+export interface UserApplicationResponse {
+  applicationId: number;
+  job: JobSummary;
+  status: string;
+  lastStatusDate: Date;
+}
+
 export interface StepProps {
   applicationData: ApplicationData;
   onInputChange: (field: keyof ApplicationData, value: string) => void;
   onFileUpload?: (file: File | null) => void;
 }
 
-export interface ApplicationSatate {
+export interface ApplicationState {
+  userApplications: Set<UserApplicationResponse>;
+  hasNextPage: boolean;
   addedApplicationId: number;
   loading: {
     fetch: boolean;
@@ -31,5 +42,12 @@ export interface ApplicationSatate {
     save: string | null;
     remove: string | null;
   };
-  userApplications: [];
 }
+
+export type applicationStatus = "All" | "Pending" | "Accepted" | "Rejected";
+
+export type ApplicationStatusFilterType =
+  | "All"
+  | "Pending"
+  | "Accepted"
+  | "Rejected";
