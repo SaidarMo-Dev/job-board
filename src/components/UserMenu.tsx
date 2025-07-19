@@ -21,7 +21,6 @@ import type { AppDispatch } from "@/store";
 import { logout, selectCurrentUser } from "@/features/auth/authSlice";
 import RemoveTokens from "@/utils/removeTokens";
 import { useSelector } from "react-redux";
-import { getTotalUserSavedJobsThunk } from "@/features/bookmarks/bookmarksThunk";
 import { getUserDashboardStatsThunk } from "@/features/dashboard_stats/dashboardStatsThunk";
 
 export default function UserMenu() {
