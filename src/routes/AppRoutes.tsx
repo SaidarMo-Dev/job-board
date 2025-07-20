@@ -15,6 +15,7 @@ import PasswordSecurityPage from "@/pages/PasswordAndSecurity";
 import SettingsAndNotificationsPage from "@/pages/SettingsNotifications";
 import AccountRecovery from "@/pages/AccountRecovery";
 import JobApplicationWizardPage from "@/pages/JobApplicationWizardPage";
+import { NotFound } from "@/pages/NotFound";
 
 export default function AppRoutes() {
   return (
@@ -51,6 +52,8 @@ export default function AppRoutes() {
         <Route path="send-confirm-email" element={<SendConfirmEmailPage />} />
         <Route path="confirm-email" element={<ConfirmEmail />} />
       </Route>
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
