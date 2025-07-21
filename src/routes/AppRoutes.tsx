@@ -2,8 +2,6 @@ import { Route, Routes } from "react-router";
 import RegisterPage from "../pages/Auth/ResgisterPage";
 import LoginPage from "../pages/Auth/LoginPage";
 import { LandingPage } from "../pages/LandingPage";
-import SendConfirmEmailPage from "../pages/Auth/SendConfirmEmailPage";
-import ConfirmEmail from "../pages/Auth/ConfirmEmail";
 import Home from "../pages/Home";
 import JobsPage from "../pages/JobsPage";
 import UserProfilePage from "@/pages/UserProfile";
@@ -16,6 +14,10 @@ import SettingsAndNotificationsPage from "@/pages/SettingsNotifications";
 import AccountRecovery from "@/pages/AccountRecovery";
 import JobApplicationWizardPage from "@/pages/JobApplicationWizardPage";
 import { NotFound } from "@/pages/NotFound";
+import { ConfirmEmailPage } from "@/pages/Auth/ConfirmEmailPage";
+import VerificationSucess from "@/pages/Auth/VerificationSuccess";
+import { ProtectedVerifyEmailRoute } from "@/layouts/ProtectedVerifyEmailRoute";
+import { ProtectedVerifyEmailSuccess } from "@/layouts/ProtectedVerifyEmailSuccess";
 
 export default function AppRoutes() {
   return (
@@ -49,8 +51,22 @@ export default function AppRoutes() {
       <Route path="/auth">
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="send-confirm-email" element={<SendConfirmEmailPage />} />
-        <Route path="confirm-email" element={<ConfirmEmail />} />
+        <Route
+          path="confirm-email"
+          element={
+            <ProtectedVerifyEmailRoute>
+              <ConfirmEmailPage />
+            </ProtectedVerifyEmailRoute>
+          }
+        />
+        <Route
+          path="confirm-email/success"
+          element={
+            <ProtectedVerifyEmailSuccess>
+              <VerificationSucess />
+            </ProtectedVerifyEmailSuccess>
+          }
+        />
       </Route>
 
       <Route path="*" element={<NotFound />} />

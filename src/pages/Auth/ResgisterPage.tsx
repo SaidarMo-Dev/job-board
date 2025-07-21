@@ -41,18 +41,13 @@ const signUpSchema = z
     confirmPassword: z
       .string()
       .min(1, { message: "Please confirm your password" }),
-
     role: z.string().min(1, { message: "Please choose one!" }),
   })
-  .superRefine(({ password, confirmPassword }, ctx) => {
-    if (password !== confirmPassword) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Passwords do not match",
-        path: ["confirmPassword"],
-      });
-    }
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not matches",
+    path: ["confirmPassword"],
   });
+
 type FormData = z.infer<typeof signUpSchema>;
 
 // register page
@@ -91,16 +86,18 @@ export default function RegisterPage() {
       const response = await createUser({ ...data, username: data.email });
 
       if (response.data.succeeded) {
-        localStorage.setItem("fromRegister", "true");
-        navigate("send-confirm-email");
+        // localStorage.setItem("fromRegister", "true");
+        sessionStorage.setItem("isSignupInProgress", "true");
+        navigate("/auth/confirm-email");
       } else {
-        toast.info(response.data.message);
+        toast.info(response.data?.message ?? "Something went wrong!");
       }
     } catch (error) {
       // if axios error then take the returned message from api and display it otherwise display Unknown error
       if (axios.isAxiosError(error)) {
+        console.log(error)
         const errorResponse = error.response?.data as ApiResponse<null>;
-        toast.error(errorResponse.message);
+        toast.error(errorResponse?.message ?? "Something went wrong!");
       } else {
         toast.error("Something went wrong!");
       }

@@ -1,10 +1,7 @@
 import { CheckCircle } from "lucide-react";
-import { useState } from "react";
 import { Link } from "react-router";
 
-export default function ConfirmEmail() {
-  const [status, setStatus] = useState("Unknown");
-
+export default function VerificationSucess() {
   return (
     <div className="custom-container h-dvh w-full flex justify-center items-center">
       <div className="bg-white shadow-lg p-5 rounded-md flex flex-col items-center text-center md:w-120 sm:w-100">
@@ -19,6 +16,7 @@ export default function ConfirmEmail() {
 
         <Link
           to="/auth/login"
+          replace
           className="w-full font-semibold text-sm border border-gray-200 mt-6 py-2 px-3 rounded-sm hover:bg-gray-100"
         >
           GO to login page

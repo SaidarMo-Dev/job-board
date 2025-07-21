@@ -1,6 +1,6 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { useWatch, type UseFormRegister } from "react-hook-form";
+import { type UseFormRegister } from "react-hook-form";
 
 interface PasswordsInputProps {
   register: UseFormRegister<{
@@ -24,7 +24,6 @@ interface PasswordsInputProps {
 export function PasswordsInput({ register, errors }: PasswordsInputProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   return (
     <>
       <div className="space-y-2">

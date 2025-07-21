@@ -11,6 +11,7 @@ export const createUser = (data: RegisterFormData) =>
     method: "post",
     url: `${USER_BASE_URL}/register`,
     data: { ...data },
+    timeout: 10000,
   });
 
 export async function getCurrentUser(): Promise<CurrentUser> {
