@@ -83,7 +83,7 @@ export default function RegisterPage() {
 
       setLoading(true);
       // create the user and make sure to send email as username
-      const response = await createUser({ ...data, username: data.email });
+      const response = await createUser({ ...data });
 
       if (response.data.succeeded) {
         // localStorage.setItem("fromRegister", "true");
@@ -95,7 +95,7 @@ export default function RegisterPage() {
     } catch (error) {
       // if axios error then take the returned message from api and display it otherwise display Unknown error
       if (axios.isAxiosError(error)) {
-        console.log(error)
+        console.log(error);
         const errorResponse = error.response?.data as ApiResponse<null>;
         toast.error(errorResponse?.message ?? "Something went wrong!");
       } else {
@@ -181,7 +181,9 @@ export default function RegisterPage() {
               {/* Create Account Button */}
               <button
                 type="submit"
-                className="w-full h-11 bg-sky-600 hover:bg-sky-700 text-white font-medium rounded-md transition-colors focus:outline-none cursor-pointer disabled:bg-gray-100 disabled:text-black"
+                className="w-full h-11 bg-sky-600 hover:bg-sky-700 text-white
+                          font-medium rounded-md transition-colors focus:outline-none cursor-pointer
+                          disabled:bg-gray-100 disabled:text-black"
                 disabled={loading}
               >
                 Create account
