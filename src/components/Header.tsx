@@ -13,7 +13,24 @@ const Header = () => {
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
-  const [isUsermenuOpen, setIsUsermenuOpen] = useState(false);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // close user menu when click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setOpenUserMenu(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  });
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -62,7 +79,9 @@ const Header = () => {
             <nav
               className={`${
                 isAuthenticated === false ? "hidden" : ""
-              } md:flex space-x-8 ${isAuthenticated === true? "mr-auto ml-10":""} `}
+              } md:flex space-x-8 ${
+                isAuthenticated === true ? "mr-auto ml-10" : ""
+              } `}
             >
               {/* Find Jobs Dropdown */}
               <div className={`relative`} ref={dropdownRef}>
@@ -162,15 +181,16 @@ const Header = () => {
                   <User className="h-5 w-5" />
                 </Link>
                 <div
+                  ref={userMenuRef}
                   className=""
                   onClick={() => {
-                    setIsUsermenuOpen(!isUsermenuOpen);
+                    setOpenUserMenu(!openUserMenu);
                   }}
                 >
                   <button className="p-2 rounded-sm hover:bg-gray-100">
                     <Menu className="h-5 w-5" />
                   </button>
-                  {isUsermenuOpen && <UserMenu />}
+                  {openUserMenu && <UserMenu />}
                 </div>
               </div>
             )}
