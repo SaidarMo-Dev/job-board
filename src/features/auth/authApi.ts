@@ -11,6 +11,17 @@ interface ConfirmEmailType {
 
 const AUTH_BASE_URL = "/auth";
 
+export async function ConfirmEmailByCode(email: string, code: string) {
+  const params = new URLSearchParams();
+  params.append("Email", email);
+  params.append("Code", code);
+  const response = await api.get<ApiResponse<string>>(
+    `${AUTH_BASE_URL}/confirm-email-code?${params.toString()}`
+  );
+
+  return response.data;
+}
+
 export async function RefreshToken() {
   const data = {
     refreshToken: getRefreshToken() ?? "",

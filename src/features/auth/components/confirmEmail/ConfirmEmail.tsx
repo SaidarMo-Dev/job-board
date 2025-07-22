@@ -3,6 +3,9 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeft, Mail } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { ConfirmEmailByCode } from "../../authApi";
+import axios from "axios";
+import type { ApiResponse } from "@/types/ApiResponse";
 
 export function ConfirmEmail() {
   const [verificationCode, setVerificationCode] = useState([
@@ -15,7 +18,7 @@ export function ConfirmEmail() {
   ]);
 
   function handleCodeChange(index: number, value: string) {
-    setError("");
+    setVerifyError("");
     if (value.length <= 1) {
       const newCode = [...verificationCode];
       newCode[index] = value;
@@ -37,15 +40,28 @@ export function ConfirmEmail() {
       prevInput?.focus();
     }
   }
-  const [verifyError, setError] = useState<string>("");
+  const [verifyError, setVerifyError] = useState<string>("");
 
+  const email = sessionStorage.getItem("userEmail") ?? "";
   const navigate = useNavigate();
-  const handleVerifyCode = () => {
-    // TODO : Verify email
-    sessionStorage.setItem("emailVerified", "true");
-    navigate("/auth/confirm-email/success", {
-      replace: true,
-    });
+  const handleVerifyCode = async () => {
+    try {
+      const response = await ConfirmEmailByCode(
+        email,
+        verificationCode.join("")
+      );
+      if (response.succeeded) {
+        sessionStorage.setItem("emailVerified", "true");
+        navigate("/auth/confirm-email/success", {
+          replace: true,
+        });
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const res = error.response?.data as ApiResponse<string>;
+        setVerifyError(res.message ?? "Something went wrong!");
+      } else setVerifyError("Something went wrong!");
+    }
   };
 
   return (
@@ -56,7 +72,7 @@ export function ConfirmEmail() {
           <Mail className="h-8 w-8 text-sky-600" />
         </div>
         <h2 className="font-bold text-3xl my-3">Check your email</h2>
-        <p className="text-gray-500">We sent a verification code to you!</p>
+        <p className="text-gray-500">We sent a verification code to {email}</p>
 
         <h4 className="text-gray-500 mt-7">Enter the 6-digit code</h4>
         <div className="flex justify-center gap-2 items-center mt-5">

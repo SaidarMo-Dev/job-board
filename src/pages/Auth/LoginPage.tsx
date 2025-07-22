@@ -257,8 +257,8 @@ export default function LoginPage() {
               By signing in, you agree to our{" "}
               <a href="/terms" className="text-sky-600 hover:text-sky-700">
                 Terms of Service
-              </a>
-              and
+              </a>{" "}
+              and{" "}
               <a href="/privacy" className="text-sky-600 hover:text-sky-700">
                 Privacy Policy
               </a>

@@ -21,6 +21,7 @@ import { NameInputs } from "@/features/auth/components/register/NameInput";
 import { PasswordsInput } from "@/features/auth/components/register/PasswordsInput";
 import { TermsCheckBox } from "@/features/auth/components/register/TermsCheckBox";
 import { SocialRegistrationAuth } from "@/features/auth/components/register/SocialRegistrationAuth";
+import Loader from "@/components/Loaders/Loader";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
 
@@ -88,6 +89,7 @@ export default function RegisterPage() {
       if (response.data.succeeded) {
         // localStorage.setItem("fromRegister", "true");
         sessionStorage.setItem("isSignupInProgress", "true");
+        sessionStorage.setItem("userEmail", data.email);
         navigate("/auth/confirm-email");
       } else {
         toast.info(response.data?.message ?? "Something went wrong!");
@@ -181,12 +183,15 @@ export default function RegisterPage() {
               {/* Create Account Button */}
               <button
                 type="submit"
-                className="w-full h-11 bg-sky-600 hover:bg-sky-700 text-white
+                className="flex items-center justify-center w-full h-11 bg-sky-600 hover:bg-sky-700 text-white
                           font-medium rounded-md transition-colors focus:outline-none cursor-pointer
                           disabled:bg-gray-100 disabled:text-black"
                 disabled={loading}
               >
-                Create account
+                {loading ? "Creating" : "Create account"}
+                {loading && (
+                  <Loader variant="dots" size="sm" className="mt-2 ml-2" />
+                )}
               </button>
             </form>
 

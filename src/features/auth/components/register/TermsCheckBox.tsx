@@ -24,8 +24,8 @@ export function TermsCheckBox({
           I agree to the
           <Link to="" className="text-sky-600 hover:text-sky-700 font-medium">
             Terms of Service
-          </Link>
-          and
+          </Link>{" "}
+          and{" "}
           <Link to="" className="text-sky-600 hover:text-sky-700 font-medium">
             Privacy Policy
           </Link>
