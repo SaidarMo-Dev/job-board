@@ -20,7 +20,7 @@ function App() {
           <ToastContextProvider>
             <ToastContainer
               position="top-center"
-              autoClose={5000}
+              autoClose={2000}
               theme="colored"
               transition={Zoom}
               hideProgressBar={true}

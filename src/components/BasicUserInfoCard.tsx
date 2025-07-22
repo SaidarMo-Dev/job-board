@@ -172,7 +172,7 @@ export default function BasicUserInfoCard() {
                 id="phone"
                 value={userInfo.phoneNumber}
                 onChange={(e) =>
-                  handleInputChange("PhoneNumber", e.target.value)
+                  handleInputChange("phoneNumber", e.target.value)
                 }
                 placeholder="Enter your phone number"
                 type="tel"

@@ -19,7 +19,6 @@ interface SecuritySettingsCardProps {
 
 const SecuritySettingsCard: React.FC<SecuritySettingsCardProps> = ({
   onViewActivity,
-  onSetupRecovery,
 }) => (
   <Card>
     <CardHeader>

@@ -75,7 +75,7 @@ const bookmarkSlice = createSlice({
       })
       .addCase(getSavedJobIdsThunk.rejected, (state, action) => {
         state.loading.fetch = false;
-        state.savedJobIds = null;
+        state.savedJobIds = new Set<number>();
         state.error.fetch = action.payload ?? "Something went wrong!";
       })
 
@@ -123,7 +123,10 @@ const bookmarkSlice = createSlice({
 export default bookmarkSlice.reducer;
 
 export const selectIsJobSaved = (state: RootState, JobId) => {
-  return state.bookmarkReducer.savedJobIds?.has(JobId) ?? false;
+  if (state.bookmarkReducer.savedJobIds.size > 0)
+    return state.bookmarkReducer.savedJobIds?.has(JobId) ?? false;
+
+  return false;
 };
 
 export const selectBookMarkIsLoading = (state: RootState) =>

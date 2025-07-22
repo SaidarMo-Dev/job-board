@@ -8,7 +8,7 @@ export interface bookmarkResponse {
 
 export interface BookmarkState {
   bookmarkedJobs: bookmarkResponse[] | null;
-  savedJobIds: Set<number> | null;
+  savedJobIds: Set<number>;
   loading: {
     fetch: boolean;
     save: boolean;

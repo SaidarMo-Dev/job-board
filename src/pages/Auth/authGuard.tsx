@@ -19,8 +19,6 @@ export default function AuthGuard({ children }: AuthGuardProps) {
     if (!isAuthenticated && !isLoading) navigate("/auth/login");
   }, [isAuthenticated, navigate, isLoading]);
 
-  
-
   if (!isAuthenticated) {
     return null;
   }

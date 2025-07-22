@@ -111,7 +111,6 @@ export default function JobDetailsModal({
               <SaveButton
                 jobId={selectedJob.jobId}
                 onToggle={(updated) => {
-                  console.log(updated);
                   setUpdated(updated);
                 }}
               />

@@ -27,6 +27,9 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 export default function JobsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentUserId = useSelector(selectCurrentUser)?.id ?? -1;
+  const isAuthenticated = useAppSelector(
+    (state) => state.authReducer.isAuthenticated
+  );
 
   const { jobs, loading } = useSelector((state: RootState) => state.jobReducer);
   const dispatch = useAppDispatch();
@@ -95,8 +98,10 @@ export default function JobsPage() {
 
   // refresh savedJobIds
   useEffect(() => {
-    dispatch(getSavedJobIdsThunk({ userId: currentUserId }));
-  }, [dispatch, currentUserId]);
+    if (isAuthenticated) {
+      dispatch(getSavedJobIdsThunk({ userId: currentUserId }));
+    }
+  }, [dispatch, currentUserId, isAuthenticated]);
 
   useEffect(() => {
     dispatch(fetchJobsThunk({ params: searchParams.toString() })).then(

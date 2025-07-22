@@ -18,18 +18,19 @@ import { ConfirmEmailPage } from "@/pages/Auth/ConfirmEmailPage";
 import VerificationSucess from "@/pages/Auth/VerificationSuccess";
 import { ProtectedVerifyEmailRoute } from "@/layouts/ProtectedVerifyEmailRoute";
 import { ProtectedVerifyEmailSuccess } from "@/layouts/ProtectedVerifyEmailSuccess";
+import PublicLayout from "@/layouts/PublicLayout";
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
 
-      <Route element={<MainLayout />}>
-        <Route path="/jobs">
-          <Route index element={<JobsPage />} />
-          <Route path=":jobId/apply" element={<JobApplicationWizardPage />} />
-        </Route>
+      <Route path="/jobs" element={<PublicLayout />}>
+        <Route index element={<JobsPage />} />
+        <Route path=":jobId/apply" element={<JobApplicationWizardPage />} />
+      </Route>
 
+      <Route element={<MainLayout />}>
         <Route path="/members">
           <Route index element={<Home />} />
           <Route path="profile" element={<UserProfilePage />} />

@@ -13,6 +13,7 @@ import {
 } from "@/features/bookmarks/bookmarksThunk";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "@/features/auth/authSlice";
+import { useNavigate } from "react-router";
 interface SaveButtonProps {
   className?: string;
   jobId: number;
@@ -24,21 +25,29 @@ const SaveButton = ({ jobId, className = "", onToggle }: SaveButtonProps) => {
   const currentUserId = useSelector(selectCurrentUser)?.id ?? -1;
   const isLoading = useAppSelector(selectBookMarkIsLoading).save;
 
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(
+    (state) => state.authReducer.isAuthenticated
+  );
 
   function handleToggle() {
-    if (isSaved) {
-      dispatch(UnsaveJobThunk({ jobId }));
-
-      // notify the parent that the job is no loger saved to refresh new list from db
-      if (onToggle) onToggle(true);
+    if (!isAuthenticated) {
+      navigate("/auth/login");
     } else {
-      dispatch(
-        saveJobThunk({ userId: currentUserId, jobId, dateBooked: new Date() })
-      );
+      if (isSaved) {
+        dispatch(UnsaveJobThunk({ jobId }));
+        // notify the parent that the job is no loger saved to refresh new list from db
+        if (onToggle) onToggle(true);
+      } else {
+        dispatch(
+          saveJobThunk({ userId: currentUserId, jobId, dateBooked: new Date() })
+        );
 
-      // notify the parent that nothing change so it won't refresh the data
-      if (onToggle) onToggle(false);
+        // notify the parent that nothing change so it won't refresh the data
+        if (onToggle) onToggle(false);
+      }
     }
   }
 

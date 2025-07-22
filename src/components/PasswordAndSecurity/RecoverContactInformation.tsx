@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch, RootState } from "@/store";
 import { AddRecoveryContactInformationThunk } from "@/features/auth/authThunk";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import UserInfoLabel from "../BasicUserCardComponents/UserInfoLabel";
 import AddButton from "../BasicUserCardComponents/AddButton";
 import { selectCurrentUserRecoveryInfo } from "@/features/auth/authSlice";
@@ -46,7 +46,10 @@ export default function RecoverContactInformation() {
       })
     ).then((result) => {
       if (AddRecoveryContactInformationThunk.fulfilled.match(result)) {
-        toast.success("Recovery contact Saved Successfully");
+        toast.success("Recovery contact Saved Successfully", {
+          position: "bottom-left",
+          transition: Slide,
+        });
         setIsEditing(false);
       } else {
         setError(
