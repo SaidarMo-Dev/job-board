@@ -5,15 +5,26 @@ import { useState } from "react";
 interface JobSearchProps {
   className?: string;
   onSearch: (title, location) => void;
+  title?: string;
+  location?: string;
 }
 
 type searchType = "title" | "location";
 
-const JobSearch = ({ className = "", onSearch }: JobSearchProps) => {
-  const [searchValues, setSearchValues] = useState({ title: "", location: "" });
+const JobSearch = ({
+  title = "",
+  location = "",
+  className = "",
+  onSearch,
+}: JobSearchProps) => {
+  const [searchValues, setSearchValues] = useState({ title, location });
 
   function UpdateSearch(key: searchType, value: string) {
     setSearchValues((prev) => ({ ...prev, [key]: value }));
+    if (!value) {
+      if (key === "title") onSearch("", searchValues.location);
+      else onSearch(searchValues.title, "");
+    }
   }
 
   return (

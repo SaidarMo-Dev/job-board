@@ -73,9 +73,9 @@ export default function JobsPage() {
       params.delete("searchByTitle");
     }
     if (location) {
-      params.set("searchBylocation", location);
+      params.set("searchByLocation", location);
     } else {
-      params.delete("searchBylocation");
+      params.delete("searchByLocation");
     }
     setSearchParams(params);
   }
@@ -124,6 +124,8 @@ export default function JobsPage() {
           </h4>
           <div className="max-w-4xl m-auto mt-7">
             <JobSearch
+              title={searchParams.get("searchByTitle") ?? ""}
+              location={searchParams.get("searchByLocation") ?? ""}
               className="w-200"
               onSearch={(title, location) => UpdateSearch(title, location)}
             />

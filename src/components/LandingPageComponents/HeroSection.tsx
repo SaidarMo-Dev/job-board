@@ -2,9 +2,21 @@ import { ArrowRight, Briefcase, Search } from "lucide-react";
 import { PopularSearch } from "../PopularSearch";
 import { useToast } from "../../contexts/ToastContext";
 import JobSearch from "../../features/jobs/components/JobSearch";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export function HeroSection() {
+  const navigate = useNavigate();
+  function handleSearch(title: string, location: string) {
+    const params = new URLSearchParams();
+   
+    if (title) params.append("searchByTitle", title);
+    else params.delete("searchByTitle");
+    if (location) params.append("searchByLocation", location);
+    else params.delete("searchByLocation");
+
+    navigate(`/jobs?${params.toString()}`);
+  }
+
   const { handleShowCloseToast } = useToast();
   return (
     <>
@@ -72,7 +84,7 @@ export function HeroSection() {
 
             <div className="shadow-lg border-2  border-gray-100 mt-10 p-4">
               <JobSearch
-                onSearch={(title, location) => console.log(title, location)}
+                onSearch={(title, location) => handleSearch(title, location)}
               />
               <hr className="text-neutral-200 mt-6 mb-6" />
               <div>
