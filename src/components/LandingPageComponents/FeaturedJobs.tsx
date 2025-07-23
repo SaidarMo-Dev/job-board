@@ -1,102 +1,15 @@
 import { ArrowRight } from "lucide-react";
-import { JobCard } from "../../features/jobs/components/JobCard";
-import type { JobProps } from "../../types/JobProps";
-import { useToast } from "../../contexts/ToastContext";
 
-export function FeaturedJobs() {
-  const { handleShowCloseToast } = useToast();
-  const featuredJobs: Array<JobProps> = [
-    {
-      Title: "Senior Frontend Developer",
-      Company: "Microsoft",
-      Location: "Now York, NY",
-      JobType: "Full Time",
-      SalaryRange: "$90k - $120k",
-      CreatedAt: "2",
-      Description:
-        "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
-      Skills: [
-        { Id: 1, Skill: "Typescript" },
-        { Id: 2, Skill: "React" },
-        { Id: 3, Skill: "JS" },
-      ],
-    },
-    {
-      Title: "Product Manager",
-      Company: "MS Solutions",
-      Location: "Morocco Eljadida",
-      JobType: "Full Time",
-      SalaryRange: "$40k - $70k",
-      CreatedAt: "2",
-      Description: "",
-      Skills: [
-        { Id: 1, Skill: "Strategy" },
-        { Id: 2, Skill: "Analytics" },
-        { Id: 3, Skill: "Saas" },
-      ],
-    },
-    {
-      Title: "Senior Frontend Developer",
-      Company: "Microsoft",
-      Location: "Now York, NY",
-      JobType: "Full Time",
-      SalaryRange: "$90k - $120k",
-      CreatedAt: "2",
-      Description:
-        "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
-      Skills: [
-        { Id: 1, Skill: "Typescript" },
-        { Id: 2, Skill: "React" },
-        { Id: 3, Skill: "JS" },
-      ],
-    },
-    {
-      Title: "Senior Frontend Developer",
-      Company: "Microsoft",
-      Location: "Now York, NY",
-      JobType: "Full Time",
-      SalaryRange: "$90k - $120k",
-      CreatedAt: "2",
-      Description:
-        "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
-      Skills: [
-        { Id: 1, Skill: "Typescript" },
-        { Id: 2, Skill: "React" },
-        { Id: 3, Skill: "JS" },
-      ],
-    },
-    {
-      Title: "Senior Frontend Developer",
-      Company: "Microsoft",
-      Location: "Now York, NY",
-      JobType: "Full Time",
-      SalaryRange: "$90k - $120k",
-      CreatedAt: "2",
-      Description:
-        "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
-      Skills: [
-        { Id: 1, Skill: "Typescript" },
-        { Id: 2, Skill: "React" },
-        { Id: 3, Skill: "JS" },
-      ],
-    },
-    {
-      Title: "Senior Frontend Developer",
-      Company: "Microsoft",
-      Location: "Now York, NY",
-      JobType: "Full Time",
-      SalaryRange: "$90k - $120k",
-      CreatedAt: "2",
-      Description:
-        "Join our team to build cutting-edge web applications using modern React ecosystem. Work with a talented",
-      Skills: [
-        { Id: 1, Skill: "Typescript" },
-        { Id: 2, Skill: "React" },
-        { Id: 3, Skill: "JS" },
-      ],
-    },
-  ];
+import type { JobResponse } from "@/features/jobs/jobTypes";
+import { JobCardMini } from "@/features/jobs/components/JobCardMini";
+import { Link } from "react-router";
+import { Button } from "../ui/button";
 
+export function FeaturedJobs({
+  featuredJobs,
+}: {
+  featuredJobs: JobResponse[];
+}) {
   return (
     <section className="bg-white py-15">
       <div className="custom-container">
@@ -110,23 +23,21 @@ export function FeaturedJobs() {
         </div>
 
         {/* jobs */}
-        <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-5 mt-15">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mt-15">
           {featuredJobs.map((job, index) => {
-            return <JobCard job={job} key={index} />;
+            return <JobCardMini job={job} key={index} />;
           })}
         </div>
-        <button
-          className="relative mt-15 block m-auto font-semibold border border-neutral-200 pt-2 pr-10 pb-2 pl-4 rounded hover:bg-neutral-100"
-          onClick={() =>
-            handleShowCloseToast({
-              title: "Not Yet Available",
-              description: "Coming soon! This feature is under development.",
-            })
-          }
-        >
-          <ArrowRight className="absolute right-2" width="20px" />
-          Viwe All Jobs
-        </button>
+        <Link to="/jobs" className="flex justify-center mt-10">
+          <Button
+            size={"lg"}
+            variant={"outline"}
+            className="flex justify-center items-center gap-3"
+          >
+            Viwe All Jobs
+            <ArrowRight className="w-6 h-6" />
+          </Button>
+        </Link>
       </div>
     </section>
   );

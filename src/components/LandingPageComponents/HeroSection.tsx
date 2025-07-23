@@ -2,6 +2,7 @@ import { ArrowRight, Briefcase, Search } from "lucide-react";
 import { PopularSearch } from "../PopularSearch";
 import { useToast } from "../../contexts/ToastContext";
 import JobSearch from "../../features/jobs/components/JobSearch";
+import { Link } from "react-router";
 
 export function HeroSection() {
   const { handleShowCloseToast } = useToast();
@@ -18,30 +19,24 @@ export function HeroSection() {
             <p className="my-5 text-lg text-neutral-700 max-w-200">
               Connect with top employers and discover opportunities that match
               your skills, experience, and career goals. Your next career move
-              starts here.{" "}
+              starts here.
             </p>
-            <button
-              className="bg-sky-600 py-2.5 px-13 text-white rounded-md relative hover:bg-sky-600/90"
-              onClick={() =>
-                handleShowCloseToast({
-                  title: "Not Yet Available",
-                  description:
-                    "Coming soon! This feature is under development.",
-                })
-              }
-            >
-              <Search
-                className="absolute left-6 top-1/2 transform -translate-y-1/2"
-                width="17px"
-                height="17px"
-              />
-              Browse Jobs
-              <ArrowRight
-                className="absolute right-5 top-1/2 transform -translate-y-1/2"
-                width="17px"
-                height="17px"
-              />
-            </button>
+            <Link to="/jobs">
+              <button className="bg-sky-600 py-2.5 px-13 text-white rounded-md relative hover:bg-sky-600/90">
+                <Search
+                  className="absolute left-6 top-1/2 transform -translate-y-1/2"
+                  width="17px"
+                  height="17px"
+                />
+                Browse Jobs
+                <ArrowRight
+                  className="absolute right-5 top-1/2 transform -translate-y-1/2"
+                  width="17px"
+                  height="17px"
+                />
+              </button>
+            </Link>
+
             <button
               className="relative bg-white border-2 py-2.5 pl-12 pr-8 ml-5 border-neutral-100 rounded-md hover:bg-neutral-50 hover:border-neutral-200"
               onClick={() =>

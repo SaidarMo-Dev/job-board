@@ -1,4 +1,4 @@
-import JobCardMini from "@/features/jobs/components/JobCardMini";
+import JobCardMini from "@/features/jobs/components/SavedJobCard";
 import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
 

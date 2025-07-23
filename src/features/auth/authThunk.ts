@@ -15,11 +15,11 @@ import type { RecoveryContactInfo } from "./authTypes";
 
 const handleLogin = createAsyncThunk<
   boolean,
-  { emailOrUsername: string; password: string },
+  { UsernameOrEmail: string; Password: string },
   { rejectValue: string }
->("auth/login", async ({ emailOrUsername, password }, thunkApi) => {
+>("auth/login", async ({ UsernameOrEmail, Password }, thunkApi) => {
   try {
-    const data = await Login(emailOrUsername, password);
+    const data = await Login(UsernameOrEmail, Password);
     saveToken(data);
     return true;
   } catch (error) {
