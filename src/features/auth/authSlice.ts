@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAction, createSlice } from "@reduxjs/toolkit";
 import type { AuthState } from "./authTypes";
 import {
   AddRecoveryContactInformationThunk,
@@ -22,12 +22,12 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout: (state) => {
-      state.isAuthenticated = false;
-      state.currentUser = null;
-      state.error = null;
-      state.loading = false;
-    },
+    // logout: (state) => {
+    //   state.isAuthenticated = false;
+    //   state.currentUser = null;
+    //   state.error = null;
+    //   state.loading = false;
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -129,7 +129,8 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { logout } = authSlice.actions;
+
+export const logout = createAction("auth/logout");
 
 export const selectAuthError = (state: RootState) => state.authReducer.error;
 export const selectCurrentUser = (state: RootState) =>

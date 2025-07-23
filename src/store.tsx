@@ -1,5 +1,5 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import authSliceReducer from "./features/auth/authSlice";
+import { configureStore, combineReducers, type Action } from "@reduxjs/toolkit";
+import authSliceReducer, { logout } from "./features/auth/authSlice";
 import jobSliceReducer from "./features/jobs/jobSlice";
 import countrySliceReducer from "./features/countries/countrySlice";
 import bookmarkSliceReducer from "./features/bookmarks/bookmarksSlice";
@@ -11,7 +11,7 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import { savedJobIdsTransform } from "./features/bookmarks/bookmarkPersistTransform";
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   authReducer: authSliceReducer,
   countryReducer: countrySliceReducer,
   jobReducer: jobSliceReducer,
@@ -19,6 +19,15 @@ const rootReducer = combineReducers({
   dashboardStatsReducer: dashboardStatsSliceReducer,
   applicationReducer: applicationSliceReducer,
 });
+
+const rootReducer = (state, action: Action<string>) => {
+  if (action.type === logout.type) {
+    storage.removeItem("persist:root");
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
 
 const persistConfig = {
   key: "root",
@@ -28,6 +37,7 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
