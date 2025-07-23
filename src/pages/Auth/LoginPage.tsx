@@ -10,7 +10,7 @@ import { getCurrentUserThunk, handleLogin } from "@/features/auth/authThunk";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [emailOrUsername, setEmailOrUsername] = useState("");
+  const [UsernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -27,7 +27,9 @@ export default function LoginPage() {
     async (e: React.FormEvent) => {
       e.preventDefault();
       setErrorMessage("");
-      const result = await dispatch(handleLogin({ emailOrUsername, password }));
+      const result = await dispatch(
+        handleLogin({ UsernameOrEmail, Password: password })
+      );
 
       if (handleLogin.fulfilled.match(result)) {
         await dispatch(getCurrentUserThunk());
@@ -36,7 +38,7 @@ export default function LoginPage() {
         setErrorMessage(result.payload ? result.payload : "");
       }
     },
-    [dispatch, emailOrUsername, password, navigate]
+    [dispatch, UsernameOrEmail, password, navigate]
   );
 
   return (
@@ -75,8 +77,8 @@ export default function LoginPage() {
                     id="emailOrUsername"
                     type="text"
                     placeholder="Email Or Username"
-                    value={emailOrUsername}
-                    onChange={(e) => setEmailOrUsername(e.target.value)}
+                    value={UsernameOrEmail}
+                    onChange={(e) => setUsernameOrEmail(e.target.value)}
                     className="w-full h-11 px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-2 focus:border-sky-600 transition-colors"
                     required
                   />
