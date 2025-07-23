@@ -50,7 +50,7 @@ export default function JobDetailsModal({
                   onClose(updated);
                 }}
               >
-                ×
+                x
               </Button>
             </div>
           </CardHeader>
@@ -87,7 +87,7 @@ export default function JobDetailsModal({
               <h3 className="font-semibold mb-2">Required Skills</h3>
               <div className="flex flex-wrap gap-2">
                 {selectedJob.skills.map((skill, index) => (
-                  <SkillBadge skill={skill} index={index} />
+                  <SkillBadge key={index} skill={skill} index={index} />
                 ))}
               </div>
             </div>
