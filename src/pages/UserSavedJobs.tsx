@@ -1,4 +1,4 @@
-import JobCardMini from "@/features/jobs/components/JobCardMini";
+import SavedJobCard from "@/features/jobs/components/SavedJobCard";
 import NoSavedJobs from "@/features/bookmarks/Components/NoSavedJobs";
 import { Separator } from "@/components/ui/separator";
 import { useSelector } from "react-redux";
@@ -10,13 +10,13 @@ import { getUserSavedJobsThunk } from "@/features/bookmarks/bookmarksThunk";
 import { toast } from "react-toastify";
 import CustomPagination from "@/components/CustomPagination";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import Loading from "@/components/Loading";
 import PageLoader from "@/components/Loaders/PageLoader";
 
 export default function UserSavedJobs() {
   const bookmarkedJobs = useSelector(selectBookmarkedJobs);
   const [page, setPage] = useState(1);
 
+  const hasNextPage = false;
   const loading = useAppSelector(
     (state) => state.bookmarkReducer.loading
   ).fetch;
@@ -63,7 +63,7 @@ export default function UserSavedJobs() {
                   {bookmarkedJobs &&
                     bookmarkedJobs.map((bookmarkedJob) => {
                       return (
-                        <JobCardMini
+                        <SavedJobCard
                           job={bookmarkedJob.job}
                           savedSection={true}
                         />
@@ -72,7 +72,10 @@ export default function UserSavedJobs() {
                 </div>
                 {bookmarkedJobs.length > 10 && (
                   <div className="flex justify-center items-center w-full my-5">
-                    <CustomPagination onChange={(page) => setPage(page)} />
+                    <CustomPagination
+                      onChange={(page) => setPage(page)}
+                      hasNextPage={hasNextPage}
+                    />
                   </div>
                 )}
               </>
