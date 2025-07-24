@@ -13,7 +13,7 @@ import type { ApiResponse } from "@/types/ApiResponse";
 
 const getUserSavedJobsThunk = createAsyncThunk<
   ApiPaginatedResponse<bookmarkResponse[]>,
-  { UserId: number; Page: number; PageSize?: number },
+  { Page: number; PageSize?: number },
   { rejectValue: string }
 >("/users/bookmarks", async (params, thunkApi) => {
   try {

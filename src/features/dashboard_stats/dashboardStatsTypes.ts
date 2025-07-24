@@ -3,6 +3,7 @@ export interface DashboardStatsType {
   totalApplications: number;
   rejected: number;
   pending: number;
+  profileCompletion: number;
 }
 
 export interface dashboardStatsState {
@@ -13,5 +14,6 @@ export interface dashboardStatsState {
     totalApplications: number;
     rejected: number;
     pending: number;
+    profileCompletion: number;
   } | null;
 }

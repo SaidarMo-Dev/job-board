@@ -21,14 +21,7 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    // logout: (state) => {
-    //   state.isAuthenticated = false;
-    //   state.currentUser = null;
-    //   state.error = null;
-    //   state.loading = false;
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       // handle login

@@ -33,7 +33,6 @@ export interface AddBookmark {
 }
 
 export interface UserBookmarkRequest {
-  UserId: number;
   Page: number;
   PageSize?: number;
 }

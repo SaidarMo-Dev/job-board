@@ -26,6 +26,7 @@ import {
   UnsaveJobThunk,
 } from "@/features/bookmarks/bookmarksThunk";
 import { Link } from "react-router";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 interface JobCardMiniProps {
   job: JobResponse;
@@ -43,8 +44,9 @@ export default function SavedJobCard({
   function handleUnsave() {
     (async () => {
       const result = await dispatch(UnsaveJobThunk({ jobId: job.jobId }));
+
       if (UnsaveJobThunk.fulfilled.match(result)) {
-        dispatch(getUserSavedJobsThunk({ UserId: 1, Page: 1 }));
+        dispatch(getUserSavedJobsThunk({ Page: 1 }));
       }
     })();
   }
@@ -53,7 +55,7 @@ export default function SavedJobCard({
     setOpenShowDetails(false);
 
     if (updated) {
-      dispatch(getUserSavedJobsThunk({ UserId: 1, Page: 1 }));
+      dispatch(getUserSavedJobsThunk({ Page: 1 }));
     }
   };
   return (
@@ -62,7 +64,7 @@ export default function SavedJobCard({
         <div className="flex justify-between items-center">
           <p className="text-gray-600 flex gap-1 items-center">
             <span className="text-xl font-semibold text-green-600 flex items-center gap-2">
-              <DollarSign />${job.maxSalary / 1000} - ${job.minSalary / 1000}
+              <DollarSign />${job.maxSalary / 1000}K - ${job.minSalary / 1000}K
             </span>
             per year
           </p>

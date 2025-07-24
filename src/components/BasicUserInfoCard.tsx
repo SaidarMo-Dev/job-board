@@ -56,7 +56,7 @@ export default function BasicUserInfoCard() {
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
       gender: userInfo.gender,
-      dateOfBirth: userInfo.dateOfBirth ? new Date(userInfo.dateOfBirth) : null,
+      dateOfBirth: userInfo.dateOfBirth ? new Date(userInfo.dateOfBirth) : undefined,
       phoneNumber: userInfo.phoneNumber,
       address: userInfo.address,
       imagePath: userInfo.imagePath,

@@ -11,12 +11,11 @@ import type { ApiResponse } from "@/types/ApiResponse";
 const BOOKMARKS_BASE_URL = "/bookmarks";
 
 export async function getUserSavedJobs({
-  UserId,
   Page,
   PageSize,
 }: UserBookmarkRequest) {
   const params = new URLSearchParams();
-  params.set("UserId", UserId.toString());
+
   params.set("Page", Page.toString());
   if (PageSize) params.set("Pagesize", PageSize.toString());
   else params.delete("PageSize");

@@ -22,9 +22,12 @@ import { logout, selectCurrentUser } from "@/features/auth/authSlice";
 import RemoveTokens from "@/utils/removeTokens";
 import { useSelector } from "react-redux";
 import { getUserDashboardStatsThunk } from "@/features/dashboard_stats/dashboardStatsThunk";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 export default function UserMenu() {
-  const [profileCompletion] = useState<number>(16);
+  const profileCompletion = useAppSelector(
+    (state) => state.dashboardStatsReducer.stats?.profileCompletion
+  );
   const dispatch = useDispatch<AppDispatch>();
   const userid = useSelector(selectCurrentUser)?.id ?? -1;
   const [userStats, setUserStats] = useState({
@@ -104,7 +107,10 @@ export default function UserMenu() {
                   <span>{profileCompletion}% of Profile Completed</span>
                   <ChevronRight />
                 </div>
-                <ProgressBar value={profileCompletion} color="bg-sky-600" />
+                <ProgressBar
+                  value={profileCompletion ?? 10}
+                  color="bg-sky-600"
+                />
               </div>
             </Link>
           </div>

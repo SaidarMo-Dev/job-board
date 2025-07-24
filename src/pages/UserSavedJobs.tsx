@@ -34,13 +34,11 @@ export default function UserSavedJobs() {
     params.set("userId", userId?.toString());
     params.set("page", page.toString());
 
-    dispatch(getUserSavedJobsThunk({ UserId: userId ?? -1, Page: 1 })).then(
-      (result) => {
-        if (getUserSavedJobsThunk.rejected.match(result)) {
-          toast.error(result.payload ?? "Somethig went wrong!");
-        }
+    dispatch(getUserSavedJobsThunk({ Page: 1 })).then((result) => {
+      if (getUserSavedJobsThunk.rejected.match(result)) {
+        toast.error(result.payload ?? "Somethig went wrong!");
       }
-    );
+    });
   }, [dispatch, userId, page]);
 
   return (

@@ -10,6 +10,7 @@ const initialState: dashboardStatsState = {
     totalApplications: 0,
     rejected: 0,
     pending: 0,
+    profileCompletion: 10,
   },
 };
 
