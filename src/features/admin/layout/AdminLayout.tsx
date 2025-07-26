@@ -1,9 +1,6 @@
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import AdminSidebar from "./AdminSidebar";
+import AdminHeader from "./AdminHeader";
 
 export default function AdminLayout({
   children,
@@ -19,10 +16,8 @@ export default function AdminLayout({
       <SidebarProvider defaultOpen>
         <AdminSidebar />
         <SidebarInset>
-          <div>
-            <SidebarTrigger />
-            <main className="p-4">{children}</main>
-          </div>
+          <AdminHeader />
+          <main className="p-4">{children}</main>
         </SidebarInset>
       </SidebarProvider>
     </div>

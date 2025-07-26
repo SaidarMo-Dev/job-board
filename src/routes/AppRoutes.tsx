@@ -19,10 +19,16 @@ import VerificationSucess from "@/pages/Auth/VerificationSuccess";
 import { ProtectedVerifyEmailRoute } from "@/layouts/ProtectedVerifyEmailRoute";
 import { ProtectedVerifyEmailSuccess } from "@/layouts/ProtectedVerifyEmailSuccess";
 import PublicLayout from "@/layouts/PublicLayout";
+import AdminLayout from "@/features/admin/layout/AdminLayout";
 
 export default function AppRoutes() {
   return (
     <Routes>
+      <Route
+        path="/preview/admin"
+        element={<AdminLayout>{<div></div>}</AdminLayout>}
+      />
+
       <Route path="/" element={<LandingPage />} />
 
       <Route path="/jobs" element={<PublicLayout />}>
