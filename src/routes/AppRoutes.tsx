@@ -20,13 +20,14 @@ import { ProtectedVerifyEmailRoute } from "@/layouts/ProtectedVerifyEmailRoute";
 import { ProtectedVerifyEmailSuccess } from "@/layouts/ProtectedVerifyEmailSuccess";
 import PublicLayout from "@/layouts/PublicLayout";
 import AdminLayout from "@/features/admin/layout/AdminLayout";
+import Dashboard from "@/features/admin/dashboard/components/Dashboard";
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route
         path="/preview/admin"
-        element={<AdminLayout>{<div></div>}</AdminLayout>}
+        element={<AdminLayout>{<Dashboard />}</AdminLayout>}
       />
 
       <Route path="/" element={<LandingPage />} />
