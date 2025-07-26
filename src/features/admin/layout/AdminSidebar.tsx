@@ -21,6 +21,7 @@ import {
   User,
 } from "lucide-react";
 import { Link } from "react-router";
+import SidebarUserMenu from "../dashboard/components/SidebarUserMenu";
 
 const menuItems = [
   {
@@ -120,19 +121,13 @@ export default function AdminSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild size="lg">
-              <Link to={""} className="flex gap-2">
-                <div className="bg-gray-200 p-2 rounded-md">
-                  <User className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-700">Admin User</h3>
-                  <span className="text-sm text-gray-700">
-                    Admin.Exemple@ilink.com
-                  </span>
-                </div>
-              </Link>
-            </SidebarMenuButton>
+            <SidebarUserMenu
+              user={{
+                name: "Admin",
+                email: "Admin.Exempla@ilink.com",
+                avatar: "A",
+              }}
+            />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
