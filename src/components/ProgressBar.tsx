@@ -1,7 +1,5 @@
 import type { ProgressBarProps } from "../types/ProgressBarProps";
 
-
-
 const ProgressBar: React.FC<ProgressBarProps> = ({
   value,
   color = "",
