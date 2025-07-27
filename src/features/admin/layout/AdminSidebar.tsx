@@ -81,7 +81,7 @@ export default function AdminSidebar() {
                 </div>
                 <div>
                   <h3 className="font-bold text-[18px] text-sky-600">iLink</h3>
-                  <span className="text-[13px] text-gray-700">
+                  <span className="text-[13px] text-gray-700  dark:text-secondary-foreground">
                     Admin Dashboard
                   </span>
                 </div>
@@ -105,7 +105,10 @@ export default function AdminSidebar() {
                         {item.name}
                       </div>
                       {item.Badge !== 0 && (
-                        <span className="px-[7px] py-[3px] bg-gray-200/70 rounded-full text-xs font-bold">
+                        <span
+                          className="px-[7px] py-[3px] bg-gray-200/70 rounded-full text-xs
+                                        font-bold dark:bg-secondary dark:text-secondary-foreground"
+                        >
                           {item.Badge}
                         </span>
                       )}
