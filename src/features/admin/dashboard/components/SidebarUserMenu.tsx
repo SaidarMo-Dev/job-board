@@ -56,16 +56,16 @@ export default function SidebarUserMenu({
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <UserCircle className="mr-2 h-4 w-4" />
+          <UserCircle className="mr-2 h-5 w-5 dark:text-secondary-foreground" />
           Account
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Settings className="mr-2 h-4 w-4" />
+          <Settings className="mr-2 h-5 w-5 dark:text-secondary-foreground" />
           Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <LogOut className="mr-2 h-4 w-4" />
+          <LogOut className="mr-2 h-5 w-5 dark:text-secondary-foreground" />
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
