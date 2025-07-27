@@ -21,6 +21,7 @@ import { ProtectedVerifyEmailSuccess } from "@/layouts/ProtectedVerifyEmailSucce
 import PublicLayout from "@/layouts/PublicLayout";
 import AdminLayout from "@/features/admin/layout/AdminLayout";
 import Dashboard from "@/features/admin/dashboard/components/Dashboard";
+import UsersManagement from "@/features/admin/pages/UsersManagement";
 
 export default function AppRoutes() {
   return (
@@ -30,6 +31,10 @@ export default function AppRoutes() {
         element={<AdminLayout>{<Dashboard />}</AdminLayout>}
       />
 
+      <Route
+        path="/preview/admin/users"
+        element={<AdminLayout>{<UsersManagement />}</AdminLayout>}
+      />
       <Route path="/" element={<LandingPage />} />
 
       <Route path="/jobs" element={<PublicLayout />}>

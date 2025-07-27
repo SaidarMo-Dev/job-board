@@ -27,13 +27,13 @@ const menuItems = [
   {
     name: "Dashboard",
     icon: Home,
-    url: "#",
+    url: "/preview/admin",
     Badge: 0,
   },
   {
     name: "Users",
     icon: User,
-    url: "#",
+    url: "users",
     Badge: 23,
   },
   {
