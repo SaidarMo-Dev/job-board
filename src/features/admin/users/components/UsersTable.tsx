@@ -2,13 +2,15 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import TableUserRow from "./TableUserRow";
-import type { UserManagement } from "../usersTypes";
 import TablePagination from "./TablePagination";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { selectAdminUsers } from "../userSlice";
 
 const normalFields = [
   "User",
@@ -17,68 +19,10 @@ const normalFields = [
   "Gender",
   "Role",
   "Status",
-  "Join Date",
-];
-
-// fake user data
-const fakeUsersData: UserManagement[] = [
-  {
-    id: 1,
-    name: "John Doe",
-    gender: "male",
-    phone: "+222 87463432",
-    email: "john.doe@example.com",
-    role: "Admin",
-    status: "active",
-    joinDate: "2024-01-15",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 2,
-    name: "Sarah Johnson",
-    gender: "female",
-    phone: "+222 434333432",
-    email: "sarah.j@company.com",
-    role: "Employer",
-    status: "active",
-    joinDate: "2024-02-20",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 3,
-    name: "Mike Chen",
-    gender: "male",
-    phone: "+222 324783432",
-    email: "mike.chen@email.com",
-    role: "JobSeeker",
-    status: "suspended",
-    joinDate: "2024-03-10",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 4,
-    name: "Emily Davis",
-    gender: "female",
-    phone: "+222 434098432",
-    email: "emily.davis@jobseeker.com",
-    role: "JobSeeker",
-    status: "active",
-    joinDate: "2024-01-28",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 5,
-    name: "Robert Wilson",
-    gender: "male",
-    phone: "+222 54352255",
-    email: "r.wilson@corp.com",
-    role: "Employer",
-    status: "active",
-    joinDate: "2024-02-14",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
+  "Date of Birth",
 ];
 export default function UserTable() {
+  const users = useAppSelector(selectAdminUsers);
   return (
     <div className="border-1 rounded-md shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
       <div className="overflow-x-auto">
@@ -99,13 +43,24 @@ export default function UserTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {fakeUsersData.map((user) => {
-              return <TableUserRow user={user} />;
-            })}
+            {users ? (
+              users.map((user) => {
+                return <TableUserRow user={user} />;
+              })
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={10}
+                  className="text-gray-500 text-center py-8"
+                >
+                  No users found matching your criteria.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
-      <TablePagination />
+      {users && <TablePagination />}
     </div>
   );
 }
