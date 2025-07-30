@@ -74,12 +74,14 @@ export default function UserTable({ onFilterChange }: UserTableProps) {
           </TableHeader>
           <TableBody>
             {fetchLoading ? (
-              <TableCell colSpan={10} className="p-7">
-                <div className="m-auto w-full flex flex-col justify-center items-center">
-                  <Loader variant="spinner" size="sm" />
-                  <span className="text-gray-600 mt-1">Loading users...</span>
-                </div>
-              </TableCell>
+              <TableRow>
+                <TableCell colSpan={10} className="p-7">
+                  <div className="m-auto w-full flex flex-col justify-center items-center">
+                    <Loader variant="spinner" size="sm" />
+                    <span className="text-gray-600 mt-1">Loading users...</span>
+                  </div>
+                </TableCell>
+              </TableRow>
             ) : users ? (
               users.map((user) => {
                 return <TableUserRow key={user.id} user={user} />;

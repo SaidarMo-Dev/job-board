@@ -119,6 +119,9 @@ const adminUserSlice = createSlice({
 export const selectFetchAdminUsersLoading = (state: RootState) =>
   state.AdminUserReducer.loading.fetch;
 
+export const selectSaveUserLoading = (state: RootState) =>
+  state.AdminUserReducer.loading.save;
+
 export const selectAdminUsers = (state: RootState) =>
   state.AdminUserReducer.users;
 export const selectUsersPagination = (state: RootState) =>

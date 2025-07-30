@@ -12,11 +12,13 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { resetUsers } from "../users/userSlice";
 import { useSearchParams } from "react-router";
 import { fetchAdminUsersThunk } from "../users/userThunk";
+import AddEditUserModal from "../users/components/AddEditUserModal";
 
 export default function UsersManagement() {
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
+  const [openUserModal, setOpenUserModal] = useState(false);
 
   const debouncedSearch = useDebounce(searchTerm, 800);
 
@@ -96,7 +98,7 @@ export default function UsersManagement() {
 
   return (
     <div className="space-y-6">
-      <UsersHeader />
+      <UsersHeader onAddUserClick={() => setOpenUserModal(true)} />
       <UsersFilters
         filters={filters}
         onfilerChange={handleFilterChange}
@@ -104,6 +106,11 @@ export default function UsersManagement() {
         onSearchChange={handleUpdateSearch}
       />
       <UserTable onFilterChange={handleFilterChange} />
+      <AddEditUserModal
+        isOpen={openUserModal}
+        mode="AddNew"
+        onClose={() => setOpenUserModal(false)}
+      />
     </div>
   );
 }
