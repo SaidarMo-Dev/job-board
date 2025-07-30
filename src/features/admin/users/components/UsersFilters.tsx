@@ -67,8 +67,8 @@ export default function UsersFilters({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">All Status</SelectItem>
-            <SelectItem value="Admin">Active</SelectItem>
-            <SelectItem value="Employer">Suspended</SelectItem>
+            <SelectItem value="Active">Active</SelectItem>
+            <SelectItem value="Suspended">Suspended</SelectItem>
           </SelectContent>
         </Select>
       </div>
