@@ -1,3 +1,6 @@
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import type { RoleType } from "@/features/admin/users/usersTypes";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { type UseFormRegister } from "react-hook-form";
@@ -9,7 +12,7 @@ interface PasswordsInputProps {
     password: string;
     lastName: string;
     confirmPassword: string;
-    role: string;
+    role: RoleType;
   }>;
   errors?: {
     password?: {
@@ -27,19 +30,18 @@ export function PasswordsInput({ register, errors }: PasswordsInputProps) {
   return (
     <>
       <div className="space-y-2">
-        <label
+        <Label
           htmlFor="password"
           className="block text-sm font-medium text-gray-700"
         >
           Password
-        </label>
+        </Label>
         <div className="relative">
-          <input
+          <Input
             {...register("password")}
             id="password"
             type={showPassword ? "text" : "password"}
             placeholder="Create a strong password"
-            className="w-full h-11 px-3 py-2 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-sky-600 transition-colors"
           />
 
           <button
@@ -61,19 +63,18 @@ export function PasswordsInput({ register, errors }: PasswordsInputProps) {
       </div>
 
       <div className="space-y-2">
-        <label
+        <Label
           htmlFor="confirmPassword"
           className="block text-sm font-medium text-gray-700"
         >
           Confirm password
-        </label>
+        </Label>
         <div className="relative">
-          <input
+          <Input
             {...register("confirmPassword")}
             id="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}
             placeholder="Confirm your password"
-            className="w-full h-11 px-3 py-2 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-sky-600 transition-colors"
           />
 
           <button

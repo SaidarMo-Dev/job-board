@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import UsersFilters from "./UsersFilters";
 
 export default function UsersHeader() {
   return (
@@ -19,7 +18,6 @@ export default function UsersHeader() {
           <Plus /> Add New User
         </Button>
       </div>
-      <UsersFilters />
     </header>
   );
 }

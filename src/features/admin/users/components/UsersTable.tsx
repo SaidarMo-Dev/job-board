@@ -2,13 +2,24 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import TableUserRow from "./TableUserRow";
-import type { UserManagement } from "../usersTypes";
 import TablePagination from "./TablePagination";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import {
+  selectAdminUsers,
+  selectAreAllUsersOnPageSelected,
+  selectFetchAdminUsersLoading,
+  selectUsersPagination,
+  toggleSelectAllOnPage,
+} from "../userSlice";
+import type { UserFilterValues } from "../usersTypes";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import Loader from "@/components/Loaders/Loader";
 
 const normalFields = [
   "User",
@@ -17,68 +28,24 @@ const normalFields = [
   "Gender",
   "Role",
   "Status",
-  "Join Date",
+  "Date of Birth",
 ];
 
-// fake user data
-const fakeUsersData: UserManagement[] = [
-  {
-    id: 1,
-    name: "John Doe",
-    gender: "male",
-    phone: "+222 87463432",
-    email: "john.doe@example.com",
-    role: "Admin",
-    status: "active",
-    joinDate: "2024-01-15",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 2,
-    name: "Sarah Johnson",
-    gender: "female",
-    phone: "+222 434333432",
-    email: "sarah.j@company.com",
-    role: "Employer",
-    status: "active",
-    joinDate: "2024-02-20",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 3,
-    name: "Mike Chen",
-    gender: "male",
-    phone: "+222 324783432",
-    email: "mike.chen@email.com",
-    role: "JobSeeker",
-    status: "suspended",
-    joinDate: "2024-03-10",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 4,
-    name: "Emily Davis",
-    gender: "female",
-    phone: "+222 434098432",
-    email: "emily.davis@jobseeker.com",
-    role: "JobSeeker",
-    status: "active",
-    joinDate: "2024-01-28",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 5,
-    name: "Robert Wilson",
-    gender: "male",
-    phone: "+222 54352255",
-    email: "r.wilson@corp.com",
-    role: "Employer",
-    status: "active",
-    joinDate: "2024-02-14",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-];
-export default function UserTable() {
+interface UserTableProps {
+  onFilterChange: (newFilter: Partial<UserFilterValues>) => void;
+}
+
+export default function UserTable({ onFilterChange }: UserTableProps) {
+  const dispatch = useAppDispatch();
+
+  const fetchLoading = useAppSelector(selectFetchAdminUsersLoading);
+  const users = useAppSelector(selectAdminUsers);
+
+  const areAllSelected = useAppSelector(selectAreAllUsersOnPageSelected);
+  const handleSelectAll = () => {
+    dispatch(toggleSelectAllOnPage());
+  };
+  const usersPagination = useAppSelector(selectUsersPagination);
   return (
     <div className="border-1 rounded-md shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
       <div className="overflow-x-auto">
@@ -86,10 +53,17 @@ export default function UserTable() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[40px] py-3">
-                <Checkbox className="data-[state=checked]:bg-sky-600 data-[state=checked]:border-none" />
+                <Checkbox
+                  className="data-[state=checked]:bg-sky-600 data-[state=checked]:border-none"
+                  checked={areAllSelected}
+                  onCheckedChange={handleSelectAll}
+                />
               </TableHead>
               {normalFields.map((field) => (
-                <TableHead className="text-gray-500 dark:text-gray-200">
+                <TableHead
+                  key={field}
+                  className="text-gray-500 dark:text-gray-200"
+                >
                   {field}
                 </TableHead>
               ))}
@@ -99,13 +73,36 @@ export default function UserTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {fakeUsersData.map((user) => {
-              return <TableUserRow user={user} />;
-            })}
+            {fetchLoading ? (
+              <TableCell colSpan={10} className="p-7">
+                <div className="m-auto w-full flex flex-col justify-center items-center">
+                  <Loader variant="spinner" size="sm" />
+                  <span className="text-gray-600 mt-1">Loading users...</span>
+                </div>
+              </TableCell>
+            ) : users ? (
+              users.map((user) => {
+                return <TableUserRow key={user.id} user={user} />;
+              })
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={10}
+                  className="text-gray-500 text-center py-8"
+                >
+                  No users found matching your criteria.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
-      <TablePagination />
+      {users?.length > 10 && (
+        <TablePagination
+          paginationInfo={usersPagination}
+          onPageChange={(page) => onFilterChange({ page: page })}
+        />
+      )}
     </div>
   );
 }

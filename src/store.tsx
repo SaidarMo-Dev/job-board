@@ -5,6 +5,7 @@ import countrySliceReducer from "./features/countries/countrySlice";
 import bookmarkSliceReducer from "./features/bookmarks/bookmarksSlice";
 import dashboardStatsSliceReducer from "./features/dashboard_stats/dashboardStatsSlice";
 import applicationSliceReducer from "./features/jobApplications/applicationSlice";
+import AdminUserSliceReducer from "@/features/admin/users/userSlice";
 
 import storage from "redux-persist/lib/storage";
 
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
   bookmarkReducer: bookmarkSliceReducer,
   dashboardStatsReducer: dashboardStatsSliceReducer,
   applicationReducer: applicationSliceReducer,
+  AdminUserReducer: AdminUserSliceReducer,
 });
 
 const rootReducer = (state, action: Action<string>) => {
