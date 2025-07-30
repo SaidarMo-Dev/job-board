@@ -13,11 +13,13 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 import {
   selectAdminUsers,
   selectAreAllUsersOnPageSelected,
+  selectFetchAdminUsersLoading,
   selectUsersPagination,
   toggleSelectAllOnPage,
 } from "../userSlice";
 import type { UserFilterValues } from "../usersTypes";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
+import Loader from "@/components/Loaders/Loader";
 
 const normalFields = [
   "User",
@@ -36,6 +38,7 @@ interface UserTableProps {
 export default function UserTable({ onFilterChange }: UserTableProps) {
   const dispatch = useAppDispatch();
 
+  const fetchLoading = useAppSelector(selectFetchAdminUsersLoading);
   const users = useAppSelector(selectAdminUsers);
 
   const areAllSelected = useAppSelector(selectAreAllUsersOnPageSelected);
@@ -70,7 +73,14 @@ export default function UserTable({ onFilterChange }: UserTableProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users ? (
+            {fetchLoading ? (
+              <TableCell colSpan={10} className="p-7">
+                <div className="m-auto w-full flex flex-col justify-center items-center">
+                  <Loader variant="spinner" size="sm" />
+                  <span className="text-gray-600 mt-1">Loading users...</span>
+                </div>
+              </TableCell>
+            ) : users ? (
               users.map((user) => {
                 return <TableUserRow key={user.id} user={user} />;
               })

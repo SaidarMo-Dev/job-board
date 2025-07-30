@@ -116,6 +116,8 @@ const adminUserSlice = createSlice({
 });
 
 // selectors
+export const selectFetchAdminUsersLoading = (state: RootState) =>
+  state.AdminUserReducer.loading.fetch;
 
 export const selectAdminUsers = (state: RootState) =>
   state.AdminUserReducer.users;
