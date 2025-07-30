@@ -70,7 +70,8 @@ const adminUserSlice = createSlice({
 
 export const selectAdminUsers = (state: RootState) =>
   state.AdminUserReducer.users;
-
+export const selectUsersPagination = (state: RootState) =>
+  state.AdminUserReducer.pagination;
 export default adminUserSlice.reducer;
 
 export const { resetUsers } = adminUserSlice.actions;

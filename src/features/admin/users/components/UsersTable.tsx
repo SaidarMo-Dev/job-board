@@ -10,7 +10,8 @@ import {
 import TableUserRow from "./TableUserRow";
 import TablePagination from "./TablePagination";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectAdminUsers } from "../userSlice";
+import { selectAdminUsers, selectUsersPagination } from "../userSlice";
+import type { UserFilterValues } from "../usersTypes";
 
 const normalFields = [
   "User",
@@ -21,8 +22,14 @@ const normalFields = [
   "Status",
   "Date of Birth",
 ];
-export default function UserTable() {
+
+interface UserTableProps {
+  onFilterChange: (newFilter: Partial<UserFilterValues>) => void;
+}
+
+export default function UserTable({ onFilterChange }: UserTableProps) {
   const users = useAppSelector(selectAdminUsers);
+  const usersPagination = useAppSelector(selectUsersPagination);
   return (
     <div className="border-1 rounded-md shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
       <div className="overflow-x-auto">
@@ -60,7 +67,12 @@ export default function UserTable() {
           </TableBody>
         </Table>
       </div>
-      {users && <TablePagination />}
+      {users && (
+        <TablePagination
+          paginationInfo={usersPagination}
+          onPageChange={(page) => onFilterChange({ page: page })}
+        />
+      )}
     </div>
   );
 }

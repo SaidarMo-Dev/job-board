@@ -103,7 +103,7 @@ export default function UsersManagement() {
         search={searchTerm}
         onSearchChange={handleUpdateSearch}
       />
-      <UserTable />
+      <UserTable onFilterChange={handleFilterChange} />
     </div>
   );
 }
