@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
-export default function UsersHeader() {
+interface UsersHeaderProps {
+  onAddUserClick?: () => void;
+}
+
+export default function UsersHeader({ onAddUserClick }: UsersHeaderProps) {
+  const handleAddUserClick = () => {
+    if (onAddUserClick) onAddUserClick();
+  };
   return (
     <header className="border-1 border-gray-200 dark:border-secondary p-5 rounded-md shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
       <div className="flex justify-between items-center">
@@ -14,6 +21,7 @@ export default function UsersHeader() {
         <Button
           size={"lg"}
           className="bg-sky-600 dark:bg-secondary-foreground dark:hover:bg-gray-300 hover:bg-sky-700 cursor-pointer"
+          onClick={handleAddUserClick}
         >
           <Plus /> Add New User
         </Button>

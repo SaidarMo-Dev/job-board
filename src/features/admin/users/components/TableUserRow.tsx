@@ -14,12 +14,16 @@ import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { deselectUser, selectSelectedUserIds, selectUser } from "../userSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useState } from "react";
+import AddEditUserModal from "./AddEditUserModal";
 
 interface TableUserRowProps {
   user: UserManagement;
 }
 
 export default function TableUserRow({ user }: TableUserRowProps) {
+  const [openUserModal, setOpenUserModal] = useState(false);
+
   const dispatch = useAppDispatch();
   function formatRole(role: RoleType) {
     if (role === "JobSeeker") return "Job Seeker";
@@ -57,75 +61,84 @@ export default function TableUserRow({ user }: TableUserRowProps) {
     }
   };
   return (
-    <TableRow>
-      <TableCell>
-        <Checkbox
-          className="data-[state=checked]:bg-sky-600 data-[state=checked]:border-none"
-          checked={isChecked}
-          onCheckedChange={handleSelect}
-        />
-      </TableCell>
-      <TableCell>
-        <div className="flex gap-2 items-center">
-          <Avatar className="h-8 w-8">
-            <AvatarImage
-              src={user.imagePath || "/placeholder.svg"}
-              alt={user.fullName}
-            />
-            <AvatarFallback>
-              {user.fullName
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
-            </AvatarFallback>
-          </Avatar>
+    <>
+      <TableRow>
+        <TableCell>
+          <Checkbox
+            className="data-[state=checked]:bg-sky-600 data-[state=checked]:border-none"
+            checked={isChecked}
+            onCheckedChange={handleSelect}
+          />
+        </TableCell>
+        <TableCell>
+          <div className="flex gap-2 items-center">
+            <Avatar className="h-8 w-8">
+              <AvatarImage
+                src={user.imagePath || "/placeholder.svg"}
+                alt={user.fullName}
+              />
+              <AvatarFallback>
+                {user.fullName
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
+              </AvatarFallback>
+            </Avatar>
 
-          <span className="font-medium">{user.fullName}</span>
-        </div>
-      </TableCell>
-      <TableCell className="text-gray-600 dark:text-secondary-foreground">
-        {user.email}
-      </TableCell>
-      <TableCell className="text-gray-600 dark:text-secondary-foreground">
-        {user.phoneNumber ?? "Not specified"}
-      </TableCell>
-      <TableCell className="text-gray-600 dark:text-secondary-foreground">
-        {user.gender ?? "Not specified"}
-      </TableCell>
-      <TableCell className="py-2">
-        <Badge className={`${getRoleColor(user.role as RoleType)}`}>
-          {formatRole(user.role as RoleType)}
-        </Badge>
-      </TableCell>
-      <TableCell className="py-2">
-        <Badge className={`${getStatusColor(user.isDeleted)}`}>
-          {user.isDeleted ? "Suspended" : "Active"}
-        </Badge>
-      </TableCell>
-      <TableCell className="text-gray-600 dark:text-secondary-foreground">
-        {user.dateofBirth
-          ? user.dateofBirth.toLocaleDateString()
-          : "Not specified"}
-      </TableCell>
-      <TableCell className="text-gray-600 flex justify-center items-center dark:text-secondary-foreground">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild className="py-6">
-            <Button variant={"ghost"} size={"sm"}>
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              <Edit />
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem className="text-red-600 hover:bg-red-50 hover:!text-red-700 dark:text-red-300 dark:hover:bg-red-900/30">
-              <Trash2 className="w-4 h-4 mr-2 text-red-600 dark:text-red-300" />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </TableCell>
-    </TableRow>
+            <span className="font-medium">{user.fullName}</span>
+          </div>
+        </TableCell>
+        <TableCell className="text-gray-600 dark:text-secondary-foreground">
+          {user.email}
+        </TableCell>
+        <TableCell className="text-gray-600 dark:text-secondary-foreground">
+          {user.phoneNumber ?? "Not specified"}
+        </TableCell>
+        <TableCell className="text-gray-600 dark:text-secondary-foreground">
+          {user.gender ?? "Not specified"}
+        </TableCell>
+        <TableCell className="py-2">
+          <Badge className={`${getRoleColor(user.role as RoleType)}`}>
+            {formatRole(user.role as RoleType)}
+          </Badge>
+        </TableCell>
+        <TableCell className="py-2">
+          <Badge className={`${getStatusColor(user.isDeleted)}`}>
+            {user.isDeleted ? "Suspended" : "Active"}
+          </Badge>
+        </TableCell>
+        <TableCell className="text-gray-600 dark:text-secondary-foreground">
+          {user.dateofBirth
+            ? user.dateofBirth.toLocaleDateString()
+            : "Not specified"}
+        </TableCell>
+        <TableCell className="text-gray-600 flex justify-center items-center dark:text-secondary-foreground">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild className="py-6">
+              <Button variant={"ghost"} size={"sm"}>
+                <MoreHorizontal className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setOpenUserModal(true)}>
+                <Edit />
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem className="text-red-600 hover:bg-red-50 hover:!text-red-700 dark:text-red-300 dark:hover:bg-red-900/30">
+                <Trash2 className="w-4 h-4 mr-2 text-red-600 dark:text-red-300" />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </TableCell>
+      </TableRow>
+
+      <AddEditUserModal
+        mode="Edit"
+        user={user}
+        isOpen={openUserModal}
+        onClose={() => setOpenUserModal(false)}
+      />
+    </>
   );
 }

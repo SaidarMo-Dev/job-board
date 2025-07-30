@@ -16,7 +16,8 @@ export interface UserManagement {
   role: string;
 }
 
-export type RoleType = "Admin" | "Employer" | "JobSeeker";
+export const roles = ["Admin", "Employer", "JobSeeker"] as const;
+export type RoleType = (typeof roles)[number];
 
 export const FilterByRole = {
   All: "All",
