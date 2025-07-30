@@ -16,12 +16,12 @@ import axios from "axios";
 import type { ApiResponse } from "../../types/ApiResponse";
 import { LogoBrand } from "@/features/auth/components/register/LogoBrand";
 import { RoleSelector } from "@/features/auth/components/register/RoleSelector";
-import type { AccountType } from "@/features/auth/registerTypes";
 import { NameInputs } from "@/features/auth/components/register/NameInput";
 import { PasswordsInput } from "@/features/auth/components/register/PasswordsInput";
 import { TermsCheckBox } from "@/features/auth/components/register/TermsCheckBox";
 import { SocialRegistrationAuth } from "@/features/auth/components/register/SocialRegistrationAuth";
 import Loader from "@/components/Loaders/Loader";
+import { roles, type RoleType } from "@/features/admin/users/usersTypes";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
 
@@ -42,7 +42,7 @@ const signUpSchema = z
     confirmPassword: z
       .string()
       .min(1, { message: "Please confirm your password" }),
-    role: z.string().min(1, { message: "Please choose one!" }),
+    role: z.enum(roles, { required_error: "Please select role" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not matches",
@@ -68,7 +68,7 @@ export default function RegisterPage() {
   const selectedRole = watch("role");
 
   // handle select role
-  function handleRoleSelect(role: string) {
+  function handleRoleSelect(role: RoleType) {
     setValue("role", role, { shouldValidate: true });
   }
 
@@ -83,7 +83,7 @@ export default function RegisterPage() {
       }
 
       setLoading(true);
-      // create the user and make sure to send email as username
+
       const response = await createUser({ ...data });
 
       if (response.data.succeeded) {
@@ -132,7 +132,7 @@ export default function RegisterPage() {
               {/* Account Type Selection */}
               <RoleSelector
                 onSelect={(role) => handleRoleSelect(role)}
-                selectedRole={selectedRole as AccountType}
+                selectedRole={selectedRole}
                 error={{ message: errors.role?.message }}
               />
 

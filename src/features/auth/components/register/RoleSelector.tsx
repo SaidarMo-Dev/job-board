@@ -1,10 +1,10 @@
 import { Building, User } from "lucide-react";
-import type { AccountType } from "../../registerTypes";
+import type { RoleType } from "@/features/admin/users/usersTypes";
 
 interface RoleSelectorProps {
-  onSelect: (role: AccountType) => void;
+  onSelect: (role: RoleType) => void;
   error?: { message?: string };
-  selectedRole: AccountType;
+  selectedRole: RoleType;
 }
 
 export function RoleSelector({
