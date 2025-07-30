@@ -10,8 +10,14 @@ import {
 import TableUserRow from "./TableUserRow";
 import TablePagination from "./TablePagination";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectAdminUsers, selectUsersPagination } from "../userSlice";
+import {
+  selectAdminUsers,
+  selectAreAllUsersOnPageSelected,
+  selectUsersPagination,
+  toggleSelectAllOnPage,
+} from "../userSlice";
 import type { UserFilterValues } from "../usersTypes";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 const normalFields = [
   "User",
@@ -28,7 +34,14 @@ interface UserTableProps {
 }
 
 export default function UserTable({ onFilterChange }: UserTableProps) {
+  const dispatch = useAppDispatch();
+
   const users = useAppSelector(selectAdminUsers);
+
+  const areAllSelected = useAppSelector(selectAreAllUsersOnPageSelected);
+  const handleSelectAll = () => {
+    dispatch(toggleSelectAllOnPage());
+  };
   const usersPagination = useAppSelector(selectUsersPagination);
   return (
     <div className="border-1 rounded-md shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
@@ -37,10 +50,17 @@ export default function UserTable({ onFilterChange }: UserTableProps) {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[40px] py-3">
-                <Checkbox className="data-[state=checked]:bg-sky-600 data-[state=checked]:border-none" />
+                <Checkbox
+                  className="data-[state=checked]:bg-sky-600 data-[state=checked]:border-none"
+                  checked={areAllSelected}
+                  onCheckedChange={handleSelectAll}
+                />
               </TableHead>
               {normalFields.map((field) => (
-                <TableHead className="text-gray-500 dark:text-gray-200">
+                <TableHead
+                  key={field}
+                  className="text-gray-500 dark:text-gray-200"
+                >
                   {field}
                 </TableHead>
               ))}
@@ -52,7 +72,7 @@ export default function UserTable({ onFilterChange }: UserTableProps) {
           <TableBody>
             {users ? (
               users.map((user) => {
-                return <TableUserRow user={user} />;
+                return <TableUserRow key={user.id} user={user} />;
               })
             ) : (
               <TableRow>
@@ -67,7 +87,7 @@ export default function UserTable({ onFilterChange }: UserTableProps) {
           </TableBody>
         </Table>
       </div>
-      {users && (
+      {users?.length > 10 && (
         <TablePagination
           paginationInfo={usersPagination}
           onPageChange={(page) => onFilterChange({ page: page })}

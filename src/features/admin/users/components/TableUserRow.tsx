@@ -11,12 +11,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { deselectUser, selectSelectedUserIds, selectUser } from "../userSlice";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 interface TableUserRowProps {
   user: UserManagement;
 }
 
 export default function TableUserRow({ user }: TableUserRowProps) {
+  const dispatch = useAppDispatch();
   function formatRole(role: RoleType) {
     if (role === "JobSeeker") return "Job Seeker";
     else return role;
@@ -40,10 +44,26 @@ export default function TableUserRow({ user }: TableUserRowProps) {
         return "bg-gray-100 text-gray-800 dark:bg-gray-800/30 dark:text-gray-200";
     }
   }
+
+  const selectedUserIds = useAppSelector(selectSelectedUserIds);
+
+  const isChecked = selectedUserIds.has(user.id);
+
+  const handleSelect = () => {
+    if (isChecked) {
+      dispatch(deselectUser(user.id));
+    } else {
+      dispatch(selectUser(user.id));
+    }
+  };
   return (
     <TableRow>
       <TableCell>
-        <Checkbox className="data-[state=checked]:bg-sky-600 data-[state=checked]:border-none" />
+        <Checkbox
+          className="data-[state=checked]:bg-sky-600 data-[state=checked]:border-none"
+          checked={isChecked}
+          onCheckedChange={handleSelect}
+        />
       </TableCell>
       <TableCell>
         <div className="flex gap-2 items-center">

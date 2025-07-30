@@ -41,6 +41,7 @@ export interface PaginationInfo {
 export interface AdminUserState {
   users: UserManagement[];
   selectedUser?: UserManagement;
+  selectedUserIds: Set<number>;
   loading: {
     fetch: boolean;
     save: boolean;

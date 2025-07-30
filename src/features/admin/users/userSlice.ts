@@ -6,6 +6,7 @@ import type { RootState } from "@/store";
 const initialAdminUserState: AdminUserState = {
   users: [],
   selectedUser: undefined,
+  selectedUserIds: new Set<number>(),
   loading: {
     fetch: false,
     save: false,
@@ -30,6 +31,15 @@ const adminUserSlice = createSlice({
   name: "Admin/Users",
   initialState: initialAdminUserState,
   reducers: {
+    selectUser: (state, action) => {
+      state.selectedUserIds.add(action.payload);
+    },
+    deselectUser: (state, action) => {
+      state.selectedUserIds.delete(action.payload);
+    },
+    clearSelections: (state) => {
+      state.selectedUserIds.clear();
+    },
     resetUsers: (state) => {
       state.users = [];
       state.pagination = {
@@ -41,7 +51,46 @@ const adminUserSlice = createSlice({
         hasPreviousPage: false,
       };
     },
+    selectAllUsersOnPage: (state) => {
+      const allUserIds = state.users.map((user) => user.id);
+      state.selectedUserIds = new Set([
+        ...state.selectedUserIds,
+        ...allUserIds,
+      ]);
+    },
+
+    deselectAllUsersOnPage: (state) => {
+      const currentPageUserIds = state.users.map((user) => user.id);
+
+      state.selectedUserIds = new Set([
+        ...Array.from(state.selectedUserIds).filter(
+          (id) => !currentPageUserIds.includes(id)
+        ),
+      ]);
+    },
+    toggleSelectAllOnPage: (state) => {
+      const currenPageUserIds = state.users.map((user) => user.id);
+      const selectedUserIdsArray = Array.from(state.selectedUserIds);
+
+      const AllSelected = currenPageUserIds.every((id) =>
+        selectedUserIdsArray.includes(id)
+      );
+
+      if (AllSelected) {
+        state.selectedUserIds = new Set([
+          ...selectedUserIdsArray.filter(
+            (id) => !currenPageUserIds.includes(id)
+          ),
+        ]);
+      } else {
+        state.selectedUserIds = new Set([
+          ...selectedUserIdsArray,
+          ...currenPageUserIds,
+        ]);
+      }
+    },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchAdminUsersThunk.pending, (state) => {
@@ -72,6 +121,33 @@ export const selectAdminUsers = (state: RootState) =>
   state.AdminUserReducer.users;
 export const selectUsersPagination = (state: RootState) =>
   state.AdminUserReducer.pagination;
-export default adminUserSlice.reducer;
+export const selectSelectedUserIds = (state: RootState) =>
+  state.AdminUserReducer.selectedUserIds;
 
-export const { resetUsers } = adminUserSlice.actions;
+export const selectAreAllUsersOnPageSelected = (state: RootState) => {
+  if (
+    !state.AdminUserReducer.users ||
+    state.AdminUserReducer.users.length === 0
+  )
+    return false;
+
+  const currentPageUserIds = state.AdminUserReducer.users.map(
+    (user) => user.id
+  );
+
+  return currentPageUserIds.every((id) =>
+    state.AdminUserReducer.selectedUserIds.has(id)
+  );
+};
+
+export const {
+  resetUsers,
+  selectUser,
+  deselectUser,
+  clearSelections,
+  selectAllUsersOnPage,
+  deselectAllUsersOnPage,
+  toggleSelectAllOnPage,
+} = adminUserSlice.actions;
+
+export default adminUserSlice.reducer;
