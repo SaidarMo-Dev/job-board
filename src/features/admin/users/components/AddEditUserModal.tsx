@@ -16,13 +16,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { roles, type RoleType, type UserManagement } from "../usersTypes";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectSaveUserLoading } from "../userSlice";
 import { useEffect, useState } from "react";
+import {
+  addUserSchema,
+  editUserSchema,
+  type AddFormData,
+  type FormData,
+} from "../schemas/userSchema";
+import { addUserThunk, updateUserThunk } from "../userThunk";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { toast } from "react-toastify";
+import WhiteLoader from "@/components/Loaders/WhiteLoader";
 
 interface AddEditUserModalProps {
   isOpen: boolean;
@@ -30,44 +39,6 @@ interface AddEditUserModalProps {
   user?: UserManagement;
   mode: "Edit" | "AddNew";
 }
-
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
-
-// Create separate schemas for add and edit
-const baseUserSchema = z.object({
-  firstName: z.string().min(1, { message: "First Name is Required" }).max(30),
-  lastName: z.string().min(1, { message: "Last Name is Required" }).max(30),
-  email: z.string().email(),
-  role: z.enum(roles, { required_error: "Please select a role" }),
-});
-
-const addUserSchema = baseUserSchema
-  .extend({
-    password: z
-      .string()
-      .min(8, { message: "Password must contain at least 8 character(s)" })
-      .max(20, { message: "Password must be at most 20 characters long" })
-      .regex(passwordRegex, {
-        message:
-          "Password must include uppercase, lowercase, number, and special character",
-      }),
-    confirmPassword: z
-      .string()
-      .min(1, { message: "Please confirm your password" }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-const editUserSchema = baseUserSchema.extend({
-  password: z.string().optional(),
-  confirmPassword: z.string().optional(),
-});
-
-type AddFormData = z.infer<typeof addUserSchema>;
-type EditFormData = z.infer<typeof editUserSchema>;
-type FormData = AddFormData | EditFormData;
 
 export default function AddEditUserModal({
   isOpen,
@@ -77,6 +48,7 @@ export default function AddEditUserModal({
 }: AddEditUserModalProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -113,10 +85,37 @@ export default function AddEditUserModal({
 
   const saveLoading = useAppSelector(selectSaveUserLoading);
 
-  const onSubmit = (data: FormData) => {
-    // Handle form submission
-    console.log(data);
-    // You'll need to implement your actual submission logic here
+  const onSubmit = async (data: FormData) => {
+    try {
+      if (mode === "AddNew") {
+        await dispatch(addUserThunk({ data: data as AddFormData })).unwrap();
+        toast.success("User added successfully", {
+          position: "bottom-left",
+        });
+        onClose?.();
+      } else {
+        if (!user?.id) {
+          throw new Error("User ID is required for editing");
+        }
+        await dispatch(
+          updateUserThunk({
+            userId: user.id,
+            userData: data,
+          })
+        ).unwrap();
+        toast.success("User updated successfully", {
+          position: "bottom-left",
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else if (typeof error === "string") {
+        toast.error(error);
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    }
   };
 
   return (
@@ -296,7 +295,7 @@ export default function AddEditUserModal({
             >
               {saveLoading ? (
                 <div className="flex items-center gap-2">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  <WhiteLoader size="sm" />
                   {mode === "AddNew" ? "Adding..." : "Updating..."}
                 </div>
               ) : mode === "AddNew" ? (

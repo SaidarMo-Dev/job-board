@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AdminUserState } from "./usersTypes";
-import { fetchAdminUsersThunk } from "./userThunk";
+import {
+  addUserThunk,
+  fetchAdminUsersThunk,
+  updateUserThunk,
+} from "./userThunk";
 import type { RootState } from "@/store";
 
 const initialAdminUserState: AdminUserState = {
@@ -93,6 +97,8 @@ const adminUserSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
+
+      // fetch users
       .addCase(fetchAdminUsersThunk.pending, (state) => {
         state.loading.fetch = true;
         state.error.fetch = null;
@@ -111,6 +117,32 @@ const adminUserSlice = createSlice({
       })
       .addCase(fetchAdminUsersThunk.rejected, (state, action) => {
         state.error.fetch = action.payload ?? "Failed to fetch users";
+        state.loading.fetch = false;
+      })
+
+      // add user
+      .addCase(addUserThunk.pending, (state) => {
+        state.loading.save = true;
+        state.error.save = null;
+      })
+      .addCase(addUserThunk.fulfilled, (state) => {
+        state.loading.save = false;
+      })
+      .addCase(addUserThunk.rejected, (state, action) => {
+        state.loading.save = false;
+        state.error.save = action.payload ?? "Network error";
+      })
+      // update user
+      .addCase(updateUserThunk.pending, (state) => {
+        state.loading.save = true;
+        state.error.save = null;
+      })
+      .addCase(updateUserThunk.fulfilled, (state) => {
+        state.loading.save = false;
+      })
+      .addCase(updateUserThunk.rejected, (state, action) => {
+        state.loading.save = false;
+        state.error.save = action.payload ?? "Network error";
       });
   },
 });
