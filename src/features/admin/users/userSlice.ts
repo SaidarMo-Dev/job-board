@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { AdminUserState } from "./usersTypes";
 import {
   addUserThunk,
+  deleteUserThunk,
   fetchAdminUsersThunk,
   updateUserThunk,
 } from "./userThunk";
@@ -143,6 +144,19 @@ const adminUserSlice = createSlice({
       .addCase(updateUserThunk.rejected, (state, action) => {
         state.loading.save = false;
         state.error.save = action.payload ?? "Network error";
+      })
+
+      // delete user
+      .addCase(deleteUserThunk.pending, (state) => {
+        state.loading.remove = true;
+        state.error.remove = null;
+      })
+      .addCase(deleteUserThunk.fulfilled, (state) => {
+        state.loading.remove = false;
+      })
+      .addCase(deleteUserThunk.rejected, (state, action) => {
+        state.loading.remove = false;
+        state.error.remove = action.payload ?? "Network error";
       });
   },
 });

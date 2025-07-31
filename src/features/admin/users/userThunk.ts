@@ -4,6 +4,7 @@ import type { UserManagement } from "./usersTypes";
 import { addUser, fetchAdminUsers, updateUser } from "./userApi";
 import type { AddFormData, EditFormData } from "./schemas/userSchema";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
+import { DeleteUser } from "@/features/users/userApi";
 
 const fetchAdminUsersThunk = createAsyncThunk<
   ApiPaginatedResponse<UserManagement[]>,
@@ -52,4 +53,20 @@ const updateUserThunk = createAsyncThunk<
   }
 });
 
-export { fetchAdminUsersThunk, addUserThunk, updateUserThunk };
+// delete user thunk
+const deleteUserThunk = createAsyncThunk<
+  string,
+  { Id: number },
+  { rejectValue: string }
+>("/admin/users/delete", async ({ Id }, { rejectWithValue }) => {
+  try {
+    const response = await DeleteUser(Id);
+    return response.message;
+  } catch (err) {
+    return rejectWithValue(
+      extractAxiosErrorMessage(err, "Failed to delete user")
+    );
+  }
+});
+
+export { fetchAdminUsersThunk, addUserThunk, updateUserThunk, deleteUserThunk };

@@ -16,6 +16,7 @@ import { deselectUser, selectSelectedUserIds, selectUser } from "../userSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useState } from "react";
 import AddEditUserModal from "./AddEditUserModal";
+import DeleteConfirmDailog from "./DeleteConfirmDialog";
 
 interface TableUserRowProps {
   user: UserManagement;
@@ -23,6 +24,7 @@ interface TableUserRowProps {
 
 export default function TableUserRow({ user }: TableUserRowProps) {
   const [openUserModal, setOpenUserModal] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const dispatch = useAppDispatch();
   function formatRole(role: RoleType) {
@@ -124,7 +126,10 @@ export default function TableUserRow({ user }: TableUserRowProps) {
                 <Edit />
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-red-600 hover:bg-red-50 hover:!text-red-700 dark:text-red-300 dark:hover:bg-red-900/30">
+              <DropdownMenuItem
+                className="text-red-600 hover:bg-red-50 hover:!text-red-700 dark:text-red-300 dark:hover:bg-red-900/30"
+                onClick={() => setDeleteDialogOpen(true)}
+              >
                 <Trash2 className="w-4 h-4 mr-2 text-red-600 dark:text-red-300" />
                 Delete
               </DropdownMenuItem>
@@ -138,6 +143,11 @@ export default function TableUserRow({ user }: TableUserRowProps) {
         user={user}
         isOpen={openUserModal}
         onClose={() => setOpenUserModal(false)}
+      />
+      <DeleteConfirmDailog
+        open={deleteDialogOpen}
+        userId={user.id}
+        onClose={() => setDeleteDialogOpen(false)}
       />
     </>
   );

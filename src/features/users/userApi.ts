@@ -39,3 +39,11 @@ export async function updateUser(data: UpdateUserRequest) {
   );
   return response.data;
 }
+
+export async function DeleteUser(Id: number) {
+  const response = await api.delete<ApiResponse<string>>(
+    `${USER_BASE_URL}/${Id}`
+  );
+
+  return response.data;
+}
