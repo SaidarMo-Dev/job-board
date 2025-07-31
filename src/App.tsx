@@ -17,6 +17,7 @@ function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <div className="">
+          {/* Toast provider */}
           <ToastContextProvider>
             <ToastContainer
               position="top-center"
