@@ -1,5 +1,5 @@
 import type React from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
 import { Link, useNavigate } from "react-router";
@@ -7,6 +7,9 @@ import { useDispatch } from "react-redux";
 
 import type { AppDispatch } from "@/store";
 import { getCurrentUserThunk, handleLogin } from "@/features/auth/authThunk";
+import { decodeToken } from "@/utils/decodeToken";
+import { getAccessToken } from "@/utils/gitAccessToken";
+import { ROUTES } from "@/constants/routes";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,20 +30,41 @@ export default function LoginPage() {
     async (e: React.FormEvent) => {
       e.preventDefault();
       setErrorMessage("");
-      const result = await dispatch(
-        handleLogin({ UsernameOrEmail, Password: password })
-      );
 
-      if (handleLogin.fulfilled.match(result)) {
-        await dispatch(getCurrentUserThunk());
-        navigate("/members");
-      } else {
-        setErrorMessage(result.payload ? result.payload : "");
+      try {
+        const result = await dispatch(
+          handleLogin({ UsernameOrEmail, Password: password })
+        );
+
+        if (handleLogin.fulfilled.match(result)) {
+          await dispatch(getCurrentUserThunk());
+
+          const token = getAccessToken();
+          if (!token) {
+            throw new Error("Authentication token not found");
+          }
+
+          const user = decodeToken(token);
+          const isAdmin = user?.Roles?.includes("Admin");
+
+          navigate(isAdmin ? ROUTES.ADMIN.DASHBOARD : ROUTES.MEMBER.HOME);
+        } else if (handleLogin.rejected.match(result)) {
+          const errorMessage =
+            typeof result.payload === "string"
+              ? result.payload
+              : "Login failed. Please try again.";
+          setErrorMessage(errorMessage);
+        }
+      } catch (error) {
+        const safeError =
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred";
+        setErrorMessage(safeError);
       }
     },
     [dispatch, UsernameOrEmail, password, navigate]
   );
-
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-sky-50 to-sky-100 flex items-center justify-center p-4">

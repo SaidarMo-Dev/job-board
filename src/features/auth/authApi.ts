@@ -112,3 +112,12 @@ export async function AddRecoveryContactInformation(
 
   return response.data;
 }
+
+export async function verifyPassword(password: string) {
+  const params = new URLSearchParams({ Password: password });
+  const response = await api.get<ApiResponse<string>>(
+    `${AUTH_BASE_URL}/verify-password?${params.toString()}`
+  );
+
+  return response.data;
+}

@@ -5,6 +5,7 @@ import { addUser, fetchAdminUsers, updateUser } from "./userApi";
 import type { AddFormData, EditFormData } from "./schemas/userSchema";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 import { DeleteUser } from "@/features/users/userApi";
+import { verifyPassword } from "@/features/auth/authApi";
 
 const fetchAdminUsersThunk = createAsyncThunk<
   ApiPaginatedResponse<UserManagement[]>,
@@ -12,7 +13,7 @@ const fetchAdminUsersThunk = createAsyncThunk<
     query: string;
   },
   { rejectValue: string }
->("Admin/Users", async (params, { rejectWithValue }) => {
+>("Admin/users", async (params, { rejectWithValue }) => {
   try {
     const response = await fetchAdminUsers(params.query);
     return response;
@@ -64,9 +65,32 @@ const deleteUserThunk = createAsyncThunk<
     return response.message;
   } catch (err) {
     return rejectWithValue(
-      extractAxiosErrorMessage(err, "Failed to delete user")
+      extractAxiosErrorMessage<string>(err, "Failed to delete user")
     );
   }
 });
 
-export { fetchAdminUsersThunk, addUserThunk, updateUserThunk, deleteUserThunk };
+// confirm password thunk
+const verifyPasswrodThunk = createAsyncThunk<
+  string,
+  { password: string },
+  { rejectValue: string }
+>("/admin/users/verify-password", async ({ password }, { rejectWithValue }) => {
+  try {
+    const response = await verifyPassword(password);
+    return response.message;
+  } catch (err) {
+    console.log(err);
+    return rejectWithValue(
+      extractAxiosErrorMessage(err, "Failed to verify password")
+    );
+  }
+});
+
+export {
+  fetchAdminUsersThunk,
+  addUserThunk,
+  updateUserThunk,
+  deleteUserThunk,
+  verifyPasswrodThunk,
+};

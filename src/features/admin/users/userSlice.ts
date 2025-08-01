@@ -5,6 +5,7 @@ import {
   deleteUserThunk,
   fetchAdminUsersThunk,
   updateUserThunk,
+  verifyPasswrodThunk,
 } from "./userThunk";
 import type { RootState } from "@/store";
 
@@ -157,7 +158,7 @@ const adminUserSlice = createSlice({
       .addCase(deleteUserThunk.rejected, (state, action) => {
         state.loading.remove = false;
         state.error.remove = action.payload ?? "Network error";
-      });
+      })
   },
 });
 

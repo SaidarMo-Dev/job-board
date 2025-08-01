@@ -1,6 +1,12 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertTriangle } from "lucide-react";
+
+import { toast } from "react-toastify";
 import {
   Dialog,
   DialogContent,
@@ -9,10 +15,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertTriangle } from "lucide-react";
+import { verifyPassword } from "@/features/auth/authApi";
+import { DeleteUser } from "@/features/users/userApi";
+import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 
 interface DeleteConfirmDailogProps {
   open: boolean;
@@ -26,6 +31,7 @@ export default function DeleteConfirmDailog({
 }: DeleteConfirmDailogProps) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
     if (!password.trim()) {
@@ -33,7 +39,22 @@ export default function DeleteConfirmDailog({
       return;
     }
 
+    try {
+      setError("");
+      setLoading(true);
 
+      await verifyPassword(password);
+
+      await DeleteUser(userId);
+
+      toast.success("Deleted successfully.");
+      if (onClose) onClose();
+    } catch (error) {
+      console.log("on catch");
+      setError(extractAxiosErrorMessage<string>(error));
+    } finally {
+      setLoading(false);
+    }
   };
 
   function handleClose() {
@@ -72,6 +93,7 @@ export default function DeleteConfirmDailog({
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
             />
           </div>
 
@@ -85,15 +107,15 @@ export default function DeleteConfirmDailog({
         </div>
 
         <DialogFooter className="gap-2">
-          <Button variant="outline" onClick={handleClose}>
+          <Button variant="outline" onClick={handleClose} disabled={loading}>
             Cancel
           </Button>
           <Button
             variant="destructive"
             onClick={handleDelete}
-            disabled={!password.trim()}
+            disabled={loading || !password.trim()}
           >
-            Delete Account
+            {loading ? "Deleting..." : "Delete Account"}
           </Button>
         </DialogFooter>
       </DialogContent>
