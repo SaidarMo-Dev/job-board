@@ -5,7 +5,6 @@ import {
   deleteUserThunk,
   fetchAdminUsersThunk,
   updateUserThunk,
-  verifyPasswrodThunk,
 } from "./userThunk";
 import type { RootState } from "@/store";
 
