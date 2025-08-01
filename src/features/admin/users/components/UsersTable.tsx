@@ -25,7 +25,6 @@ const normalFields = [
   "User",
   "Email",
   "Phone",
-  "Gender",
   "Role",
   "Status",
   "Date of Birth",

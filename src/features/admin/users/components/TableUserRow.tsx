@@ -62,6 +62,7 @@ export default function TableUserRow({ user }: TableUserRowProps) {
       dispatch(selectUser(user.id));
     }
   };
+
   return (
     <>
       <TableRow>
@@ -96,9 +97,6 @@ export default function TableUserRow({ user }: TableUserRowProps) {
         <TableCell className="text-gray-600 dark:text-secondary-foreground">
           {user.phoneNumber ?? "Not specified"}
         </TableCell>
-        <TableCell className="text-gray-600 dark:text-secondary-foreground">
-          {user.gender ?? "Not specified"}
-        </TableCell>
         <TableCell className="py-2">
           <Badge className={`${getRoleColor(user.role as RoleType)}`}>
             {formatRole(user.role as RoleType)}
@@ -122,13 +120,17 @@ export default function TableUserRow({ user }: TableUserRowProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setOpenUserModal(true)}>
+              <DropdownMenuItem
+                onClick={() => setOpenUserModal(true)}
+                disabled={user.isDeleted}
+              >
                 <Edit />
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="text-red-600 hover:bg-red-50 hover:!text-red-700 dark:text-red-300 dark:hover:bg-red-900/30"
                 onClick={() => setDeleteDialogOpen(true)}
+                disabled={user.isDeleted}
               >
                 <Trash2 className="w-4 h-4 mr-2 text-red-600 dark:text-red-300" />
                 Delete

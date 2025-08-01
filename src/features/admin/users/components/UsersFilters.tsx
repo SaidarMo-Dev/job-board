@@ -27,7 +27,7 @@ export default function UsersFilters({
   onSearchChange,
 }: UsersFiltersProps) {
   return (
-    <div className="py-4 px-2 border-1 border-gray-200 rounded-md shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
+    <div className="py-4 px-2 border-1 border-gray-200 dark:border-secondary rounded-md shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
       <div className="flex gap-4">
         <div className="relative flex-1">
           <Input

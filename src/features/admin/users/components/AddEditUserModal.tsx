@@ -85,6 +85,12 @@ export default function AddEditUserModal({
 
   const saveLoading = useAppSelector(selectSaveUserLoading);
 
+  function handleClose() {
+    if (onClose) {
+      reset();
+      onClose();
+    }
+  }
   const onSubmit = async (data: FormData) => {
     try {
       if (mode === "AddNew") {
@@ -92,7 +98,7 @@ export default function AddEditUserModal({
         toast.success("User added successfully", {
           position: "bottom-left",
         });
-        onClose?.();
+        handleClose();
       } else {
         if (!user?.id) {
           throw new Error("User ID is required for editing");
@@ -120,7 +126,7 @@ export default function AddEditUserModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md max-h-screen overflow-auto">
         <DialogHeader>
           <DialogTitle>
             {mode === "Edit" ? "Edit User" : "Add New User"}
@@ -172,7 +178,7 @@ export default function AddEditUserModal({
               className={errors.email ? "border-red-500" : ""}
             />
             {errors.email && (
-              <p className="text-sm text-red-500 flex items-center gap-1">
+              <p className="text-sm text-red-400 flex items-center gap-1">
                 <X className="h-3 w-3" />
                 <span>{errors.email.message}</span>
               </p>
@@ -209,12 +215,7 @@ export default function AddEditUserModal({
           {mode === "AddNew" && (
             <>
               <div className="space-y-2">
-                <Label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password
-                </Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input
                     {...register("password")}
@@ -244,12 +245,7 @@ export default function AddEditUserModal({
               </div>
 
               <div className="space-y-2">
-                <Label
-                  htmlFor="confirmPassword"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Confirm password
-                </Label>
+                <Label htmlFor="confirmPassword">Confirm password</Label>
                 <div className="relative">
                   <Input
                     {...register("confirmPassword")}
@@ -283,7 +279,7 @@ export default function AddEditUserModal({
             <Button
               type="button"
               variant="outline"
-              onClick={onClose}
+              onClick={handleClose}
               disabled={saveLoading}
             >
               Cancel
@@ -291,7 +287,7 @@ export default function AddEditUserModal({
             <Button
               type="submit"
               disabled={saveLoading}
-              className="bg-sky-600 hover:bg-sky-700"
+              className="bg-sky-600 hover:bg-sky-700 dark:bg-foreground dark:hover:bg-gray-400/50"
             >
               {saveLoading ? (
                 <div className="flex items-center gap-2">

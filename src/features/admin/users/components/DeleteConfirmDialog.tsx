@@ -47,10 +47,12 @@ export default function DeleteConfirmDailog({
 
       await DeleteUser(userId);
 
-      toast.success("Deleted successfully.");
+      toast.success("Deleted successfully.", {
+        position: "bottom-left",
+      });
       if (onClose) onClose();
     } catch (error) {
-      console.log("on catch");
+      
       setError(extractAxiosErrorMessage<string>(error));
     } finally {
       setLoading(false);
