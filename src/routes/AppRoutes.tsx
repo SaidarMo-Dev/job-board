@@ -22,19 +22,24 @@ import PublicLayout from "@/layouts/PublicLayout";
 import AdminLayout from "@/features/admin/layout/AdminLayout";
 import Dashboard from "@/features/admin/dashboard/components/Dashboard";
 import UsersManagement from "@/features/admin/pages/UsersManagement";
+import DashboardLayout from "@/features/admin/layout/DashboardLayout";
+import { ROUTES } from "@/constants/routes";
 
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route
-        path="/preview/admin"
-        element={<AdminLayout>{<Dashboard />}</AdminLayout>}
-      />
+      <Route element={<DashboardLayout />}>
+        <Route
+          path={ROUTES.ADMIN.DASHBOARD}
+          element={<AdminLayout>{<Dashboard />}</AdminLayout>}
+        />
 
-      <Route
-        path="/preview/admin/users"
-        element={<AdminLayout>{<UsersManagement />}</AdminLayout>}
-      />
+        <Route
+          path={ROUTES.ADMIN.USERS}
+          element={<AdminLayout>{<UsersManagement />}</AdminLayout>}
+        />
+      </Route>
+
       <Route path="/" element={<LandingPage />} />
 
       <Route path="/jobs" element={<PublicLayout />}>
