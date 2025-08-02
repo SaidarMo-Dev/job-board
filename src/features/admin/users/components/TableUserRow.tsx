@@ -3,7 +3,7 @@ import type { RoleType, UserManagement } from "../usersTypes";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
+import { Edit, Eye, MoreHorizontal, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -17,6 +17,8 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useState } from "react";
 import AddEditUserModal from "./AddEditUserModal";
 import DeleteConfirmDailog from "./DeleteConfirmDialog";
+import { formatRole, getRoleColor, getStatusColor } from "@/utils/styleHelpers";
+import ShowInfoModal from "./ShowInfoModal";
 
 interface TableUserRowProps {
   user: UserManagement;
@@ -25,31 +27,9 @@ interface TableUserRowProps {
 export default function TableUserRow({ user }: TableUserRowProps) {
   const [openUserModal, setOpenUserModal] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [openShowInfo, setOpenShowInfo] = useState(false);
 
   const dispatch = useAppDispatch();
-  function formatRole(role: RoleType) {
-    if (role === "JobSeeker") return "Job Seeker";
-    else return role;
-  }
-
-  function getStatusColor(status: boolean) {
-    if (!status)
-      return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200";
-    else return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-200";
-  }
-
-  function getRoleColor(role: RoleType) {
-    switch (role) {
-      case "Admin":
-        return "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200";
-      case "Employer":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200";
-      case "JobSeeker":
-        return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200";
-      default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-800/30 dark:text-gray-200";
-    }
-  }
 
   const selectedUserIds = useAppSelector(selectSelectedUserIds);
 
@@ -121,6 +101,13 @@ export default function TableUserRow({ user }: TableUserRowProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
+                onClick={() => setOpenShowInfo(true)}
+                disabled={user.isDeleted}
+              >
+                <Eye />
+                show details
+              </DropdownMenuItem>
+              <DropdownMenuItem
                 onClick={() => setOpenUserModal(true)}
                 disabled={user.isDeleted}
               >
@@ -150,6 +137,12 @@ export default function TableUserRow({ user }: TableUserRowProps) {
         open={deleteDialogOpen}
         userId={user.id}
         onClose={() => setDeleteDialogOpen(false)}
+      />
+
+      <ShowInfoModal
+        user={user}
+        open={openShowInfo}
+        onClose={() => setOpenShowInfo(false)}
       />
     </>
   );
