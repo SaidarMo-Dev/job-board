@@ -4,12 +4,12 @@ export interface AdminProfile {
   lastName: string;
   email: string;
   username: string;
-  phoneNumber: string;
-  address: string;
-  gender: string;
-  dateOfBirth: string;
-  imagePath: string;
-  country: string;
+  phoneNumber?: string;
+  address?: string;
+  gender?: string;
+  dateOfBirth?: string;
+  imagePath?: string;
+  country?: string;
   roles: string[];
   twoFactorEnabled: boolean;
 }

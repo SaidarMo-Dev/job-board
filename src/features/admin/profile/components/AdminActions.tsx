@@ -5,7 +5,6 @@ import { Edit, KeyRound, LogOut } from "lucide-react";
 import { useState } from "react";
 import EditProfileDialog from "../dialogs/EditProfileDialog";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectCurrentUser } from "@/features/auth/authSlice";
 import ChangePasswordDialog from "../dialogs/ChangePasswordDialog";
 import LogoutDialog from "../dialogs/LogoutDialog";
 
@@ -16,7 +15,7 @@ export default function AdminActions() {
     logout: false,
   });
 
-  const currentUser = useAppSelector(selectCurrentUser);
+  const currentUser = useAppSelector((state) => state.adminAuthReducer.admin);
   return (
     <>
       <Card>

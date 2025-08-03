@@ -16,31 +16,36 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import type { RoleType, UserManagement } from "../usersTypes";
-import {
-  formatRole,
-  getGender,
-  getRoleColor,
-  getStatusColor,
-} from "@/utils/styleHelpers";
+import { getGender, getRoleColor } from "@/utils/styleHelpers";
+import type { AdminProfile } from "../../auth/adminTypes";
+import type { RoleType } from "../../users/usersTypes";
+import { useMemo } from "react";
 
 interface ShowInfoModalProps {
   open: boolean;
-
-  user: UserManagement;
+  admin: AdminProfile;
   onClose?: () => void;
 }
-export default function ShowInfoModal({
+export default function AdminDetailsDialog({
   open,
-  user,
+  admin,
   onClose,
 }: ShowInfoModalProps) {
   function handleClose() {
     if (onClose) onClose();
   }
+
+  const fullName = useMemo(() => {
+    return admin.firstName + " " + admin.lastName;
+  }, [admin.firstName, admin.lastName]);
+
+  const listRoles = admin.roles.map((role) => {
+    return (
+      <Badge className={`${getRoleColor(role as RoleType)}`}>{role}</Badge>
+    );
+  });
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -48,7 +53,7 @@ export default function ShowInfoModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <UserIcon className="h-5 w-5" />
-            User Details: {user.fullName}
+            Admin Details: {fullName}
           </DialogTitle>
         </DialogHeader>
 
@@ -59,15 +64,8 @@ export default function ShowInfoModal({
               <UserIcon className="h-8 w-8 text-muted-foreground" />
             </div>
             <div className="space-y-1">
-              <h3 className="text-lg font-semibold">{user.fullName}</h3>
-              <div className="flex items-center gap-2">
-                <Badge className={`${getStatusColor(user.isDeleted)}`}>
-                  {user.isDeleted ? "Suspended" : "Active"}
-                </Badge>
-                <Badge className={`${getRoleColor(user.role as RoleType)}`}>
-                  {formatRole(user.role as RoleType)}
-                </Badge>
-              </div>
+              <h3 className="text-lg font-semibold">{fullName}</h3>
+              <div className="flex items-center gap-2">{listRoles}</div>
             </div>
           </div>
 
@@ -80,19 +78,15 @@ export default function ShowInfoModal({
                 <Mail className="h-4 w-4" />
                 Email
               </div>
-              <div className="col-span-2 text-sm">{user.email}</div>
+              <div className="col-span-2 text-sm">{admin.email}</div>
             </div>
 
             <div className="grid grid-cols-3 items-center gap-4">
               <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                 <Shield className="h-4 w-4" />
-                Role
+                Roles
               </div>
-              <div className="col-span-2">
-                <Badge className={`${getRoleColor(user.role as RoleType)}`}>
-                  {formatRole(user.role as RoleType)}
-                </Badge>
-              </div>
+              <div className="col-span-2">{listRoles}</div>
             </div>
 
             <div className="grid grid-cols-3 items-center gap-4">
@@ -101,9 +95,7 @@ export default function ShowInfoModal({
                 Date Of Birth
               </div>
               <div className="col-span-2 text-sm">
-                {user.dateofBirth
-                  ? user.dateofBirth.toLocaleDateString()
-                  : "Not specified"}
+                {admin.dateOfBirth ? admin.dateOfBirth : "Not specified"}
               </div>
             </div>
 
@@ -112,19 +104,7 @@ export default function ShowInfoModal({
                 <MapPin className="h-4 w-4" />
                 Address
               </div>
-              <div className="col-span-2 text-sm">{user.email}</div>
-            </div>
-
-            <div className="grid grid-cols-3 items-center gap-4">
-              <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                <UserIcon className="h-4 w-4" />
-                Status
-              </div>
-              <div className="col-span-2">
-                <Badge className={`${getStatusColor(user.isDeleted)}`}>
-                  {user.isDeleted ? "Suspended" : "Active"}
-                </Badge>
-              </div>
+              <div className="col-span-2 text-sm">{admin.address}</div>
             </div>
 
             <div className="grid grid-cols-3 items-center gap-4">
@@ -133,7 +113,7 @@ export default function ShowInfoModal({
                 Phone Number
               </div>
               <div className="col-span-2 text-sm">
-                {user.phoneNumber ?? "Not Specefied"}
+                {admin.phoneNumber ?? "Not Specefied"}
               </div>
             </div>
 
@@ -142,7 +122,9 @@ export default function ShowInfoModal({
                 <UserCog2 className="h-4 w-4" />
                 Gender
               </div>
-              <div className="col-span-2 text-sm">{getGender(user.gender)}</div>
+              <div className="col-span-2 text-sm">
+                {getGender(admin.gender)}
+              </div>
             </div>
 
             <div className="grid grid-cols-3 items-center gap-4">
@@ -150,7 +132,7 @@ export default function ShowInfoModal({
                 <MapIcon className="h-4 w-4" />
                 Country
               </div>
-              <div className="col-span-2 text-sm">{user.country}</div>
+              <div className="col-span-2 text-sm">{admin.country}</div>
             </div>
           </div>
 

@@ -18,20 +18,18 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import type {
-  CurrentUser,
-  UpdateUserRequest,
-} from "@/features/users/userTypes";
+import type { UpdateUserRequest } from "@/features/users/userTypes";
 import { DatePicker } from "@/components/DatePicker";
 import { CountryCombobox } from "@/components/CountrySelect";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { Slide, toast } from "react-toastify";
 import { getCurrentUserThunk } from "@/features/auth/authThunk";
 import { updateUserThunk } from "@/features/users/userThunk";
+import type { AdminProfile } from "../../auth/adminTypes";
 
 interface EditProfileDialogProps {
   open: boolean;
-  user: CurrentUser;
+  user: AdminProfile;
   onClose?: () => void;
 }
 
@@ -52,7 +50,7 @@ export default function EditProfileDialog({
     dateOfBirth: user.dateOfBirth,
     phoneNumber: user.phoneNumber,
     address: user.address,
-    country: user.countryName,
+    country: user.country,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -85,7 +83,7 @@ export default function EditProfileDialog({
     setLoading(true);
 
     const updatedUser: UpdateUserRequest = {
-      id: user?.id ?? -1,
+      id: user?.Id ?? -1,
       firstName: editForm.firstName,
       lastName: editForm.lastName,
       gender: editForm.gender,
