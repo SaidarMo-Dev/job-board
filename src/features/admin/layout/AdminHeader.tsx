@@ -14,9 +14,8 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Bell, UserRoundIcon } from "lucide-react";
 import { useState } from "react";
-import ShowInfoModal from "../users/components/ShowInfoModal";
+import AdminDetailsDialog from "../profile/dialogs/AdminDetailsDialog";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectCurrentUser } from "@/features/auth/authSlice";
 
 export default function AdminHeader() {
   const [isDark, setIsDark] = useState(
@@ -24,8 +23,8 @@ export default function AdminHeader() {
   );
   if (isDark) document.documentElement.classList.add("dark");
 
-  const [openUserProfile, setOpenuserProfile] = useState(false);
-
+  const [openAdminProfile, setOpenAdminProfile] = useState(false);
+  const currentUser = useAppSelector((state) => state.adminAuthReducer.admin);
   return (
     <>
       <header
@@ -63,20 +62,21 @@ export default function AdminHeader() {
               2
             </Badge>
           </Button>
-          <div
-            className="p-2 bg-gray-100 rounded-full"
-            onClick={() => setOpenuserProfile(false)}
+
+          <Button
+            variant={"ghost"}
+            onClick={() => setOpenAdminProfile(true)}
+            className="rounded-full py-5 px-6 dark:border-1 dark:border-gray-800"
           >
-            <UserRoundIcon className="w-5 h-5 text-black" />
-          </div>
+            <UserRoundIcon className="w-5 h-5 text-black dark:text-white" />
+          </Button>
         </div>
       </header>
-      {/*       
-      <ShowInfoModal
-        user={}
-        open={openUserProfile}
-        onClose={() => setOpenuserProfile(false)}
-      /> */}
+      <AdminDetailsDialog
+        admin={currentUser}
+        open={openAdminProfile}
+        onClose={() => setOpenAdminProfile(false)}
+      />
     </>
   );
 }

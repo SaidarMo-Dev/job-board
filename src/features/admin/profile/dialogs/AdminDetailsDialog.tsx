@@ -21,11 +21,10 @@ import { Separator } from "@/components/ui/separator";
 import { getGender, getRoleColor } from "@/utils/styleHelpers";
 import type { AdminProfile } from "../../auth/adminTypes";
 import type { RoleType } from "../../users/usersTypes";
-import { useMemo } from "react";
 
 interface ShowInfoModalProps {
   open: boolean;
-  admin: AdminProfile;
+  admin: AdminProfile | null;
   onClose?: () => void;
 }
 export default function AdminDetailsDialog({
@@ -37,9 +36,9 @@ export default function AdminDetailsDialog({
     if (onClose) onClose();
   }
 
-  const fullName = useMemo(() => {
-    return admin.firstName + " " + admin.lastName;
-  }, [admin.firstName, admin.lastName]);
+  if (!admin) return null;
+
+  const fullName = admin.firstName + " " + admin.lastName;
 
   const listRoles = admin.roles.map((role) => {
     return (
