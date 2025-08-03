@@ -6,6 +6,7 @@ import bookmarkSliceReducer from "./features/bookmarks/bookmarksSlice";
 import dashboardStatsSliceReducer from "./features/dashboard_stats/dashboardStatsSlice";
 import applicationSliceReducer from "./features/jobApplications/applicationSlice";
 import AdminUserSliceReducer from "@/features/admin/users/userSlice";
+import AdminAuthSliceReducer from "@/features/admin/auth/adminSlice";
 
 import storage from "redux-persist/lib/storage";
 
@@ -20,6 +21,7 @@ const appReducer = combineReducers({
   dashboardStatsReducer: dashboardStatsSliceReducer,
   applicationReducer: applicationSliceReducer,
   AdminUserReducer: AdminUserSliceReducer,
+  adminAuthReducer: AdminAuthSliceReducer,
 });
 
 const rootReducer = (state, action: Action<string>) => {
@@ -35,7 +37,7 @@ const persistConfig = {
   key: "root",
   storage,
   tranforms: [savedJobIdsTransform],
-  whitelist: ["authReducer", "bookmarkReducer"],
+  whitelist: ["authReducer", "bookmarkReducer", "adminAuthReducer"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

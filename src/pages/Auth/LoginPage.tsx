@@ -1,5 +1,5 @@
 import type React from "react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
 import { Link, useNavigate } from "react-router";
@@ -7,9 +7,11 @@ import { useDispatch } from "react-redux";
 
 import type { AppDispatch } from "@/store";
 import { getCurrentUserThunk, handleLogin } from "@/features/auth/authThunk";
-import { decodeToken } from "@/utils/decodeToken";
 import { getAccessToken } from "@/utils/gitAccessToken";
 import { ROUTES } from "@/constants/routes";
+import { getAdminProfileThunk } from "@/features/admin/auth/adminThunk";
+import isAdminUser from "@/utils/isAdminUser";
+import { adminLogin } from "@/features/admin/auth/adminSlice";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -36,35 +38,38 @@ export default function LoginPage() {
           handleLogin({ UsernameOrEmail, Password: password })
         );
 
-        if (handleLogin.fulfilled.match(result)) {
-          await dispatch(getCurrentUserThunk());
-
-          const token = getAccessToken();
-          if (!token) {
-            throw new Error("Authentication token not found");
-          }
-
-          const user = decodeToken(token);
-          const isAdmin = user?.Roles?.includes("Admin");
-
-          navigate(isAdmin ? ROUTES.ADMIN.DASHBOARD : ROUTES.MEMBER.HOME);
-        } else if (handleLogin.rejected.match(result)) {
+        if (!handleLogin.fulfilled.match(result)) {
           const errorMessage =
             typeof result.payload === "string"
               ? result.payload
               : "Login failed. Please try again.";
-          setErrorMessage(errorMessage);
+          return setErrorMessage(errorMessage);
         }
+
+        const token = getAccessToken();
+        if (!token) {
+          throw new Error("Authentication token not found");
+        }
+
+        if (isAdminUser(token)) {
+          dispatch(adminLogin());
+          await dispatch(getAdminProfileThunk());
+          return navigate(ROUTES.ADMIN.DASHBOARD);
+        }
+
+        await dispatch(getCurrentUserThunk());
+        navigate(ROUTES.MEMBER.HOME);
       } catch (error) {
-        const safeError =
+        const message =
           error instanceof Error
             ? error.message
             : "An unexpected error occurred";
-        setErrorMessage(safeError);
+        setErrorMessage(message);
       }
     },
     [dispatch, UsernameOrEmail, password, navigate]
   );
+
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-sky-50 to-sky-100 flex items-center justify-center p-4">
