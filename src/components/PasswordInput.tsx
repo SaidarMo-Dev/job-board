@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function PasswordInput({
@@ -8,11 +7,13 @@ export default function PasswordInput({
   value,
   onChange,
   placeholder = "Enter password",
+  className = "",
 }: {
   id: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  className?: string;
 }) {
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -23,6 +24,7 @@ export default function PasswordInput({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        className={`${className}`}
       />
       <button
         type="button"

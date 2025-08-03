@@ -66,8 +66,8 @@ export default function CountrySelector({ onSelect }: CountryselectorProps) {
   const customStyles: StylesConfig<CountryOption, false> = {
     control: (base) => ({
       ...base,
-      height: "41px",
-      minHeight: "41px",
+      height: "38px",
+      minHeight: "38px",
       borderColor: "#e4e4e4",
       borderRadius: "8px",
     }),

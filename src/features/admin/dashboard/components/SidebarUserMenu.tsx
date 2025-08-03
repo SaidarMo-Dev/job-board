@@ -7,6 +7,9 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
+import { ROUTES } from "@/constants/routes";
+import { logout } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import {
   LogOut,
   MoreHorizontal,
@@ -14,12 +17,17 @@ import {
   User,
   UserCircle,
 } from "lucide-react";
+import { Link } from "react-router";
 
 export default function SidebarUserMenu({
   user,
 }: {
   user: { avatar: string; name: string; email: string };
 }) {
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -55,16 +63,18 @@ export default function SidebarUserMenu({
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <UserCircle className="mr-2 h-5 w-5 dark:text-secondary-foreground" />
-          Account
+        <DropdownMenuItem asChild>
+          <Link to={ROUTES.ADMIN.PROFILE}>
+            <UserCircle className="mr-2 h-5 w-5 dark:text-secondary-foreground" />
+            Account
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Settings className="mr-2 h-5 w-5 dark:text-secondary-foreground" />
           Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-5 w-5 dark:text-secondary-foreground" />
           Log out
         </DropdownMenuItem>

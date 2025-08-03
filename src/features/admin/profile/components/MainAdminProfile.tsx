@@ -1,0 +1,92 @@
+import ChangeEmail from "@/components/PasswordAndSecurity/ChangeEmail";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardTitle,
+  CardHeader,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card";
+import { getRoleColor } from "@/utils/styleHelpers";
+import { Calendar, Mail, Shield, Upload } from "lucide-react";
+import type { AdminProfile } from "../profileTypes";
+import { useState } from "react";
+
+interface MainAdminProfileProps {
+  admin: AdminProfile;
+}
+export default function MainAdminProfile({ admin }: MainAdminProfileProps) {
+  const [openChangeEmail, setOpenChangeEmail] = useState(false);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Shield className="h-5 w-5" />
+          Admin Profile
+        </CardTitle>
+        <CardDescription>
+          Manage your administrative account settings and preferences
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {/* Avatar & Basic Info */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+          <div className="relative">
+            <Avatar className="h-24 w-24">
+              <AvatarImage
+                src={admin.avatar || "/placeholder.svg"}
+                alt={`${admin.firstName} ${admin.lastName}`}
+              />
+              <AvatarFallback className="text-lg">
+                {admin.firstName[0]}
+                {admin.lastName[0]}
+              </AvatarFallback>
+            </Avatar>
+            <Button
+              size="sm"
+              variant="outline"
+              className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full p-0 bg-transparent"
+            >
+              <Upload className="h-3 w-3" />
+            </Button>
+          </div>
+
+          <div className="flex-1 space-y-2">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <h2 className="text-2xl font-bold">
+                {admin.firstName} {admin.lastName}
+              </h2>
+              <Badge variant="secondary" className={`${getRoleColor("Admin")}`}>
+                Admin
+              </Badge>
+            </div>
+
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Mail className="h-4 w-4" />
+              <span>{admin.email}</span>
+              <Button
+                variant={"ghost"}
+                className="mr-4 cursor-pointer text-gray-700 dark:text-foreground"
+                onClick={() => setOpenChangeEmail(true)}
+              >
+                Change Email
+              </Button>
+              <ChangeEmail
+                open={openChangeEmail}
+                onClose={() => setOpenChangeEmail(false)}
+              />
+            </div>
+
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Calendar className="h-4 w-4" />
+              <span>Member since {admin.dateOfBirth}</span>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
