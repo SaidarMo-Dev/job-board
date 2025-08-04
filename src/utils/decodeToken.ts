@@ -6,7 +6,7 @@ interface AuthTokenPayload {
   Email: string;
   FirstName: string;
   LastName: string;
-  Roles: string[];
+  role: string;
   exp: Date;
   iss: string;
   aud: string;
