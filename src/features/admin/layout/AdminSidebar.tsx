@@ -70,7 +70,7 @@ const menuItems = [
 
 export default function AdminSidebar() {
   return (
-    <Sidebar variant="inset">
+    <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
