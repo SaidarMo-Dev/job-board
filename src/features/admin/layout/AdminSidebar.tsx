@@ -22,18 +22,19 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import SidebarUserMenu from "../dashboard/components/SidebarUserMenu";
+import { ROUTES } from "@/constants/routes";
 
 const menuItems = [
   {
     name: "Dashboard",
     icon: Home,
-    url: "/preview/admin",
+    url: ROUTES.ADMIN.DASHBOARD,
     Badge: 0,
   },
   {
     name: "Users",
     icon: User,
-    url: "users",
+    url: ROUTES.ADMIN.USERS,
     Badge: 23,
   },
   {
@@ -51,7 +52,7 @@ const menuItems = [
   {
     name: "Skills",
     icon: ShieldCheck,
-    url: "#",
+    url: ROUTES.ADMIN.SKILLS,
     Badge: 0,
   },
   {

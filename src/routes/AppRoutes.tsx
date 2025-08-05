@@ -25,6 +25,7 @@ import UsersManagement from "@/features/admin/pages/UsersManagement";
 import DashboardLayout from "@/features/admin/layout/DashboardLayout";
 import { ROUTES } from "@/constants/routes";
 import AdminProfile from "@/features/admin/profile/pages/AdminProfilePage";
+import SkillsManagement from "@/features/admin/pages/SkillsManagementPage";
 
 export default function AppRoutes() {
   return (
@@ -42,6 +43,10 @@ export default function AppRoutes() {
         <Route
           path={ROUTES.ADMIN.USERS}
           element={<AdminLayout>{<UsersManagement />}</AdminLayout>}
+        />
+        <Route
+          path={ROUTES.ADMIN.SKILLS}
+          element={<AdminLayout>{<SkillsManagement />}</AdminLayout>}
         />
       </Route>
 

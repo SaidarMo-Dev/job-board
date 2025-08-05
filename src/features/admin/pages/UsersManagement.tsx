@@ -20,7 +20,7 @@ export default function UsersManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [openUserModal, setOpenUserModal] = useState(false);
 
-  const debouncedSearch = useDebounce(searchTerm, 800);
+  const debouncedSearch = useDebounce(searchTerm, 500);
 
   const handleUpdateSearch = (search: string) => {
     setSearchTerm(search);
