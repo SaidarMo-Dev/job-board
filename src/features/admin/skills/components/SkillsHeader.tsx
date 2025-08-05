@@ -16,7 +16,10 @@ export function SkillsHeader({ onAddClick }: SkillsHeaderProps) {
           Manage and organize your skills portfolio
         </p>
       </div>
-      <Button className="flex items-center gap-2" onClick={onAddClick}>
+      <Button
+        className="flex items-center gap-2 bg-sky-600 hover:bg-sky-700 dark:bg-foreground dark:hover:bg-gray-200"
+        onClick={onAddClick}
+      >
         <Plus className="h-4 w-4" />
         Add Skill
       </Button>
