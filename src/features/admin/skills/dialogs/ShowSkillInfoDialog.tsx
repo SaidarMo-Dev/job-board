@@ -12,7 +12,7 @@ import type { skillManagement } from "../skillsTypes";
 interface ShowSkillInfoDialogProps {
   open: boolean;
   onClose: () => void;
-  skill: skillManagement;
+  skill: skillManagement | null;
 }
 
 export default function ShowSkillInfoDialog({
@@ -28,6 +28,7 @@ export default function ShowSkillInfoDialog({
     });
   };
 
+  if (!skill) return null;
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -75,8 +76,8 @@ export default function ShowSkillInfoDialog({
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t">
-            <Button onClick={onClose} className="flex-1">
+          <div className="flex justify-end gap-3 pt-4 border-t">
+            <Button variant={"outline"} onClick={onClose} className="w-35">
               Close
             </Button>
           </div>
