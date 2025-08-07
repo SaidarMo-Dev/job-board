@@ -26,6 +26,7 @@ import DashboardLayout from "@/features/admin/layout/DashboardLayout";
 import { ROUTES } from "@/constants/routes";
 import AdminProfile from "@/features/admin/profile/pages/AdminProfilePage";
 import SkillsManagement from "@/features/admin/pages/SkillsManagementPage";
+import CategoriesManagementPage from "@/features/admin/pages/CategoriesManagementPage";
 
 export default function AppRoutes() {
   return (
@@ -47,6 +48,10 @@ export default function AppRoutes() {
         <Route
           path={ROUTES.ADMIN.SKILLS}
           element={<AdminLayout>{<SkillsManagement />}</AdminLayout>}
+        />
+        <Route
+          path={ROUTES.ADMIN.CATEGORIES}
+          element={<AdminLayout>{<CategoriesManagementPage />}</AdminLayout>}
         />
       </Route>
 
