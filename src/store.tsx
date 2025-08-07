@@ -9,6 +9,7 @@ import AdminUserSliceReducer from "@/features/admin/users/userSlice";
 import AdminAuthSliceReducer from "@/features/admin/auth/adminSlice";
 import AdminSkillsSliceReducer from "@/features/admin/skills/skillsSlice";
 import AdminCategoriesSliceReducer from "@/features/admin/categories/categorySlice";
+import AdminCompaniesSliceReducer from "@/features/admin/companies/companySlice";
 
 import storage from "redux-persist/lib/storage";
 
@@ -26,6 +27,7 @@ const appReducer = combineReducers({
   adminAuthReducer: AdminAuthSliceReducer,
   adminSkillsReducer: AdminSkillsSliceReducer,
   adminCategoriesReducer: AdminCategoriesSliceReducer,
+  adminCompaniesReducer: AdminCompaniesSliceReducer,
 });
 
 const rootReducer = (state, action: Action<string>) => {
