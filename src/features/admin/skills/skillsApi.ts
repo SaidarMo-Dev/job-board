@@ -24,7 +24,7 @@ export async function fetchSkills(
   });
 
   const response = await api.get<ApiPaginatedResponse<skillManagement[]>>(
-    `${SKILL_BASE_URL}?${params}`
+    `${SKILL_BASE_URL}?${params.toString()}`
   );
 
   return response.data;

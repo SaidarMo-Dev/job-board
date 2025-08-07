@@ -8,6 +8,7 @@ import applicationSliceReducer from "./features/jobApplications/applicationSlice
 import AdminUserSliceReducer from "@/features/admin/users/userSlice";
 import AdminAuthSliceReducer from "@/features/admin/auth/adminSlice";
 import AdminSkillsSliceReducer from "@/features/admin/skills/skillsSlice";
+import AdminCategoriesSliceReducer from "@/features/admin/categories/categorySlice";
 
 import storage from "redux-persist/lib/storage";
 
@@ -24,6 +25,7 @@ const appReducer = combineReducers({
   AdminUserReducer: AdminUserSliceReducer,
   adminAuthReducer: AdminAuthSliceReducer,
   adminSkillsReducer: AdminSkillsSliceReducer,
+  adminCategoriesReducer: AdminCategoriesSliceReducer,
 });
 
 const rootReducer = (state, action: Action<string>) => {

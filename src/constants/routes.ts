@@ -6,8 +6,9 @@ export const ROUTES = {
   ADMIN: {
     DASHBOARD: "/preview/admin",
     USERS: "/preview/admin/users",
-    PROFILE : "/preview/admin/account",
-    SKILLS : "/preview/admin/skills"
+    PROFILE: "/preview/admin/account",
+    SKILLS: "/preview/admin/skills",
+    CATEGORIES: "/preview/admin/categories",
   },
   MEMBER: {
     HOME: "/members",

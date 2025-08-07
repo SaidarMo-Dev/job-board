@@ -58,7 +58,7 @@ const menuItems = [
   {
     name: "Categories",
     icon: Layers2,
-    url: "#",
+    url: ROUTES.ADMIN.CATEGORIES,
     Badge: 0,
   },
   {
