@@ -27,6 +27,8 @@ import { ROUTES } from "@/constants/routes";
 import AdminProfile from "@/features/admin/profile/pages/AdminProfilePage";
 import SkillsManagement from "@/features/admin/pages/SkillsManagementPage";
 import CategoriesManagementPage from "@/features/admin/pages/CategoriesManagementPage";
+import CompaniesManagementPage from "@/features/admin/pages/CompaniesManagementPage";
+import AddEditCompany from "@/features/admin/companies/pages/AddEditCompany";
 
 export default function AppRoutes() {
   return (
@@ -52,6 +54,18 @@ export default function AppRoutes() {
         <Route
           path={ROUTES.ADMIN.CATEGORIES}
           element={<AdminLayout>{<CategoriesManagementPage />}</AdminLayout>}
+        />
+        <Route
+          path={ROUTES.ADMIN.COMPANIES.LIST}
+          element={<AdminLayout>{<CompaniesManagementPage />}</AdminLayout>}
+        />
+        <Route
+          path={ROUTES.ADMIN.COMPANIES.ADD}
+          element={<AdminLayout>{<AddEditCompany mode="Add" />}</AdminLayout>}
+        />
+        <Route
+          path={"/preview/admin/companies/:Id/Edit"}
+          element={<AdminLayout>{<AddEditCompany mode="Edit" />}</AdminLayout>}
         />
       </Route>
 
