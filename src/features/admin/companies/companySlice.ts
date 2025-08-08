@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AdminCompaniesState } from "./companyTypes";
-import { fetchCompaniesThunk } from "./companyThunk";
+import { addCompanyThunk, fetchCompaniesThunk, updateCompanyThunk } from "./companyThunk";
 import type { RootState } from "@/store";
 
 const initialState: AdminCompaniesState = {
@@ -53,6 +53,31 @@ const AdminCompaniesSlice = createSlice({
       .addCase(fetchCompaniesThunk.rejected, (state, action) => {
         state.loading.fetch = false;
         state.error.fetch = action.payload ?? "Network error";
+      })
+      // add company
+      .addCase(addCompanyThunk.pending, (state) => {
+        state.loading.save = true;
+        state.error.save = null;
+      })
+      .addCase(addCompanyThunk.fulfilled, (state) => {
+        state.loading.save = false;
+      })
+      .addCase(addCompanyThunk.rejected, (state, action) => {
+        state.loading.save = false;
+        state.error.save = action.payload ?? "Network error";
+      })
+
+      // update company
+      .addCase(updateCompanyThunk.pending, (state) => {
+        state.loading.save = true;
+        state.error.save = null;
+      })
+      .addCase(updateCompanyThunk.fulfilled, (state) => {
+        state.loading.save = false;
+      })
+      .addCase(updateCompanyThunk.rejected, (state, action) => {
+        state.loading.save = false;
+        state.error.save = action.payload ?? "Network error";
       });
   },
 });

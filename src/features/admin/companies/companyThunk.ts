@@ -1,8 +1,14 @@
 import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { CompanyManagement, SortCompany } from "./companyTypes";
+import type {
+  addCompanyRequest,
+  CompanyManagement,
+  SortCompany,
+  updateCompanyRequest,
+} from "./companyTypes";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
-import { fetchCompanies } from "./companyApi";
+import { addCompany, fetchCompanies, updateCompany } from "./companyApi";
+import type { ApiResponse } from "@/types/ApiResponse";
 
 const fetchCompaniesThunk = createAsyncThunk<
   ApiPaginatedResponse<CompanyManagement[]>,
@@ -19,4 +25,28 @@ const fetchCompaniesThunk = createAsyncThunk<
   }
 );
 
-export { fetchCompaniesThunk };
+const addCompanyThunk = createAsyncThunk<
+  ApiResponse<number>,
+  { company: addCompanyRequest },
+  { rejectValue: string }
+>("admin/companies/add", async ({ company }, { rejectWithValue }) => {
+  try {
+    return await addCompany(company);
+  } catch (err) {
+    return rejectWithValue(extractAxiosErrorMessage(err));
+  }
+});
+
+const updateCompanyThunk = createAsyncThunk<
+  ApiResponse<string>,
+  { company: updateCompanyRequest },
+  { rejectValue: string }
+>("admin/companies/update", async ({ company }, { rejectWithValue }) => {
+  try {
+    return await updateCompany(company);
+  } catch (err) {
+    return rejectWithValue(extractAxiosErrorMessage(err));
+  }
+});
+
+export { fetchCompaniesThunk, addCompanyThunk, updateCompanyThunk };
