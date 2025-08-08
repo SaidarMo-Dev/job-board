@@ -46,7 +46,7 @@ const menuItems = [
   {
     name: "Companies",
     icon: Building2,
-    url: "#",
+    url: ROUTES.ADMIN.COMPANIES.LIST,
     Badge: 0,
   },
   {

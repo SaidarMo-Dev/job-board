@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AdminCompaniesState } from "./companyTypes";
 import { fetchCompaniesThunk } from "./companyThunk";
+import type { RootState } from "@/store";
 
 const initialState: AdminCompaniesState = {
   companies: [],
@@ -55,5 +56,10 @@ const AdminCompaniesSlice = createSlice({
       });
   },
 });
+
+// selectors
+
+export const selectAdminCompanies = (state: RootState) =>
+  state.adminCompaniesReducer.companies;
 
 export default AdminCompaniesSlice.reducer;

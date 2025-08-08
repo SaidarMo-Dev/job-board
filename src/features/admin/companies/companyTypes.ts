@@ -1,18 +1,23 @@
 import type { PaginationInfo } from "../users/usersTypes";
 
-export type SortCompany = "NameAsc" | "NameDesc";
+export const sortOptions = [
+  { label: "Name (A-Z)", value: "NameAsc" },
+  { label: "Name (Z-A)", value: "NameDesc" },
+] as const;
+
+export type SortCompany = (typeof sortOptions)[number]["value"];
 
 export interface CompanyManagement {
-  CompanyId: number;
-  CompanyName: string;
-  Description: string;
-  WebsiteUrl: string;
-  Location: string;
-  PhoneNumber: string;
-  Email: string;
-  Fax: string;
-  Industry: string;
-  TotalJobs: number;
+  companyId: number;
+  companyName: string;
+  description: string;
+  websiteUrl?: string;
+  location: string;
+  phoneNumber?: string;
+  email: string;
+  fax?: string;
+  industry?: string;
+  totalJobs: number;
   createdByUser: string;
 }
 

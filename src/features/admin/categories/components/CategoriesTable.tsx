@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Edit, Eye, MoreHorizontal, Trash2 } from "lucide-react";
 import type { CategoryManagement } from "../categoryTypes";
 import { formatDescription } from "@/utils/formatDescription";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import TablePagination from "../../users/components/TablePagination";
 
 interface CategoriesTableProps {
   categories: CategoryManagement[] | null;
@@ -35,6 +37,9 @@ export default function CategoriesTable({
   onPageChange,
   onShowInfoCategory,
 }: CategoriesTableProps) {
+  const paginationInfo = useAppSelector(
+    (state) => state.adminCategoriesReducer.pagination
+  );
   return (
     <div className="rounded-md border">
       <Table>
@@ -108,7 +113,10 @@ export default function CategoriesTable({
           )}
         </TableBody>
       </Table>
-      {/* <TablePagination paginationInfo={} onPageChange={onPageChange} /> */}
+      <TablePagination
+        paginationInfo={paginationInfo}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 }

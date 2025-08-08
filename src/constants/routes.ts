@@ -9,6 +9,11 @@ export const ROUTES = {
     PROFILE: "/preview/admin/account",
     SKILLS: "/preview/admin/skills",
     CATEGORIES: "/preview/admin/categories",
+    COMPANIES: {
+      LIST: "/preview/admin/companies",
+      ADD: "/preview/admin/companies/create",
+      EDIT: (Id: number | string) => `/preview/admin/companies/${Id}/Edit`,
+    },
   },
   MEMBER: {
     HOME: "/members",
