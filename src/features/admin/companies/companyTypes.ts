@@ -23,6 +23,7 @@ export interface CompanyManagement {
 
 export interface AdminCompaniesState {
   companies: CompanyManagement[];
+  editedCompany: CompanyManagement | null;
   loading: {
     fetch: boolean;
     save: boolean;
@@ -34,4 +35,27 @@ export interface AdminCompaniesState {
     remove: string | null;
   };
   pagination: PaginationInfo;
+}
+
+export interface addCompanyRequest {
+  companyName: string;
+  description: string;
+  websiteUrl?: string;
+  location: string;
+  phoneNumber?: string;
+  email: string;
+  fax?: string;
+  industry?: string;
+}
+
+export interface updateCompanyRequest {
+  companyId: number;
+  companyName: string;
+  description: string;
+  websiteUrl?: string;
+  location: string;
+  phoneNumber?: string;
+  email: string;
+  fax?: string;
+  industry?: string;
 }

@@ -1,6 +1,5 @@
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -8,10 +7,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 interface DeleteDialogProps {
   open: boolean;
   name: string;
+  loading?: boolean;
   onDelete: () => void;
   onClose: (value: boolean) => void;
 }
@@ -21,6 +22,7 @@ export function DeleteDialog({
   name,
   onDelete,
   onClose,
+  loading = false,
 }: DeleteDialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
@@ -34,12 +36,12 @@ export function DeleteDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
+          <Button
             onClick={onDelete}
             className="bg-destructive text-white dark:text-black hover:bg-destructive/90"
           >
-            Delete
-          </AlertDialogAction>
+            {loading ? "Deleting..." : "Delete"}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

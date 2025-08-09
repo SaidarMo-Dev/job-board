@@ -11,9 +11,9 @@ import {
   Mail,
   VoicemailIcon as Fax,
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { ROUTES } from "@/constants/routes";
-import { useState } from "react";
+import { useEffect } from "react";
 import type { FormMode } from "@/types/formModes";
 import { useForm } from "react-hook-form";
 import {
@@ -21,41 +21,86 @@ import {
   type CompanyFormValues,
 } from "../schemas/CompanySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { CompanyManagement } from "../companyTypes";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { selectCompanySaveLoading } from "../companySlice";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import {
+  addCompanyThunk,
+  fetchCompanyByIdThunk,
+  updateCompanyThunk,
+} from "../companyThunk";
+import { toast } from "react-toastify";
 
 interface CompanyFormProps {
   mode: FormMode;
-  company?: CompanyManagement;
 }
 
-export default function CompanyForm({ mode, company }: CompanyFormProps) {
+export default function CompanyForm({ mode }: CompanyFormProps) {
+  const loading = useAppSelector(selectCompanySaveLoading);
+  const dispatch = useAppDispatch();
+  const { Id } = useParams();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm<CompanyFormValues>({
     resolver: zodResolver(CompanySchema),
-
     defaultValues: {
-      companyName: company?.companyName || "",
-      industry: company?.industry || "",
-      description: company?.description || "",
-      websiteUrl: company?.websiteUrl || "",
-      location: company?.location || "",
-      phoneNumber: company?.phoneNumber || "",
-      email: company?.email || "",
-      fax: company?.fax || "",
+      companyName: "",
+      industry: "",
+      description: "",
+      websiteUrl: "",
+      location: "",
+      phoneNumber: "",
+      email: "",
+      fax: "",
     },
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  useEffect(() => {
+    if (mode === "Edit" && Id) {
+      dispatch(fetchCompanyByIdThunk({ Id: Number(Id) }))
+        .unwrap()
+        .then((data) => {
+          reset({
+            companyName: data.companyName ?? "",
+            industry: data.industry ?? "",
+            description: data.description ?? "",
+            websiteUrl: data.websiteUrl ?? "",
+            location: data.location ?? "",
+            phoneNumber: data.phoneNumber ?? "",
+            email: data.email ?? "",
+            fax: data.fax ?? "",
+          });
+        })
+        .catch((err) => {
+          toast.error(err || "Failed to load company data");
+        });
+    }
+  }, [Id, mode, dispatch, reset]);
 
   const onSubmit = async (data: CompanyFormValues) => {
-    setIsSubmitting(true);
-    console.log({ ...data });
-    setIsSubmitting(false);
+    if (mode === "Add") {
+      dispatch(addCompanyThunk({ data }))
+        .unwrap()
+        .then(() => {
+          toast.success("Added Successfully");
+          navigate(ROUTES.ADMIN.COMPANIES.LIST);
+        })
+        .catch((err) => toast.error(err));
+    } else {
+      dispatch(
+        updateCompanyThunk({ data, companyId: Number(Id) })
+      )
+        .unwrap()
+        .then(() => {
+          toast.success("Updated Successfully");
+        })
+        .catch((err) => toast.error(err));
+    }
   };
 
   return (
@@ -89,14 +134,14 @@ export default function CompanyForm({ mode, company }: CompanyFormProps) {
 
           {/* Industry */}
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm font-medium">
+            <Label htmlFor="industry" className="text-sm font-medium">
               Industry
             </Label>
             <Input
               {...register("industry")}
-              id="name"
+              id="industry"
               type="text"
-              placeholder="Enter company name"
+              placeholder="Enter industry"
               className={`w-full ${errors.industry ? "border-red-600" : ""}`}
             />
             {errors?.industry && (
@@ -123,24 +168,18 @@ export default function CompanyForm({ mode, company }: CompanyFormProps) {
             )}
           </div>
 
-          {/* Website and Location Row */}
+          {/* Website & Location */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label
-                htmlFor="website"
-                className="text-sm font-medium flex items-center gap-2"
-              >
-                <Globe className="h-4 w-4" />
-                Website URL
+              <Label htmlFor="website" className="text-sm font-medium flex items-center gap-2">
+                <Globe className="h-4 w-4" /> Website URL
               </Label>
               <Input
                 {...register("websiteUrl")}
                 id="website"
                 type="url"
                 placeholder="https://example.com"
-                className={`w-full ${
-                  errors.websiteUrl ? "border-red-600" : ""
-                }`}
+                className={`w-full ${errors.websiteUrl ? "border-red-600" : ""}`}
               />
               {errors?.websiteUrl && (
                 <p className="text-sm text-red-400">
@@ -150,12 +189,8 @@ export default function CompanyForm({ mode, company }: CompanyFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label
-                htmlFor="location"
-                className="text-sm font-medium flex items-center gap-2"
-              >
-                <MapPin className="h-4 w-4" />
-                Location <span className="text-red-600">*</span>
+              <Label htmlFor="location" className="text-sm font-medium flex items-center gap-2">
+                <MapPin className="h-4 w-4" /> Location <span className="text-red-600">*</span>
               </Label>
               <Input
                 {...register("location")}
@@ -165,9 +200,7 @@ export default function CompanyForm({ mode, company }: CompanyFormProps) {
                 className={`w-full ${errors.location ? "border-red-600" : ""}`}
               />
               {errors?.location && (
-                <p className="text-sm text-red-400">
-                  {errors.location.message}
-                </p>
+                <p className="text-sm text-red-400">{errors.location.message}</p>
               )}
             </div>
           </div>
@@ -180,21 +213,15 @@ export default function CompanyForm({ mode, company }: CompanyFormProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label
-                  htmlFor="phone"
-                  className="text-sm font-medium flex items-center gap-2"
-                >
-                  <Phone className="h-4 w-4" />
-                  Phone Number
+                <Label htmlFor="phone" className="text-sm font-medium flex items-center gap-2">
+                  <Phone className="h-4 w-4" /> Phone Number
                 </Label>
                 <Input
                   {...register("phoneNumber")}
                   id="phone"
                   type="tel"
                   placeholder="+1 (555) 123-4567"
-                  className={`w-full ${
-                    errors.phoneNumber ? "border-red-600" : ""
-                  }`}
+                  className={`w-full ${errors.phoneNumber ? "border-red-600" : ""}`}
                 />
                 {errors?.phoneNumber && (
                   <p className="text-sm text-red-400">
@@ -204,12 +231,8 @@ export default function CompanyForm({ mode, company }: CompanyFormProps) {
               </div>
 
               <div className="space-y-2">
-                <Label
-                  htmlFor="email"
-                  className="text-sm font-medium flex items-center gap-2"
-                >
-                  <Mail className="h-4 w-4" />
-                  Email Address <span className="text-red-600">*</span>
+                <Label htmlFor="email" className="text-sm font-medium flex items-center gap-2">
+                  <Mail className="h-4 w-4" /> Email Address <span className="text-red-600">*</span>
                 </Label>
                 <Input
                   {...register("email")}
@@ -225,12 +248,8 @@ export default function CompanyForm({ mode, company }: CompanyFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label
-                htmlFor="fax"
-                className="text-sm font-medium flex items-center gap-2"
-              >
-                <Fax className="h-4 w-4" />
-                Fax Number
+              <Label htmlFor="fax" className="text-sm font-medium flex items-center gap-2">
+                <Fax className="h-4 w-4" /> Fax Number
               </Label>
               <Input
                 {...register("fax")}
@@ -245,17 +264,19 @@ export default function CompanyForm({ mode, company }: CompanyFormProps) {
             </div>
           </div>
 
-          {/* Form Actions */}
+          {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t">
             <Button type="submit" className="sm:order-2">
-              {isSubmitting ? "Creating Company..." : "Create Company"}
+              {mode === "Add"
+                ? loading
+                  ? "Creating Company..."
+                  : "Create Company"
+                : loading
+                ? "Updating Company..."
+                : "Update Company"}
             </Button>
             <Link to={ROUTES.ADMIN.COMPANIES.LIST} className="sm:order-1">
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full sm:w-auto"
-              >
+              <Button type="button" variant="outline" className="w-full sm:w-auto">
                 Cancel
               </Button>
             </Link>
