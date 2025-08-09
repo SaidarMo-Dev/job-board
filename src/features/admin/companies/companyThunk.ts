@@ -1,14 +1,16 @@
 import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type {
-  addCompanyRequest,
-  CompanyManagement,
-  SortCompany,
-  updateCompanyRequest,
-} from "./companyTypes";
+import type { CompanyManagement, SortCompany } from "./companyTypes";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
-import { addCompany, fetchCompanies, updateCompany } from "./companyApi";
+import {
+  addCompany,
+  deleteCompany,
+  fetchCompanies,
+  fetchCompanyById,
+  updateCompany,
+} from "./companyApi";
 import type { ApiResponse } from "@/types/ApiResponse";
+import type { CompanyFormValues } from "./schemas/CompanySchema";
 
 const fetchCompaniesThunk = createAsyncThunk<
   ApiPaginatedResponse<CompanyManagement[]>,
@@ -27,26 +29,60 @@ const fetchCompaniesThunk = createAsyncThunk<
 
 const addCompanyThunk = createAsyncThunk<
   ApiResponse<number>,
-  { company: addCompanyRequest },
+  { data: CompanyFormValues },
   { rejectValue: string }
->("admin/companies/add", async ({ company }, { rejectWithValue }) => {
+>("admin/companies/add", async ({ data }, { rejectWithValue }) => {
   try {
-    return await addCompany(company);
+    return await addCompany(data);
   } catch (err) {
+    console.log(err);
     return rejectWithValue(extractAxiosErrorMessage(err));
   }
 });
 
 const updateCompanyThunk = createAsyncThunk<
   ApiResponse<string>,
-  { company: updateCompanyRequest },
+  { data: CompanyFormValues; companyId: number },
   { rejectValue: string }
->("admin/companies/update", async ({ company }, { rejectWithValue }) => {
+>(
+  "admin/companies/update",
+  async ({ data, companyId }, { rejectWithValue }) => {
+    try {
+      return await updateCompany(data, companyId);
+    } catch (err) {
+      return rejectWithValue(extractAxiosErrorMessage(err));
+    }
+  }
+);
+
+const fetchCompanyByIdThunk = createAsyncThunk<
+  CompanyManagement,
+  { Id: number },
+  { rejectValue: string }
+>("admin/companies/Id", async ({ Id }, { rejectWithValue }) => {
   try {
-    return await updateCompany(company);
+    return await fetchCompanyById(Id);
   } catch (err) {
     return rejectWithValue(extractAxiosErrorMessage(err));
   }
 });
 
-export { fetchCompaniesThunk, addCompanyThunk, updateCompanyThunk };
+const deleteCompanyThunk = createAsyncThunk<
+  string,
+  { Id: number },
+  { rejectValue: string }
+>("admin/companies/delete", async ({ Id }, { rejectWithValue }) => {
+  try {
+    return await deleteCompany(Id);
+  } catch (err) {
+    return rejectWithValue(extractAxiosErrorMessage(err));
+  }
+});
+
+export {
+  fetchCompaniesThunk,
+  addCompanyThunk,
+  updateCompanyThunk,
+  fetchCompanyByIdThunk,
+  deleteCompanyThunk,
+};

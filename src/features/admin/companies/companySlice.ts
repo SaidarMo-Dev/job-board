@@ -1,10 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AdminCompaniesState } from "./companyTypes";
-import { addCompanyThunk, fetchCompaniesThunk, updateCompanyThunk } from "./companyThunk";
+import {
+  addCompanyThunk,
+  deleteCompanyThunk,
+  fetchCompaniesThunk,
+  fetchCompanyByIdThunk,
+  updateCompanyThunk,
+} from "./companyThunk";
 import type { RootState } from "@/store";
 
 const initialState: AdminCompaniesState = {
   companies: [],
+  editedCompany: null,
   loading: {
     fetch: false,
     save: false,
@@ -78,6 +85,34 @@ const AdminCompaniesSlice = createSlice({
       .addCase(updateCompanyThunk.rejected, (state, action) => {
         state.loading.save = false;
         state.error.save = action.payload ?? "Network error";
+      })
+
+      // get companyby Id
+      .addCase(fetchCompanyByIdThunk.pending, (state) => {
+        state.loading.fetch = true;
+        state.error.fetch = null;
+        state.editedCompany = null;
+      })
+      .addCase(fetchCompanyByIdThunk.fulfilled, (state, action) => {
+        state.loading.fetch = false;
+        state.editedCompany = action.payload;
+      })
+      .addCase(fetchCompanyByIdThunk.rejected, (state, action) => {
+        state.loading.fetch = false;
+        state.error.fetch = action.payload ?? "Network error";
+      })
+
+      // delete thunk
+      .addCase(deleteCompanyThunk.pending, (state) => {
+        state.loading.remove = true;
+        state.error.remove = null;
+      })
+      .addCase(deleteCompanyThunk.fulfilled, (state) => {
+        state.loading.remove = false;
+      })
+      .addCase(deleteCompanyThunk.rejected, (state, action) => {
+        state.loading.remove = false;
+        state.error.remove = action.payload ?? "Network error";
       });
   },
 });
@@ -86,5 +121,8 @@ const AdminCompaniesSlice = createSlice({
 
 export const selectAdminCompanies = (state: RootState) =>
   state.adminCompaniesReducer.companies;
+
+export const selectCompanySaveLoading = (state: RootState) =>
+  state.adminCompaniesReducer.loading.save;
 
 export default AdminCompaniesSlice.reducer;

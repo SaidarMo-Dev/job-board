@@ -23,6 +23,7 @@ export interface CompanyManagement {
 
 export interface AdminCompaniesState {
   companies: CompanyManagement[];
+  editedCompany: CompanyManagement | null;
   loading: {
     fetch: boolean;
     save: boolean;

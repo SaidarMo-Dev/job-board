@@ -1,14 +1,10 @@
 import api from "@/api/axiosInstance";
-import type {
-  addCompanyRequest,
-  CompanyManagement,
-  SortCompany,
-  updateCompanyRequest,
-} from "./companyTypes";
+import type { CompanyManagement, SortCompany } from "./companyTypes";
 import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
 import type { ApiResponse } from "@/types/ApiResponse";
+import type { CompanyFormValues } from "./schemas/CompanySchema";
 
-const COMPANY_BASE_URL = "/company";
+const COMPANY_BASE_URL = "/companies";
 
 export async function fetchCompanies(
   page: number,
@@ -30,18 +26,33 @@ export async function fetchCompanies(
   ).data;
 }
 
-export async function addCompany(company: addCompanyRequest) {
+export async function addCompany(data: CompanyFormValues) {
   return (
     await api.post<ApiResponse<number>>(`${COMPANY_BASE_URL}`, {
-      ...company,
+      ...data,
     })
   ).data;
 }
 
-export async function updateCompany(company: updateCompanyRequest) {
+export async function updateCompany(
+  data: CompanyFormValues,
+  companyId: number
+) {
   return (
     await api.put<ApiResponse<string>>(`${COMPANY_BASE_URL}`, {
-      ...company,
+      ...data,
+      companyId,
     })
   ).data;
+}
+
+export async function fetchCompanyById(Id: number) {
+  return (
+    await api.get<ApiResponse<CompanyManagement>>(`${COMPANY_BASE_URL}/${Id}`)
+  ).data.data;
+}
+
+export async function deleteCompany(Id: number) {
+  return (await api.delete<ApiResponse<string>>(`${COMPANY_BASE_URL}/${Id}`))
+    .data.data;
 }

@@ -23,10 +23,10 @@ import { Badge } from "@/components/ui/badge";
 interface CompaniesTableProps {
   companies: CompanyManagement[] | null;
   searchTerm: string;
-  onEditCompany: (category: CompanyManagement) => void;
-  onDeleteCompany: (category: CompanyManagement) => void;
+  onEditCompany: (companyId: number) => void;
+  onDeleteCompany: (company: CompanyManagement) => void;
   onPageChange: (page: number) => void;
-  onShowInfo: (category: CompanyManagement) => void;
+  onShowInfo: (company: CompanyManagement) => void;
 }
 
 export default function CompaniesTable({
@@ -124,7 +124,7 @@ export default function CompaniesTable({
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => {
-                          onEditCompany(company);
+                          onEditCompany(company.companyId);
                         }}
                       >
                         <Edit className="mr-2 h-4 w-4" />
