@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 import UsersFilters from "../users/components/UsersFilters";
 import UsersHeader from "../users/components/UsersHeader";
@@ -17,84 +19,69 @@ import AddEditUserModal from "../users/components/AddEditUserModal";
 export default function UsersManagement() {
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [openUserModal, setOpenUserModal] = useState(false);
 
   const debouncedSearch = useDebounce(searchTerm, 500);
 
-  const handleUpdateSearch = (search: string) => {
-    setSearchTerm(search);
-  };
-  // Parse initial state from URL
+  // Parse filters from URL params
+  const getInitialFilters = (): UserFilterValues => ({
+    role: (searchParams.get("FilterByRole") as FilterByRole) || "All",
+    status: (searchParams.get("FilterStatus") as FilterByStatus) || "All",
+    page: Number(searchParams.get("Page")) || 1,
+    PageSize: Number(searchParams.get("Size")) || 10,
+  });
 
-  const getInitialFilters = (): UserFilterValues => {
-    return {
-      role: (searchParams.get("FilterByRole") as FilterByRole) || "All",
-      status: (searchParams.get("FilterStatus") as FilterByStatus) || "All",
-      page: Number(searchParams.get("Page")) || 1,
-      PageSize: Number(searchParams.get("Size")) || 10,
-    };
-  };
-
-  const initialFilters = useMemo(() => getInitialFilters(), [searchParams]);
+  const initialFilters = useMemo(getInitialFilters, [searchParams]);
   const [filters, setFilters] = useState<UserFilterValues>(initialFilters);
 
-  const cleanFilterParams = (newFilter: Partial<UserFilterValues>) => {
+  // Build URLSearchParams from filters
+  const buildSearchParams = (filterValues: UserFilterValues) => {
     const params = new URLSearchParams();
 
-    // add non default values
     if (debouncedSearch) params.set("Search", debouncedSearch);
-
-    if (newFilter.role !== "All" && newFilter.role)
-      params.set("FilterByRole", newFilter.role);
-    if (newFilter.status !== "All" && newFilter.status)
-      params.set("FilterStatus", newFilter.status);
-    if (newFilter.page && newFilter.page > 1)
-      params.set("Page", newFilter.page?.toString());
-    if (newFilter.PageSize && newFilter.PageSize != 10)
-      params.set("Size", newFilter.PageSize.toString());
+    if (filterValues.role !== "All")
+      params.set("FilterByRole", filterValues.role ?? "All");
+    if (filterValues.status !== "All")
+      params.set("FilterStatus", filterValues.status ?? "All");
+    if (filterValues.page > 1) params.set("Page", filterValues.page.toString());
+    if (filterValues.PageSize !== 10)
+      params.set("Size", filterValues.PageSize.toString());
 
     return params;
   };
 
-  const updateUrl = (newfilter: UserFilterValues) => {
-    const params = cleanFilterParams(newfilter);
+  // Sync URL when filters or search changes
+  useEffect(() => {
+    const params = buildSearchParams(filters);
     setSearchParams(params, { replace: true });
-  };
+  }, [filters, debouncedSearch]);
 
-  // Update URL when debounced search term and filter changes
+  // Fetch users when search params change
   useEffect(() => {
-    updateUrl(filters);
-  }, [debouncedSearch, filters]);
-
-  // handle filter change
-  const handleFilterChange = (newFilter: Partial<UserFilterValues>) => {
-    setFilters((prev) => {
-      const updatedFilters = {
-        ...prev,
-        ...newFilter,
-        // reset page when filters change (except page and pagesize)
-        ...(newFilter.role !== undefined || newFilter.status !== undefined
-          ? { page: 1 }
-          : {}),
-      };
-
-      return updatedFilters;
-    });
-  };
-
-  // // fetch users
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams);
-    dispatch(fetchAdminUsersThunk({ query: params.toString() }));
+    dispatch(fetchAdminUsersThunk({ query: searchParams.toString() }));
   }, [dispatch, searchParams]);
 
-  // reset AdminUsers state when component unmount
+  // Reset users when component unmounts
   useEffect(() => {
     return () => {
       dispatch(resetUsers());
     };
   }, [dispatch]);
+
+  // Handle filter updates
+  const handleFilterChange = (newFilter: Partial<UserFilterValues>) => {
+    setFilters((prev) => {
+      const resetPage =
+        newFilter.role !== undefined || newFilter.status !== undefined;
+      return {
+        ...prev,
+        ...newFilter,
+        ...(resetPage ? { page: 1 } : {}),
+      };
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -103,7 +90,7 @@ export default function UsersManagement() {
         filters={filters}
         onfilerChange={handleFilterChange}
         search={searchTerm}
-        onSearchChange={handleUpdateSearch}
+        onSearchChange={setSearchTerm}
       />
       <UserTable onFilterChange={handleFilterChange} />
       <AddEditUserModal
