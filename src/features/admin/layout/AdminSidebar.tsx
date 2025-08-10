@@ -77,8 +77,8 @@ export default function AdminSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg">
               <Link to={""} className="flex gap-2">
-                <div className="bg-sky-700 p-2 rounded-md">
-                  <Briefcase className="text-white w-5 h-5" />
+                <div className="bg-sky-700 rounded-md p-2 text-white">
+                  <Briefcase className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="font-bold text-[18px] text-sky-600">iLink</h3>
