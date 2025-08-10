@@ -1,110 +1,106 @@
+import { useEffect, useState, useCallback } from "react";
+import { useSearchParams } from "react-router";
+import { toast } from "react-toastify";
+
 import { useAppSelector } from "@/hooks/useAppSelector";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import useDebounce from "@/hooks/use-debounce";
+
 import CategoriesFilter from "../categories/components/CategoriesFilters";
 import CategoriesHeader from "../categories/components/CategoriesHeader";
 import CategoriesTable from "../categories/components/CategoriesTable";
-import { selectAdminCategories } from "../categories/categorySlice";
-import { useEffect, useState } from "react";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
+import AddEditCategory from "../categories/dialogs/AddEditCategory";
+import { DeleteDialog } from "@/dialogs/DeleteDialog";
+
 import {
   deleteCategoryThunk,
   fetchCategoriesThunk,
 } from "../categories/categoryThunk";
-import useDebounce from "@/hooks/use-debounce";
+import { selectAdminCategories } from "../categories/categorySlice";
+
 import type {
   CategoryManagement,
   categoryMode,
   SortCategory,
 } from "../categories/categoryTypes";
-import { useSearchParams } from "react-router";
-import AddEditCategory from "../categories/dialogs/AddEditCategory";
-import { DeleteDialog } from "@/dialogs/DeleteDialog";
-import { toast } from "react-toastify";
 
 export default function CategoriesManagementPage() {
-  const [mode, setMode] = useState<categoryMode>("AddNew");
+  const dispatch = useAppDispatch();
+  const categories = useAppSelector(selectAdminCategories);
 
+  // UI state
+  const [mode, setMode] = useState<categoryMode>("AddNew");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState<SortCategory>("NewestFirst");
   const [page, setPage] = useState(1);
 
+  // Dialogs state
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [editCatgory, setEditCategory] = useState<CategoryManagement | null>(
+  const [editCategory, setEditCategory] = useState<CategoryManagement | null>(
     null
   );
-
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryManagement | null>(null);
-
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const dispatch = useAppDispatch();
-
   const debouncedSearch = useDebounce(searchTerm, 500);
 
-  // clean filters
-  const cleanFilterParams = () => {
+  // Helpers
+  const cleanFilterParams = useCallback(() => {
     const params = new URLSearchParams();
-
-    // add non default values
     if (debouncedSearch) params.set("Search", debouncedSearch);
-
-    if (searchTerm) params.set("Search", searchTerm);
-    if (sort && sort !== "NewestFirst") params.set("SortBy", sort);
-
-    if (page && page > 1) params.set("Page", page.toString());
-
+    if (sort !== "NewestFirst") params.set("SortBy", sort);
+    if (page > 1) params.set("Page", page.toString());
     return params;
-  };
+  }, [debouncedSearch, sort, page]);
 
-  // update url
+  // Update URL
   useEffect(() => {
-    const params = cleanFilterParams();
-    setSearchParams(params);
-  }, [debouncedSearch, page, sort]);
+    setSearchParams(cleanFilterParams());
+  }, [cleanFilterParams, setSearchParams]);
 
-  //fetch users
+  // Fetch categories
   useEffect(() => {
     dispatch(
       fetchCategoriesThunk({
-        page: page,
+        page,
         size: 10,
         search: debouncedSearch,
-        sort: sort,
+        sort,
       })
     );
   }, [dispatch, page, debouncedSearch, sort]);
 
-  const categories = useAppSelector(selectAdminCategories);
-
-  const handleDeleteDialog = async () => {
-    // handle delete category
+  // Delete handler
+  const handleDeleteCategory = async () => {
+    if (!selectedCategory) return;
     const res = await dispatch(
-      deleteCategoryThunk({ categoryId: selectedCategory?.categoryId ?? -1 })
+      deleteCategoryThunk({ categoryId: selectedCategory.categoryId })
     );
 
     if (deleteCategoryThunk.fulfilled.match(res)) {
-      toast.success("Delete Successfully");
-
-      // reset related states
+      toast.success("Deleted successfully");
       setIsOpenDeleteDialog(false);
       setSelectedCategory(null);
     } else {
-      toast.error(res.payload);
+      toast.error(res.payload || "Failed to delete");
     }
   };
 
-  const handleEditCatgory = (category: CategoryManagement) => {
+  // Open edit
+  const handleEditCategory = (category: CategoryManagement) => {
     setEditCategory(category);
     setMode("Edit");
     setShowAddDialog(true);
   };
 
-  const openDeleteDialog = (category: CategoryManagement) => {
+  // Open delete
+  const handleOpenDeleteDialog = (category: CategoryManagement) => {
     setSelectedCategory(category);
     setIsOpenDeleteDialog(true);
   };
+
   return (
     <>
       <div className="container mx-auto p-6 space-y-6">
@@ -114,24 +110,27 @@ export default function CategoriesManagementPage() {
             setShowAddDialog(true);
           }}
         />
+
         <CategoriesFilter
           value={searchTerm}
           sort={sort}
           onSearchChange={setSearchTerm}
           onSortChange={setSort}
         />
+
         <CategoriesTable
+          searchTerm={debouncedSearch}
           categories={categories}
-          searchTerm=""
-          onDeleteCategory={(cat) => openDeleteDialog(cat)}
-          onEditCategory={handleEditCatgory}
+          onDeleteCategory={handleOpenDeleteDialog}
+          onEditCategory={handleEditCategory}
           onPageChange={setPage}
-          onShowInfoCategory={() => console.log("test show info cat")}
+          onShowInfoCategory={() => console.log("TODO: Show category info")}
         />
       </div>
 
+      {/* Add / Edit */}
       <AddEditCategory
-        category={editCatgory}
+        category={editCategory}
         mode={mode}
         open={showAddDialog}
         onClose={() => {
@@ -139,10 +138,12 @@ export default function CategoriesManagementPage() {
           setShowAddDialog(false);
         }}
       />
+
+      {/* Delete */}
       <DeleteDialog
         open={isOpenDeleteDialog}
-        name={selectedCategory?.name ?? "Unkown"}
-        onDelete={() => handleDeleteDialog()}
+        name={selectedCategory?.name ?? "Unknown"}
+        onDelete={handleDeleteCategory}
         onClose={setIsOpenDeleteDialog}
       />
     </>

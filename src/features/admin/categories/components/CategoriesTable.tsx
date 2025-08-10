@@ -113,10 +113,12 @@ export default function CategoriesTable({
           )}
         </TableBody>
       </Table>
-      <TablePagination
-        paginationInfo={paginationInfo}
-        onPageChange={onPageChange}
-      />
+      {categories && categories.length > 10 && (
+        <TablePagination
+          paginationInfo={paginationInfo}
+          onPageChange={onPageChange}
+        />
+      )}
     </div>
   );
 }
