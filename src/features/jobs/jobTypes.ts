@@ -50,6 +50,13 @@ export const JobStatusType = {
   Accepted: "Accepted",
 };
 
+export const jobTypes = [
+  "FullTime",
+  "PartTime",
+  "Contract",
+  "Freelance",
+] as const;
+
 export const JobType = {
   Any: "All Types",
   FullTime: "Full Time",
@@ -59,6 +66,14 @@ export const JobType = {
 } as const;
 
 export type JobType = keyof typeof JobType;
+
+export const jobExperiences = [
+  "Any",
+  "EntryLevel",
+  "MidLevel",
+  "SeniorLevel",
+  "LeadPrincipal",
+] as const;
 
 export const ExperienceLevelType = {
   Any: "Any Level",

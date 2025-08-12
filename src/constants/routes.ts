@@ -14,6 +14,11 @@ export const ROUTES = {
       ADD: "/preview/admin/companies/create",
       EDIT: (Id: number | string) => `/preview/admin/companies/${Id}/Edit`,
     },
+    JOBS: {
+      LIST: "/preview/admin/jobs",
+      ADD: "/preview/admin/jobs/create",
+      EDIT: (Id: number | string) => `/preview/admin/jobs/${Id}/Edit`,
+    },
   },
   MEMBER: {
     HOME: "/members",
