@@ -16,6 +16,8 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
 import type { JobFilters, JobStatus } from "../jobsType";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPopularCategories } from "../../categories/categoryApi";
 
 interface FiltersBarProps {
   searchQuery: string;
@@ -37,7 +39,11 @@ export function FiltersBar({
   const [dateTo, setDateTo] = useState<Date>();
 
   // TODO : fetch most categries, locations, companies
-  const categories = ["Cat1", "Cat2", "Cat3"];
+  const categories = useQuery({
+    queryKey: ["admin/categories/popular"],
+    queryFn: () => fetchPopularCategories(),
+  }).data;
+
   const locations = ["Loc1", "Loc2", "Loc3"];
   const companies = ["Comp1", "Comp2", "Comp3"];
 
@@ -212,20 +218,32 @@ export function FiltersBar({
             <div className="space-y-2">
               <Label>Category</Label>
               <div className="space-y-2 max-h-32 overflow-y-auto">
-                {categories.map((category) => (
-                  <div key={category} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id={`category-${category}`}
-                      checked={filters.categories.includes(category)}
-                      onChange={() => handleCategoryChange(category)}
-                      className="rounded"
-                    />
-                    <Label htmlFor={`category-${category}`} className="text-sm">
-                      {category}
-                    </Label>
-                  </div>
-                ))}
+                {categories ? (
+                  categories.map((category) => (
+                    <div
+                      key={category.id}
+                      className="flex items-center space-x-2"
+                    >
+                      <input
+                        type="checkbox"
+                        id={`category-${category}`}
+                        checked={filters.categories.includes(category.name)}
+                        onChange={() => handleCategoryChange(category.name)}
+                        className="rounded"
+                      />
+                      <Label
+                        htmlFor={`category-${category}`}
+                        className="text-sm"
+                      >
+                        {category.name}
+                      </Label>
+                    </div>
+                  ))
+                ) : (
+                  <span className="ml-1 text-gray-600">
+                    Categories not found
+                  </span>
+                )}
               </div>
             </div>
 

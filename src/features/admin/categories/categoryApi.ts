@@ -2,6 +2,7 @@ import api from "@/api/axiosInstance";
 import type {
   AddCategory,
   CategoryManagement,
+  PopularCategoryDto,
   UpdateCategory,
 } from "./categoryTypes";
 import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
@@ -52,4 +53,12 @@ export async function deleteCategory(categoryId: number) {
   );
 
   return response.data;
+}
+
+export async function fetchPopularCategories() {
+  return (
+    await api.get<ApiResponse<PopularCategoryDto[]>>(
+      `${CATEGORIES_BASE_URL}/popular`
+    )
+  ).data.data;
 }
