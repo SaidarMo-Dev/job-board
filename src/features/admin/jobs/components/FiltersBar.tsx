@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import type { JobFilters, JobStatus } from "../jobsType";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPopularCategories } from "../../categories/categoryApi";
+import { fetchPopularLocations } from "@/features/jobs/jobApi";
 
 interface FiltersBarProps {
   searchQuery: string;
@@ -38,13 +39,18 @@ export function FiltersBar({
   const [dateFrom, setDateFrom] = useState<Date>();
   const [dateTo, setDateTo] = useState<Date>();
 
-  // TODO : fetch most categries, locations, companies
+  // popular categories
   const categories = useQuery({
     queryKey: ["admin/categories/popular"],
     queryFn: () => fetchPopularCategories(),
   }).data;
 
-  const locations = ["Loc1", "Loc2", "Loc3"];
+  // popular locations
+  const locations = useQuery({
+    queryKey: ["admin/jobs/locations"],
+    queryFn: () => fetchPopularLocations(),
+  }).data;
+
   const companies = ["Comp1", "Comp2", "Comp3"];
 
   const statusOptions: { value: JobStatus; label: string }[] = [
@@ -272,20 +278,29 @@ export function FiltersBar({
             <div className="space-y-2">
               <Label>Location</Label>
               <div className="space-y-2 max-h-32 overflow-y-auto">
-                {locations.map((location) => (
-                  <div key={location} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id={`location-${location}`}
-                      checked={filters.locations.includes(location)}
-                      onChange={() => handleLocationChange(location)}
-                      className="rounded"
-                    />
-                    <Label htmlFor={`location-${location}`} className="text-sm">
-                      {location}
-                    </Label>
-                  </div>
-                ))}
+                {locations ? (
+                  locations.map((location) => (
+                    <div key={location} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id={`location-${location}`}
+                        checked={filters.locations.includes(location)}
+                        onChange={() => handleLocationChange(location)}
+                        className="rounded"
+                      />
+                      <Label
+                        htmlFor={`location-${location}`}
+                        className="text-sm"
+                      >
+                        {location}
+                      </Label>
+                    </div>
+                  ))
+                ) : (
+                  <span className="ml-1 text-gray-600 text-sm">
+                    No locations found
+                  </span>
+                )}
               </div>
             </div>
           </div>
