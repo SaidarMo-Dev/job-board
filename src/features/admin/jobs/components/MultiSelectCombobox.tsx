@@ -66,7 +66,7 @@ export function MultiSelectCombobox({
             className="w-full justify-between bg-transparent"
           >
             <span className="truncate text-left">
-              {selected.length > 0
+              {selected && selected.length > 0
                 ? `${selected.length} selected`
                 : placeholder}
             </span>
@@ -108,13 +108,13 @@ export function MultiSelectCombobox({
               <div className="px-3 py-2 text-xs text-muted-foreground">
                 {counterLabel
                   ? counterLabel
-                  : `${selected.length}/${max} selected`}
+                  : `${selected ? selected.length / max : 0} selected`}
               </div>
             </CommandList>
           </Command>
         </PopoverContent>
       </Popover>
-      {selected.length > 0 && (
+      {selected && selected.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {selected.map((id) => (
             <Badge

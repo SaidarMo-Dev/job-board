@@ -29,6 +29,8 @@ import SkillsManagement from "@/features/admin/pages/SkillsManagementPage";
 import CategoriesManagementPage from "@/features/admin/pages/CategoriesManagementPage";
 import CompaniesManagementPage from "@/features/admin/pages/CompaniesManagementPage";
 import AddEditCompany from "@/features/admin/companies/pages/AddEditCompany";
+import JobsManagementPage from "@/features/admin/pages/JobsManagementPage";
+import AddEditJobPage from "@/features/admin/jobs/pages/AddEditJobPage";
 
 export default function AppRoutes() {
   return (
@@ -43,18 +45,25 @@ export default function AppRoutes() {
           element={<AdminLayout>{<AdminProfile />}</AdminLayout>}
         />
 
+        {/* users management routes */}
         <Route
           path={ROUTES.ADMIN.USERS}
           element={<AdminLayout>{<UsersManagement />}</AdminLayout>}
         />
+
+        {/* skills management routes */}
         <Route
           path={ROUTES.ADMIN.SKILLS}
           element={<AdminLayout>{<SkillsManagement />}</AdminLayout>}
         />
+
+        {/* categories management routes */}
         <Route
           path={ROUTES.ADMIN.CATEGORIES}
           element={<AdminLayout>{<CategoriesManagementPage />}</AdminLayout>}
         />
+
+        {/* companies management routes */}
         <Route
           path={ROUTES.ADMIN.COMPANIES.LIST}
           element={<AdminLayout>{<CompaniesManagementPage />}</AdminLayout>}
@@ -66,6 +75,16 @@ export default function AppRoutes() {
         <Route
           path={"/preview/admin/companies/:Id/Edit"}
           element={<AdminLayout>{<AddEditCompany mode="Edit" />}</AdminLayout>}
+        />
+
+        {/* jobs management routes */}
+        <Route
+          path={ROUTES.ADMIN.JOBS.LIST}
+          element={<AdminLayout>{<JobsManagementPage />}</AdminLayout>}
+        />
+        <Route
+          path={ROUTES.ADMIN.JOBS.ADD}
+          element={<AdminLayout>{<AddEditJobPage mode="Add" />}</AdminLayout>}
         />
       </Route>
 

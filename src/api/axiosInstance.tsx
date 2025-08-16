@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import NProgress from "nprogress";
 
-const excludedEndpoints = ["/users/bookmarks/count"];
+const excludedEndpoints = ["/users/bookmarks/count", "admin/jobs"];
 
 NProgress.configure({
   showSpinner: false,
@@ -47,7 +47,11 @@ axiosInstance.interceptors.request.use(
       config.headers["Authorization"] = `Bearer ${token}`;
     }
 
-    if (!excludedEndpoints.some((url) => config.url?.includes(url))) {
+    // Remove query string for comparison
+    const urlWithoutQuery = config.url?.split("?")[0];
+
+    // Start progress only if not excluded
+    if (!excludedEndpoints.some((url) => urlWithoutQuery?.includes(url))) {
       startProgress();
     }
 

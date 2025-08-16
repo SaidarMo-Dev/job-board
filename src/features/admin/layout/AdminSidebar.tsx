@@ -40,7 +40,7 @@ const menuItems = [
   {
     name: "Jobs",
     icon: Briefcase,
-    url: "#",
+    url: ROUTES.ADMIN.JOBS.LIST,
     Badge: 10,
   },
   {

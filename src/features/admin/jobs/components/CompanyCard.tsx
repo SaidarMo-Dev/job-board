@@ -38,6 +38,7 @@ export function CompanyCard({
                 value={field.value}
                 onChange={field.onChange}
                 placeholder="Select a company..."
+                
               />
               {error && <p className="text-sm text-destructive">{error}</p>}
             </>

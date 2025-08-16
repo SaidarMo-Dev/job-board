@@ -42,46 +42,36 @@ export default function AddEditJobPage({ mode }: { mode: FormMode }) {
   const handleCreateCompany = () => {};
   const handleCreateCategory = () => {};
   const handleCreateSkill = () => {};
-  
+
   return (
     <div className="w-full">
       <AddJobHeader onClose={handleCancel} onSave={handleSave} />
+      <div className="space-y-6 py-10 max-w-3xl mx-auto">
+        <JobDetailsCard register={register} errors={errors} control={control} />
 
-      <main className="mx-auto max-w-6xl px-4 sm:px-6 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left column (2/3) */}
-          <div className="space-y-6 lg:col-span-2">
-            <JobDetailsCard
-              register={register}
-              errors={errors}
-              control={control}
-            />
+        <CompanyCard
+          control={control}
+          companies={companies}
+          onCreate={handleCreateCompany}
+          error={errors.companyId?.message}
+        />
 
-            <CompanyCard
-              control={control}
-              companies={companies}
-              onCreate={handleCreateCompany}
-              error={errors.companyId?.message}
-            />
+        <CategoriesCard
+          options={categories}
+          control={control}
+          onCreate={handleCreateCategory}
+          error={errors.categoryIds?.message}
+          max={MAX_CATEGORIES}
+        />
 
-            <CategoriesCard
-              options={categories}
-              control={control}
-              onCreate={handleCreateCategory}
-              error={errors.categoryIds?.message}
-              max={MAX_CATEGORIES}
-            />
-
-            <SkillsCard
-              options={skills}
-              control={control}
-              onCreate={handleCreateSkill}
-              error={errors.skillIds?.message}
-              max={MAX_SKILLS}
-            />
-          </div>
-        </div>
-      </main>
+        <SkillsCard
+          options={skills}
+          control={control}
+          onCreate={handleCreateSkill}
+          error={errors.skillIds?.message}
+          max={MAX_SKILLS}
+        />
+      </div>
     </div>
   );
 }
