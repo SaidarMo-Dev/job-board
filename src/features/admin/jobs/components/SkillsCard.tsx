@@ -41,7 +41,9 @@ export function SkillsCard({
                 onChange={field.onChange}
                 placeholder={`Select up to ${max} skills...`}
                 max={max}
-                counterLabel={`${field.value.length}/${max} selected`}
+                counterLabel={`${
+                  field.value ? field.value.length / max : "0"
+                } selected`}
               />
               {error && <p className="text-sm text-destructive">{error}</p>}
             </>
