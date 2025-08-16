@@ -29,3 +29,4 @@ export async function fetchPopularLocations() {
   return (await api.get<ApiResponse<string[]>>(`${JOB_BASE_URL}/locations`))
     .data.data;
 }
+

@@ -19,6 +19,7 @@ import type { JobFilters, JobStatus } from "../jobsType";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPopularCategories } from "../../categories/categoryApi";
 import { fetchPopularLocations } from "@/features/jobs/jobApi";
+import { fetchPopularCompanies } from "../../companies/companyApi";
 
 interface FiltersBarProps {
   searchQuery: string;
@@ -51,7 +52,11 @@ export function FiltersBar({
     queryFn: () => fetchPopularLocations(),
   }).data;
 
-  const companies = ["Comp1", "Comp2", "Comp3"];
+  // popular companies
+  const companies = useQuery({
+    queryKey: ["admin/jobs/companies"],
+    queryFn: () => fetchPopularCompanies(),
+  }).data;
 
   const statusOptions: { value: JobStatus; label: string }[] = [
     { value: "Pending", label: "Pending" },
@@ -257,20 +262,26 @@ export function FiltersBar({
             <div className="space-y-2">
               <Label>Company</Label>
               <div className="space-y-2 max-h-32 overflow-y-auto">
-                {companies.map((company) => (
-                  <div key={company} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id={`company-${company}`}
-                      checked={filters.companies.includes(company)}
-                      onChange={() => handleCompanyChange(company)}
-                      className="rounded"
-                    />
-                    <Label htmlFor={`company-${company}`} className="text-sm">
-                      {company}
-                    </Label>
-                  </div>
-                ))}
+                {companies ? (
+                  companies.map((company) => (
+                    <div key={company} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id={`company-${company}`}
+                        checked={filters.companies.includes(company)}
+                        onChange={() => handleCompanyChange(company)}
+                        className="rounded"
+                      />
+                      <Label htmlFor={`company-${company}`} className="text-sm">
+                        {company}
+                      </Label>
+                    </div>
+                  ))
+                ) : (
+                  <span className="ml-1 text-sm text-gray-600">
+                    No companies found
+                  </span>
+                )}
               </div>
             </div>
 
