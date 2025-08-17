@@ -56,3 +56,8 @@ export async function deleteCompany(Id: number) {
   return (await api.delete<ApiResponse<string>>(`${COMPANY_BASE_URL}/${Id}`))
     .data.data;
 }
+
+export async function fetchPopularCompanies() {
+  return (await api.get<ApiResponse<string[]>>(`${COMPANY_BASE_URL}/popular`))
+    .data.data;
+}

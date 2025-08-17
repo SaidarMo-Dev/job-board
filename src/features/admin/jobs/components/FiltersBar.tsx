@@ -16,6 +16,10 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
 import type { JobFilters, JobStatus } from "../jobsType";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPopularCategories } from "../../categories/categoryApi";
+import { fetchPopularLocations } from "@/features/jobs/jobApi";
+import { fetchPopularCompanies } from "../../companies/companyApi";
 
 interface FiltersBarProps {
   searchQuery: string;
@@ -36,10 +40,23 @@ export function FiltersBar({
   const [dateFrom, setDateFrom] = useState<Date>();
   const [dateTo, setDateTo] = useState<Date>();
 
-  // TODO : fetch most categries, locations, companies
-  const categories = ["Cat1", "Cat2", "Cat3"];
-  const locations = ["Loc1", "Loc2", "Loc3"];
-  const companies = ["Comp1", "Comp2", "Comp3"];
+  // popular categories
+  const categories = useQuery({
+    queryKey: ["admin/categories/popular"],
+    queryFn: () => fetchPopularCategories(),
+  }).data;
+
+  // popular locations
+  const locations = useQuery({
+    queryKey: ["admin/jobs/locations"],
+    queryFn: () => fetchPopularLocations(),
+  }).data;
+
+  // popular companies
+  const companies = useQuery({
+    queryKey: ["admin/jobs/companies"],
+    queryFn: () => fetchPopularCompanies(),
+  }).data;
 
   const statusOptions: { value: JobStatus; label: string }[] = [
     { value: "Pending", label: "Pending" },
@@ -95,7 +112,7 @@ export function FiltersBar({
       },
     });
   };
-
+  
   return (
     <div className="space-y-4">
       {/* Search and Filter Toggle */}
@@ -212,20 +229,32 @@ export function FiltersBar({
             <div className="space-y-2">
               <Label>Category</Label>
               <div className="space-y-2 max-h-32 overflow-y-auto">
-                {categories.map((category) => (
-                  <div key={category} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id={`category-${category}`}
-                      checked={filters.categories.includes(category)}
-                      onChange={() => handleCategoryChange(category)}
-                      className="rounded"
-                    />
-                    <Label htmlFor={`category-${category}`} className="text-sm">
-                      {category}
-                    </Label>
-                  </div>
-                ))}
+                {categories ? (
+                  categories.map((category) => (
+                    <div
+                      key={category.id}
+                      className="flex items-center space-x-2"
+                    >
+                      <input
+                        type="checkbox"
+                        id={`category-${category}`}
+                        checked={filters.categories.includes(category.name)}
+                        onChange={() => handleCategoryChange(category.name)}
+                        className="rounded"
+                      />
+                      <Label
+                        htmlFor={`category-${category}`}
+                        className="text-sm"
+                      >
+                        {category.name}
+                      </Label>
+                    </div>
+                  ))
+                ) : (
+                  <span className="ml-1 text-gray-600">
+                    Categories not found
+                  </span>
+                )}
               </div>
             </div>
 
@@ -233,20 +262,26 @@ export function FiltersBar({
             <div className="space-y-2">
               <Label>Company</Label>
               <div className="space-y-2 max-h-32 overflow-y-auto">
-                {companies.map((company) => (
-                  <div key={company} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id={`company-${company}`}
-                      checked={filters.companies.includes(company)}
-                      onChange={() => handleCompanyChange(company)}
-                      className="rounded"
-                    />
-                    <Label htmlFor={`company-${company}`} className="text-sm">
-                      {company}
-                    </Label>
-                  </div>
-                ))}
+                {companies ? (
+                  companies.map((company) => (
+                    <div key={company} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id={`company-${company}`}
+                        checked={filters.companies.includes(company)}
+                        onChange={() => handleCompanyChange(company)}
+                        className="rounded"
+                      />
+                      <Label htmlFor={`company-${company}`} className="text-sm">
+                        {company}
+                      </Label>
+                    </div>
+                  ))
+                ) : (
+                  <span className="ml-1 text-sm text-gray-600">
+                    No companies found
+                  </span>
+                )}
               </div>
             </div>
 
@@ -254,20 +289,29 @@ export function FiltersBar({
             <div className="space-y-2">
               <Label>Location</Label>
               <div className="space-y-2 max-h-32 overflow-y-auto">
-                {locations.map((location) => (
-                  <div key={location} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id={`location-${location}`}
-                      checked={filters.locations.includes(location)}
-                      onChange={() => handleLocationChange(location)}
-                      className="rounded"
-                    />
-                    <Label htmlFor={`location-${location}`} className="text-sm">
-                      {location}
-                    </Label>
-                  </div>
-                ))}
+                {locations ? (
+                  locations.map((location) => (
+                    <div key={location} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id={`location-${location}`}
+                        checked={filters.locations.includes(location)}
+                        onChange={() => handleLocationChange(location)}
+                        className="rounded"
+                      />
+                      <Label
+                        htmlFor={`location-${location}`}
+                        className="text-sm"
+                      >
+                        {location}
+                      </Label>
+                    </div>
+                  ))
+                ) : (
+                  <span className="ml-1 text-gray-600 text-sm">
+                    No locations found
+                  </span>
+                )}
               </div>
             </div>
           </div>

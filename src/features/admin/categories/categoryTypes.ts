@@ -40,3 +40,8 @@ export interface UpdateCategory {
   name: string;
   description?: string;
 }
+
+export interface PopularCategoryDto {
+  id: number;
+  name: string;
+}

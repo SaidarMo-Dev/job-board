@@ -14,6 +14,10 @@ export default function JobsManagementPage() {
     categories: [],
     companies: [],
     locations: [],
+    datePosted: {
+      from: undefined,
+      to: undefined,
+    },
   });
 
   // selected jobs
@@ -40,6 +44,16 @@ export default function JobsManagementPage() {
       setSelected([...newSelected]);
     }
   };
+
+  const handleClearFilters = () => {
+    setFilters({
+      status: [],
+      categories: [],
+      companies: [],
+      locations: [],
+      datePosted: undefined
+    });
+  };
   return (
     <div className="space-y-6">
       <JobHeader onCreate={() => console.log("")} />
@@ -48,7 +62,7 @@ export default function JobsManagementPage() {
         onSearchChange={setSearchTerm}
         filters={filters}
         onFiltersChange={setFilters}
-        onClearFilters={() => console.log("Clear filters")}
+        onClearFilters={handleClearFilters}
       />
       <JobsTable
         jobs={data?.data ?? []}
