@@ -112,7 +112,7 @@ export function FiltersBar({
       },
     });
   };
-
+  
   return (
     <div className="space-y-4">
       {/* Search and Filter Toggle */}
