@@ -10,7 +10,7 @@ export interface JobResponse {
   jobType: string;
   maxSalary: number;
   minSalary: number;
-  experienceLevel: ExperienceLevelType;
+  experienceLevel: ExperienceLevelTypekey;
   datePosted: Date;
   status: string;
   skills: SkillResponse[];
@@ -27,7 +27,7 @@ export interface JobSummary {
   jobType: string;
   maxSalary: number;
   minSalary: number;
-  experienceLevel: ExperienceLevelType;
+  experienceLevel: ExperienceLevelTypekey;
   datePosted: Date;
   status: string;
   skills: SkillResponse[];
@@ -65,7 +65,7 @@ export const JobType = {
   Freelance: "Freelance",
 } as const;
 
-export type JobType = keyof typeof JobType;
+export type JobTypeKey = keyof typeof JobType;
 
 export const jobExperiences = [
   "Any",
@@ -81,9 +81,9 @@ export const ExperienceLevelType = {
   MidLevel: "Mid Level",
   SeniorLevel: "Senior Level",
   LeadPrincipal: "Lead/Principal",
-};
+} as const;
 
-export type ExperienceLevelType = keyof typeof ExperienceLevelType;
+export type ExperienceLevelTypekey = keyof typeof ExperienceLevelType;
 
 export const SortJobsBy = {
   HighestSalary: "Highest Salary",
@@ -101,4 +101,18 @@ export interface JobState {
   hasNextPage: boolean;
   jobsCount: number;
   currentPage: number;
+}
+
+export interface JobQuickFilters {
+  jobTypes: JobTypeKey[];
+  experienceLevels: ExperienceLevelTypekey[];
+  popularCategories: string[];
+  popularCompanies: string[];
+}
+
+export interface ExpandedSections {
+  jobTypes: boolean;
+  experienceLevels: boolean;
+  popularCompanies: boolean;
+  popularCategories: boolean;
 }

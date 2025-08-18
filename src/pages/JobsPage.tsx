@@ -1,7 +1,5 @@
-import { useEffect } from "react";
-import JobFilter from "../features/jobs/components/JobFilter";
+import { useEffect, useState } from "react";
 import JobSearch from "../features/jobs/components/JobSearch";
-import PopularCategories from "../components/PopularCategories";
 import {
   Select,
   SelectContent,
@@ -11,7 +9,13 @@ import {
 } from "../components/ui/select";
 import JobCardFull from "../features/jobs/components/JobCardFull";
 import { useSearchParams } from "react-router";
-import { SortJobsBy, type FilterValues } from "@/features/jobs/jobTypes";
+import {
+  SortJobsBy,
+  type ExperienceLevelTypekey,
+  type FilterValues,
+  type JobQuickFilters,
+  type JobTypeKey,
+} from "@/features/jobs/jobTypes";
 import type { RootState } from "@/store";
 import { fetchJobsThunk } from "@/features/jobs/jobThunk";
 import CustomPagination from "@/components/CustomPagination";
@@ -23,8 +27,16 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { getSavedJobIdsThunk } from "@/features/bookmarks/bookmarksThunk";
 import PageLoader from "@/components/Loaders/PageLoader";
 import { useAppSelector } from "@/hooks/useAppSelector";
+import QuickFilters from "@/features/jobs/components/QuickFilters";
 
 export default function JobsPage() {
+  const [filters, setFilters] = useState<JobQuickFilters>({
+    jobTypes: [] as JobTypeKey[],
+    experienceLevels: [] as ExperienceLevelTypekey[],
+    popularCompanies: [] as string[],
+    popularCategories: [] as string[],
+  });
+
   const [searchParams, setSearchParams] = useSearchParams();
   const currentUserId = useSelector(selectCurrentUser)?.id ?? -1;
   const isAuthenticated = useAppSelector(
@@ -34,6 +46,7 @@ export default function JobsPage() {
   const { jobs, loading } = useSelector((state: RootState) => state.jobReducer);
   const dispatch = useAppDispatch();
   const hasNextPage = useAppSelector((state) => state.jobReducer.hasNextPage);
+
   function updateFilter(filters: FilterValues) {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -113,6 +126,14 @@ export default function JobsPage() {
     );
   }, [dispatch, searchParams]);
 
+  const clearFilters = () => {
+    setFilters({
+      jobTypes: [],
+      experienceLevels: [],
+      popularCompanies: [],
+      popularCategories: [],
+    });
+  };
   return (
     <div className="bg-gray-50">
       {/* hero section */}
@@ -136,9 +157,12 @@ export default function JobsPage() {
       {/* Jobs section */}
       <div className="custom-container">
         <div className="w-full flex flex-col py-7 gap-7 lg:flex-row">
-          <aside className="lg:w-95 space-y-5 lg:sticky lg:top-20 lg:self-start">
-            <JobFilter onChange={(filters) => updateFilter(filters)} />
-            <PopularCategories />
+          <aside className="lg:w-95 space-y-5 lg:sticky lg:top-20 lg:self-start max-h-[80vh] overflow-y-auto">
+            <QuickFilters
+              filters={filters}
+              onFiltersChange={setFilters}
+              onClearFilters={clearFilters}
+            />
           </aside>
 
           {/* Job listing */}
