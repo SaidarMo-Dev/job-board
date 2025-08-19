@@ -7,93 +7,101 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
-import { useState } from "react";
+import type { PaginationInfo } from "@/features/admin/users/usersTypes";
 
 interface CustomPaginationProps {
-  hasNextPage: boolean;
-  onChange: (page) => void;
+  pagination?: PaginationInfo;
+  onChange: (page: number) => void;
 }
+
 export default function CustomPagination({
   onChange,
-  hasNextPage,
+  pagination,
 }: CustomPaginationProps) {
-  const [selectedPage, setSelectedPage] = useState(1);
+  if (!pagination) return null;
+
+  const { currentPage, totalPages, hasNextPage } = pagination;
 
   function handlePrevious() {
-    if (selectedPage !== 1) {
-      const prevPage = selectedPage - 1;
-      setSelectedPage(prevPage);
-      onChange(prevPage);
-    }
-  }
-
-  function handleSelectPage(page: number) {
-    if (page !== selectedPage && page > selectedPage) {
-      if (hasNextPage) {
-        setSelectedPage(page);
-        onChange(page);
-      }
-    } else if (page !== selectedPage && page < selectedPage) {
-      setSelectedPage(page);
-      onChange(page);
-    }
+    if (currentPage > 1) onChange(currentPage - 1);
+    console.log(currentPage);
   }
 
   function handleNext() {
-    if (hasNextPage) {
-      const nextPage = selectedPage + 1;
-      setSelectedPage(nextPage);
-      onChange(nextPage);
-    }
+    if (hasNextPage) onChange(currentPage + 1);
   }
+
+  // Show a range of pages around current
+  const pageNumbers: number[] = [];
+  const start = Math.max(1, currentPage - 2);
+  const end = Math.min(totalPages, currentPage + 2);
+
+  for (let i = start; i <= end; i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <Pagination>
       <PaginationContent>
-        <PaginationItem onClick={handlePrevious} className="cursor-pointer">
+        {/* Prev button */}
+        <PaginationItem
+          onClick={currentPage > 1 ? handlePrevious : undefined}
+          className={`cursor-pointer ${
+            currentPage === 1 ? "opacity-50 pointer-events-none" : ""
+          }`}
+        >
           <PaginationPrevious />
         </PaginationItem>
-        {selectedPage === 1 ? (
+
+        {/* First page */}
+        {start > 1 && (
           <>
             <PaginationItem>
-              <PaginationLink
-                isActive
-                onClick={() => handleSelectPage(selectedPage)}
-              >
-                {selectedPage}
-              </PaginationLink>
+              <PaginationLink onClick={() => onChange(1)}>1</PaginationLink>
             </PaginationItem>
-            <PaginationItem>
-              <PaginationLink
-                onClick={() => handleSelectPage(selectedPage + 1)}
-              >
-                {selectedPage + 1}
-              </PaginationLink>
-            </PaginationItem>
+            {start > 2 && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
           </>
-        ) : (
+        )}
+
+        {/* Dynamic range */}
+        {pageNumbers.map((page) => (
+          <PaginationItem key={page}>
+            <PaginationLink
+              isActive={page === currentPage}
+              onClick={() => onChange(page)}
+            >
+              {page}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+
+        {/* Last page */}
+        {end < totalPages && (
           <>
+            {end < totalPages - 1 && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
             <PaginationItem>
-              <PaginationLink
-                onClick={() => handleSelectPage(selectedPage - 1)}
-              >
-                {selectedPage - 1}
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink
-                isActive
-                onClick={() => handleSelectPage(selectedPage)}
-              >
-                {selectedPage}
+              <PaginationLink onClick={() => onChange(totalPages)}>
+                {totalPages}
               </PaginationLink>
             </PaginationItem>
           </>
         )}
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        <PaginationItem onClick={handleNext} className="cursor-pointer">
+
+        {/* Next button */}
+        <PaginationItem
+          onClick={hasNextPage ? handleNext : undefined}
+          className={`cursor-pointer ${
+            !hasNextPage ? "opacity-50 pointer-events-none" : ""
+          }`}
+        >
           <PaginationNext />
         </PaginationItem>
       </PaginationContent>

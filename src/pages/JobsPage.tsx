@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import JobSearch from "../features/jobs/components/JobSearch";
 import {
   Select,
@@ -12,102 +12,106 @@ import { useSearchParams } from "react-router";
 import {
   SortJobsBy,
   type ExperienceLevelTypekey,
-  type FilterValues,
   type JobQuickFilters,
   type JobTypeKey,
 } from "@/features/jobs/jobTypes";
-import type { RootState } from "@/store";
-import { fetchJobsThunk } from "@/features/jobs/jobThunk";
 import CustomPagination from "@/components/CustomPagination";
-import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
 import { NoJobs } from "@/features/jobs/components/NoJobs";
-import { selectCurrentUser } from "@/features/auth/authSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { getSavedJobIdsThunk } from "@/features/bookmarks/bookmarksThunk";
 import PageLoader from "@/components/Loaders/PageLoader";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import QuickFilters from "@/features/jobs/components/QuickFilters";
+import { useQuery } from "@tanstack/react-query";
+import { fetchJobs } from "@/features/jobs/jobApi";
+import { capitalizeFirstLetter } from "@/features/admin/utils/capitalizeFirstLetter";
 
 export default function JobsPage() {
-  const [filters, setFilters] = useState<JobQuickFilters>({
-    jobTypes: [] as JobTypeKey[],
-    experienceLevels: [] as ExperienceLevelTypekey[],
-    popularCompanies: [] as string[],
-    popularCategories: [] as string[],
-  });
-
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentUserId = useSelector(selectCurrentUser)?.id ?? -1;
+  const dispatch = useAppDispatch();
+
+  const filters = useMemo<JobQuickFilters>(
+    () => ({
+      jobTypes: searchParams.getAll("JobTypes") as JobTypeKey[],
+      experienceLevels: searchParams.getAll(
+        "ExperienceLevels"
+      ) as ExperienceLevelTypekey[],
+      popularCompanies: searchParams.getAll("PopularCompanies"),
+      popularCategories: searchParams.getAll("PopularCategories"),
+    }),
+    [searchParams]
+  );
+
+  const setFilters = useCallback(
+    (filters: JobQuickFilters) => {
+      const params = new URLSearchParams();
+
+      if (filters) {
+        Object.entries(filters).forEach(([key, value]) => {
+          if (Array.isArray(value))
+            value.forEach((val) =>
+              params.append(capitalizeFirstLetter(key), val)
+            );
+        });
+      }
+
+      setSearchParams(params);
+    },
+    [setSearchParams]
+  );
+
+  const currentUserId = useAppSelector(
+    (state) => state.authReducer.currentUser?.id ?? -1
+  );
+
   const isAuthenticated = useAppSelector(
     (state) => state.authReducer.isAuthenticated
   );
 
-  const { jobs, loading } = useSelector((state: RootState) => state.jobReducer);
-  const dispatch = useAppDispatch();
-  const hasNextPage = useAppSelector((state) => state.jobReducer.hasNextPage);
+  const UpdateSearch = useCallback(
+    (title?: string, location?: string) => {
+      const params = new URLSearchParams(searchParams.toString());
 
-  function updateFilter(filters: FilterValues) {
-    const params = new URLSearchParams(searchParams.toString());
-
-    params.set("pageNumber", "1");
-    // job type params
-
-    if (filters.jobType === "Any" || !filters.jobType) {
-      params.delete("jobType");
-    } else {
-      params.set("jobType", filters.jobType);
-    }
-
-    // experience level params
-    if (filters.experienceLevel === "Any" || !filters.experienceLevel) {
-      params.delete("experienceLevel");
-    } else {
-      params.set("experienceLevel", filters.experienceLevel);
-    }
-
-    // salary range params
-    if (!filters.salaryRange || filters.salaryRange === "Any") {
-      params.delete("salaryRange");
-    } else {
-      params.set("salaryRange", filters.salaryRange);
-    }
-
-    setSearchParams(params);
-  }
-
-  function UpdateSearch(title?: string, location?: string) {
-    const params = new URLSearchParams(searchParams.toString());
-
-    params.set("pageNumber", "1");
-    if (title) {
-      params.set("searchByTitle", title);
-    } else {
-      params.delete("searchByTitle");
-    }
-    if (location) {
-      params.set("searchByLocation", location);
-    } else {
-      params.delete("searchByLocation");
-    }
-    setSearchParams(params);
-  }
-
-  function UpdatePageNumber(page: number) {
-    const params = new URLSearchParams(searchParams.toString());
-    if (page > 0) {
-      params.set("pageNumber", page.toString());
+      params.set("pageNumber", "1");
+      if (title) {
+        params.set("searchByTitle", title);
+      } else {
+        params.delete("searchByTitle");
+      }
+      if (location) {
+        params.set("searchByLocation", location);
+      } else {
+        params.delete("searchByLocation");
+      }
       setSearchParams(params);
-    }
-  }
+    },
+    [searchParams, setSearchParams]
+  );
 
-  function UpdateSort(sortBy: SortJobsBy) {
-    const params = new URLSearchParams(searchParams.toString());
-    if (sortBy) {
-      params.set("SortBy", sortBy);
-      setSearchParams(params);
-    }
-  }
+  const UpdatePageNumber = useCallback(
+    (page: number) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (page > 1) {
+        params.set("pageNumber", page.toString());
+        setSearchParams(params);
+      } else {
+        params.delete("pageNumber");
+        setSearchParams(params);
+      }
+    },
+    [searchParams, setSearchParams]
+  );
+
+  const UpdateSort = useCallback(
+    (sortBy: SortJobsBy) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (sortBy) {
+        params.set("SortBy", sortBy);
+        setSearchParams(params);
+      }
+    },
+    [searchParams, setSearchParams]
+  );
 
   // refresh savedJobIds
   useEffect(() => {
@@ -116,24 +120,23 @@ export default function JobsPage() {
     }
   }, [dispatch, currentUserId, isAuthenticated]);
 
-  useEffect(() => {
-    dispatch(fetchJobsThunk({ params: searchParams.toString() })).then(
-      (result) => {
-        if (fetchJobsThunk.rejected.match(result)) {
-          toast.error(result.payload ?? "Something went wrong!");
-        }
-      }
-    );
-  }, [dispatch, searchParams]);
+  const clearFilters = useCallback(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("JobTypes");
+    params.delete("ExperienceLevels");
+    params.delete("PopularCompanies");
+    params.delete("PopularCategories");
+    setSearchParams(params);
+  }, [searchParams, setSearchParams]);
 
-  const clearFilters = () => {
-    setFilters({
-      jobTypes: [],
-      experienceLevels: [],
-      popularCompanies: [],
-      popularCategories: [],
-    });
-  };
+  // fetch jobs
+
+  const query = useMemo(() => searchParams.toString(), [searchParams]);
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["fetchJobs", query],
+    queryFn: () => fetchJobs(query),
+  });
   return (
     <div className="bg-gray-50">
       {/* hero section */}
@@ -185,13 +188,13 @@ export default function JobsPage() {
               </Select>
             </div>
             {/* Jobs */}
-            {loading ? (
+            {isLoading ? (
               <PageLoader message="loading jobs..." />
             ) : (
               <div className="">
                 <div className="mt-5 grid grid-cols-1 gap-5">
-                  {jobs ? (
-                    jobs.map((job) => {
+                  {data?.jobs ? (
+                    data.jobs.map((job) => {
                       return <JobCardFull key={job.jobId} jobInfo={job} />;
                     })
                   ) : (
@@ -200,7 +203,7 @@ export default function JobsPage() {
                 </div>
                 <div className="flex justify-center my-5">
                   <CustomPagination
-                    hasNextPage={hasNextPage}
+                    pagination={data?.pagination}
                     onChange={(page) => UpdatePageNumber(page)}
                   />
                 </div>
