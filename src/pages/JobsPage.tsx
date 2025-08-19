@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import JobSearch from "../features/jobs/components/JobSearch";
 import {
   Select,
@@ -7,12 +7,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import JobCardFull from "../features/jobs/components/JobCardFull";
 import { useSearchParams } from "react-router";
 import {
   SortJobsBy,
   type ExperienceLevelTypekey,
   type JobQuickFilters,
+  type JobResponse,
   type JobTypeKey,
 } from "@/features/jobs/jobTypes";
 import CustomPagination from "@/components/CustomPagination";
@@ -25,10 +25,14 @@ import QuickFilters from "@/features/jobs/components/QuickFilters";
 import { useQuery } from "@tanstack/react-query";
 import { fetchJobs } from "@/features/jobs/jobApi";
 import { capitalizeFirstLetter } from "@/features/admin/utils/capitalizeFirstLetter";
+import ModernJobCard from "@/features/jobs/components/ModernJobCard";
+import JobDetailsModal from "@/features/jobs/components/JobDetailsModal";
 
 export default function JobsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
+
+  const [selectedJob, setSelectedJob] = useState<JobResponse | null>(null);
 
   const filters = useMemo<JobQuickFilters>(
     () => ({
@@ -192,10 +196,16 @@ export default function JobsPage() {
               <PageLoader message="loading jobs..." />
             ) : (
               <div className="">
-                <div className="mt-5 grid grid-cols-1 gap-5">
+                <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-5">
                   {data?.jobs ? (
                     data.jobs.map((job) => {
-                      return <JobCardFull key={job.jobId} jobInfo={job} />;
+                      return (
+                        <ModernJobCard
+                          key={job.jobId}
+                          job={job}
+                          handleShowJobInfo={setSelectedJob}
+                        />
+                      );
                     })
                   ) : (
                     <NoJobs />
@@ -212,6 +222,13 @@ export default function JobsPage() {
           </main>
         </div>
       </div>
+      {/* Job Detail Modal */}
+      {selectedJob && (
+        <JobDetailsModal
+          selectedJob={selectedJob}
+          onClose={() => setSelectedJob(null)}
+        />
+      )}
     </div>
   );
 }
