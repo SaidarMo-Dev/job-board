@@ -29,12 +29,6 @@ export function NoJobs() {
             Try broadening your search or removing some filters.
           </p>
         </div>
-        {/* subtle decoration */}
-        <div className="mt-12 flex justify-center space-x-2">
-          <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-          <div className="w-2 h-2 bg-gray-200 rounded-full"></div>
-          <div className="w-2 h-2 bg-gray-200 rounded-full"></div>
-        </div>
       </div>
     </div>
   );

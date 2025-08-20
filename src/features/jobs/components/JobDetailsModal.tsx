@@ -10,10 +10,11 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
-import { Clock, DollarSign, MapPin, Users } from "lucide-react";
+import { Clock, DollarSign, MapPin, Users, X } from "lucide-react";
 import type { JobResponse } from "../jobTypes";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router";
+import { Badge } from "@/components/ui/badge";
 
 interface JobDetailsProp {
   onClose: (updated: boolean) => void;
@@ -24,6 +25,14 @@ export default function JobDetailsModal({
   onClose,
 }: JobDetailsProp) {
   const [updated, setUpdated] = useState(false);
+  const postedDays = useMemo(() => {
+    const days = getDaysSincePosted(selectedJob?.datePosted);
+    if (days > 0) {
+      return `Posted ${days} day(s) ago`;
+    }
+    return "Today";
+  }, [selectedJob.datePosted]);
+
   if (selectedJob) {
     return (
       <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
@@ -32,7 +41,7 @@ export default function JobDetailsModal({
             <div className="flex justify-between items-start">
               <div className="flex items-start space-x-4">
                 <img
-                  src="/public/images/logov2.png"
+                  src="/images/logov2.png"
                   alt={`${selectedJob.companyName} logo`}
                   className="w-16 h-16 rounded-lg object-cover"
                 />
@@ -49,8 +58,9 @@ export default function JobDetailsModal({
                 onClick={() => {
                   onClose(updated);
                 }}
+                aria-label="Close Modal"
               >
-                x
+                <X />
               </Button>
             </div>
           </CardHeader>
@@ -64,17 +74,27 @@ export default function JobDetailsModal({
                 <Clock className="w-4 h-4 mr-1" />
                 {selectedJob.jobType}
               </span>
-              <span className="flex items-center">
+              <span className="flex items-center text-green-600 font-medium">
                 <DollarSign className="w-4 h-4 mr-1" />
-                {selectedJob.maxSalary} - {selectedJob.minSalary}
+                {selectedJob.minSalary / 1000}K - {selectedJob.maxSalary / 1000}
+                K
               </span>
               <span className="flex items-center">
                 <Users className="w-4 h-4 mr-1" />
-                Posted {getDaysSincePosted(selectedJob.datePosted)} days ago
+                {postedDays}
               </span>
             </div>
 
             <Separator />
+
+            <div>
+              <h3 className="font-semibold mb-2">Categories</h3>
+              <div className="space-x-2">
+                {selectedJob.categories.map((cat) => (
+                  <Badge key={cat.id}>{cat.name}</Badge>
+                ))}
+              </div>
+            </div>
 
             <div>
               <h3 className="font-semibold mb-2">Job Description</h3>

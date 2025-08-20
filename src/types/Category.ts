@@ -1,4 +1,4 @@
 export interface CategoryResponse {
-  Id: number;
-  Name: string;
+  id: number;
+  name: string;
 }

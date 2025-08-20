@@ -27,6 +27,7 @@ import { fetchJobs } from "@/features/jobs/jobApi";
 import { capitalizeFirstLetter } from "@/features/admin/utils/capitalizeFirstLetter";
 import ModernJobCard from "@/features/jobs/components/ModernJobCard";
 import JobDetailsModal from "@/features/jobs/components/JobDetailsModal";
+import { DEFAULT_PAGE_SIZE } from "@/constants/config";
 
 export default function JobsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -208,14 +209,18 @@ export default function JobsPage() {
                       );
                     })
                   ) : (
-                    <NoJobs />
+                    <div className="col-span-2">
+                      <NoJobs />
+                    </div>
                   )}
                 </div>
                 <div className="flex justify-center my-5">
-                  <CustomPagination
-                    pagination={data?.pagination}
-                    onChange={(page) => UpdatePageNumber(page)}
-                  />
+                  {data?.jobs && data.jobs.length > DEFAULT_PAGE_SIZE && (
+                    <CustomPagination
+                      pagination={data?.pagination}
+                      onChange={(page) => UpdatePageNumber(page)}
+                    />
+                  )}
                 </div>
               </div>
             )}

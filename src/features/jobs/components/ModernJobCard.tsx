@@ -60,9 +60,10 @@ export default function ModernJobCard({
             <span>{job.jobType}</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
-            <DollarSign className="w-4 h-4 text-primary" />
-            <span className="font-semibold text-primary">
-              {job.minSalary / 1000}k - {job.maxSalary / 1000}k
+            <DollarSign className="w-4 h-4 text-green-600" />
+            <span className="font-semibold text-green-600">
+              {job.minSalary / 1000}k - {job.maxSalary / 1000}k{" "}
+              <span className="text-gray-500 font-normal">per year</span>
             </span>
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -92,10 +93,11 @@ export default function ModernJobCard({
 
         {/* Action Buttons */}
         <div className="flex gap-2">
-          <Link to={`/jobs/${job.jobId}/apply`}>
-            <Button className="flex-1 bg-primary hover:bg-primary/90">
-              Apply Now
-            </Button>
+          <Link
+            to={`/jobs/${job.jobId}/apply`}
+            className="flex-1 bg-primary hover:bg-primary/90 flex justify-center items-center rounded-md text-white font-medium text-sm"
+          >
+            Apply Now
           </Link>
 
           <Button
