@@ -53,7 +53,6 @@ const Header = () => {
       href: `/jobs?PopularCategories=${encodeURIComponent(cat.name)}`,
     })) ?? [];
 
-
   // ✅ Static links
   const staticLinks = [
     { to: "/companies", label: "Companies" },
@@ -173,7 +172,7 @@ const Header = () => {
                 >
                   <Menu className="h-5 w-5" />
                 </button>
-                {openUserMenu && <UserMenu />}
+                {openUserMenu && <UserMenu onClose={setOpenUserMenu} />}
               </div>
             </div>
           )}

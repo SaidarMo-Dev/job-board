@@ -24,7 +24,11 @@ import { useSelector } from "react-redux";
 import { getUserDashboardStatsThunk } from "@/features/dashboard_stats/dashboardStatsThunk";
 import { useAppSelector } from "@/hooks/useAppSelector";
 
-export default function UserMenu() {
+export default function UserMenu({
+  onClose,
+}: {
+  onClose: (value: boolean) => void;
+}) {
   const profileCompletion = useAppSelector(
     (state) => state.dashboardStatsReducer.stats?.profileCompletion
   );
@@ -121,7 +125,11 @@ export default function UserMenu() {
       <div className="px-2">
         <div className="space-y-1">
           {menuItems.map((item) => (
-            <MenuButton key={item.label} item={item} />
+            <MenuButton
+              key={item.label}
+              item={item}
+              onClick={() => onClose(false)}
+            />
           ))}
         </div>
 
@@ -131,7 +139,11 @@ export default function UserMenu() {
         {/* Settings Items */}
         <div className="space-y-1">
           {settingsItems.map((item) => (
-            <MenuButton key={item.label} item={item} />
+            <MenuButton
+              key={item.label}
+              item={item}
+              onClick={() => onClose(false)}
+            />
           ))}
         </div>
 
@@ -141,7 +153,11 @@ export default function UserMenu() {
         {/* Support Items */}
         <div className="space-y-1">
           {supportItems.map((item) => (
-            <MenuButton key={item.label} item={item} />
+            <MenuButton
+              key={item.label}
+              item={item}
+              onClick={() => onClose(false)}
+            />
           ))}
         </div>
 

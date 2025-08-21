@@ -1,11 +1,16 @@
 import { Link } from "react-router";
 import type { MenuButtonProps } from "../types/MenuButtonProps";
 
-const MenuButton: React.FC<MenuButtonProps> = ({ item, className = "" }) => {
+const MenuButton: React.FC<MenuButtonProps> = ({
+  item,
+  className = "",
+  onClick,
+}) => {
   const Icon = item.icon;
 
   return (
     <Link
+      onClick={() => onClick()}
       to={item.href}
       className={`flex items-center gap-3 w-full px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-md transition-colors duration-150 ${className}`}
     >
