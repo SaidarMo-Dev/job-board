@@ -204,7 +204,7 @@ export default function JobsPage() {
                         <ModernJobCard
                           key={job.jobId}
                           job={job}
-                          handleShowJobInfo={setSelectedJob}
+                          onShowDetails={setSelectedJob}
                         />
                       );
                     })

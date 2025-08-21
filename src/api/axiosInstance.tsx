@@ -1,3 +1,4 @@
+import { isExcluded } from "@/constants/excludeRoles";
 import { RefreshToken } from "@/features/auth/authApi";
 import { logout } from "@/features/auth/authSlice";
 import type { AppDispatch } from "@/store";
@@ -10,8 +11,6 @@ import {
 } from "@/utils/gitAccessToken";
 import axios from "axios";
 import NProgress from "nprogress";
-
-const excludedEndpoints = ["/users/bookmarks/count", "admin/jobs"];
 
 NProgress.configure({
   showSpinner: false,
@@ -48,10 +47,10 @@ axiosInstance.interceptors.request.use(
     }
 
     // Remove query string for comparison
-    const urlWithoutQuery = config.url?.split("?")[0];
+    const url = config.url?.split("?")[0];
 
     // Start progress only if not excluded
-    if (!excludedEndpoints.some((url) => urlWithoutQuery?.includes(url))) {
+    if (!isExcluded(url)) {
       startProgress();
     }
 
