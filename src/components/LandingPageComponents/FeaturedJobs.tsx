@@ -1,15 +1,19 @@
 import { ArrowRight } from "lucide-react";
 
 import type { JobResponse } from "@/features/jobs/jobTypes";
-import { JobCardMini } from "@/features/jobs/components/JobCardMini";
 import { Link } from "react-router";
 import { Button } from "../ui/button";
+import ModernJobCard from "@/features/jobs/components/ModernJobCard";
+import { useState } from "react";
+import JobDetailsModal from "@/features/jobs/components/JobDetailsModal";
 
 export function FeaturedJobs({
   featuredJobs,
 }: {
   featuredJobs: JobResponse[];
 }) {
+  const [selectedJob, setSelectedJob] = useState<JobResponse | null>(null);
+
   return (
     <section className="bg-white py-15">
       <div className="custom-container">
@@ -24,8 +28,14 @@ export function FeaturedJobs({
 
         {/* jobs */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mt-15">
-          {featuredJobs.map((job, index) => {
-            return <JobCardMini job={job} key={index} />;
+          {featuredJobs.map((job) => {
+            return (
+              <ModernJobCard
+                job={job}
+                key={job.jobId}
+                onShowDetails={setSelectedJob}
+              />
+            );
           })}
         </div>
         <Link to="/jobs" className="flex justify-center mt-10">
@@ -34,11 +44,17 @@ export function FeaturedJobs({
             variant={"outline"}
             className="flex justify-center items-center gap-3"
           >
-            Viwe All Jobs
+            View All Jobs
             <ArrowRight className="w-6 h-6" />
           </Button>
         </Link>
       </div>
+      {selectedJob && (
+        <JobDetailsModal
+          selectedJob={selectedJob}
+          onClose={() => setSelectedJob(null)}
+        />
+      )}
     </section>
   );
 }

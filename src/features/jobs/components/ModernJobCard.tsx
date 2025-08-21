@@ -11,13 +11,13 @@ import { Link } from "react-router";
 interface ModernJobCardProps {
   job: JobResponse;
   className?: string;
-  handleShowJobInfo: (job: JobResponse) => void;
+  onShowDetails: (job: JobResponse) => void;
 }
 
 export default function ModernJobCard({
   job,
   className,
-  handleShowJobInfo,
+  onShowDetails,
 }: ModernJobCardProps) {
   return (
     <Card
@@ -103,7 +103,7 @@ export default function ModernJobCard({
           <Button
             variant="outline"
             className="flex items-center gap-1 bg-transparent"
-            onClick={() => handleShowJobInfo(job)}
+            onClick={() => onShowDetails(job)}
           >
             Details <ChevronRight className="w-4 h-4" />
           </Button>
