@@ -53,7 +53,6 @@ const Header = () => {
       href: `/jobs?PopularCategories=${encodeURIComponent(cat.name)}`,
     })) ?? [];
 
-  console.log(jobCategories);
 
   // ✅ Static links
   const staticLinks = [

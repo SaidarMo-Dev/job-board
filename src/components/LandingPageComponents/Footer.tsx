@@ -7,7 +7,6 @@ import {
   Phone,
   MapPin,
   ArrowRight,
-  Briefcase,
 } from "lucide-react";
 
 const Footer = () => {
@@ -79,33 +78,7 @@ const Footer = () => {
                   Companies
                 </a>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group"
-                >
-                  <ArrowRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                  Salary Guide
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group"
-                >
-                  <ArrowRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                  Career Advice
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group"
-                >
-                  <ArrowRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                  Resume Builder
-                </a>
-              </li>
+
               <li>
                 <a
                   href="#"
@@ -137,36 +110,10 @@ const Footer = () => {
                   className="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group"
                 >
                   <ArrowRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                  Browse Candidates
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group"
-                >
-                  <ArrowRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                   Pricing Plans
                 </a>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group"
-                >
-                  <ArrowRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                  Recruitment Tools
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group"
-                >
-                  <ArrowRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                  Employer Branding
-                </a>
-              </li>
+
               <li>
                 <a
                   href="#"
