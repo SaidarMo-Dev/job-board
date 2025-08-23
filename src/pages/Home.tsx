@@ -1,9 +1,5 @@
-import HomeHeroSection from "../components/HomeHeroSection";
 import QuickStats from "../components/QuickStats";
-import ProfileMatch from "../components/ProfileMatch";
-import CompleteProfileCard from "../components/CompleteProfileCard";
 import QuickTips from "../components/QuickTips";
-import QuickPicks from "@/components/QuickPicks";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUserDashboardStatsThunk } from "@/features/dashboard_stats/dashboardStatsThunk";
@@ -12,6 +8,13 @@ import { selectCurrentUser } from "@/features/auth/authSlice";
 import type { AppDispatch } from "@/store";
 import { toast } from "react-toastify";
 import { getSavedJobIdsThunk } from "@/features/bookmarks/bookmarksThunk";
+import { WelcomeHero } from "@/features/dashboard/components/WelcomeHero";
+import { JobRecommendations } from "@/features/dashboard/components/JobsRecommendation";
+import { useQuery } from "@tanstack/react-query";
+import { fetchJobs } from "@/features/jobs/jobApi";
+import CompleteProfileCard from "@/components/CompleteProfileCard";
+import { RecentSavedJobs } from "@/features/dashboard/components/RecentSavedJobs";
+import { RecentApplications } from "@/features/dashboard/components/RecentApplications";
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,26 +31,37 @@ export default function Home() {
     dispatch(getSavedJobIdsThunk({ userId: currentUserId }));
   }, [currentUserId, dispatch]);
 
+  const jobs = useQuery({
+    queryKey: ["fetchRecommendedJobs"],
+    queryFn: () => fetchJobs(""),
+  }).data?.jobs;
+
   return (
-    <>
-      <div className="mb-15">
-        <HomeHeroSection className="bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100" />
-        <main className="custom-container">
+    <div className="custom-container">
+      <div className="mb-15 space-y-6">
+        {/* welcome hero */}
+        <WelcomeHero />
+        <main className="space-y-6">
+          {/* stats */}
           <QuickStats />
-          <section>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-              <div>
-                <QuickPicks />
-              </div>
-              <div>
-                <ProfileMatch />
-                <CompleteProfileCard />
-              </div>
+
+          {/* job recommendations and complete profile */}
+          <div className="flex items-start gap-6">
+            <JobRecommendations
+              jobs={jobs?.slice(0, 3) ?? []}
+              className="flex-1"
+            />
+            <div className="space-y-4">
+              <CompleteProfileCard />
+              <RecentSavedJobs savedJobs={[]} />
             </div>
-            <QuickTips />
-          </section>
+          </div>
+
+          {/* recent applications */}
+          <RecentApplications recentApplications={[]} />
+          <QuickTips />
         </main>
       </div>
-    </>
+    </div>
   );
 }

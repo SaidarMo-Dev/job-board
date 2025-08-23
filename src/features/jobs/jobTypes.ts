@@ -116,3 +116,9 @@ export interface ExpandedSections {
   popularCompanies: boolean;
   popularCategories: boolean;
 }
+
+export interface RecentSavedJob {
+  title: string;
+  company: string;
+  savedAt: Date;
+}

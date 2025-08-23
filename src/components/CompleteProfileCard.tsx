@@ -2,15 +2,16 @@ import { User } from "lucide-react";
 import ProgressBar from "./ProgressBar";
 import { Link } from "react-router";
 import { useAppSelector } from "@/hooks/useAppSelector";
+import { Card, CardContent, CardHeader } from "./ui/card";
 
 export default function CompleteProfileCard() {
   const profileCompletion = useAppSelector(
     (state) => state.dashboardStatsReducer.stats?.profileCompletion
   );
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 p-4 rounded-md mt-2">
+    <Card className="bg-gray-50 p-4 rounded-md md:w-105">
       {/* header */}
-      <div>
+      <CardHeader>
         <div className="flex items-center gap-2 text-sky-900 font-bold text-xl mb-1">
           <User className="h-5 w-5" />
           Complete Your Profile
@@ -18,9 +19,9 @@ export default function CompleteProfileCard() {
         <div className="text-sky-700 text-sm font-meduim">
           Get better job matches by completing your profile
         </div>
-      </div>
+      </CardHeader>
       {/* centent */}
-      <div className="space-y-4 mt-7">
+      <CardContent className="space-y-4 mt-7">
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium text-black">
             Profile strength
@@ -36,7 +37,7 @@ export default function CompleteProfileCard() {
         >
           Edit Profile
         </Link>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

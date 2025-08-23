@@ -31,6 +31,7 @@ import CompaniesManagementPage from "@/features/admin/pages/CompaniesManagementP
 import AddEditCompany from "@/features/admin/companies/pages/AddEditCompany";
 import JobsManagementPage from "@/features/admin/pages/JobsManagementPage";
 import AddEditJobPage from "@/features/admin/jobs/pages/AddEditJobPage";
+import UserDashboardLayout from "@/layouts/UserDashboardLayout";
 
 export default function AppRoutes() {
   return (
@@ -95,7 +96,7 @@ export default function AppRoutes() {
         <Route path=":jobId/apply" element={<JobApplicationWizardPage />} />
       </Route>
 
-      <Route element={<MainLayout />}>
+      <Route element={<UserDashboardLayout />}>
         <Route path="/members">
           <Route index element={<Home />} />
           <Route path="profile" element={<UserProfilePage />} />
