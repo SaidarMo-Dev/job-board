@@ -23,6 +23,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router";
 import type { MenuItem } from "@/types/MenuItem";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { selectCurrentUser } from "@/features/auth/authSlice";
 
 const menuItems: MenuItem[] = [
   { icon: User2, label: "Profile", href: "/members/profile" },
@@ -58,9 +61,11 @@ const supportItems: MenuItem[] = [
 ];
 
 export function DashboardHeader() {
+  const currentUser = useAppSelector(selectCurrentUser);
+
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between px-4">
+      <div className="custom-container flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
           {/* Logo */}
           <Link
@@ -82,11 +87,13 @@ export function DashboardHeader() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="h-5 w-5" />
-            <span className="absolute -top-1 -right-1 h-3 w-3 bg-primary rounded-full text-[10px] text-primary-foreground flex items-center justify-center">
-              3
-            </span>
+          <Button variant="ghost" size="icon">
+            <div className="relative">
+              <Bell className="h-6 w-6" />
+              <span className="absolute -top-1 -right-1 h-3 w-3 bg-primary rounded-full text-[10px] text-primary-foreground flex items-center justify-center">
+                3
+              </span>
+            </div>
           </Button>
 
           <DropdownMenu>
@@ -97,7 +104,13 @@ export function DashboardHeader() {
                     src="/placeholder.svg?height=32&width=32"
                     alt="Sarah"
                   />
-                  <AvatarFallback>SJ</AvatarFallback>
+                  <AvatarFallback>
+                    {currentUser
+                      ? (
+                          currentUser?.firstName[0] + currentUser?.lastName[0]
+                        ).toUpperCase()
+                      : "TS"}
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -105,27 +118,51 @@ export function DashboardHeader() {
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">
-                    Sarah Johnson
+                    {currentUser?.firstName + " " + currentUser?.lastName}
                   </p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    sarah.johnson@email.com
+                    {currentUser?.email}
                   </p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               {/* menu items */}
-              {menuItems.map((item) => (
-                <DropdownMenuItem>{item.label}</DropdownMenuItem>
-              ))}
+              {menuItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <DropdownMenuItem asChild>
+                    <Link to={item.href} className="flex items-center gap-2">
+                      <Icon className="h-6 w-6" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                );
+              })}
               <DropdownMenuSeparator />
-              {settingsItems.map((item) => (
-                <DropdownMenuItem>{item.label}</DropdownMenuItem>
-              ))}
+              {settingsItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <DropdownMenuItem asChild>
+                    <Link to={item.href} className="flex items-center gap-2">
+                      <Icon className="h-6 w-6" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                );
+              })}
 
               <DropdownMenuSeparator />
-              {supportItems.map((item) => (
-                <DropdownMenuItem>{item.label}</DropdownMenuItem>
-              ))}
+              {supportItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <DropdownMenuItem asChild>
+                    <Link to={item.href} className="flex items-center gap-2">
+                      <Icon className="h-6 w-6" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                );
+              })}
               <DropdownMenuSeparator />
               <DropdownMenuItem>Log out</DropdownMenuItem>
             </DropdownMenuContent>
