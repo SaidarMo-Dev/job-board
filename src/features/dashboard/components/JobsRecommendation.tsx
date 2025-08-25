@@ -30,7 +30,7 @@ export function JobRecommendations({
         </CardHeader>
         <CardContent className="space-y-4">
           {jobs.length > 0 ? (
-            jobs.map((job, index) => (
+            jobs.map((job) => (
               <JobRecommendationCard
                 key={job.jobId}
                 job={job}
