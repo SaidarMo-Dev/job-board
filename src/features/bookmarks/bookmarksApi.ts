@@ -7,6 +7,7 @@ import type {
   UserBookmarkRequest,
 } from "./bookmarksTypes";
 import type { ApiResponse } from "@/types/ApiResponse";
+import type { RecentSavedJob } from "../jobs/jobTypes";
 
 const BOOKMARKS_BASE_URL = "/bookmarks";
 
@@ -59,4 +60,12 @@ export async function UnsaveJob(jobId) {
   );
 
   return response.data;
+}
+
+export async function fetechRecentSavedJobs(take: number) {
+  const response = await api.get<ApiResponse<RecentSavedJob[]>>(
+    `${BOOKMARKS_BASE_URL}/recent-saved-jobs?${take}`
+  );
+
+  return response.data.data;
 }

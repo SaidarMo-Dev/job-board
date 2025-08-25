@@ -118,6 +118,7 @@ export interface ExpandedSections {
 }
 
 export interface RecentSavedJob {
+  id: number;
   title: string;
   company: string;
   savedAt: Date;

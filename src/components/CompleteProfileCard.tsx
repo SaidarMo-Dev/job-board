@@ -1,8 +1,10 @@
-import { User } from "lucide-react";
+import { Edit, User } from "lucide-react";
 import ProgressBar from "./ProgressBar";
 import { Link } from "react-router";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { Card, CardContent, CardHeader } from "./ui/card";
+import { Button } from "./ui/button";
+import { ROUTES } from "@/constants/routes";
 
 export default function CompleteProfileCard() {
   const profileCompletion = useAppSelector(
@@ -31,12 +33,12 @@ export default function CompleteProfileCard() {
           </span>
         </div>
         <ProgressBar value={profileCompletion ?? 10} color="bg-sky-600" />
-        <Link
-          to={"/members/profile"}
-          className=" block text-center w-full bg-sky-600 hover:bg-sky-700 p-2 mt-1 text-white rounded-md text-sm font-semibold cursor-pointer"
-        >
-          Edit Profile
-        </Link>
+        <Button asChild className="w-full">
+          <Link to={ROUTES.MEMBER.PROFILE}>
+            <Edit className="w-5 h-5" />
+            Edit Profile
+          </Link>
+        </Button>
       </CardContent>
     </Card>
   );

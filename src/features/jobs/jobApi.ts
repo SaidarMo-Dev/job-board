@@ -42,3 +42,9 @@ export async function fetchPopularLocations() {
   return (await api.get<ApiResponse<string[]>>(`${JOB_BASE_URL}/locations`))
     .data.data;
 }
+
+export async function fetchRecommendationJobs() {
+  return (
+    await api.get<ApiResponse<JobResponse[]>>(`${JOB_BASE_URL}/recommendations`)
+  ).data.data;
+}

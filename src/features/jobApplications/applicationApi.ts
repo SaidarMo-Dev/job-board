@@ -6,6 +6,7 @@ import type {
   UserApplicationResponse,
 } from "./applicationType";
 import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { RecentApplication } from "../dashboard/dashboardTypes";
 
 const APPLICATIONS_BASE_URL = "/applications";
 
@@ -44,4 +45,12 @@ export async function getUserApplications(
   >(`/users${APPLICATIONS_BASE_URL}?${params.toString()}`);
 
   return response.data;
+}
+
+export async function fetchRecentApplications(take: number) {
+  return (
+    await api.get<ApiResponse<RecentApplication[]>>(
+      `${APPLICATIONS_BASE_URL}/recent-applications?take=${take}`
+    )
+  ).data.data;
 }

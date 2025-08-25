@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Eye, CheckCheckIcon, UserX } from "lucide-react";
 import type { RecentApplication } from "../dashboardTypes";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
+import { useMemo } from "react";
 
 interface ActivityItemProps {
   recentApplication: RecentApplication;
@@ -31,6 +32,11 @@ export default function ApplicationActivityItem({
   const config = statusConfig[recentApplication.status];
   const Icon = config.icon;
 
+  const createdDays = useMemo(
+    () => getDaysSincePosted(recentApplication.applicantDate),
+    [recentApplication.applicantDate]
+  );
+
   return (
     <div className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors">
       <div className="flex items-center gap-3">
@@ -49,7 +55,7 @@ export default function ApplicationActivityItem({
           {config.label}
         </Badge>
         <p className="text-xs text-muted-foreground">
-          {getDaysSincePosted(recentApplication.applicantDate)}
+          {createdDays === 0 ? "Today" : createdDays + " days ago"}
         </p>
       </div>
     </div>

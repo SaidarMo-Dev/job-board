@@ -11,10 +11,12 @@ import { getSavedJobIdsThunk } from "@/features/bookmarks/bookmarksThunk";
 import { WelcomeHero } from "@/features/dashboard/components/WelcomeHero";
 import { JobRecommendations } from "@/features/dashboard/components/JobsRecommendation";
 import { useQuery } from "@tanstack/react-query";
-import { fetchJobs } from "@/features/jobs/jobApi";
+import { fetchRecommendationJobs } from "@/features/jobs/jobApi";
 import CompleteProfileCard from "@/components/CompleteProfileCard";
 import { RecentSavedJobs } from "@/features/dashboard/components/RecentSavedJobs";
 import { RecentApplications } from "@/features/dashboard/components/RecentApplications";
+import { fetechRecentSavedJobs } from "@/features/bookmarks/bookmarksApi";
+import { fetchRecentApplications } from "@/features/jobApplications/applicationApi";
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
@@ -31,10 +33,20 @@ export default function Home() {
     dispatch(getSavedJobIdsThunk({ userId: currentUserId }));
   }, [currentUserId, dispatch]);
 
-  const jobs = useQuery({
-    queryKey: ["fetchRecommendedJobs"],
-    queryFn: () => fetchJobs(""),
-  }).data?.jobs;
+  const recommendationJobs = useQuery({
+    queryKey: ["fetchRecommendationJobs"],
+    queryFn: () => fetchRecommendationJobs(),
+  }).data;
+
+  const recentSavedJobs = useQuery({
+    queryKey: ["fetchRecentSavedJobs"],
+    queryFn: () => fetechRecentSavedJobs(1),
+  }).data;
+
+  const recentApplications = useQuery({
+    queryKey: ["fetchRecentApplications"],
+    queryFn: () => fetchRecentApplications(3),
+  }).data;
 
   return (
     <div className="custom-container">
@@ -48,17 +60,17 @@ export default function Home() {
           {/* job recommendations and complete profile */}
           <div className="flex items-start gap-6">
             <JobRecommendations
-              jobs={jobs?.slice(0, 3) ?? []}
+              jobs={recommendationJobs ?? []}
               className="flex-1"
             />
             <div className="space-y-4">
               <CompleteProfileCard />
-              <RecentSavedJobs savedJobs={[]} />
+              <RecentSavedJobs savedJobs={recentSavedJobs ?? []} />
             </div>
           </div>
 
           {/* recent applications */}
-          <RecentApplications recentApplications={[]} />
+          <RecentApplications recentApplications={recentApplications ?? []} />
           <QuickTips />
         </main>
       </div>

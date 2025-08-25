@@ -1,15 +1,25 @@
 import { Badge } from "@/components/ui/badge";
-import { Bookmark, MapPin, DollarSign, Eye } from "lucide-react";
+import { MapPin, DollarSign, Eye } from "lucide-react";
 import type { JobResponse } from "@/features/jobs/jobTypes";
 import { splitCamelCase } from "@/utils/stringUtils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
+import IconSave from "@/features/bookmarks/Components/IconSave";
 
 interface JobRecommendationCardProps {
   job: JobResponse;
+  onShowDetails?: (job: JobResponse) => void;
 }
 
-export function JobRecommendationCard({ job }: JobRecommendationCardProps) {
+export function JobRecommendationCard({
+  job,
+  onShowDetails,
+}: JobRecommendationCardProps) {
+  const handleShowDetails = () => {
+    if (onShowDetails) onShowDetails(job);
+  };
+
   return (
     <Card className="hover:shadow-md transition-shadow bg-gray-50/90">
       <CardContent className="p-4">
@@ -49,9 +59,11 @@ export function JobRecommendationCard({ job }: JobRecommendationCardProps) {
               </div>
             </div>
           </div>
-          <Button variant="ghost" size="icon" className="h-8 w-8">
+          <IconSave jobId={job.jobId} />
+
+          {/* <Button variant="ghost" size="icon" className="h-8 w-8">
             <Bookmark className="h-4 w-4" />
-          </Button>
+          </Button> */}
         </div>
 
         <div className="flex flex-wrap gap-1 mb-3">
@@ -72,12 +84,13 @@ export function JobRecommendationCard({ job }: JobRecommendationCardProps) {
               variant="outline"
               size="sm"
               className="text-xs bg-transparent"
+              onClick={handleShowDetails}
             >
               <Eye />
               View Details
             </Button>
-            <Button size="sm" className="text-xs">
-              Apply Now
+            <Button size="sm" className="text-xs" asChild>
+              <Link to={`/jobs/${job.jobId}/apply`}>Apply Now</Link>
             </Button>
           </div>
         </div>

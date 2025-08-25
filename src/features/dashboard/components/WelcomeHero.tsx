@@ -35,7 +35,7 @@ export function WelcomeHero() {
             <Button asChild>
               <Link to={ROUTES.PUBLIC.JOBS} className="flex gap-2">
                 <Search className="h-4 w-4" />
-                Discover Modre Jobs
+                Discover More Jobs
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </Button>

@@ -18,9 +18,9 @@ export function RecentApplications({
       </CardHeader>
       <CardContent className="space-y-3">
         {recentApplications.length > 0 ? (
-          recentApplications.map((application, index) => (
+          recentApplications.map((application) => (
             <ApplicationActivityItem
-              key={index}
+              key={application.id}
               recentApplication={application}
             />
           ))
