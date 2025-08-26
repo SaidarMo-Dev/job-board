@@ -22,12 +22,15 @@ export const ROUTES = {
   },
   MEMBER: {
     HOME: "/members",
-    PROFILE: "/member/profile",
-    DASHBOARD: "/member/dashboard",
+    PROFILE: "/members/profile",
+    DASHBOARD: "/members/dashboard",
+    APPLICATIONS: "/members/applications",
+    SAVED_JOBS: "/members/jobs",
   },
   PUBLIC: {
     ABOUT: "/about",
     CONTACT: "/contact",
+    JOBS: "/jobs",
   },
   ERROR: {
     NOT_FOUND: "/404",
