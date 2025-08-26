@@ -9,7 +9,10 @@ import Footer from "../components/LandingPageComponents/Footer";
 import Header from "../components/Header";
 import { useQuery } from "@tanstack/react-query";
 import { fetchJobs } from "@/features/jobs/jobApi";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { selectIsAuthenticated } from "@/features/auth/authSlice";
+import { useNavigate } from "react-router";
 export function LandingPage() {
   const query = useMemo(() => {
     const params = new URLSearchParams();
@@ -22,6 +25,20 @@ export function LandingPage() {
     queryKey: ["fetchJobs"],
     queryFn: () => fetchJobs(query),
   }).data?.jobs;
+
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+
+  const navigate = useNavigate();
+
+  // redirect immediately before rendering
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/members", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
+  // Don't render anything while redirecting
+  if (isAuthenticated) return null;
   return (
     <>
       <Header />

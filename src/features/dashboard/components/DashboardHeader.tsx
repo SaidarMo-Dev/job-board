@@ -5,6 +5,7 @@ import {
   HelpCircle,
   History,
   LayoutDashboard,
+  LogOutIcon,
   Search,
   Settings,
   Shield,
@@ -24,8 +25,10 @@ import {
 import { Link } from "react-router";
 import type { MenuItem } from "@/types/MenuItem";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectCurrentUser } from "@/features/auth/authSlice";
+import { logout, selectCurrentUser } from "@/features/auth/authSlice";
 import { MenuSection } from "./MenuSection";
+import RemoveTokens from "@/utils/removeTokens";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 const menuItems: MenuItem[] = [
   { icon: User2, label: "Profile", href: "/members/profile" },
@@ -56,11 +59,12 @@ export function DashboardHeader() {
   const currentUser = useAppSelector(selectCurrentUser);
   const notificationsCount = 3; // TODO: replace with real data
 
-  const handleLogout = () => {
-    // TODO: connect to Redux/dispatch logout action
-    console.log("Logging out...");
+  const dispatch = useAppDispatch();
+  
+  const handleSignOut = () => {
+    RemoveTokens();
+    dispatch(logout());
   };
-
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="custom-container flex h-16 items-center justify-between px-4">
@@ -149,8 +153,13 @@ export function DashboardHeader() {
               <MenuSection items={supportItems} />
 
               {/* Logout */}
-              <DropdownMenuItem onClick={handleLogout}>
-                Log out
+              <DropdownMenuItem onClick={handleSignOut} asChild>
+                <div className="pb-2">
+                  <LogOutIcon />
+                  <Link to={"/auth/login"} className="flex-1">
+                    Sign Out
+                  </Link>
+                </div>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
