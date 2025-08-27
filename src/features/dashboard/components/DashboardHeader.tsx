@@ -60,7 +60,7 @@ export function DashboardHeader() {
   const notificationsCount = 3; // TODO: replace with real data
 
   const dispatch = useAppDispatch();
-  
+
   const handleSignOut = () => {
     RemoveTokens();
     dispatch(logout());
@@ -88,7 +88,7 @@ export function DashboardHeader() {
             <Input
               type="search"
               placeholder="Search jobs, companies, or skills..."
-              className="pl-10 bg-muted/50"
+              className="pl-10 bg-muted/50 "
               aria-label="Search"
             />
           </div>
