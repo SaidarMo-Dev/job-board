@@ -58,13 +58,13 @@ export default function Home() {
           <QuickStats />
 
           {/* job recommendations and complete profile */}
-          <div className="flex items-start gap-6">
+          <div className="flex gap-6 flex-col lg:flex-row">
             <JobRecommendations
               jobs={recommendationJobs ?? []}
               className="flex-1"
             />
             <div className="space-y-4">
-              <CompleteProfileCard />
+              <CompleteProfileCard className="md:w-full" />
               <RecentSavedJobs savedJobs={recentSavedJobs ?? []} />
             </div>
           </div>

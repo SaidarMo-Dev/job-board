@@ -6,12 +6,16 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 import { Button } from "./ui/button";
 import { ROUTES } from "@/constants/routes";
 
-export default function CompleteProfileCard() {
+export default function CompleteProfileCard({
+  className,
+}: {
+  className?: string;
+}) {
   const profileCompletion = useAppSelector(
     (state) => state.dashboardStatsReducer.stats?.profileCompletion
   );
   return (
-    <Card className="bg-gray-50 p-4 rounded-md md:w-105">
+    <Card className={`bg-gray-50 p-4 rounded-md md:w-105 ${className}`}>
       {/* header */}
       <CardHeader>
         <div className="flex items-center gap-2 text-sky-900 font-bold text-xl mb-1">
