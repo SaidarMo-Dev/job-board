@@ -89,6 +89,7 @@ export default function WhyChooseUs() {
 
   return (
     <section
+      id="about"
       className={`py-16 lg:py-24 bg-gradient-to-br from-slate-50 to-blue-50`}
     >
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">

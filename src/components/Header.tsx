@@ -27,7 +27,6 @@ const Header = () => {
   const staticLinks = [
     { to: "/companies", label: "Companies" },
     { to: "/contact", label: "Contact" },
-    { to: "/about", label: "About" },
   ];
 
   return (
@@ -55,6 +54,12 @@ const Header = () => {
               {link.label}
             </Link>
           ))}
+          <a
+            href="#about"
+            className="px-3 py-2 text-gray-700 hover:text-sky-600 font-medium"
+          >
+            About
+          </a>
         </nav>
 
         {/* Auth Buttons */}

@@ -52,6 +52,10 @@
   font-style: italic;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Fonts */
 body {
   font-family: "Geist";
