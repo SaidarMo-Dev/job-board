@@ -24,6 +24,7 @@ export const CompanySchema = z.object({
 
   phoneNumber: z
     .string()
+    .trim()
     .min(1, { message: "Phone number is required" })
     .regex(/^\+?[0-9\s\-()]{7,20}$/, {
       message: "Invalid phone number format (e.g. +1 234-567-8901)",

@@ -29,30 +29,31 @@ import { logout, selectCurrentUser } from "@/features/auth/authSlice";
 import { MenuSection } from "./MenuSection";
 import RemoveTokens from "@/utils/removeTokens";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { ROUTES } from "@/constants/routes";
 
 const menuItems: MenuItem[] = [
-  { icon: User2, label: "Profile", href: "/members/profile" },
-  { icon: LayoutDashboard, label: "Dashboard", href: "/members" },
-  { icon: FileText, label: "Applications", href: "/members/applications" },
-  { icon: Heart, label: "Saved Jobs", href: "/members/jobs" },
-  { icon: History, label: "History", href: "/members/history" },
+  { icon: User2, label: "Profile", href: ROUTES.MEMBER.PROFILE },
+  { icon: LayoutDashboard, label: "Dashboard", href: ROUTES.MEMBER.HOME },
+  { icon: FileText, label: "Applications", href: ROUTES.MEMBER.APPLICATIONS },
+  { icon: Heart, label: "Saved Jobs", href: ROUTES.MEMBER.SAVED_JOBS },
+  { icon: History, label: "History", href: ROUTES.MEMBER.HISTORY },
 ];
 
 const settingsItems: MenuItem[] = [
   {
     icon: Settings,
     label: "Settings & Notifications",
-    href: "/members/settings-notifications",
+    href: ROUTES.MEMBER.SETTINGS,
   },
   {
     icon: Shield,
     label: "Password & Security",
-    href: "/members/password-security",
+    href: ROUTES.MEMBER.PASSWORD_SECURITY,
   },
 ];
 
 const supportItems: MenuItem[] = [
-  { icon: HelpCircle, label: "Contact Us", href: "/contact" },
+  { icon: HelpCircle, label: "Contact Us", href: ROUTES.PUBLIC.CONTACT },
 ];
 
 export function DashboardHeader() {

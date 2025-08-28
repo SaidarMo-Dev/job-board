@@ -26,6 +26,9 @@ export const ROUTES = {
     DASHBOARD: "/members/dashboard",
     APPLICATIONS: "/members/applications",
     SAVED_JOBS: "/members/jobs",
+    HISTORY: "/members/history",
+    SETTINGS: "/members/settings-notifications",
+    PASSWORD_SECURITY: "/members/password-security",
   },
   PUBLIC: {
     ABOUT: "/about",

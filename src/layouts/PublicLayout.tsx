@@ -1,10 +1,9 @@
 import Header from "@/components/Header";
+import Footer from "@/components/LandingPageComponents/Footer";
 import { DashboardHeader } from "@/features/dashboard/components/DashboardHeader";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { Footer } from "react-day-picker";
-import { Outlet } from "react-router";
 
-export default function PublicLayout() {
+export default function PublicLayout({ children }) {
   const isAuthenticated = useAppSelector(
     (state) => state.authReducer.isAuthenticated
   );
@@ -12,7 +11,7 @@ export default function PublicLayout() {
   return (
     <>
       {isAuthenticated ? <DashboardHeader /> : <Header />}
-      <Outlet />
+      {children}
       <Footer />
     </>
   );

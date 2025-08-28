@@ -7,7 +7,6 @@ import JobsPage from "../pages/JobsPage";
 import UserProfilePage from "@/pages/UserProfile";
 import UserApplications from "@/pages/UserApplicationsPage";
 import UserSavedJobs from "@/pages/UserSavedJobs";
-import MainLayout from "@/layouts/MainLayout";
 import JobsHistoryPage from "@/pages/JobsHistoryPage";
 import PasswordSecurityPage from "@/pages/PasswordAndSecurity";
 import SettingsAndNotificationsPage from "@/pages/SettingsNotifications";
@@ -32,10 +31,44 @@ import AddEditCompany from "@/features/admin/companies/pages/AddEditCompany";
 import JobsManagementPage from "@/features/admin/pages/JobsManagementPage";
 import AddEditJobPage from "@/features/admin/jobs/pages/AddEditJobPage";
 import UserDashboardLayout from "@/layouts/UserDashboardLayout";
+import ContactPage from "@/pages/ContactUs";
 
 export default function AppRoutes() {
   return (
     <Routes>
+      {/* Main page */}
+      <Route path="/" element={<LandingPage />} />
+      {/* contact us */}
+
+      <Route
+        path={ROUTES.PUBLIC.CONTACT}
+        element={
+          <PublicLayout>
+            <ContactPage />
+          </PublicLayout>
+        }
+      />
+
+      <Route path="/jobs">
+        <Route
+          index
+          element={
+            <PublicLayout>
+              <JobsPage />
+            </PublicLayout>
+          }
+        />
+        <Route
+          path=":jobId/apply"
+          element={
+            <PublicLayout>
+              <JobApplicationWizardPage />
+            </PublicLayout>
+          }
+        />
+      </Route>
+
+      <Route path="/" element={<LandingPage />} />
       <Route element={<DashboardLayout />}>
         <Route
           path={ROUTES.ADMIN.DASHBOARD}
@@ -87,13 +120,6 @@ export default function AppRoutes() {
           path={ROUTES.ADMIN.JOBS.ADD}
           element={<AdminLayout>{<AddEditJobPage mode="Add" />}</AdminLayout>}
         />
-      </Route>
-
-      <Route path="/" element={<LandingPage />} />
-
-      <Route path="/jobs" element={<PublicLayout />}>
-        <Route index element={<JobsPage />} />
-        <Route path=":jobId/apply" element={<JobApplicationWizardPage />} />
       </Route>
 
       <Route element={<UserDashboardLayout />}>
