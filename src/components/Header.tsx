@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "@/features/auth/authSlice";
 import { useQuery } from "@tanstack/react-query";
@@ -13,6 +13,7 @@ const Header = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const location = useLocation();
   // Fetch categories
   const { data: popularCategories = [] } = useQuery({
     queryKey: ["PopularCategories"],
@@ -54,12 +55,15 @@ const Header = () => {
               {link.label}
             </Link>
           ))}
-          <a
-            href="#about"
-            className="px-3 py-2 text-gray-700 hover:text-sky-600 font-medium"
-          >
-            About
-          </a>
+
+          {location.pathname === "/" && (
+            <a
+              href="#about"
+              className="px-3 py-2 text-gray-700 hover:text-sky-600 font-medium"
+            >
+              About
+            </a>
+          )}
         </nav>
 
         {/* Auth Buttons */}
