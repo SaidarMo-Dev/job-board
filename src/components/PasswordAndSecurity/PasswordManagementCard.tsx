@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { selectCurrentUser } from "@/features/auth/authSlice";
 import { ChangePasswordThunk } from "@/features/auth/authThunk";
 import type { AppDispatch } from "@/store";
-import { Eye, EyeOff, Key } from "lucide-react";
+import { Key } from "lucide-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -25,7 +25,6 @@ const PasswordManagementCard = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const currentUser = useSelector(selectCurrentUser);
@@ -70,26 +69,7 @@ const PasswordManagementCard = () => {
       </CardHeader>
       <CardContent className="space-y-6">
         {!isChangingPassword ? (
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <Label className="text-base font-medium">Current Password</Label>
-              <div className="flex items-center gap-2">
-                <p className="text-sm text-muted-foreground">
-                  {showPassword ? "mypassword123" : "••••••••••"}
-                </p>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
-            </div>
+          <div className="flex items-center justify-end">
             <Button
               variant="outline"
               size="sm"

@@ -18,8 +18,7 @@ export default function PasswordSecurityPage() {
           </div>
         </div>
         <div className="space-y-6">
-          <AccountInformationCard
-          />
+          <AccountInformationCard />
           <PasswordManagementCard />
           <TwoFactorAuthenticationCard
             onEnable2FA={() => {
@@ -27,9 +26,6 @@ export default function PasswordSecurityPage() {
             }}
           />
           <SecuritySettingsCard
-            onViewActivity={() => {
-              /* TODO: handle view activity */
-            }}
             onSetupRecovery={() => {
               /* TODO: handle setup recovery */
             }}
