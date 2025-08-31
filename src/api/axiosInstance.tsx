@@ -9,7 +9,7 @@ import {
   setRefreshToken,
   setRefreshTokenExpirationDate,
 } from "@/utils/gitAccessToken";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import NProgress from "nprogress";
 
 NProgress.configure({
@@ -81,33 +81,77 @@ axiosInstance.defaults.timeout = 5000;
 export default axiosInstance;
 
 // handle refresh token
+
+let isRefreshing = false;
+let failedQueue: Array<{
+  resolve: (token: string) => void;
+  reject: (err: AxiosError | null) => void;
+}> = [];
+
+const processQueue = (
+  error: AxiosError | null,
+  token: string | null = null
+) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token!);
+    }
+  });
+
+  failedQueue = [];
+};
+
 export const setupAxiosInterceptors = (dispatch: AppDispatch) => {
   axiosInstance.interceptors.response.use(
     (res) => res,
     async (error) => {
       const originalRequest = error.config;
+
       if (error.response?.status === 401 && !originalRequest._retry) {
+        if (isRefreshing) {
+          return new Promise((resolve, reject) => {
+            failedQueue.push({
+              resolve: (token: string) => {
+                originalRequest.headers["Authorization"] = `Bearer ${token}`;
+                resolve(axiosInstance(originalRequest));
+              },
+              reject,
+            });
+          });
+        }
+
         originalRequest._retry = true;
+        isRefreshing = true;
+
         try {
           const response = await RefreshToken();
+          const newToken = response.data.accessToken;
 
-          setAccessToken(response.data.accessToken);
+          setAccessToken(newToken);
           setRefreshToken(response.data.refreshToken.refreshToken);
           setRefreshTokenExpirationDate(
             response.data.refreshToken.expirationDate.toString()
           );
 
-          originalRequest.headers[
-            "Authorization"
-          ] = `Bearer ${response.data.accessToken}`;
-          return axios(originalRequest);
+          processQueue(null, newToken);
+
+          originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+          return axiosInstance(originalRequest);
         } catch (err) {
-          console.log(err);
+          let axiosError: AxiosError | null = null;
+          if (axios.isAxiosError(err)) axiosError = err;
+
+          processQueue(axiosError, null);
           removeTokens();
           dispatch(logout());
           return Promise.reject(err);
+        } finally {
+          isRefreshing = false;
         }
       }
+
       return Promise.reject(error);
     }
   );
