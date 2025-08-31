@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "@/features/auth/authSlice";

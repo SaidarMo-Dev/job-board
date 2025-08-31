@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, User, Copy, Check, ArrowRight } from "lucide-react";
+import { Mail, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,12 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Link } from "react-router";
+import { ROUTES } from "@/constants/routes";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 export default function SettingsAndNotificationsPage() {
   const [notifications, setNotifications] = useState({
@@ -22,16 +23,11 @@ export default function SettingsAndNotificationsPage() {
     smsAlerts: false,
     marketingEmails: true,
   });
-  const [profileVisibility, setProfileVisibility] = useState(false);
-  const [copied, setCopied] = useState(false);
 
-  const publicUrl = "snagajob.com/profiles/++684ed8";
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(publicUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const profileCompletion =
+    useAppSelector(
+      (state) => state.dashboardStatsReducer.stats?.profileCompletion
+    ) ?? 0;
 
   return (
     <div className="min-h-screen bg-gray-50/50">
@@ -91,16 +87,16 @@ export default function SettingsAndNotificationsPage() {
                     />
                   </div>
 
-                  {notifications.jobAlerts && (
+                  {notifications.jobAlerts && profileCompletion !== 100 && (
                     <Alert>
                       <AlertDescription className="flex items-center gap-2">
-                        Want even better recommendations?{" "}
-                        <Button
-                          variant="link"
-                          className="p-0 h-auto text-primary"
+                        Want even better recommendations?
+                        <Link
+                          to={ROUTES.MEMBER.PROFILE}
+                          className="text-primary dark:text-foreground hover:underline"
                         >
                           Complete your profile
-                        </Button>
+                        </Link>
                       </AlertDescription>
                     </Alert>
                   )}
@@ -187,76 +183,6 @@ export default function SettingsAndNotificationsPage() {
             {/* end email notifications */}
 
             <div className="space-y-6 mt-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <User className="h-5 w-5" />
-                    Public Profile
-                  </CardTitle>
-                  <CardDescription>
-                    Control how your profile appears to employers and the public
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-1 flex-1 mr-4">
-                      <Label className="text-base font-medium">
-                        Profile Visibility
-                      </Label>
-                      <p className="text-sm text-muted-foreground">
-                        This controls whether or not the URL below is made
-                        public. For your protection, your email address, full
-                        physical address and phone number are never shared to
-                        the public. This information is only available to
-                        employers where you've applied for jobs.
-                      </p>
-                    </div>
-                    <Switch
-                      checked={profileVisibility}
-                      onCheckedChange={setProfileVisibility}
-                    />
-                  </div>
-
-                  <Separator />
-
-                  <div className="space-y-4">
-                    <div>
-                      <Label className="text-base font-medium">
-                        Your Public URL
-                      </Label>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        Copy your unique URL for applications
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <Input
-                          value={publicUrl}
-                          readOnly
-                          className="flex-1 bg-muted"
-                        />
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={copyToClipboard}
-                          className="flex items-center gap-2"
-                        >
-                          {copied ? (
-                            <>
-                              <Check className="h-4 w-4" />
-                              Copied
-                            </>
-                          ) : (
-                            <>
-                              <Copy className="h-4 w-4" />
-                              Copy
-                            </>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
               <Card>
                 <CardHeader>
                   <CardTitle>Marketing Preferences</CardTitle>
