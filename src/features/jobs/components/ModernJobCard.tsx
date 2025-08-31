@@ -7,6 +7,9 @@ import type { JobResponse } from "../jobTypes";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
 import { splitCamelCase } from "@/utils/stringUtils";
 import { Link } from "react-router";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { selectIsJobApplied } from "@/features/jobApplications/applicationSlice";
+import AlreadyApplied from "./AlreadyApplied";
 
 interface ModernJobCardProps {
   job: JobResponse;
@@ -19,6 +22,9 @@ export default function ModernJobCard({
   className,
   onShowDetails,
 }: ModernJobCardProps) {
+  const isJobApplied = useAppSelector((state) =>
+    selectIsJobApplied(state, job.jobId)
+  );
   return (
     <Card
       key={job.jobId}
@@ -93,12 +99,16 @@ export default function ModernJobCard({
 
         {/* Action Buttons */}
         <div className="flex gap-2">
-          <Link
-            to={`/jobs/${job.jobId}/apply`}
-            className="flex-1 bg-primary hover:bg-primary/90 flex justify-center items-center rounded-md text-white font-medium text-sm"
-          >
-            Apply Now
-          </Link>
+          {isJobApplied ? (
+            <AlreadyApplied />
+          ) : (
+            <Link
+              to={`/jobs/${job.jobId}/apply`}
+              className="flex-1 bg-primary hover:bg-primary/90 flex justify-center items-center rounded-md text-white font-medium text-sm"
+            >
+              Apply Now
+            </Link>
+          )}
 
           <Button
             variant="outline"

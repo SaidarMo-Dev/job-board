@@ -142,6 +142,7 @@ export default function JobsPage() {
     queryKey: ["fetchJobs", query],
     queryFn: () => fetchJobs(query),
   });
+
   return (
     <div className="bg-gray-50">
       {/* hero section */}

@@ -122,6 +122,8 @@ const bookmarkSlice = createSlice({
 
 export default bookmarkSlice.reducer;
 
+// selectors
+
 export const selectIsJobSaved = (state: RootState, JobId) => {
   if (state.bookmarkReducer.savedJobIds.size > 0)
     return state.bookmarkReducer.savedJobIds?.has(JobId) ?? false;

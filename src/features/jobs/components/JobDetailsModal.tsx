@@ -15,6 +15,9 @@ import type { JobResponse } from "../jobTypes";
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { Badge } from "@/components/ui/badge";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { selectIsJobApplied } from "@/features/jobApplications/applicationSlice";
+import AlreadyApplied from "./AlreadyApplied";
 
 interface JobDetailsProp {
   onClose: (updated: boolean) => void;
@@ -32,6 +35,10 @@ export default function JobDetailsModal({
     }
     return "Today";
   }, [selectedJob.datePosted]);
+
+  const isApplied = useAppSelector((state) =>
+    selectIsJobApplied(state, selectedJob.jobId)
+  );
 
   if (selectedJob) {
     return (
@@ -121,12 +128,16 @@ export default function JobDetailsModal({
             </div>
 
             <div className="flex gap-3 pt-4">
-              <Link
-                className="flex-1 bg-sky-600 hover:bg-sky-700 flex justify-center items-center rounded-md text-white font-medium text-sm"
-                to={`/jobs/${selectedJob.jobId}/apply`}
-              >
-                Apply Now
-              </Link>
+              {isApplied ? (
+                <AlreadyApplied />
+              ) : (
+                <Link
+                  className="flex-1 bg-sky-600 hover:bg-sky-700 flex justify-center items-center rounded-md text-white font-medium text-sm"
+                  to={`/jobs/${selectedJob.jobId}/apply`}
+                >
+                  Apply Now
+                </Link>
+              )}
 
               <SaveButton
                 jobId={selectedJob.jobId}

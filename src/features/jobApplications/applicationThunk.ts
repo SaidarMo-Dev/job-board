@@ -4,10 +4,15 @@ import type {
   ApplicationStatusFilterType,
   UserApplicationResponse,
 } from "./applicationType";
-import { applyForJob, getUserApplications } from "./applicationApi";
+import {
+  applyForJob,
+  getAppliedJobIds,
+  getUserApplications,
+} from "./applicationApi";
 import axios from "axios";
 import type { ApiResponse } from "@/types/ApiResponse";
 import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 
 const applyForJobThunk = createAsyncThunk<
   number,
@@ -51,4 +56,17 @@ const getUserApplicationsThunk = createAsyncThunk<
   }
 });
 
-export { applyForJobThunk, getUserApplicationsThunk };
+const getAppliedJobIdsThunk = createAsyncThunk<
+  number[],
+  void,
+  { rejectValue: string }
+>("/bookmarks/applied-job-ids", async (_, { rejectWithValue }) => {
+  try {
+    const response = await getAppliedJobIds();
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(extractAxiosErrorMessage<number[]>(error));
+  }
+});
+
+export { applyForJobThunk, getUserApplicationsThunk, getAppliedJobIdsThunk };

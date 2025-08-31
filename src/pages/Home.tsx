@@ -17,20 +17,26 @@ import { RecentSavedJobs } from "@/features/dashboard/components/RecentSavedJobs
 import { RecentApplications } from "@/features/dashboard/components/RecentApplications";
 import { fetechRecentSavedJobs } from "@/features/bookmarks/bookmarksApi";
 import { fetchRecentApplications } from "@/features/jobApplications/applicationApi";
+import { getAppliedJobIdsThunk } from "@/features/jobApplications/applicationThunk";
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
   const currentUserId = useSelector(selectCurrentUser)?.id ?? -1;
 
   useEffect(() => {
-    dispatch(getUserDashboardStatsThunk({ userId: currentUserId })).then(
-      (result) => {
-        if (getUserDashboardStatsThunk.rejected.match(result)) {
-          toast.error(result.payload);
-        }
+    const fetchData = async () => {
+      try {
+        dispatch(
+          getUserDashboardStatsThunk({ userId: currentUserId })
+        ).unwrap();
+        dispatch(getSavedJobIdsThunk({ userId: currentUserId })).unwrap();
+        dispatch(getAppliedJobIdsThunk()).unwrap();
+      } catch (err) {
+        const message = err as string;
+        toast.error(message ?? "Something went wrong");
       }
-    );
-    dispatch(getSavedJobIdsThunk({ userId: currentUserId }));
+    };
+    fetchData();
   }, [currentUserId, dispatch]);
 
   const recommendationJobs = useQuery({

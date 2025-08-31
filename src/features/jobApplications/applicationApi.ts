@@ -54,3 +54,11 @@ export async function fetchRecentApplications(take: number) {
     )
   ).data.data;
 }
+
+export async function getAppliedJobIds() {
+  const response = await api.get<ApiResponse<number[]>>(
+    `${APPLICATIONS_BASE_URL}/applied-job-ids`
+  );
+
+  return response.data;
+}

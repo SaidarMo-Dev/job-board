@@ -3,10 +3,16 @@ import type {
   ApplicationState,
   UserApplicationResponse,
 } from "./applicationType";
-import { applyForJobThunk, getUserApplicationsThunk } from "./applicationThunk";
+import {
+  applyForJobThunk,
+  getAppliedJobIdsThunk,
+  getUserApplicationsThunk,
+} from "./applicationThunk";
+import type { RootState } from "@/store";
 
 const initialState: ApplicationState = {
   addedApplicationId: -1,
+  appliedJobIds: new Set<number>(),
   loading: {
     fetch: false,
     save: false,
@@ -54,8 +60,35 @@ const applicationSlice = createSlice({
         state.loading.fetch = false;
         state.error.fetch = action.payload ?? "Something went wrong!";
         state.userApplications = new Set<UserApplicationResponse>();
+      })
+
+      // applied job ids
+      .addCase(getAppliedJobIdsThunk.pending, (state) => {
+        state.error.fetch = null;
+        state.loading.fetch = true;
+      })
+      .addCase(getAppliedJobIdsThunk.fulfilled, (state, action) => {
+        state.loading.fetch = false;
+        state.appliedJobIds = new Set(action.payload);
+      })
+      .addCase(getAppliedJobIdsThunk.rejected, (state, action) => {
+        state.loading.fetch = false;
+        state.appliedJobIds = new Set<number>();
+        state.error.fetch = action.payload ?? "Something went wrong!";
       });
   },
 });
+
+// selectors
+
+export const selectAppliedJobIds = (state: RootState) =>
+  state.applicationReducer.appliedJobIds;
+
+export const selectIsJobApplied = (state: RootState, JobId) => {
+  if (state.applicationReducer.appliedJobIds.size > 0)
+    return state.applicationReducer.appliedJobIds?.has(JobId) ?? false;
+
+  return false;
+};
 
 export default applicationSlice.reducer;

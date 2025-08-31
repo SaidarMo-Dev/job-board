@@ -30,6 +30,7 @@ export interface StepProps {
 
 export interface ApplicationState {
   userApplications: Set<UserApplicationResponse>;
+  appliedJobIds: Set<number>;
   hasNextPage: boolean;
   addedApplicationId: number;
   loading: {
