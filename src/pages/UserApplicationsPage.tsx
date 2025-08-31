@@ -9,6 +9,7 @@ import type { ApplicationStatusFilterType } from "@/features/jobApplications/app
 import Loader from "@/components/Loaders/Loader";
 import { NoApplications } from "@/features/jobApplications/components/NoApplications";
 import CustomPagination from "@/components/CustomPagination";
+import type { PaginationInfo } from "@/features/admin/users/usersTypes";
 
 const tabsItem = ["All", "Pending", "Accepted", "Rejected"];
 
@@ -17,10 +18,8 @@ export default function UserApplications() {
   const userApplications = useAppSelector(
     (state) => state.applicationReducer.userApplications
   );
+  const [pagination, setPagination] = useState<PaginationInfo | null>(null);
 
-  const hasNextPage = useAppSelector(
-    (state) => state.applicationReducer.hasNextPage
-  );
   const [page, setPage] = useState(1);
   const loading = useAppSelector(
     (state) => state.applicationReducer.loading.fetch
@@ -31,11 +30,19 @@ export default function UserApplications() {
   useEffect(() => {
     dispatch(
       getUserApplicationsThunk({ page, size: 10, statusFilter: statusTab })
-    ).then((result) => {
-      if (getUserApplicationsThunk.rejected.match(result)) {
-        toast.error(result.payload ?? "Something went wrong!");
-      }
-    });
+    )
+      .unwrap()
+      .then((data) => {
+        setPagination({
+          pageSize: data.pageSize,
+          currentPage: data.currentPage,
+          hasNextPage: data.hasNextPage,
+          hasPreviousPage: data.hasPreviusPage,
+          totalRecords: data.totalRecords,
+          totalPages: data.totalPages,
+        });
+      })
+      .catch((error) => toast.error(error ?? "Something went wrong!"));
   }, [dispatch, page, statusTab]);
 
   const userApplicationsList = Array.from(userApplications).map((app) => {
@@ -45,7 +52,7 @@ export default function UserApplications() {
   return (
     <div className="bg-neutral-50 pb-5">
       <div className="custom-container">
-        <h2 className="font-semibold text-5xl pt-10">Applications</h2>
+        <h2 className="font-semibold text-3xl pt-10">Applications</h2>
         <p className="text-lg text-gray-600 mt-2">
           Track your job application progress
         </p>
@@ -82,8 +89,8 @@ export default function UserApplications() {
                 {userApplicationsList.length > 10 && (
                   <div className="my-5">
                     <CustomPagination
-                      hasNextPage={hasNextPage}
                       onChange={(page) => setPage(page)}
+                      pagination={pagination ?? undefined}
                     />
                   </div>
                 )}
