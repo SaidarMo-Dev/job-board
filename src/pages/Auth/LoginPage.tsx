@@ -12,6 +12,7 @@ import { ROUTES } from "@/constants/routes";
 import { getAdminProfileThunk } from "@/features/admin/auth/adminThunk";
 import isAdminUser from "@/utils/isAdminUser";
 import { adminLogin } from "@/features/admin/auth/adminSlice";
+import { LogoBrand } from "@/features/auth/components/register/LogoBrand";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -75,9 +76,7 @@ export default function LoginPage() {
       <div className="min-h-screen bg-gradient-to-br from-sky-50 to-sky-100 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           {/* Logo/Brand Section */}
-          <div className="text-center mb-5 mt-5">
-            <h1 className="text-3xl font-bold text-sky-600">iLink</h1>
-          </div>
+          <LogoBrand />
 
           {/* Card */}
           <div className="bg-white rounded-lg shadow-xl border-0 overflow-hidden">
