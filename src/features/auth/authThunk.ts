@@ -3,6 +3,7 @@ import {
   AddRecoveryContactInformation,
   ChangePassword,
   Login,
+  resendCode,
   SendChangeEmailVerification,
   VerifyEmailChange,
 } from "./authApi";
@@ -12,6 +13,7 @@ import type { ApiResponse } from "@/types/ApiResponse";
 import type { User } from "../users/userTypes";
 import { getCurrentUser } from "../users/userApi";
 import type { RecoveryContactInfo } from "./authTypes";
+import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 
 const handleLogin = createAsyncThunk<
   boolean,
@@ -132,6 +134,19 @@ const AddRecoveryContactInformationThunk = createAsyncThunk<
   }
 });
 
+const resendCodeThunk = createAsyncThunk<
+  string,
+  { email: string },
+  { rejectValue: string }
+>("auth/resend-code", async ({ email }, { rejectWithValue }) => {
+  try {
+    return (await resendCode(email)).data;
+  } catch (error) {
+    console.log(error);
+    return rejectWithValue(extractAxiosErrorMessage(error));
+  }
+});
+
 export {
   handleLogin,
   getCurrentUserThunk,
@@ -139,4 +154,5 @@ export {
   VerifyEmailChangeThunk,
   ChangePasswordThunk,
   AddRecoveryContactInformationThunk,
+  resendCodeThunk,
 };

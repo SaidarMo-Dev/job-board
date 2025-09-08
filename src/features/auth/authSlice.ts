@@ -5,6 +5,7 @@ import {
   ChangePasswordThunk,
   getCurrentUserThunk,
   handleLogin,
+  resendCodeThunk,
   SendChangeEmailVerificationThunk,
   VerifyEmailChangeThunk,
 } from "./authThunk";
@@ -115,6 +116,20 @@ const authSlice = createSlice({
         }
       )
       .addCase(AddRecoveryContactInformationThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? "Something went wrong!";
+      })
+
+      // handle resend new verification code
+      .addCase(resendCodeThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(resendCodeThunk.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(resendCodeThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Something went wrong!";
       });

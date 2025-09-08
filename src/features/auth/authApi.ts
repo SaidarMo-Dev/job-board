@@ -121,3 +121,11 @@ export async function verifyPassword(password: string) {
 
   return response.data;
 }
+
+export async function resendCode(email: string) {
+  return (
+    await api.put<ApiResponse<string>>(
+      `${AUTH_BASE_URL}/resend-verification-code?email=${email}`
+    )
+  ).data;
+}

@@ -1,13 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Mail } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { ConfirmEmailByCode } from "../../authApi";
 import axios from "axios";
 import type { ApiResponse } from "@/types/ApiResponse";
-
+import { formatTime } from "@/utils/stringUtils";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { resendCodeThunk } from "../../authThunk";
+import { useAppSelector } from "@/hooks/useAppSelector";
 export function ConfirmEmail() {
+  const [count, setCount] = useState(0);
+  const dispatch = useAppDispatch();
+  const resendError = useAppSelector((state) => state.authReducer.error);
+
   const [verificationCode, setVerificationCode] = useState([
     "",
     "",
@@ -64,10 +71,35 @@ export function ConfirmEmail() {
     }
   };
 
+  const handleResendCode = () => {
+    setCount(70);
+    dispatch(resendCodeThunk({ email: email }));
+  };
+
+  useEffect(() => {
+    if (count <= 0) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setCount((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [count]);
+
   return (
     <div className="max-w-[450px] border border-gray-200 rounded-lg shadow-lg p-7 mx-auto mb-3">
       <div className="flex flex-col items-center">
+        {/* handle resend error */}
+        {resendError && (
+          <span className="bg-red-50 text-red-500 py-1 px-3 rounded-md font-medium mb-2">
+            {resendError}
+          </span>
+        )}
+
         {/* Logo  */}
+
         <div className="w-15 h-15 rounded-full bg-sky-100 flex items-center justify-center p-3">
           <Mail className="h-8 w-8 text-sky-600" />
         </div>
@@ -97,20 +129,28 @@ export function ConfirmEmail() {
         )}
 
         <Button
-          className="bg-sky-600 hover:bg-sky-700 cursor-pointer w-full p-5 mt-5"
+          className="bg-primary hover:bg-sky-700 cursor-pointer w-full p-5 mt-5"
           onClick={handleVerifyCode}
           disabled={verificationCode.some((digit) => !digit)}
         >
           Verify email
         </Button>
         <h4 className="text-gray-500 mt-5">Didn't receive the code?</h4>
-        <Button
-          variant={"secondary"}
-          size="lg"
-          className="my-6 bg-transparent shadow-none text-sky-600 cursor-pointer"
-        >
-          Resend code
-        </Button>
+        {count === 0 ? (
+          <Button
+            variant={"secondary"}
+            size="lg"
+            className="my-2 bg-transparent shadow-none text-primary cursor-pointer"
+            onClick={handleResendCode}
+          >
+            Resend code
+          </Button>
+        ) : (
+          <span className="text-primary font-medium text-xl tracking-wider bg-primary/6 px-5 py-1 rounded-lg my-3">
+            {formatTime(count)}
+          </span>
+        )}
+
         <Link to="/auth/login">
           <Button
             variant="secondary"

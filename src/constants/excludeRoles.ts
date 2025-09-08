@@ -1,5 +1,5 @@
 export const excludedEndpoints = {
-  static: ["/jobs", "/users/bookmarks/count"],
+  static: ["/jobs", "/users/bookmarks/count", "/auth/resend-verification-code"],
   dynamic: [/^\/users\/\d+\/dashboard-stats$/],
 };
 
