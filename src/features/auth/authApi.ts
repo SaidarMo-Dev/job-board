@@ -129,3 +129,33 @@ export async function resendCode(email: string) {
     )
   ).data;
 }
+
+export async function sendResetPasswordCode(email: string) {
+  return (
+    await api.put<ApiResponse<string>>(
+      `${AUTH_BASE_URL}/send-reset-password?email=${email}`
+    )
+  ).data;
+}
+
+export async function confirmResetPasswordCode(email: string, code: string) {
+  return (
+    await api.get<ApiResponse<string>>(
+      `${AUTH_BASE_URL}/confirm-reset-password?Email=${email}&Code=${code}`
+    )
+  ).data;
+}
+
+export async function resetPassword(
+  resetToken: string,
+  password,
+  confirmPassword: string
+) {
+  return (
+    await api.post<ApiResponse<string>>(`${AUTH_BASE_URL}/reset-password`, {
+      token: resetToken,
+      password,
+      confirmPassword,
+    })
+  ).data;
+}

@@ -168,12 +168,12 @@ export default function LoginPage() {
                       Remember me
                     </label>
                   </div>
-                  <a
-                    href="/forgot-password"
+                  <Link
+                    to={ROUTES.PUBLIC.FORGOT_PASSWORD}
                     className="text-sm text-sky-600 hover:text-sky-700 font-medium"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
 
                 {/* Sign In Button */}
