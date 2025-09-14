@@ -34,6 +34,11 @@ export const ROUTES = {
     ABOUT: "/about",
     CONTACT: "/contact",
     JOBS: "/jobs",
+    FORGOT_PASSWORD: "/forgot-password",
+    RESET_PASSWORD: "/reset-password",
+  },
+  PRIVATE: {
+    RESET_PASSWORD: "/reset-password",
   },
   ERROR: {
     NOT_FOUND: "/404",

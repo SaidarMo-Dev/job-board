@@ -32,14 +32,17 @@ import JobsManagementPage from "@/features/admin/pages/JobsManagementPage";
 import AddEditJobPage from "@/features/admin/jobs/pages/AddEditJobPage";
 import UserDashboardLayout from "@/layouts/UserDashboardLayout";
 import ContactPage from "@/pages/ContactUs";
+import ForgotPasswordPage from "@/features/forgot_password/ForgotPasswordPage";
+import ResetPasswordPage from "@/features/reset_password/ResetPasswordPage";
 
 export default function AppRoutes() {
   return (
     <Routes>
+      {/* Public routes */}
+
       {/* Main page */}
       <Route path="/" element={<LandingPage />} />
       {/* contact us */}
-
       <Route
         path={ROUTES.PUBLIC.CONTACT}
         element={
@@ -48,7 +51,7 @@ export default function AppRoutes() {
           </PublicLayout>
         }
       />
-
+      {/* Jobs */}
       <Route path="/jobs">
         <Route
           index
@@ -67,8 +70,18 @@ export default function AppRoutes() {
           }
         />
       </Route>
+      {/* Forgot password */}
+      <Route
+        path={ROUTES.PUBLIC.FORGOT_PASSWORD}
+        element={<ForgotPasswordPage />}
+      />
+      {/* reset password */}
+      <Route
+        path={ROUTES.PUBLIC.RESET_PASSWORD}
+        element={<ResetPasswordPage />}
+      />
 
-      <Route path="/" element={<LandingPage />} />
+      {/* Admin dashboard routes */}
       <Route element={<DashboardLayout />}>
         <Route
           path={ROUTES.ADMIN.DASHBOARD}

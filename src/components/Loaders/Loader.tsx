@@ -4,12 +4,14 @@ interface LoaderProps {
   className?: string;
   size?: "xs" | "sm" | "md" | "lg";
   variant?: "dots" | "spinner" | "pulse" | "bars";
+  color?: string;
 }
 
 export default function Loader({
   className = "",
   size = "md",
   variant = "spinner",
+  color = "text-primary",
 }: LoaderProps) {
   const sizeClasses = {
     xs: "w-7 h-7",
@@ -19,33 +21,54 @@ export default function Loader({
   };
 
   if (variant === "dots") {
+    const dotSize =
+      size === "sm" ? "w-2 h-2" : size === "md" ? "w-3 h-3" : "w-4 h-4";
+
     return (
       <div
         className={cn("flex items-center justify-center space-x-2", className)}
       >
-        <div
-          className={cn(
-            "rounded-full bg-primary animate-bounce",
-            size === "sm" ? "w-2 h-2" : size === "md" ? "w-3 h-3" : "w-4 h-4"
-          )}
-          style={{ animationDelay: "0ms" }}
-        />
-        <div
-          className={cn(
-            "rounded-full bg-primary animate-bounce",
-            size === "sm" ? "w-2 h-2" : size === "md" ? "w-3 h-3" : "w-4 h-4"
-          )}
-          style={{ animationDelay: "150ms" }}
-        />
-        <div
-          className={cn(
-            "rounded-full bg-primary animate-bounce",
-            size === "sm" ? "w-2 h-2" : size === "md" ? "w-3 h-3" : "w-4 h-4"
-          )}
-          style={{ animationDelay: "300ms" }}
-        />
+        {[0, 150, 300].map((delay, i) => (
+          <div
+            key={i}
+            className={cn(
+              "rounded-full animate-bounce",
+              color,
+              dotSize,
+              "bg-current"
+            )}
+            style={{ animationDelay: `${delay}ms` }}
+          />
+        ))}
       </div>
     );
+    // return (
+    //   <div
+    //     className={cn("flex items-center justify-center space-x-2", className)}
+    //   >
+    //     <div
+    //       className={cn(
+    //         "rounded-full bg-primary animate-bounce",
+    //         size === "sm" ? "w-2 h-2" : size === "md" ? "w-3 h-3" : "w-4 h-4"
+    //       )}
+    //       style={{ animationDelay: "0ms" }}
+    //     />
+    //     <div
+    //       className={cn(
+    //         "rounded-full bg-primary animate-bounce",
+    //         size === "sm" ? "w-2 h-2" : size === "md" ? "w-3 h-3" : "w-4 h-4"
+    //       )}
+    //       style={{ animationDelay: "150ms" }}
+    //     />
+    //     <div
+    //       className={cn(
+    //         "rounded-full bg-primary animate-bounce",
+    //         size === "sm" ? "w-2 h-2" : size === "md" ? "w-3 h-3" : "w-4 h-4"
+    //       )}
+    //       style={{ animationDelay: "300ms" }}
+    //     />
+    //   </div>
+    // );
   }
 
   if (variant === "spinner") {
