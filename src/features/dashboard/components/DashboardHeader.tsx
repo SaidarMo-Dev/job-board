@@ -25,11 +25,12 @@ import {
 import { Link } from "react-router";
 import type { MenuItem } from "@/types/MenuItem";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { logout, selectCurrentUser } from "@/features/auth/authSlice";
+import { selectCurrentUser } from "@/features/auth/authSlice";
 import { MenuSection } from "./MenuSection";
 import RemoveTokens from "@/utils/removeTokens";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { ROUTES } from "@/constants/routes";
+import { logoutThunk } from "@/features/auth/authThunk";
 
 const menuItems: MenuItem[] = [
   { icon: User2, label: "Profile", href: ROUTES.MEMBER.PROFILE },
@@ -64,7 +65,7 @@ export function DashboardHeader() {
 
   const handleSignOut = () => {
     RemoveTokens();
-    dispatch(logout());
+    dispatch(logoutThunk());
   };
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

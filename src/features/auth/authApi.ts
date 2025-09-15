@@ -2,7 +2,6 @@ import type { ApiResponse } from "../../types/ApiResponse";
 import api from "../../api/axiosInstance";
 import type { LoginToken } from "../../types/loginResponse";
 import type { ChangePasswordType, RecoveryContactInfo } from "./authTypes";
-import { getAccessToken, getRefreshToken } from "@/utils/gitAccessToken";
 
 interface ConfirmEmailType {
   userId: number;
@@ -10,6 +9,37 @@ interface ConfirmEmailType {
 }
 
 const AUTH_BASE_URL = "/auth";
+
+export async function Login(UsernameOrEmail: string, Password: string) {
+  const formData = new URLSearchParams({ UsernameOrEmail, Password });
+
+  const res = await api.post<ApiResponse<string[]>>(
+    `${AUTH_BASE_URL}/signin`,
+    formData,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }
+  );
+
+  return res.data;
+}
+
+
+export async function Logout() {
+  const res = await api.post<string>(`${AUTH_BASE_URL}/logout`, {
+    withCredentials: false,
+  });
+  return res.data;
+}
+
+export async function RefreshToken() {
+  const response = await api<ApiResponse<LoginToken>>({
+    method: "post",
+    url: `${AUTH_BASE_URL}/refresh-token`,
+  });
+
+  return response.data;
+}
 
 export async function ConfirmEmailByCode(email: string, code: string) {
   const params = new URLSearchParams();
@@ -22,20 +52,6 @@ export async function ConfirmEmailByCode(email: string, code: string) {
   return response.data;
 }
 
-export async function RefreshToken() {
-  const data = {
-    refreshToken: getRefreshToken() ?? "",
-    accessToken: getAccessToken() ?? "",
-  };
-  const response = await api<ApiResponse<LoginToken>>({
-    method: "post",
-    url: `${AUTH_BASE_URL}/refresh-token`,
-    data,
-  });
-
-  return response.data;
-}
-
 export const ConfirmEmail = (data: ConfirmEmailType) => {
   api.get<ApiResponse<string>>(
     `${AUTH_BASE_URL}/confirm-email?userId=${
@@ -43,20 +59,6 @@ export const ConfirmEmail = (data: ConfirmEmailType) => {
     }&token=${encodeURIComponent(data.token)}`
   );
 };
-
-export async function Login(UsernameOrEmail: string, Password: string) {
-  const formData = new URLSearchParams({ UsernameOrEmail, Password });
-
-  const res = await api.post<ApiResponse<LoginToken>>(
-    `${AUTH_BASE_URL}/signin`,
-    formData,
-    {
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    }
-  );
-
-  return res.data.data;
-}
 
 export async function SendChangeEmailVerification(
   currentEmail: string,

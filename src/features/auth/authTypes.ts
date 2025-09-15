@@ -5,6 +5,7 @@ export interface AuthState {
   error: string | null | undefined;
   currentUser: CurrentUser | null;
   loading: boolean;
+  userRoles: string[];
 }
 
 export interface ChangePasswordType {
