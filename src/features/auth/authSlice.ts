@@ -17,6 +17,7 @@ const initialState: AuthState = {
   currentUser: null,
   error: null,
   loading: false,
+  userRoles: [],
 };
 
 const authSlice = createSlice({
@@ -29,9 +30,10 @@ const authSlice = createSlice({
       .addCase(handleLogin.pending, (state) => {
         state.loading = true;
       })
-      .addCase(handleLogin.fulfilled, (state) => {
+      .addCase(handleLogin.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.loading = false;
+        state.userRoles = action.payload;
       })
       .addCase(handleLogin.rejected, (state, action) => {
         state.isAuthenticated = false;

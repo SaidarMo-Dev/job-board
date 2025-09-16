@@ -7,12 +7,11 @@ import { useDispatch } from "react-redux";
 
 import type { AppDispatch } from "@/store";
 import { getCurrentUserThunk, handleLogin } from "@/features/auth/authThunk";
-import { getAccessToken } from "@/utils/gitAccessToken";
 import { ROUTES } from "@/constants/routes";
 import { getAdminProfileThunk } from "@/features/admin/auth/adminThunk";
-import isAdminUser from "@/utils/isAdminUser";
 import { adminLogin } from "@/features/admin/auth/adminSlice";
 import { LogoBrand } from "@/features/auth/components/register/LogoBrand";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +26,7 @@ export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
 
   const navigate = useNavigate();
-
+  const userRoles = useAppSelector((state) => state.authReducer.userRoles);
   // handle login
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -47,12 +46,7 @@ export default function LoginPage() {
           return setErrorMessage(errorMessage);
         }
 
-        const token = getAccessToken();
-        if (!token) {
-          throw new Error("Authentication token not found");
-        }
-
-        if (isAdminUser(token)) {
+        if (userRoles.some((val) => val === "Admin")) {
           dispatch(adminLogin());
           await dispatch(getAdminProfileThunk());
           return navigate(ROUTES.ADMIN.DASHBOARD);
@@ -68,7 +62,7 @@ export default function LoginPage() {
         setErrorMessage(message);
       }
     },
-    [dispatch, UsernameOrEmail, password, navigate]
+    [dispatch, UsernameOrEmail, password, navigate, userRoles]
   );
 
   return (

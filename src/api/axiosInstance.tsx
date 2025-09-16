@@ -1,14 +1,7 @@
 import { isExcluded } from "@/constants/excludeRoles";
-import { RefreshToken } from "@/features/auth/authApi";
 import { logout } from "@/features/auth/authSlice";
 import type { AppDispatch } from "@/store";
-import {
-  getAccessToken,
-  removeTokens,
-  setAccessToken,
-  setRefreshToken,
-  setRefreshTokenExpirationDate,
-} from "@/utils/gitAccessToken";
+import { getAccessToken } from "@/utils/gitAccessToken";
 import axios, { AxiosError } from "axios";
 import NProgress from "nprogress";
 
@@ -37,15 +30,11 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = getAccessToken();
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
-
     // Remove query string for comparison
     const url = config.url?.split("?")[0];
 
@@ -80,26 +69,21 @@ axiosInstance.defaults.timeout = 5000;
 
 export default axiosInstance;
 
-// handle refresh token
+// ==================================================
+// Refresh handling with pooling
+// ==================================================
 
 let isRefreshing = false;
 let failedQueue: Array<{
-  resolve: (token: string) => void;
+  resolve: (value?: unknown) => void;
   reject: (err: AxiosError | null) => void;
 }> = [];
 
-const processQueue = (
-  error: AxiosError | null,
-  token: string | null = null
-) => {
+const processQueue = (error: AxiosError | null) => {
   failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve(token!);
-    }
+    if (error) prom.reject(error);
+    else prom.resolve();
   });
-
   failedQueue = [];
 };
 
@@ -111,12 +95,10 @@ export const setupAxiosInterceptors = (dispatch: AppDispatch) => {
 
       if (error.response?.status === 401 && !originalRequest._retry) {
         if (isRefreshing) {
+          // Queue requests until refresh finishes
           return new Promise((resolve, reject) => {
             failedQueue.push({
-              resolve: (token: string) => {
-                originalRequest.headers["Authorization"] = `Bearer ${token}`;
-                resolve(axiosInstance(originalRequest));
-              },
+              resolve: () => resolve(axiosInstance(originalRequest)),
               reject,
             });
           });
@@ -126,25 +108,15 @@ export const setupAxiosInterceptors = (dispatch: AppDispatch) => {
         isRefreshing = true;
 
         try {
-          const response = await RefreshToken();
-          const newToken = response.data.accessToken;
+          // Backend sets new cookies
+          await axiosInstance.post("/auth/refresh-token");
 
-          setAccessToken(newToken);
-          setRefreshToken(response.data.refreshToken.refreshToken);
-          setRefreshTokenExpirationDate(
-            response.data.refreshToken.expirationDate.toString()
-          );
+          processQueue(null);
 
-          processQueue(null, newToken);
-
-          originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+          // Retry original request
           return axiosInstance(originalRequest);
         } catch (err) {
-          let axiosError: AxiosError | null = null;
-          if (axios.isAxiosError(err)) axiosError = err;
-
-          processQueue(axiosError, null);
-          removeTokens();
+          processQueue(err as AxiosError);
           dispatch(logout());
           return Promise.reject(err);
         } finally {

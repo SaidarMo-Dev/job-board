@@ -1,4 +1,3 @@
-import { saveToken } from "@/utils/saveToken";
 import {
   AddRecoveryContactInformation,
   ChangePassword,
@@ -14,16 +13,17 @@ import type { User } from "../users/userTypes";
 import { getCurrentUser } from "../users/userApi";
 import type { RecoveryContactInfo } from "./authTypes";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
+import axiosInstance from "@/api/axiosInstance";
 
 const handleLogin = createAsyncThunk<
-  boolean,
+  string[],
   { UsernameOrEmail: string; Password: string },
   { rejectValue: string }
 >("auth/login", async ({ UsernameOrEmail, Password }, thunkApi) => {
   try {
-    const data = await Login(UsernameOrEmail, Password);
-    saveToken(data);
-    return true;
+    const response = await Login(UsernameOrEmail, Password);
+
+    return response.data;
   } catch (error) {
     console.log(error);
     if (axios.isAxiosError(error)) {
@@ -32,6 +32,11 @@ const handleLogin = createAsyncThunk<
     }
     return thunkApi.rejectWithValue("Something wont wrong!");
   }
+});
+
+const logoutThunk = createAsyncThunk("auth/logout", async () => {
+  await axiosInstance.post("/auth/logout");
+  return true;
 });
 
 const getCurrentUserThunk = createAsyncThunk<
@@ -149,6 +154,7 @@ const resendCodeThunk = createAsyncThunk<
 
 export {
   handleLogin,
+  logoutThunk,
   getCurrentUserThunk,
   SendChangeEmailVerificationThunk,
   VerifyEmailChangeThunk,

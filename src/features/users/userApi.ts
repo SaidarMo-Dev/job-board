@@ -15,11 +15,7 @@ export const createUser = (data: RegisterFormData) =>
   });
 
 export async function getCurrentUser(): Promise<CurrentUser> {
-  const accToken = getAccessToken();
   const res = await api.get<ApiResponse<User>>(`${USER_BASE_URL}/me`, {
-    headers: {
-      Authorization: `bearer ${accToken}`,
-    },
   });
 
   return res.data.data;
