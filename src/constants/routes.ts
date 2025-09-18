@@ -29,6 +29,13 @@ export const ROUTES = {
     HISTORY: "/members/history",
     SETTINGS: "/members/settings-notifications",
     PASSWORD_SECURITY: "/members/password-security",
+    RECRUITMENT: {
+      HOME: "/members/recruitment",
+      JOBS: {
+        ADD: "/members/recruitment/create",
+        EDIT: (Id: number | string) => `/members/recruitment/${Id}/Edit`,
+      },
+    },
   },
   PUBLIC: {
     ABOUT: "/about",

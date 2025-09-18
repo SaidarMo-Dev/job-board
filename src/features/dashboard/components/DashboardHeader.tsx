@@ -1,5 +1,6 @@
 import {
   Bell,
+  BriefcaseBusiness,
   FileText,
   Heart,
   HelpCircle,
@@ -60,7 +61,9 @@ const supportItems: MenuItem[] = [
 export function DashboardHeader() {
   const currentUser = useAppSelector(selectCurrentUser);
   const notificationsCount = 3; // TODO: replace with real data
-
+  const isEmployer = useAppSelector((state) =>
+    state.authReducer.userRoles.includes("Employer")
+  );
   const dispatch = useAppDispatch();
 
   const handleSignOut = () => {
@@ -150,6 +153,21 @@ export function DashboardHeader() {
               <DropdownMenuSeparator />
 
               {/* Menu Sections */}
+
+              {/* --Recruitment-- For employers */}
+              {isEmployer && (
+                <DropdownMenuItem asChild>
+                  <Link
+                    to={ROUTES.MEMBER.RECRUITMENT.HOME}
+                    className="flex items-center gap-2"
+                  >
+                    <BriefcaseBusiness className="h-6 w-6" />
+                    <span>Recruitment</span>
+                  </Link>
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuSeparator />
+
               <MenuSection items={menuItems} />
               <MenuSection items={settingsItems} />
               <MenuSection items={supportItems} />

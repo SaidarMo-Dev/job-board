@@ -1,4 +1,9 @@
-import type { ExperienceLevelType, JobType } from "@/features/jobs/jobTypes";
+import type {
+  ExperienceLevelType,
+  ExperienceLevelTypekey,
+  JobType,
+  JobTypeKey,
+} from "@/features/jobs/jobTypes";
 import type { CompanyManagement } from "../companies/companyTypes";
 
 export interface CompanyOption {
@@ -55,8 +60,8 @@ export interface JobManagement {
   categories: Category[];
   skills: Skill[];
   location: string;
-  JobType: JobType;
-  experienceLevel: ExperienceLevelType;
+  JobType: JobTypeKey;
+  experienceLevel: ExperienceLevelTypekey;
   status: JobStatus;
   postedDate: Date;
   expiryDate: Date;
