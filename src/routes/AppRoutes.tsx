@@ -34,6 +34,7 @@ import UserDashboardLayout from "@/layouts/UserDashboardLayout";
 import ContactPage from "@/pages/ContactUs";
 import ForgotPasswordPage from "@/features/forgot_password/ForgotPasswordPage";
 import ResetPasswordPage from "@/features/reset_password/ResetPasswordPage";
+import RecruitmentPage from "@/features/employer/pages/RecruitmentPage";
 
 export default function AppRoutes() {
   return (
@@ -135,10 +136,22 @@ export default function AppRoutes() {
         />
       </Route>
 
+      {/* Member routes */}
+
       <Route element={<UserDashboardLayout />}>
         <Route path="/members">
           <Route index element={<Home />} />
           <Route path="profile" element={<UserProfilePage />} />
+
+          <Route
+            path={ROUTES.MEMBER.RECRUITMENT.HOME}
+            element={<RecruitmentPage />}
+          />
+          <Route
+            path={ROUTES.MEMBER.RECRUITMENT.JOBS.ADD}
+            element={<AddEditJobPage mode="Add" />}
+          />
+
           <Route path="applications" element={<UserApplications />} />
           <Route path="jobs" element={<UserSavedJobs />} />
           <Route path="history" element={<JobsHistoryPage />} />

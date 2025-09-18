@@ -11,8 +11,6 @@ import { ROUTES } from "@/constants/routes";
 import { getAdminProfileThunk } from "@/features/admin/auth/adminThunk";
 import { adminLogin } from "@/features/admin/auth/adminSlice";
 import { LogoBrand } from "@/features/auth/components/register/LogoBrand";
-import { useAppSelector } from "@/hooks/useAppSelector";
-
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [UsernameOrEmail, setUsernameOrEmail] = useState("");
@@ -26,7 +24,6 @@ export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
 
   const navigate = useNavigate();
-  const userRoles = useAppSelector((state) => state.authReducer.userRoles);
   // handle login
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -36,17 +33,9 @@ export default function LoginPage() {
       try {
         const result = await dispatch(
           handleLogin({ UsernameOrEmail, Password: password })
-        );
+        ).unwrap();
 
-        if (!handleLogin.fulfilled.match(result)) {
-          const errorMessage =
-            typeof result.payload === "string"
-              ? result.payload
-              : "Login failed. Please try again.";
-          return setErrorMessage(errorMessage);
-        }
-
-        if (userRoles.some((val) => val === "Admin")) {
+        if (result.includes("Admin")) {
           dispatch(adminLogin());
           await dispatch(getAdminProfileThunk());
           return navigate(ROUTES.ADMIN.DASHBOARD);
@@ -62,7 +51,7 @@ export default function LoginPage() {
         setErrorMessage(message);
       }
     },
-    [dispatch, UsernameOrEmail, password, navigate, userRoles]
+    [dispatch, UsernameOrEmail, password, navigate]
   );
 
   return (

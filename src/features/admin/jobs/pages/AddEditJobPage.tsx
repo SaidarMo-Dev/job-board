@@ -6,7 +6,7 @@ import { JobDetailsCard } from "../components/JobDetailsCard";
 import { CompanyCard } from "../components/CompanyCard";
 import { CategoriesCard } from "../components/CategoriesCard";
 import { SkillsCard } from "../components/SkillsCard";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { ROUTES } from "@/constants/routes";
 import { useForm } from "react-hook-form";
 import { JobSchema, type JobFormValues } from "../schemas/jobSchema";
@@ -34,7 +34,7 @@ export default function AddEditJobPage({ mode }: { mode: FormMode }) {
   });
 
   const handleCancel = () => {
-    navigate(ROUTES.ADMIN.JOBS.LIST);
+    navigate(-1);
   };
 
   // save job
