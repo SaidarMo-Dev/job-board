@@ -3,6 +3,7 @@ import type { CompanyManagement, SortCompany } from "./companyTypes";
 import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
 import type { ApiResponse } from "@/types/ApiResponse";
 import type { CompanyFormValues } from "./schemas/CompanySchema";
+import type { CompanyOption } from "../jobs/jobsType";
 
 const COMPANY_BASE_URL = "/companies";
 
@@ -60,4 +61,24 @@ export async function deleteCompany(Id: number) {
 export async function fetchPopularCompanies() {
   return (await api.get<ApiResponse<string[]>>(`${COMPANY_BASE_URL}/popular`))
     .data.data;
+}
+
+export async function fetchCompaniesSummary(
+  page: number,
+  size: number
+): Promise<ApiPaginatedResponse<CompanyOption[]>> {
+  return (
+    await api.get<ApiPaginatedResponse<CompanyOption[]>>(
+      `${COMPANY_BASE_URL}/summary?page=${page}&size=${size}`
+    )
+  ).data;
+}
+
+export async function getCompanyById<T>(
+  id: number,
+  fields?: string
+): Promise<ApiResponse<T>> {
+  const query = fields ? `?fields=${encodeURIComponent(fields)}` : "";
+  return (await api.get<ApiResponse<T>>(`${COMPANY_BASE_URL}/${id}${query}`))
+    .data;
 }

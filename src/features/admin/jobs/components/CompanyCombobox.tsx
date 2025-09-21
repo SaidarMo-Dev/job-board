@@ -18,10 +18,14 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { usePaginatedCompanies } from "../../hooks/usePaginatedCompanies";
+import { InfiniteScrollObserver } from "@/components/InfiniteScrollObserver";
+import { DEFAULT_PAGE_SIZE } from "@/constants/config";
 import type { CompanyOption } from "../jobsType";
+import { getCompanyById } from "../../companies/companyApi";
+import { toast } from "react-toastify";
 
 interface CompanyComboboxProps {
-  companies: CompanyOption[];
   value: number;
   onChange: (id: number) => void;
   placeholder?: string;
@@ -29,15 +33,43 @@ interface CompanyComboboxProps {
 }
 
 export function CompanyCombobox({
-  companies,
   value,
   onChange,
   placeholder = "Select company...",
   emptyText = "No company found.",
 }: CompanyComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const selected = companies.find((c) => c.id === value) || null;
+  const { companies, loadMore, loading, hasMore } =
+    usePaginatedCompanies(DEFAULT_PAGE_SIZE);
 
+  const [selected, setSelected] = React.useState<CompanyOption | null>(null);
+
+  React.useEffect(() => {
+    if (!value) {
+      setSelected(null);
+      return;
+    }
+
+    // Try to find in already loaded companies
+    const existing = companies.find((c) => c.id === value);
+    if (existing) {
+      setSelected(existing);
+      return;
+    }
+
+    // Otherwise fetch from API
+    async function fetchCompany() {
+      try {
+        const comp = (await getCompanyById<CompanyOption>(value, "id,name"))
+          .data;
+        setSelected(comp);
+      } catch {
+        toast.error("Cannot load selected company");
+      }
+    }
+
+    fetchCompany();
+  }, [value, companies]);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -48,7 +80,9 @@ export function CompanyCombobox({
           aria-expanded={open}
           className="w-full justify-between bg-transparent"
         >
-          {!selected && (
+          {selected ? (
+            <span className="">{selected.name}</span>
+          ) : (
             <span className="text-muted-foreground">{placeholder}</span>
           )}
           <ChevronsUpDown className="h-4 w-4 opacity-50" />
@@ -66,6 +100,7 @@ export function CompanyCombobox({
                   value={c.name}
                   onSelect={() => {
                     onChange(c.id);
+                    setSelected(c);
                     setOpen(false);
                   }}
                   className="flex items-center gap-2"
@@ -86,6 +121,11 @@ export function CompanyCombobox({
                   />
                 </CommandItem>
               ))}
+              {/* Infinite scroll trigger */}
+              {hasMore && !loading && (
+                <InfiniteScrollObserver onIntersect={loadMore} />
+              )}
+              {loading && <p className="text-center text-sm">Loading...</p>}
             </CommandGroup>
           </CommandList>
         </Command>

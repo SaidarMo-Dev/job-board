@@ -9,12 +9,10 @@ import { Controller, type Control } from "react-hook-form";
 import type { JobFormValues } from "../schemas/jobSchema";
 
 export function CompanyCard({
-  companies,
   control,
   onCreate,
   error,
 }: {
-  companies: CompanyOption[];
   control: Control<JobFormValues>;
   onCreate: (company: CompanyOption) => void;
   error?: string;
@@ -34,11 +32,9 @@ export function CompanyCard({
           render={({ field }) => (
             <>
               <CompanyCombobox
-                companies={companies}
                 value={field.value}
                 onChange={field.onChange}
                 placeholder="Select a company..."
-                
               />
               {error && <p className="text-sm text-destructive">{error}</p>}
             </>

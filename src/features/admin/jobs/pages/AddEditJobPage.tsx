@@ -6,17 +6,16 @@ import { JobDetailsCard } from "../components/JobDetailsCard";
 import { CompanyCard } from "../components/CompanyCard";
 import { CategoriesCard } from "../components/CategoriesCard";
 import { SkillsCard } from "../components/SkillsCard";
-import { useLocation, useNavigate } from "react-router";
-import { ROUTES } from "@/constants/routes";
+import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { JobSchema, type JobFormValues } from "../schemas/jobSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { FormMode } from "@/types/formModes";
 import { MAX_CATEGORIES, MAX_SKILLS } from "@/constants/config";
 
-export default function AddEditJobPage({ mode }: { mode: FormMode }) {
+export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
   // Lists
-  const companies = [];
+
   const categories = [];
   const skills = [];
 
@@ -51,7 +50,6 @@ export default function AddEditJobPage({ mode }: { mode: FormMode }) {
 
         <CompanyCard
           control={control}
-          companies={companies}
           onCreate={handleCreateCompany}
           error={errors.companyId?.message}
         />
