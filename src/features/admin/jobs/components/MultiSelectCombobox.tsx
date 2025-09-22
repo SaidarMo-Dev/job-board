@@ -20,11 +20,15 @@ import {
 import { Check, ChevronsUpDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Option } from "../jobsType";
+import { InfiniteScrollObserver } from "@/components/InfiniteScrollObserver";
 
 export function MultiSelectCombobox({
   options,
   selected,
   onChange,
+  loadMore,
+  hasMore,
+  loading,
   placeholder = "Select options...",
   emptyText = "No results.",
   max = 5,
@@ -33,6 +37,9 @@ export function MultiSelectCombobox({
   options: Option[];
   selected: number[];
   onChange: (ids: number[]) => void;
+  loadMore: () => void;
+  hasMore: boolean;
+  loading: boolean;
   placeholder?: string;
   emptyText?: string;
   max?: number;
@@ -51,8 +58,7 @@ export function MultiSelectCombobox({
     }
   };
 
-  const labelFor = (id: number) =>
-    options.find((o) => o.id === id)?.label ?? id;
+  const labelFor = (id: number) => options.find((o) => o.id === id)?.name ?? id;
 
   return (
     <div className="space-y-2">
@@ -82,10 +88,11 @@ export function MultiSelectCombobox({
                 {options.map((o) => {
                   const isSelected = selected.includes(o.id);
                   const disabled = !isSelected && selected.length >= max;
+              
                   return (
                     <CommandItem
                       key={o.id}
-                      value={o.label}
+                      value={o.name}
                       onSelect={() => toggle(o.id)}
                       className={cn(
                         "flex items-center gap-2",
@@ -99,16 +106,21 @@ export function MultiSelectCombobox({
                           isSelected ? "opacity-100" : "opacity-0"
                         )}
                       />
-                      <span className="truncate">{o.label}</span>
+                      <span className="truncate">{o.name}</span>
                     </CommandItem>
                   );
                 })}
+
+                {/* Infinite scroll trigger */}
+                {hasMore && !loading && (
+                  <InfiniteScrollObserver onIntersect={loadMore} />
+                )}
               </CommandGroup>
               <CommandSeparator />
               <div className="px-3 py-2 text-xs text-muted-foreground">
                 {counterLabel
                   ? counterLabel
-                  : `${selected ? selected.length / max : 0} selected`}
+                  : `${selected ? selected.length : 0} selected`}
               </div>
             </CommandList>
           </Command>

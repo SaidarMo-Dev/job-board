@@ -7,6 +7,7 @@ import type {
 } from "./categoryTypes";
 import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
 import type { ApiResponse } from "@/types/ApiResponse";
+import type { Option } from "../jobs/jobsType";
 
 const CATEGORIES_BASE_URL = "/categories";
 
@@ -62,3 +63,11 @@ export async function fetchPopularCategories() {
     )
   ).data.data;
 }
+
+export const fetchCategoriesSummary = async (page, size) => {
+  const response = await api.get<ApiPaginatedResponse<Option[]>>(
+    `${CATEGORIES_BASE_URL}/summary?page=${page}&size=${size}`
+  );
+  console.log()
+  return response.data;
+};

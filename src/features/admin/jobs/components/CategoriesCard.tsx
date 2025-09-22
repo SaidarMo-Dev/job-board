@@ -2,25 +2,26 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tags } from "lucide-react";
-import type { Option } from "../jobsType";
 import { MultiSelectCombobox } from "./MultiSelectCombobox";
 import { AddCategoryDialog } from "../dialogs/AddCategoryDialog";
 import { Controller, type Control } from "react-hook-form";
 import type { JobFormValues } from "../schemas/jobSchema";
+import { usePaginatedCategories } from "../../hooks/usePaginatedCategories";
+import { DEFAULT_PAGE_SIZE } from "@/constants/config";
 
 export function CategoriesCard({
-  options,
   control,
   onCreate,
   error,
   max = 5,
 }: {
-  options: Option[];
   control: Control<JobFormValues>;
   onCreate: (label: string) => void;
   error?: string;
   max?: number;
 }) {
+  const { categories, loadMore, loading, hasMore } =
+    usePaginatedCategories(DEFAULT_PAGE_SIZE);
   return (
     <Card className="rounded-2xl shadow-sm bg-white dark:bg-secondary">
       <CardHeader className="pb-2">
@@ -36,9 +37,12 @@ export function CategoriesCard({
           render={({ field }) => (
             <>
               <MultiSelectCombobox
-                options={options}
-                selected={field.value}
+                options={categories ?? []}
+                selected={field.value ?? []}
                 onChange={field.onChange}
+                loadMore={loadMore}
+                hasMore={hasMore}
+                loading={loading}
                 placeholder={`Select up to ${max} categories...`}
                 max={max}
               />

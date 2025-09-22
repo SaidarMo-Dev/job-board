@@ -57,7 +57,6 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
         />
 
         <CategoriesCard
-          options={categories}
           control={control}
           onCreate={handleCreateCategory}
           error={errors.categoryIds?.message}

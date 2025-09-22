@@ -1,7 +1,5 @@
 import type {
-  ExperienceLevelType,
   ExperienceLevelTypekey,
-  JobType,
   JobTypeKey,
 } from "@/features/jobs/jobTypes";
 import type { CompanyManagement } from "../companies/companyTypes";
@@ -23,7 +21,7 @@ export interface SkillOption {
 
 export type Option = {
   id: number;
-  label: string;
+  name: string;
 };
 
 export type JobStatus =
