@@ -31,5 +31,6 @@ export function usePaginatedCompanies(pageSize = 10) {
     loading,
     hasMore,
     loadMore: () => setPage((p) => p + 1),
+    setCompanies,
   };
 }

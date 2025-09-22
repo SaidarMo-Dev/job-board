@@ -38,7 +38,9 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
 
   // save job
   const handleSave = () => {};
-  const handleCreateCompany = () => {};
+  const handleCreateCompany = (id: number) => {
+    setValue("companyId", id);
+  };
   const handleCreateCategory = () => {};
   const handleCreateSkill = () => {};
 

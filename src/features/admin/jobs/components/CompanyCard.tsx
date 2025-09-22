@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2 } from "lucide-react";
-import type { CompanyOption } from "../jobsType";
 import { CompanyCombobox } from "./CompanyCombobox";
 import { AddCompanyDialog } from "../../companies/dialogs/AddCompanyDialog";
 import { Controller, type Control } from "react-hook-form";
@@ -14,7 +13,7 @@ export function CompanyCard({
   error,
 }: {
   control: Control<JobFormValues>;
-  onCreate: (company: CompanyOption) => void;
+  onCreate: (id: number) => void;
   error?: string;
 }) {
   return (

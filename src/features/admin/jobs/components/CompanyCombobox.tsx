@@ -39,7 +39,7 @@ export function CompanyCombobox({
   emptyText = "No company found.",
 }: CompanyComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const { companies, loadMore, loading, hasMore } =
+  const { companies, setCompanies, loadMore, loading, hasMore } =
     usePaginatedCompanies(DEFAULT_PAGE_SIZE);
 
   const [selected, setSelected] = React.useState<CompanyOption | null>(null);
@@ -63,13 +63,14 @@ export function CompanyCombobox({
         const comp = (await getCompanyById<CompanyOption>(value, "id,name"))
           .data;
         setSelected(comp);
+        setCompanies((prev) => [...prev, comp]);
       } catch {
         toast.error("Cannot load selected company");
       }
     }
 
     fetchCompany();
-  }, [value, companies]);
+  }, [value, companies, setCompanies]);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

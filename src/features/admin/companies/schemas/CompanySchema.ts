@@ -8,9 +8,8 @@ export const CompanySchema = z.object({
 
   industry: z
     .string()
-    .min(1, { message: "Industry is required" })
-    .max(30, { message: "Industry cannot exceed 30 characters" }),
-
+    .max(30, { message: "Industry cannot exceed 30 characters" })
+    .optional(),
   description: z
     .string()
     .max(1000, { message: "You cannot add more than 1000 characters" }),
@@ -25,19 +24,18 @@ export const CompanySchema = z.object({
   phoneNumber: z
     .string()
     .trim()
-    .min(1, { message: "Phone number is required" })
     .regex(/^\+?[0-9\s\-()]{7,20}$/, {
       message: "Invalid phone number format (e.g. +1 234-567-8901)",
     })
-    .transform((val) => val.replace(/[^\d+]/g, ""))
-    .optional(), // remove spaces, dashes, parentheses
+    .transform((val) => (val === "" ? undefined : val.replace(/[^\d+]/g, "")))
+    .optional(),
 
   email: z.string().email({ message: "Invalid email address" }),
 
   fax: z
     .string()
     .regex(/^\+?[0-9\s\-()]{7,20}$/, { message: "Invalid fax number format" })
-    .transform((val) => val.replace(/[^\d+]/g, "")) // same cleanup for fax
+    .transform((val) => (val === "" ? undefined : val.replace(/[^\d+]/g, ""))) // same cleanup for fax
     .optional(),
 });
 
