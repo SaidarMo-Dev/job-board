@@ -8,6 +8,7 @@ import { Controller, type Control } from "react-hook-form";
 import type { JobFormValues } from "../schemas/jobSchema";
 import { usePaginatedCategories } from "../../hooks/usePaginatedCategories";
 import { DEFAULT_PAGE_SIZE } from "@/constants/config";
+import type { Option } from "../jobsType";
 
 export function CategoriesCard({
   control,
@@ -16,12 +17,17 @@ export function CategoriesCard({
   max = 5,
 }: {
   control: Control<JobFormValues>;
-  onCreate: (label: string) => void;
+  onCreate: (option: Option) => void;
   error?: string;
   max?: number;
 }) {
-  const { categories, loadMore, loading, hasMore } =
+  const { categories, setCategories, loadMore, loading, hasMore } =
     usePaginatedCategories(DEFAULT_PAGE_SIZE);
+
+  const handleCreate = (option: Option) => {
+    setCategories((prev) => [...prev, option]);
+    onCreate(option);
+  };
   return (
     <Card className="rounded-2xl shadow-sm bg-white dark:bg-secondary">
       <CardHeader className="pb-2">
@@ -50,7 +56,7 @@ export function CategoriesCard({
             </>
           )}
         />
-        <AddCategoryDialog onCreate={onCreate} />
+        <AddCategoryDialog onCreate={handleCreate} />
       </CardContent>
     </Card>
   );

@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -11,26 +11,43 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Plus } from "lucide-react"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Plus } from "lucide-react";
+import type { Option } from "../jobsType";
+import { addCategory } from "../../categories/categoryApi";
+import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
+import Loader from "@/components/Loaders/Loader";
+import InlineError from "@/components/InlineError";
 
 export function AddCategoryDialog({
   onCreate,
   triggerLabel = "Add New Category",
 }: {
-  onCreate: (label: string) => void
-  triggerLabel?: string
+  onCreate: (option: Option) => void;
+  triggerLabel?: string;
 }) {
-  const [open, setOpen] = React.useState(false)
-  const [label, setLabel] = React.useState("")
+  const [open, setOpen] = React.useState(false);
+  const [name, setName] = React.useState("");
+  const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
-  const handleSave = () => {
-    if (!label.trim()) return
-    onCreate(label.trim())
-    setLabel("")
-    setOpen(false)
-  }
+  const handleSave = async () => {
+    if (!name.trim()) return;
+    setLoading(true);
+    try {
+      const res = await addCategory({ name: name });
+      onCreate({ id: res.data, name: name });
+      setName("");
+      setError("");
+      setOpen(false);
+      return;
+    } catch (err) {
+      setError(extractAxiosErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -42,8 +59,11 @@ export function AddCategoryDialog({
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
+          {error && <InlineError message={error} />}
           <DialogTitle>Create Category</DialogTitle>
-          <DialogDescription>Add a new category and select it for this job.</DialogDescription>
+          <DialogDescription>
+            Add a new category and select it for this job.
+          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-3 py-2">
           <div className="grid gap-2">
@@ -53,8 +73,8 @@ export function AddCategoryDialog({
             <Input
               id="new-category"
               placeholder="e.g. DevOps"
-              value={label}
-              onChange={(e) => setLabel(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
         </div>
@@ -62,11 +82,16 @@ export function AddCategoryDialog({
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button onClick={handleSave} disabled={!label.trim()}>
+          <Button
+            onClick={handleSave}
+            disabled={!name.trim()}
+            className="flex items-center justify-center gap-2"
+          >
             Save Category
+            {loading && <Loader variant="dots" size="sm" color="text-white" />}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

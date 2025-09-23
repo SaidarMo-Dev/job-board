@@ -12,6 +12,7 @@ import { JobSchema, type JobFormValues } from "../schemas/jobSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { FormMode } from "@/types/formModes";
 import { MAX_CATEGORIES, MAX_SKILLS } from "@/constants/config";
+import type { Option } from "../jobsType";
 
 export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
   // Lists
@@ -27,10 +28,13 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
     setValue,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<JobFormValues>({
     resolver: zodResolver(JobSchema),
   });
+
+  const selectedCategoryIds: number[] = watch("categoryIds") ?? [];
 
   const handleCancel = () => {
     navigate(-1);
@@ -41,7 +45,9 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
   const handleCreateCompany = (id: number) => {
     setValue("companyId", id);
   };
-  const handleCreateCategory = () => {};
+  const handleCreateCategory = (option: Option) => {
+    setValue("categoryIds", [...selectedCategoryIds, option.id]);
+  };
   const handleCreateSkill = () => {};
 
   return (

@@ -28,6 +28,7 @@ export function usePaginatedCategories(pageSize = 10) {
 
   return {
     categories,
+
     loading,
     hasMore,
     loadMore: () => setPage((p) => p + 1),

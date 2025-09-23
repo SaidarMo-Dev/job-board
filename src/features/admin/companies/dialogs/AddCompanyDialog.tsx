@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 import { addCompany } from "../companyApi";
 import Loader from "@/components/Loaders/Loader";
+import InlineError from "@/components/InlineError";
 
 export function AddCompanyDialog({
   onCreate,
@@ -70,11 +71,7 @@ export function AddCompanyDialog({
 
       <DialogContent className="sm:max-w-lg overflow-auto max-h-screen">
         <DialogHeader>
-          {error && (
-            <span className="text-red-600 bg-red-50 py-1 px-2 mt-2 rounded-sm">
-              {error}
-            </span>
-          )}
+          {error && <InlineError message={error} />}
           <DialogTitle>Create Company</DialogTitle>
           <DialogDescription>
             Add a new company. It will be selected for this job after saving.
