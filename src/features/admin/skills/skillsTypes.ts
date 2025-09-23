@@ -26,7 +26,7 @@ export interface AdminSkillsState {
 
 export interface AddSkill {
   name: string;
-  description: string;
+  description?: string;
 }
 
 export interface UpdateSkill {

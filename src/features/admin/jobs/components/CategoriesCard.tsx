@@ -14,12 +14,11 @@ export function CategoriesCard({
   control,
   onCreate,
   error,
-  max = 5,
+  
 }: {
   control: Control<JobFormValues>;
   onCreate: (option: Option) => void;
   error?: string;
-  max?: number;
 }) {
   const { categories, setCategories, loadMore, loading, hasMore } =
     usePaginatedCategories(DEFAULT_PAGE_SIZE);
@@ -49,8 +48,8 @@ export function CategoriesCard({
                 loadMore={loadMore}
                 hasMore={hasMore}
                 loading={loading}
-                placeholder={`Select up to ${max} categories...`}
-                max={max}
+                placeholder={`Select categories...`}
+    
               />
               {error && <p className="text-sm text-destructive">{error}</p>}
             </>

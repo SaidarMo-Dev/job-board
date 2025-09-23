@@ -14,18 +14,40 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
+import type { Option } from "../jobsType";
+import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
+import { addSkill } from "../../skills/skillsApi";
+import Loader from "@/components/Loaders/Loader";
+import InlineError from "@/components/InlineError";
 
 export function AddSkillDialog({
   onCreate,
   triggerLabel = "Add New Skill",
 }: {
-  onCreate: (label: string) => void;
+  onCreate: (option: Option) => void;
   triggerLabel?: string;
 }) {
   const [open, setOpen] = React.useState(false);
-  const [label, setLabel] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
-  const handleSave = () => {};
+  const handleSave = async () => {
+    if (!name.trim()) return;
+    setLoading(true);
+    try {
+      const res = await addSkill({ name: name });
+      onCreate({ id: res.data, name: name });
+      setName("");
+      setError("");
+      setOpen(false);
+      return;
+    } catch (err) {
+      setError(extractAxiosErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -37,6 +59,7 @@ export function AddSkillDialog({
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
+          {error && <InlineError message={error} />}
           <DialogTitle>Create Skill</DialogTitle>
           <DialogDescription>
             Add a new skill and select it for this job.
@@ -50,8 +73,8 @@ export function AddSkillDialog({
             <Input
               id="new-skill"
               placeholder="e.g. GraphQL"
-              value={label}
-              onChange={(e) => setLabel(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
         </div>
@@ -59,8 +82,13 @@ export function AddSkillDialog({
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button onClick={handleSave} disabled={!label.trim()}>
+          <Button
+            onClick={handleSave}
+            disabled={!name.trim()}
+            className="flex items-center justify-center gap-2"
+          >
             Save Skill
+            {loading && <Loader variant="dots" size="sm" color="text-white" />}
           </Button>
         </DialogFooter>
       </DialogContent>

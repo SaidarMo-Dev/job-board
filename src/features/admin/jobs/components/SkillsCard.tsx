@@ -7,20 +7,26 @@ import { MultiSelectCombobox } from "./MultiSelectCombobox";
 import { AddSkillDialog } from "../dialogs/AddSkillDialog";
 import { Controller, type Control } from "react-hook-form";
 import type { JobFormValues } from "../schemas/jobSchema";
+import { usePaginatedSkills } from "../../hooks/usePaginatedSkills";
+import { DEFAULT_PAGE_SIZE } from "@/constants/config";
 
 export function SkillsCard({
-  options,
   control,
   onCreate,
   error,
-  max = 10,
 }: {
-  options: Option[];
   control: Control<JobFormValues>;
-  onCreate: (label: string) => void;
+  onCreate: (option: Option) => void;
   error?: string;
   max?: number;
 }) {
+  const { skills, setSkills, loadMore, loading, hasMore } =
+    usePaginatedSkills(DEFAULT_PAGE_SIZE);
+
+  const handleCreate = (option: Option) => {
+    setSkills((prev) => [...prev, option]);
+    onCreate(option);
+  };
   return (
     <Card className="rounded-2xl shadow-sm bg-white dark:bg-secondary">
       <CardHeader className="pb-2">
@@ -36,20 +42,22 @@ export function SkillsCard({
           render={({ field }) => (
             <>
               <MultiSelectCombobox
-                options={options}
-                selected={field.value}
+                options={skills}
+                selected={field.value ?? []}
                 onChange={field.onChange}
-                placeholder={`Select up to ${max} skills...`}
-                max={max}
+                loadMore={loadMore}
+                hasMore={hasMore}
+                loading={loading}
+                placeholder={`Select skills...`}
                 counterLabel={`${
-                  field.value ? field.value.length / max : "0"
+                  field.value ? field.value.length : "0"
                 } selected`}
               />
               {error && <p className="text-sm text-destructive">{error}</p>}
             </>
           )}
         />
-        <AddSkillDialog onCreate={onCreate} />
+        <AddSkillDialog onCreate={handleCreate} />
       </CardContent>
     </Card>
   );

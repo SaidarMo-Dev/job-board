@@ -31,7 +31,7 @@ export function MultiSelectCombobox({
   loading,
   placeholder = "Select options...",
   emptyText = "No results.",
-  max = 5,
+
   counterLabel,
 }: {
   options: Option[];
@@ -42,7 +42,6 @@ export function MultiSelectCombobox({
   loading: boolean;
   placeholder?: string;
   emptyText?: string;
-  max?: number;
   counterLabel?: string;
 }) {
   const [open, setOpen] = React.useState(false);
@@ -52,9 +51,7 @@ export function MultiSelectCombobox({
     if (isSelected) {
       onChange(selected.filter((i) => i !== id));
     } else {
-      if (selected.length < max) {
-        onChange([...selected, id]);
-      }
+      onChange([...selected, id]);
     }
   };
 
@@ -71,7 +68,12 @@ export function MultiSelectCombobox({
             aria-expanded={open}
             className="w-full justify-between bg-transparent"
           >
-            <span className="truncate text-left">
+            <span
+              className={cn(
+                "truncate text-left",
+                selected.length === 0 && "text-gray-600"
+              )}
+            >
               {selected && selected.length > 0
                 ? `${selected.length} selected`
                 : placeholder}
@@ -87,18 +89,13 @@ export function MultiSelectCombobox({
               <CommandGroup>
                 {options.map((o) => {
                   const isSelected = selected.includes(o.id);
-                  const disabled = !isSelected && selected.length >= max;
-              
+
                   return (
                     <CommandItem
                       key={o.id}
                       value={o.name}
                       onSelect={() => toggle(o.id)}
-                      className={cn(
-                        "flex items-center gap-2",
-                        disabled && "opacity-50 cursor-not-allowed"
-                      )}
-                      disabled={disabled}
+                      className={cn("flex items-center gap-2")}
                     >
                       <Check
                         className={cn(

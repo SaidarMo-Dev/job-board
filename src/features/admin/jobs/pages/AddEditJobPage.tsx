@@ -35,6 +35,7 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
   });
 
   const selectedCategoryIds: number[] = watch("categoryIds") ?? [];
+  const selectedSkillIds = watch("skillIds") ?? [];
 
   const handleCancel = () => {
     navigate(-1);
@@ -48,7 +49,9 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
   const handleCreateCategory = (option: Option) => {
     setValue("categoryIds", [...selectedCategoryIds, option.id]);
   };
-  const handleCreateSkill = () => {};
+  const handleCreateSkill = (option: Option) => {
+    setValue("skillIds", [...selectedSkillIds, option.id]);
+  };
 
   return (
     <div className="w-full">
@@ -66,15 +69,12 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
           control={control}
           onCreate={handleCreateCategory}
           error={errors.categoryIds?.message}
-          max={MAX_CATEGORIES}
         />
 
         <SkillsCard
-          options={skills}
           control={control}
           onCreate={handleCreateSkill}
           error={errors.skillIds?.message}
-          max={MAX_SKILLS}
         />
       </div>
     </div>
