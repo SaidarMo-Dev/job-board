@@ -164,7 +164,7 @@ export function JobDetailsCard({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Any">Any</SelectItem>
-                  <SelectItem value="EntryLvel">Entry</SelectItem>
+                  <SelectItem value="EntryLevel">Entry</SelectItem>
                   <SelectItem value="MidLevel">Mid</SelectItem>
                   <SelectItem value="SeniorLevel">Senior</SelectItem>
                   <SelectItem value="LeadPrincipal">Lead Principal</SelectItem>

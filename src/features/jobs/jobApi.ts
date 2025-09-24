@@ -3,6 +3,7 @@ import api from "@/api/axiosInstance";
 import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
 import type { ApiResponse } from "@/types/ApiResponse";
 import type { PaginationInfo } from "../admin/users/usersTypes";
+import type { JobFormValues } from "../admin/jobs/schemas/jobSchema";
 
 const JOB_BASE_URL = "/jobs";
 
@@ -47,4 +48,20 @@ export async function fetchRecommendationJobs() {
   return (
     await api.get<ApiResponse<JobResponse[]>>(`${JOB_BASE_URL}/recommendations`)
   ).data.data;
+}
+
+export async function addJob(data: JobFormValues) {
+  return (
+    await api.post<ApiResponse<number>>(`${JOB_BASE_URL}`, {
+      ...data,
+    })
+  ).data;
+}
+
+export async function updateJob(data: JobFormValues) {
+  return (
+    await api.put<ApiResponse<string>>(`${JOB_BASE_URL}`, {
+      ...data,
+    })
+  ).data;
 }

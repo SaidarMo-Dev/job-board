@@ -3,7 +3,7 @@ import { FiltersBar } from "../jobs/components/FiltersBar";
 import JobHeader from "../jobs/components/JobHeader";
 import type { JobFilters } from "../jobs/jobsType";
 import { JobsTable } from "../jobs/components/JobsTable";
-import { fetchAdminJobs } from "../jobs/jobsjobsApi";
+import { fetchAdminJobs } from "../jobs/jobsApi";
 import { useQuery } from "@tanstack/react-query";
 import useDebounce from "@/hooks/use-debounce";
 
