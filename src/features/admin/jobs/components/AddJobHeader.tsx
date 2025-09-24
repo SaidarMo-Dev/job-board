@@ -12,7 +12,7 @@ export default function AddJobHeader({ onClose, loading }: AddJobHeaderProps) {
         <div className="flex items-center justify-between">
           <h1 className="text-lg font-semibold">Post a new job</h1>
           <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={() => onClose()}>
+            <Button variant="outline" type="button" onClick={() => onClose()}>
               Cancel
             </Button>
             <Button type="submit" disabled={loading}>

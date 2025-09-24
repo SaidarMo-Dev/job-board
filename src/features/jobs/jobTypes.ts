@@ -18,6 +18,23 @@ export interface JobResponse {
   categories: CategoryResponse[];
 }
 
+export interface JobResponseSummary {
+  jobId: number;
+  title: string;
+  description: string;
+  companyId: number;
+  location: string;
+  jobType: JobTypeKey;
+  maxSalary: number;
+  minSalary: number;
+  experienceLevel: ExperienceLevelTypekey;
+  datePosted: Date;
+  status: string;
+  skillIds: number[];
+  cretaedByUser: string;
+  categoryIds: number[];
+}
+
 export interface JobSummary {
   jobId: number;
   title: string;
@@ -51,6 +68,7 @@ export const JobStatusType = {
 };
 
 export const jobTypes = [
+  "Any",
   "FullTime",
   "PartTime",
   "Contract",

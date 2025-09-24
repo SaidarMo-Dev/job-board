@@ -152,6 +152,11 @@ export default function AppRoutes() {
             element={<AddEditJobPage mode="Add" />}
           />
 
+          <Route
+            path={"/members/recruitment/:id/Edit"}
+            element={<AddEditJobPage mode="Edit" />}
+          />
+
           <Route path="applications" element={<UserApplications />} />
           <Route path="jobs" element={<UserSavedJobs />} />
           <Route path="history" element={<JobsHistoryPage />} />

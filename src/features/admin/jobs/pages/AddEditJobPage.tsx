@@ -6,20 +6,22 @@ import { JobDetailsCard } from "../components/JobDetailsCard";
 import { CompanyCard } from "../components/CompanyCard";
 import { CategoriesCard } from "../components/CategoriesCard";
 import { SkillsCard } from "../components/SkillsCard";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useForm } from "react-hook-form";
 import { JobSchema, type JobFormValues } from "../schemas/jobSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { FormMode } from "@/types/formModes";
 import type { Option } from "../jobsType";
 import { toast } from "react-toastify";
-import { addJob, updateJob } from "@/features/jobs/jobApi";
+import { addJob, getJobByIdSummary, updateJob } from "@/features/jobs/jobApi";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
+  const { id } = useParams();
 
   const {
     register,
@@ -28,6 +30,7 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
     handleSubmit,
     watch,
     formState: { errors },
+    reset,
   } = useForm<JobFormValues>({
     resolver: zodResolver(JobSchema),
     defaultValues: {
@@ -41,9 +44,28 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
   const selectedCategoryIds: number[] = watch("categoryIds") ?? [];
   const selectedSkillIds = watch("skillIds") ?? [];
 
-  const handleCancel = () => {
-    navigate(-1);
-  };
+  useEffect(() => {
+    if (id && mode === "Edit") {
+      getJobByIdSummary(Number(id))
+        .then(({ data }) => {
+          reset({
+            title: data.title,
+            companyId: data.companyId,
+            location: data.location,
+            jobType: data.jobType,
+            experienceLevel: data.experienceLevel,
+            description: data.description,
+            minSalary: data.minSalary,
+            maxSalary: data.maxSalary,
+            skillIds: data.skillIds,
+            categoryIds: data.categoryIds,
+          });
+        })
+        .catch((err) => {
+          toast.error(extractAxiosErrorMessage(err));
+        });
+    }
+  }, [id, mode, reset]);
 
   // save job
   const onSubmit = async (data: JobFormValues) => {
@@ -60,7 +82,7 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
         navigate(-1);
       } else {
         // update job
-        await updateJob(data);
+        await updateJob(Number(id), data);
         toast.success("Job updated successfully");
       }
     } catch (err) {
@@ -69,6 +91,10 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCancel = () => {
+    navigate(-1);
   };
 
   const handleCreateCompany = (id: number) => {

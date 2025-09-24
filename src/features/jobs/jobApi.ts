@@ -1,4 +1,4 @@
-import type { JobResponse } from "./jobTypes";
+import type { JobResponse, JobResponseSummary } from "./jobTypes";
 import api from "@/api/axiosInstance";
 import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
 import type { ApiResponse } from "@/types/ApiResponse";
@@ -39,6 +39,16 @@ export async function getJobById(
   return response.data;
 }
 
+export async function getJobByIdSummary(
+  Id: number
+): Promise<ApiResponse<JobResponseSummary>> {
+  const response = await api.get<ApiResponse<JobResponseSummary>>(
+    `${JOB_BASE_URL}/${Id}/summary`
+  );
+
+  return response.data;
+}
+
 export async function fetchPopularLocations() {
   return (await api.get<ApiResponse<string[]>>(`${JOB_BASE_URL}/locations`))
     .data.data;
@@ -58,9 +68,10 @@ export async function addJob(data: JobFormValues) {
   ).data;
 }
 
-export async function updateJob(data: JobFormValues) {
+export async function updateJob(id: number, data: JobFormValues) {
   return (
     await api.put<ApiResponse<string>>(`${JOB_BASE_URL}`, {
+      id: id,
       ...data,
     })
   ).data;
