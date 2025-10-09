@@ -34,6 +34,7 @@ import TablePagination from "@/features/admin/users/components/TablePagination";
 import type { PaginationInfo } from "@/features/admin/users/usersTypes";
 import Loader from "@/components/Loaders/Loader";
 import type { EmployerJob, employerJobActionType } from "../employerTypes";
+import ConfirmDeleteDailog from "@/dialogs/ConfirmDeleteDialog";
 
 interface JobsTableProps {
   jobs: EmployerJob[];
@@ -247,6 +248,12 @@ export function EmployerJobsTable({
           onPageChange={onPageChange}
         />
       )}
+
+      <ConfirmDeleteDailog
+        onClose={() => null}
+        onDelete={() => null}
+        open={false}
+      />
     </div>
   );
 }
