@@ -241,7 +241,7 @@ export function EmployerJobsTable({
         </TableBody>
       </Table>
 
-      {pagination && pagination.totalRecords && (
+      {pagination && pagination.totalRecords > 10 && (
         <TablePagination
           paginationInfo={pagination}
           onPageChange={onPageChange}
