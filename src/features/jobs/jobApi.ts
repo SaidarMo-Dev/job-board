@@ -76,3 +76,13 @@ export async function updateJob(id: number, data: JobFormValues) {
     })
   ).data;
 }
+
+export async function deleteJob(id: number) {
+  try {
+    await api.delete<ApiResponse<string>>(`${JOB_BASE_URL}/${id}`);
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}

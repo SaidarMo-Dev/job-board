@@ -7,7 +7,7 @@ import { deleteUserThunk } from "@/features/admin/users/userThunk";
 import { logout, selectCurrentUser } from "@/features/auth/authSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import ConfirmDeleteUserDailog from "@/dialogs/ConfirmDeleteUserDialog";
+import ConfirmDeleteUserDailog from "@/dialogs/ConfirmDeleteDialog";
 
 export default function AccountSettings() {
   const [confirmDelete, setConfirmDelete] = useState(false);

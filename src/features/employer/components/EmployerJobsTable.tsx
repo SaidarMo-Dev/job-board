@@ -47,6 +47,7 @@ interface JobsTableProps {
   pagination: PaginationInfo | null;
   onPageChange: (page: number) => void;
   loading?: boolean;
+  error?: string;
 }
 
 export function EmployerJobsTable({
@@ -61,6 +62,7 @@ export function EmployerJobsTable({
   pagination,
   onPageChange,
   loading,
+  error,
 }: JobsTableProps) {
   const allSelected = jobs.length > 0 && selectedJobs.length === jobs.length;
   const someSelected =
@@ -131,18 +133,32 @@ export function EmployerJobsTable({
         <TableBody>
           {loading ? (
             <TableRow>
-              <TableCell colSpan={13} className="text-center py-8">
-                <Loader size="sm" className="m-auto" />
+              <TableCell colSpan={10} className="p-7">
+                <div className="m-auto w-full flex flex-col justify-center items-center">
+                  <Loader variant="spinner" size="sm" />
+                  <span className="text-gray-600 mt-1">
+                    Loading your jobs...
+                  </span>
+                </div>
               </TableCell>
             </TableRow>
           ) : jobs.length === 0 ? (
             <TableRow>
-              <TableCell
-                colSpan={13}
-                className="text-center py-8 text-muted-foreground"
-              >
-                No jobs found
-              </TableCell>
+              {error ? (
+                <TableCell
+                  colSpan={13}
+                  className="text-center py-8 text-red-500"
+                >
+                  {error}
+                </TableCell>
+              ) : (
+                <TableCell
+                  colSpan={13}
+                  className="text-center py-8 text-muted-foreground"
+                >
+                  No jobs found
+                </TableCell>
+              )}
             </TableRow>
           ) : (
             jobs.map((job) => (
@@ -159,10 +175,8 @@ export function EmployerJobsTable({
                 <TableCell className="max-w-32 truncate">
                   {job.location}
                 </TableCell>
-                <TableCell className="capitalize">{job.JobType}</TableCell>
-                <TableCell className="capitalize">
-                  {job.experienceLevel}
-                </TableCell>
+                <TableCell className="capitalize">{job.jobType}</TableCell>
+
                 <TableCell>
                   <Badge
                     variant={getStatusBadgeVariant(job.status)}
@@ -171,9 +185,9 @@ export function EmployerJobsTable({
                     {job.status}
                   </Badge>
                 </TableCell>
-                <TableCell>{job.postedDate?.toDateString() ?? ""}</TableCell>
+                <TableCell>{job.postedDate.toString() ?? ""}</TableCell>
                 <TableCell>
-                  {job.expiryDate?.toDateString() ?? "Not Specefied"}
+                  {job.expiryDate?.toString() ?? "Not Specefied"}
                 </TableCell>
                 <TableCell className="text-center">
                   {job.applicantsCount}
@@ -227,7 +241,7 @@ export function EmployerJobsTable({
         </TableBody>
       </Table>
 
-      {pagination && pagination.totalRecords && (
+      {pagination && pagination.totalRecords > 10 && (
         <TablePagination
           paginationInfo={pagination}
           onPageChange={onPageChange}

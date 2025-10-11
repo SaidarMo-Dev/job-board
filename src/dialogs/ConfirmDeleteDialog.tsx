@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertTriangle } from "lucide-react";
 
-import { toast } from "react-toastify";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +23,7 @@ interface ConfirmDeleteUserDailogProps {
   onDelete: () => void;
 }
 
-export default function ConfirmDeleteUserDailog({
+export default function ConfirmDeleteDailog({
   open,
   onClose,
   onDelete,
@@ -45,16 +44,14 @@ export default function ConfirmDeleteUserDailog({
 
       await verifyPassword(password);
 
-      onDelete();
+      await onDelete();
 
-      toast.success("Deleted successfully.", {
-        position: "bottom-left",
-      });
       onClose(false);
     } catch (error) {
       setError(extractAxiosErrorMessage<string>(error));
     } finally {
       setLoading(false);
+      setPassword("");
     }
   };
 
@@ -67,19 +64,18 @@ export default function ConfirmDeleteUserDailog({
         <DialogHeader>
           <div className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-red-500" />
-            <DialogTitle>Delete Account</DialogTitle>
+            <DialogTitle>Are you sure</DialogTitle>
           </div>
           <DialogDescription className="text-left">
-            This action cannot be undone. This will permanently delete your
-            account and remove all associated data from our servers.
+            This action cannot be undone. This will permanently delete target
+            record and remove all associated data from our servers.
           </DialogDescription>
         </DialogHeader>
 
         <Alert className="border-red-200 bg-red-50">
           <AlertTriangle className="h-4 w-4 text-red-600" />
           <AlertDescription className="text-red-800">
-            <strong>Warning:</strong> All your data, including projects, files,
-            and settings will be permanently lost.
+            <strong>Warning:</strong> All the data will be permanently lost.
           </AlertDescription>
         </Alert>
 
