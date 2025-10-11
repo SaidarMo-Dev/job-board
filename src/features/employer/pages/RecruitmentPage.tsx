@@ -6,9 +6,15 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchEmployerJobs, getEmployerDashboardStats } from "../employerApi";
 import { useState } from "react";
 import useDebounce from "@/hooks/use-debounce";
+import ConfirmDeleteDailog from "@/dialogs/ConfirmDeleteDialog";
+import type { EmployerJob, employerJobActionType } from "../employerTypes";
+import { deleteJob } from "@/features/jobs/jobApi";
+import { toast } from "react-toastify";
 
 export default function RecruitmentPage() {
   const [searchJobs, setSearchJobs] = useState("");
+
+  const [jobToDelete, setJobToDelete] = useState<EmployerJob | null>(null);
 
   const debouncedSearch = useDebounce(searchJobs, 500);
 
@@ -27,6 +33,22 @@ export default function RecruitmentPage() {
     queryFn: () => fetchEmployerJobs(1, debouncedSearch),
     refetchOnWindowFocus: false,
   });
+
+  const handleJobAction = (action: employerJobActionType, job: EmployerJob) => {
+    if (action === "delete") setJobToDelete(job);
+
+    // TODO : Handle other actions
+  };
+
+  const confirmDeleteJob = async () => {
+    // TODO : handle delete job
+    const deleted = await deleteJob(jobToDelete?.id ?? -1);
+
+    if (deleted) toast.success("Deleted Successfully");
+    else toast.error("Failed to delete job!");
+    
+    setJobToDelete(null);
+  };
 
   return (
     <div className="custom-container">
@@ -50,7 +72,7 @@ export default function RecruitmentPage() {
           selectedJobs={[]}
           onJobSelect={() => null}
           onSelectAll={() => null}
-          onJobAction={() => null}
+          onJobAction={handleJobAction}
           sortBy="id"
           onSort={() => null}
           sortOrder="asc"
@@ -60,6 +82,12 @@ export default function RecruitmentPage() {
           error={jobsError?.message}
         />
       </div>
+
+      <ConfirmDeleteDailog
+        onClose={() => setJobToDelete(null)}
+        onDelete={confirmDeleteJob}
+        open={jobToDelete !== null}
+      />
     </div>
   );
 }

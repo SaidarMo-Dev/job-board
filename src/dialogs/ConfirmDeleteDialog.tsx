@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertTriangle } from "lucide-react";
 
-import { toast } from "react-toastify";
 import {
   Dialog,
   DialogContent,
@@ -45,16 +44,14 @@ export default function ConfirmDeleteDailog({
 
       await verifyPassword(password);
 
-      onDelete();
+      await onDelete();
 
-      toast.success("Deleted successfully.", {
-        position: "bottom-left",
-      });
       onClose(false);
     } catch (error) {
       setError(extractAxiosErrorMessage<string>(error));
     } finally {
       setLoading(false);
+      setPassword("");
     }
   };
 
