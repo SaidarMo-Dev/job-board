@@ -28,6 +28,7 @@ export default function RecruitmentPage() {
     data: employerJobs,
     error: jobsError,
     isLoading: jobsLoading,
+    refetch: refetchJobs,
   } = useQuery({
     queryKey: ["employerPostedJobs", debouncedSearch],
     queryFn: () => fetchEmployerJobs(1, debouncedSearch),
@@ -44,9 +45,12 @@ export default function RecruitmentPage() {
     // TODO : handle delete job
     const deleted = await deleteJob(jobToDelete?.id ?? -1);
 
-    if (deleted) toast.success("Deleted Successfully");
-    else toast.error("Failed to delete job!");
-    
+    if (deleted) {
+      toast.success("Deleted Successfully");
+      refetchJobs();
+      
+    } else toast.error("Failed to delete job!");
+
     setJobToDelete(null);
   };
 
