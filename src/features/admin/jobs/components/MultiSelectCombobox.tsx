@@ -20,7 +20,7 @@ import {
 import { Check, ChevronsUpDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Option } from "../jobsType";
-import { InfiniteScrollObserver } from "@/components/InfiniteScrollObserver";
+import { InfiniteScrollObserver } from "@/shared/components/InfiniteScrollObserver";
 
 export function MultiSelectCombobox({
   options,

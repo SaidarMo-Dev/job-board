@@ -1,5 +1,5 @@
-import AccountSettings from "@/components/AccountSettings";
-import BasicUserInfoCard from "@/components/BasicUserInfoCard";
+import AccountSettings from "@/shared/components/AccountSettings";
+import BasicUserInfoCard from "@/shared/components/BasicUserInfoCard";
 
 import AuthGuard from "./Auth/authGuard";
 import ProfileHeader from "@/components/BasicUserCardComponents/UserProfileHeader";

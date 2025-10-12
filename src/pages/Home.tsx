@@ -1,5 +1,5 @@
-import QuickStats from "../components/QuickStats";
-import QuickTips from "../components/QuickTips";
+import QuickStats from "../shared/components/QuickStats";
+import QuickTips from "../shared/components/QuickTips";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUserDashboardStatsThunk } from "@/features/dashboard_stats/dashboardStatsThunk";
@@ -12,7 +12,7 @@ import { WelcomeHero } from "@/features/dashboard/components/WelcomeHero";
 import { JobRecommendations } from "@/features/dashboard/components/JobsRecommendation";
 import { useQuery } from "@tanstack/react-query";
 import { fetchRecommendationJobs } from "@/features/jobs/jobApi";
-import CompleteProfileCard from "@/components/CompleteProfileCard";
+import CompleteProfileCard from "@/shared/components/CompleteProfileCard";
 import { RecentSavedJobs } from "@/features/dashboard/components/RecentSavedJobs";
 import { RecentApplications } from "@/features/dashboard/components/RecentApplications";
 import { fetechRecentSavedJobs } from "@/features/bookmarks/bookmarksApi";

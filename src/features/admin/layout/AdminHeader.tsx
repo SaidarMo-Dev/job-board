@@ -1,4 +1,4 @@
-import DarkModeToggle from "@/components/DarkModeToggle";
+import DarkModeToggle from "@/shared/components/DarkModeToggle";
 import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import { Button } from "../../components/ui/button";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import {

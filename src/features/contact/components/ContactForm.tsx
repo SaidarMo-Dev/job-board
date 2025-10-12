@@ -20,7 +20,7 @@ import {
   type ContactFormData,
 } from "../schemas/contactFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ErrorField from "@/components/ErrorField";
+import ErrorField from "@/shared/components/ErrorField";
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);

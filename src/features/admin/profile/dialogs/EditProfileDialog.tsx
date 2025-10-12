@@ -19,8 +19,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import type { UpdateUserRequest } from "@/features/users/userTypes";
-import { DatePicker } from "@/components/DatePicker";
-import { CountryCombobox } from "@/components/CountrySelect";
+import { DatePicker } from "@/shared/components/DatePicker";
+import { CountryCombobox } from "@/shared/components/CountrySelect";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { Slide, toast } from "react-toastify";
 import { getCurrentUserThunk } from "@/features/auth/authThunk";

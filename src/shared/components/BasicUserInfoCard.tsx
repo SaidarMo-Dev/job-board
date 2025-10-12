@@ -9,24 +9,29 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store";
 
 // ui Imports
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Textarea } from "./ui/textarea";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
+import { Textarea } from "../../components/ui/textarea";
+import { Label } from "../../components/ui/label";
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../../components/ui/select";
 
 // custom components
-import CountrySelector from "./BasicUserCardComponents/CountrySelector";
-import UserInfoLabel from "./BasicUserCardComponents/UserInfoLabel";
-import AddButton from "./BasicUserCardComponents/AddButton";
-import { DateOfBirthSelector } from "./BasicUserCardComponents/DateOfBirthSelector";
+import CountrySelector from "../../components/BasicUserCardComponents/CountrySelector";
+import UserInfoLabel from "../../components/BasicUserCardComponents/UserInfoLabel";
+import AddButton from "../../components/BasicUserCardComponents/AddButton";
+import { DateOfBirthSelector } from "../../components/BasicUserCardComponents/DateOfBirthSelector";
 
 // features
 import { updateUserThunk } from "@/features/users/userThunk";
@@ -56,7 +61,9 @@ export default function BasicUserInfoCard() {
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
       gender: userInfo.gender,
-      dateOfBirth: userInfo.dateOfBirth ? new Date(userInfo.dateOfBirth) : undefined,
+      dateOfBirth: userInfo.dateOfBirth
+        ? new Date(userInfo.dateOfBirth)
+        : undefined,
       phoneNumber: userInfo.phoneNumber,
       address: userInfo.address,
       imagePath: userInfo.imagePath,

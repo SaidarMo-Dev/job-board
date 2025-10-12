@@ -19,7 +19,7 @@ import type { JobResponse } from "../jobTypes";
 import { useState } from "react";
 import { JobDetailsModal } from "./JobDetailsModal";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
-import SkillBadge from "@/components/SkillBadge";
+import SkillBadge from "@/shared/components/SkillBadge";
 
 interface JobCardSecondaryProps {
   jobInfo: JobResponse;
@@ -67,8 +67,12 @@ export default function JobCardSecondary({ jobInfo }: JobCardSecondaryProps) {
 
           <div className="flex flex-wrap gap-1">
             {jobInfo.skills.slice(0, 3).map((skill, index) => (
-              <SkillBadge key={skill.id} skill={skill} index={index} className="py-2" />
-
+              <SkillBadge
+                key={skill.id}
+                skill={skill}
+                index={index}
+                className="py-2"
+              />
             ))}
 
             {jobInfo.skills.length > 3 && (

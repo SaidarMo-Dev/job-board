@@ -15,7 +15,7 @@ import {
   type JobResponse,
   type JobTypeKey,
 } from "@/features/jobs/jobTypes";
-import CustomPagination from "@/components/CustomPagination";
+import CustomPagination from "@/shared/components/CustomPagination";
 import { NoJobs } from "@/features/jobs/components/NoJobs";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { getSavedJobIdsThunk } from "@/features/bookmarks/bookmarksThunk";

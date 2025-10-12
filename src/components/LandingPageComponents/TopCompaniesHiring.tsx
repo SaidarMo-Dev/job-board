@@ -1,4 +1,4 @@
-import { CompanyMiniCard } from "../CompanyMiniCard";
+import { CompanyMiniCard } from "../../shared/components/CompanyMiniCard";
 
 export function TopCompaniesHiring() {
   return (

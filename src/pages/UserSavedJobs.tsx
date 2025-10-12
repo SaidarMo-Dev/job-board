@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch, RootState } from "@/store";
 import { getUserSavedJobsThunk } from "@/features/bookmarks/bookmarksThunk";
 import { toast } from "react-toastify";
-import CustomPagination from "@/components/CustomPagination";
+import CustomPagination from "@/shared/components/CustomPagination";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import PageLoader from "@/components/Loaders/PageLoader";
 import type { PaginationInfo } from "@/features/admin/users/usersTypes";

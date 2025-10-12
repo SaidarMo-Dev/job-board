@@ -1,5 +1,5 @@
 import { ArrowRight, Briefcase, Search } from "lucide-react";
-import { PopularSearch } from "../PopularSearch";
+import { PopularSearch } from "../../shared/components/PopularSearch";
 import { useToast } from "../../contexts/ToastContext";
 import JobSearch from "../../features/jobs/components/JobSearch";
 import { Link, useNavigate } from "react-router";
@@ -8,7 +8,7 @@ export function HeroSection() {
   const navigate = useNavigate();
   function handleSearch(title: string, location: string) {
     const params = new URLSearchParams();
-   
+
     if (title) params.append("searchByTitle", title);
     else params.delete("searchByTitle");
     if (location) params.append("searchByLocation", location);

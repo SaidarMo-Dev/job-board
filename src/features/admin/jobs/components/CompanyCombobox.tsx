@@ -19,7 +19,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePaginatedCompanies } from "../../hooks/usePaginatedCompanies";
-import { InfiniteScrollObserver } from "@/components/InfiniteScrollObserver";
+import { InfiniteScrollObserver } from "@/shared/components/InfiniteScrollObserver";
 import { DEFAULT_PAGE_SIZE } from "@/constants/config";
 import type { CompanyOption } from "../jobsType";
 import { getCompanyById } from "../../companies/companyApi";

@@ -24,7 +24,7 @@ import { toast } from "react-toastify";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 import { addCompany } from "../companyApi";
 import Loader from "@/components/Loaders/Loader";
-import InlineError from "@/components/InlineError";
+import InlineError from "@/shared/components/InlineError";
 
 export function AddCompanyDialog({
   onCreate,

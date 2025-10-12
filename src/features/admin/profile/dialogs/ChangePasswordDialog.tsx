@@ -1,4 +1,4 @@
-import PasswordInput from "@/components/PasswordInput";
+import PasswordInput from "@/shared/components/PasswordInput";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

@@ -1,4 +1,4 @@
-import type { ProgressBarProps } from "../types/ProgressBarProps";
+import type { ProgressBarProps } from "../../types/ProgressBarProps";
 
 const ProgressBar: React.FC<ProgressBarProps> = ({
   value,

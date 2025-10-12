@@ -13,7 +13,7 @@ import { useMemo, useState } from "react";
 import type { JobResponse } from "../jobTypes";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
 import JobDetailsModal from "./JobDetailsModal";
-import SkillBadge from "@/components/SkillBadge";
+import SkillBadge from "@/shared/components/SkillBadge";
 import { Link } from "react-router";
 
 interface JobCardFullProps {

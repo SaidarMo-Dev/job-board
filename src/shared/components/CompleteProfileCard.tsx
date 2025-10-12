@@ -2,8 +2,8 @@ import { Edit, User } from "lucide-react";
 import ProgressBar from "./ProgressBar";
 import { Link } from "react-router";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { Card, CardContent, CardHeader } from "./ui/card";
-import { Button } from "./ui/button";
+import { Card, CardContent, CardHeader } from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
 import { ROUTES } from "@/constants/routes";
 
 export default function CompleteProfileCard({

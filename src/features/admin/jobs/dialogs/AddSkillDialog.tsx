@@ -18,7 +18,7 @@ import type { Option } from "../jobsType";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 import { addSkill } from "../../skills/skillsApi";
 import Loader from "@/components/Loaders/Loader";
-import InlineError from "@/components/InlineError";
+import InlineError from "@/shared/components/InlineError";
 
 export function AddSkillDialog({
   onCreate,

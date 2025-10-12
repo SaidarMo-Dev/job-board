@@ -18,7 +18,7 @@ import {
 
 import type { UserApplicationResponse } from "@/features/jobApplications/applicationType";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
-import SkillBadge from "@/components/SkillBadge";
+import SkillBadge from "@/shared/components/SkillBadge";
 interface JobApplicationProps {
   application: UserApplicationResponse;
 }

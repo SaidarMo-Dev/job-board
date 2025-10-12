@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import type { ApplicationStatusFilterType } from "@/features/jobApplications/applicationType";
 import Loader from "@/components/Loaders/Loader";
 import { NoApplications } from "@/features/jobApplications/components/NoApplications";
-import CustomPagination from "@/components/CustomPagination";
+import CustomPagination from "@/shared/components/CustomPagination";
 import type { PaginationInfo } from "@/features/admin/users/usersTypes";
 
 const tabsItem = ["All", "Pending", "Accepted", "Rejected"];

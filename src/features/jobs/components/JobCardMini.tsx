@@ -22,7 +22,7 @@ import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
 import JobDetailsModal from "./JobDetailsModal";
 import { useNavigate } from "react-router";
 import type { JobResponse } from "../jobTypes";
-import SkillBadge from "@/components/SkillBadge";
+import SkillBadge from "@/shared/components/SkillBadge";
 import { useAppSelector } from "@/hooks/useAppSelector";
 
 export function JobCardMini({

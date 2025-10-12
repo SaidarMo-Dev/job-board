@@ -1,5 +1,5 @@
 import type { SkillResponse } from "@/types/Skill";
-import { Badge } from "./ui/badge";
+import { Badge } from "../../components/ui/badge";
 
 interface SkillBadgeProps {
   index: number;

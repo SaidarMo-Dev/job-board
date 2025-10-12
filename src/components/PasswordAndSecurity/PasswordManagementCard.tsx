@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import InlineToast from "../Toasts/InlineToast";
-import PasswordInput from "../PasswordInput";
+import PasswordInput from "../../shared/components/PasswordInput";
 
 const PasswordManagementCard = () => {
   const [error, setError] = useState("");

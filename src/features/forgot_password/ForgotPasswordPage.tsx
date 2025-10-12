@@ -1,4 +1,4 @@
-import ErrorField from "@/components/ErrorField";
+import ErrorField from "@/shared/components/ErrorField";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -92,7 +92,6 @@ export default function ForgotPasswordPage() {
       navigate(ROUTES.PRIVATE.RESET_PASSWORD, {
         state: { resetToken: response.data },
       });
-      
     } catch (err) {
       setError(extractAxiosErrorMessage(err));
     } finally {

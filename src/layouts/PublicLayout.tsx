@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/shared/components/Header";
 import Footer from "@/components/LandingPageComponents/Footer";
 import { DashboardHeader } from "@/features/dashboard/components/DashboardHeader";
 import { useAppSelector } from "@/hooks/useAppSelector";

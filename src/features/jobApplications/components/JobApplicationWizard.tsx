@@ -14,7 +14,7 @@ import { AdditionalInfoStep } from "./AdditionalInfoStep";
 import { ReviewStep } from "./ReviewStep";
 import { SuccessStep } from "./SuccessStep";
 import ApplicationNavigation from "./ApplicationNavigation";
-import ProgressBar from "@/components/ProgressBar";
+import ProgressBar from "@/shared/components/ProgressBar";
 
 interface ApplicationFormProps {
   currentStep: number;

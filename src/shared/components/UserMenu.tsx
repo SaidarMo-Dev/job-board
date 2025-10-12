@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 import { useEffect, useState } from "react";
-import type { MenuItem } from "../types/MenuItem";
+import type { MenuItem } from "../../types/MenuItem";
 import ProgressBar from "./ProgressBar";
 import MenuButton from "./MenuButton";
 import { Link } from "react-router";

@@ -1,5 +1,5 @@
-import SaveButton from "@/components/SaveButton";
-import SkillBadge from "@/components/SkillBadge";
+import SaveButton from "@/shared/components/SaveButton";
+import SkillBadge from "@/shared/components/SkillBadge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
