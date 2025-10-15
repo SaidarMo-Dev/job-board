@@ -10,11 +10,14 @@ import ConfirmDeleteDailog from "@/dialogs/ConfirmDeleteDialog";
 import type { EmployerJob, employerJobActionType } from "../employerTypes";
 import { deleteJob } from "@/features/jobs/jobApi";
 import { toast } from "react-toastify";
+import { JobDetailsModal } from "@/shared/dialogs/JobDetailsModal";
 
 export default function RecruitmentPage() {
   const [searchJobs, setSearchJobs] = useState("");
 
   const [jobToDelete, setJobToDelete] = useState<EmployerJob | null>(null);
+
+  const [jobToView, setJobToView] = useState<EmployerJob | null>(null);
 
   const debouncedSearch = useDebounce(searchJobs, 500);
 
@@ -36,7 +39,7 @@ export default function RecruitmentPage() {
 
   const handleJobAction = (action: employerJobActionType, job: EmployerJob) => {
     if (action === "delete") setJobToDelete(job);
-
+    else if (action === "view") setJobToView(job);
     // TODO : Handle other actions
   };
 
@@ -46,7 +49,7 @@ export default function RecruitmentPage() {
 
     if (deleted) toast.success("Deleted Successfully");
     else toast.error("Failed to delete job!");
-    
+
     setJobToDelete(null);
   };
 
@@ -88,6 +91,13 @@ export default function RecruitmentPage() {
         onDelete={confirmDeleteJob}
         open={jobToDelete !== null}
       />
+
+      {jobToView && (
+        <JobDetailsModal
+          jobId={jobToView?.id}
+          onClose={() => setJobToView(null)}
+        />
+      )}
     </div>
   );
 }

@@ -20,8 +20,8 @@ export function JobDetailsTab({ job }: { job?: JobResponse }) {
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
-              <DollarSign className="h-5 w-5 text-accent" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+              <DollarSign className="h-5 w-5 text-primary" />
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Salary Range</p>
@@ -40,8 +40,8 @@ export function JobDetailsTab({ job }: { job?: JobResponse }) {
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
-              <Briefcase className="h-5 w-5 text-accent" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+              <Briefcase className="h-5 w-5 text-primary" />
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Company</p>
