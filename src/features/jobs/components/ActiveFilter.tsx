@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import type { JobQuickFilters } from "../jobTypes";
 import { X } from "lucide-react";
-import type { ElementType } from "@/types/ElementType";
+import type { ElementType } from "@/shared/types/ElementType";
 
 interface ActiveFilterProps {
   section: keyof JobQuickFilters;

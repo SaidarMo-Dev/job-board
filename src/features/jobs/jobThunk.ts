@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { JobResponse } from "./jobTypes";
 import { fetchJobs, getJobById } from "./jobApi";
 import axios from "axios";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 
 const getJobByIdThunk = createAsyncThunk<
   JobResponse,

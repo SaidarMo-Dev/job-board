@@ -1,4 +1,4 @@
-import type { LoginToken } from "@/types/loginResponse";
+import type { LoginToken } from "@/shared/types/loginResponse";
 import {
   ACCESS_TOKEN_KEY,
   REFRESH_TOKEN_EXP_KEY,

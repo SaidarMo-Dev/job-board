@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { ConfirmEmailByCode } from "../../authApi";
 import axios from "axios";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import { formatTime } from "@/utils/stringUtils";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { resendCodeThunk } from "../../authThunk";

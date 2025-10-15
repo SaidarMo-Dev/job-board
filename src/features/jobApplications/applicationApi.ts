@@ -1,11 +1,11 @@
 import api from "@/api/axiosInstance";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type {
   ApplicationData,
   ApplicationStatusFilterType,
   UserApplicationResponse,
 } from "./applicationType";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import type { RecentApplication } from "../dashboard/dashboardTypes";
 
 const APPLICATIONS_BASE_URL = "/applications";

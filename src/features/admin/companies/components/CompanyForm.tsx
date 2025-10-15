@@ -14,7 +14,7 @@ import {
 import { Link, useNavigate, useParams } from "react-router";
 import { ROUTES } from "@/constants/routes";
 import { useEffect } from "react";
-import type { FormMode } from "@/types/formModes";
+import type { FormMode } from "@/shared/types/formModes";
 import { useForm } from "react-hook-form";
 import {
   CompanySchema,
@@ -92,9 +92,7 @@ export default function CompanyForm({ mode }: CompanyFormProps) {
         })
         .catch((err) => toast.error(err));
     } else {
-      dispatch(
-        updateCompanyThunk({ data, companyId: Number(Id) })
-      )
+      dispatch(updateCompanyThunk({ data, companyId: Number(Id) }))
         .unwrap()
         .then(() => {
           toast.success("Updated Successfully");
@@ -171,7 +169,10 @@ export default function CompanyForm({ mode }: CompanyFormProps) {
           {/* Website & Location */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="website" className="text-sm font-medium flex items-center gap-2">
+              <Label
+                htmlFor="website"
+                className="text-sm font-medium flex items-center gap-2"
+              >
                 <Globe className="h-4 w-4" /> Website URL
               </Label>
               <Input
@@ -179,7 +180,9 @@ export default function CompanyForm({ mode }: CompanyFormProps) {
                 id="website"
                 type="url"
                 placeholder="https://example.com"
-                className={`w-full ${errors.websiteUrl ? "border-red-600" : ""}`}
+                className={`w-full ${
+                  errors.websiteUrl ? "border-red-600" : ""
+                }`}
               />
               {errors?.websiteUrl && (
                 <p className="text-sm text-red-400">
@@ -189,8 +192,12 @@ export default function CompanyForm({ mode }: CompanyFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="location" className="text-sm font-medium flex items-center gap-2">
-                <MapPin className="h-4 w-4" /> Location <span className="text-red-600">*</span>
+              <Label
+                htmlFor="location"
+                className="text-sm font-medium flex items-center gap-2"
+              >
+                <MapPin className="h-4 w-4" /> Location{" "}
+                <span className="text-red-600">*</span>
               </Label>
               <Input
                 {...register("location")}
@@ -200,7 +207,9 @@ export default function CompanyForm({ mode }: CompanyFormProps) {
                 className={`w-full ${errors.location ? "border-red-600" : ""}`}
               />
               {errors?.location && (
-                <p className="text-sm text-red-400">{errors.location.message}</p>
+                <p className="text-sm text-red-400">
+                  {errors.location.message}
+                </p>
               )}
             </div>
           </div>
@@ -213,7 +222,10 @@ export default function CompanyForm({ mode }: CompanyFormProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-sm font-medium flex items-center gap-2">
+                <Label
+                  htmlFor="phone"
+                  className="text-sm font-medium flex items-center gap-2"
+                >
                   <Phone className="h-4 w-4" /> Phone Number
                 </Label>
                 <Input
@@ -221,7 +233,9 @@ export default function CompanyForm({ mode }: CompanyFormProps) {
                   id="phone"
                   type="tel"
                   placeholder="+1 (555) 123-4567"
-                  className={`w-full ${errors.phoneNumber ? "border-red-600" : ""}`}
+                  className={`w-full ${
+                    errors.phoneNumber ? "border-red-600" : ""
+                  }`}
                 />
                 {errors?.phoneNumber && (
                   <p className="text-sm text-red-400">
@@ -231,8 +245,12 @@ export default function CompanyForm({ mode }: CompanyFormProps) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium flex items-center gap-2">
-                  <Mail className="h-4 w-4" /> Email Address <span className="text-red-600">*</span>
+                <Label
+                  htmlFor="email"
+                  className="text-sm font-medium flex items-center gap-2"
+                >
+                  <Mail className="h-4 w-4" /> Email Address{" "}
+                  <span className="text-red-600">*</span>
                 </Label>
                 <Input
                   {...register("email")}
@@ -248,7 +266,10 @@ export default function CompanyForm({ mode }: CompanyFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="fax" className="text-sm font-medium flex items-center gap-2">
+              <Label
+                htmlFor="fax"
+                className="text-sm font-medium flex items-center gap-2"
+              >
                 <Fax className="h-4 w-4" /> Fax Number
               </Label>
               <Input
@@ -276,7 +297,11 @@ export default function CompanyForm({ mode }: CompanyFormProps) {
                 : "Update Company"}
             </Button>
             <Link to={ROUTES.ADMIN.COMPANIES.LIST} className="sm:order-1">
-              <Button type="button" variant="outline" className="w-full sm:w-auto">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full sm:w-auto"
+              >
                 Cancel
               </Button>
             </Link>

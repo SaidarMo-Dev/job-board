@@ -1,7 +1,7 @@
 import type { JobResponse, JobResponseSummary } from "./jobTypes";
 import api from "@/api/axiosInstance";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { PaginationInfo } from "../admin/users/usersTypes";
 import type { JobFormValues } from "../admin/jobs/schemas/jobSchema";
 

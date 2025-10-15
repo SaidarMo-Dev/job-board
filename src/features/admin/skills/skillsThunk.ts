@@ -6,7 +6,7 @@ import type {
   UpdateSkill,
 } from "./skillsTypes";
 import { addSkill, deleteSkill, fetchSkills, updateSkill } from "./skillsApi";
-import { type ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import { type ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 
 const fetchSkillsThunk = createAsyncThunk<

@@ -1,4 +1,4 @@
-import type { SkillResponse } from "@/types/Skill";
+import type { SkillResponse } from "@/shared/types/Skill";
 import { Badge } from "../../components/ui/badge";
 
 interface SkillBadgeProps {

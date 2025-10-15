@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import type { MenuButtonProps } from "../../types/MenuButtonProps";
+import type { MenuButtonProps } from "../types/MenuButtonProps";
 
 const MenuButton: React.FC<MenuButtonProps> = ({
   item,

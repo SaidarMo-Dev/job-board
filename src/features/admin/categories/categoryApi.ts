@@ -5,8 +5,8 @@ import type {
   PopularCategoryDto,
   UpdateCategory,
 } from "./categoryTypes";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { Option } from "../jobs/jobsType";
 
 const CATEGORIES_BASE_URL = "/categories";
@@ -68,6 +68,6 @@ export const fetchCategoriesSummary = async (page, size) => {
   const response = await api.get<ApiPaginatedResponse<Option[]>>(
     `${CATEGORIES_BASE_URL}/summary?page=${page}&size=${size}`
   );
-  console.log()
+  console.log();
   return response.data;
 };

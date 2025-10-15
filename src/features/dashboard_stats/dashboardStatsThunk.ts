@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { DashboardStatsType } from "./dashboardStatsTypes";
 import { getUserDashboardStats } from "./dashboardStatsApi";
 import axios from "axios";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 
 const getUserDashboardStatsThunk = createAsyncThunk<
   DashboardStatsType,

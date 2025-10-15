@@ -1,5 +1,5 @@
-import type { SkillResponse } from "@/types/Skill";
-import type { CategoryResponse } from "@/types/Category";
+import type { SkillResponse } from "@/shared/types/Skill";
+import type { CategoryResponse } from "@/shared/types/Category";
 import type { ExperienceLevelTypekey, JobTypeKey } from "../jobs/jobTypes";
 import type { JobStatus } from "../admin/jobs/jobsType";
 

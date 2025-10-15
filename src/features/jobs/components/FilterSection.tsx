@@ -2,7 +2,7 @@ import { memo } from "react";
 import type { JobQuickFilters } from "../jobTypes";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import type { ElementType } from "@/types/ElementType";
+import type { ElementType } from "@/shared/types/ElementType";
 const FilterSection = memo(function FilterSection<
   TKey extends string,
   TValue extends string

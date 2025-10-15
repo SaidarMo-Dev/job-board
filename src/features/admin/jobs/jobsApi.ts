@@ -1,5 +1,5 @@
 import api from "@/api/axiosInstance";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import type { JobFilters, JobManagement } from "./jobsType";
 import { DEFAULT_PAGE_SIZE } from "@/constants/config";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";

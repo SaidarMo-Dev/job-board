@@ -10,8 +10,8 @@ import {
   getUserApplications,
 } from "./applicationApi";
 import axios from "axios";
-import type { ApiResponse } from "@/types/ApiResponse";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 
 const applyForJobThunk = createAsyncThunk<

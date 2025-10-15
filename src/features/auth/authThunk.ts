@@ -8,7 +8,7 @@ import {
 } from "./authApi";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { User } from "../users/userTypes";
 import { getCurrentUser } from "../users/userApi";
 import type { RecoveryContactInfo } from "./authTypes";

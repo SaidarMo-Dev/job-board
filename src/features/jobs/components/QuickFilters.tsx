@@ -13,7 +13,7 @@ import { getTotalFilterCount } from "@/utils/getTotalFilterCount";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPopularCategories } from "@/features/admin/categories/categoryApi";
 import { fetchPopularCompanies } from "@/features/admin/companies/companyApi";
-import type { ElementType } from "@/types/ElementType";
+import type { ElementType } from "@/shared/types/ElementType";
 import FilterSection from "./FilterSection";
 import ActiveFilter from "./ActiveFilter";
 

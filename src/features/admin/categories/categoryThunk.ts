@@ -5,7 +5,7 @@ import type {
   SortCategory,
   UpdateCategory,
 } from "./categoryTypes";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import {
   addCategory,
   deleteCategory,

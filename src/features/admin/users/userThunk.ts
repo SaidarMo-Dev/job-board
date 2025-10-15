@@ -1,4 +1,4 @@
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { UserManagement } from "./usersTypes";
 import { addUser, fetchAdminUsers, updateUser } from "./userApi";

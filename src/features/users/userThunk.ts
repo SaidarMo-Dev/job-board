@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { UpdateUserRequest } from "./userTypes";
 import { updateUser } from "./userApi";
 import axios from "axios";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 
 export const updateUserThunk = createAsyncThunk<
   boolean,

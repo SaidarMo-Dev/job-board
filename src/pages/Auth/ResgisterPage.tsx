@@ -13,7 +13,7 @@ import "react-toastify/ReactToastify.css";
 
 // axios
 import axios from "axios";
-import type { ApiResponse } from "../../types/ApiResponse";
+import type { ApiResponse } from "../../shared/types/ApiResponse";
 import { LogoBrand } from "@/features/auth/components/register/LogoBrand";
 import { RoleSelector } from "@/features/auth/components/register/RoleSelector";
 import { NameInputs } from "@/features/auth/components/register/NameInput";

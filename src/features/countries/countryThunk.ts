@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { Country } from "./countryType";
 import { getAllCountries } from "./countryApi";
 import axios from "axios";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 
 const getAllCountriesThunk = createAsyncThunk<
   Country[],

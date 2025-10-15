@@ -1,4 +1,4 @@
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { bookmarkResponse } from "./bookmarksTypes";
 import {
@@ -9,7 +9,7 @@ import {
   UnsaveJob,
 } from "./bookmarksApi";
 import axios from "axios";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 
 const getUserSavedJobsThunk = createAsyncThunk<
   ApiPaginatedResponse<bookmarkResponse[]>,

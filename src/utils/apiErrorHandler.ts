@@ -1,4 +1,4 @@
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import axios from "axios";
 
 export function extractAxiosErrorMessage<T>(

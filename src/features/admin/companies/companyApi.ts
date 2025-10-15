@@ -1,7 +1,7 @@
 import api from "@/api/axiosInstance";
 import type { CompanyManagement, SortCompany } from "./companyTypes";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { CompanyFormValues } from "./schemas/CompanySchema";
 import type { CompanyOption } from "../jobs/jobsType";
 

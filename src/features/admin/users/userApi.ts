@@ -1,8 +1,8 @@
 import api from "@/api/axiosInstance";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import type { UserManagement } from "./usersTypes";
 import type { AddFormData, EditFormData } from "./schemas/userSchema";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 
 const ADMIN_USER_BASE_URL = "/Admin/users";
 

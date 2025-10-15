@@ -10,7 +10,7 @@ import { useNavigate, useParams } from "react-router";
 import { useForm } from "react-hook-form";
 import { JobSchema, type JobFormValues } from "../schemas/jobSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { FormMode } from "@/types/formModes";
+import type { FormMode } from "@/shared/types/formModes";
 import type { Option } from "../jobsType";
 import { toast } from "react-toastify";
 import { addJob, getJobByIdSummary, updateJob } from "@/features/jobs/jobApi";

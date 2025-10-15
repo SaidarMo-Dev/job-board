@@ -1,12 +1,12 @@
 import api from "@/api/axiosInstance";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import type {
   AddBookmark,
   bookmarkResponse,
   SavedJobIdsResponse,
   UserBookmarkRequest,
 } from "./bookmarksTypes";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { RecentSavedJob } from "../jobs/jobTypes";
 
 const BOOKMARKS_BASE_URL = "/bookmarks";

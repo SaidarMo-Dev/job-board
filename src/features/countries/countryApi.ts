@@ -1,4 +1,4 @@
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { Country } from "./countryType";
 import api from "../../api/axiosInstance";
 

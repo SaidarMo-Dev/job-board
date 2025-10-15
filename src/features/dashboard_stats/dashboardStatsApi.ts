@@ -1,5 +1,5 @@
 import api from "@/api/axiosInstance";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { DashboardStatsType } from "./dashboardStatsTypes";
 
 const DASHBOARD_BASE_URL = `/users`;

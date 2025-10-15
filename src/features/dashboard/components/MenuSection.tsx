@@ -2,7 +2,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import type { MenuItem } from "@/types/MenuItem";
+import type { MenuItem } from "@/shared/types/MenuItem";
 import { Link } from "react-router";
 
 export function MenuSection({ items }: { items: MenuItem[] }) {

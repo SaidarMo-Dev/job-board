@@ -1,6 +1,6 @@
-import type { ApiResponse } from "../../types/ApiResponse";
+import type { ApiResponse } from "../../shared/types/ApiResponse";
 import api from "../../api/axiosInstance";
-import type { LoginToken } from "../../types/loginResponse";
+import type { LoginToken } from "../../shared/types/loginResponse";
 import type { ChangePasswordType, RecoveryContactInfo } from "./authTypes";
 
 interface ConfirmEmailType {
@@ -23,7 +23,6 @@ export async function Login(UsernameOrEmail: string, Password: string) {
 
   return res.data;
 }
-
 
 export async function Logout() {
   const res = await api.post<string>(`${AUTH_BASE_URL}/logout`, {

@@ -5,8 +5,8 @@ import type {
   SortSkill,
   UpdateSkill,
 } from "./skillsTypes";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { Option } from "../jobs/jobsType";
 
 const SKILL_BASE_URL = "/skills";

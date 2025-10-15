@@ -24,7 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router";
-import type { MenuItem } from "@/types/MenuItem";
+import type { MenuItem } from "@/shared/types/MenuItem";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectCurrentUser } from "@/features/auth/authSlice";
 import { MenuSection } from "./MenuSection";

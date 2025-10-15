@@ -1,7 +1,7 @@
 import api from "@/api/axiosInstance";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { EmployerDashboardStats, EmployerJob } from "./employerTypes";
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import { DEFAULT_PAGE_SIZE } from "@/constants/config";
 
 const EMPLOYER_BASE_URL = "/employer";
@@ -11,10 +11,7 @@ export async function getEmployerDashboardStats(): Promise<EmployerDashboardStat
     .data.data;
 }
 
-export async function fetchEmployerJobs(
-  page: number = 1,
-  search: string = ""
-) {
+export async function fetchEmployerJobs(page: number = 1, search: string = "") {
   const query = new URLSearchParams();
   query.set("Page", page.toString());
   query.set("Size", DEFAULT_PAGE_SIZE.toString());
@@ -25,5 +22,4 @@ export async function fetchEmployerJobs(
       `${EMPLOYER_BASE_URL}/posted-jobs?${query.toString()}`
     )
   ).data.data;
-
 }

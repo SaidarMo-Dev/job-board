@@ -1,7 +1,6 @@
-
 import AddEditHeader from "../components/AddEditHeader";
 import CompanyForm from "../components/CompanyForm";
-import type { FormMode } from "@/types/formModes";
+import type { FormMode } from "@/shared/types/formModes";
 
 interface AddEditCompanyProps {
   mode: FormMode;

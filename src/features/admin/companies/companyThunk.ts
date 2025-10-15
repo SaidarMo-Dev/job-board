@@ -1,4 +1,4 @@
-import type { ApiPaginatedResponse } from "@/types/ApiPaginatedResponse";
+import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { CompanyManagement, SortCompany } from "./companyTypes";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
@@ -9,7 +9,7 @@ import {
   fetchCompanyById,
   updateCompany,
 } from "./companyApi";
-import type { ApiResponse } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { CompanyFormValues } from "./schemas/CompanySchema";
 
 const fetchCompaniesThunk = createAsyncThunk<
