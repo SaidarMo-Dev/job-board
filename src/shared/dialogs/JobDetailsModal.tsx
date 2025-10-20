@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { TabType } from "../types/TabType";
 import { useQuery } from "@tanstack/react-query";
 import { getJobById } from "@/features/jobs/jobApi";
 import { JobDetailsTab } from "../components/JobsDetailsTab";
+import { JobApplicantsTab } from "../components/JobApplicantsTap";
 
 interface JobDetailsModalProps {
   jobId: number;
@@ -16,18 +17,27 @@ interface JobDetailsModalProps {
 export function JobDetailsModal({ jobId, onClose }: JobDetailsModalProps) {
   const [activeTab, setActiveTab] = useState<TabType>("details");
 
-  const jobInfo = useQuery({
-    queryKey: ["getJobById"],
+  const { data: jobInfo, isLoading: jobInfoLoading } = useQuery({
+    queryKey: ["getJobById", jobId],
     queryFn: () => getJobById(jobId),
-  }).data?.data;
+  });
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      onClick={onClose}
+    >
       <div className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-lg border border-border bg-card shadow-xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
           <h2 className="text-xl font-semibold text-foreground">
-            Senior Frontend Developer
+            {jobInfo?.data?.title ?? "Job Details"}
           </h2>
           <Button
             variant="ghost"
@@ -65,9 +75,6 @@ export function JobDetailsModal({ jobId, onClose }: JobDetailsModalProps) {
               }`}
             >
               Applicants
-              <span className="ml-2 rounded-full bg-primary/10 px-2 py-0.5 text-xs text-primary">
-                24
-              </span>
               {activeTab === "applicants" && (
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
               )}
@@ -76,11 +83,13 @@ export function JobDetailsModal({ jobId, onClose }: JobDetailsModalProps) {
         </div>
 
         {/* Tab Content */}
-        <div className="overflow-y-auto max-h-[calc(90vh-140px)]">
-          {activeTab === "details" && <JobDetailsTab job={jobInfo} />}
+        <div className="overflow-y-auto max-h-[calc(90vh-140px)] p-6">
+          {activeTab === "details" && (
+            <JobDetailsTab job={jobInfo?.data} isLoading={jobInfoLoading} />
+          )}
           {/* 
-          {activeTab === "history" && <JobHistoryTab />}
-          {activeTab === "applicants" && <JobApplicantsTab />} */}
+          {activeTab === "history" && <JobHistoryTab />} */}
+          {activeTab === "applicants" && <JobApplicantsTab jobId={jobId} />}
         </div>
       </div>
     </div>

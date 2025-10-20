@@ -1,8 +1,23 @@
 import { MapPin, DollarSign, Clock, Briefcase } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { JobResponse } from "@/features/jobs/jobTypes";
+import Loader from "@/components/Loaders/Loader";
 
-export function JobDetailsTab({ job }: { job?: JobResponse }) {
+export function JobDetailsTab({
+  job,
+  isLoading,
+}: {
+  job?: JobResponse;
+  isLoading: boolean;
+}) {
+  if (isLoading)
+    return (
+      <div className="p-6 flex items-center justify-center flex-col gap-2">
+        <Loader variant="spinner" size="sm" />
+        <span className="text-gray-500">Loading Job informations...</span>
+      </div>
+    );
+
   if (!job) return <div>No job informations found</div>;
   return (
     <div className="space-y-6 p-6">

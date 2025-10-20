@@ -4,6 +4,10 @@ import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { PaginationInfo } from "../admin/users/usersTypes";
 import type { JobFormValues } from "../admin/jobs/schemas/jobSchema";
+import type { ApplicantSummary } from "@/shared/types/ApplicantSummary";
+import { DEFAULT_PAGE_SIZE } from "@/constants/config";
+import type { FilterApplicantsKey } from "@/shared/types/FilterApplicants";
+import type { SortApplicantsKeys } from "@/shared/types/SortApplicantsBy";
 
 const JOB_BASE_URL = "/jobs";
 
@@ -85,4 +89,25 @@ export async function deleteJob(id: number) {
     console.log(err);
     return false;
   }
+}
+
+export async function getJobApplicants(
+  id: number,
+  page: number,
+  filter?: FilterApplicantsKey,
+  sort?: SortApplicantsKeys
+): Promise<ApiPaginatedResponse<ApplicantSummary[]>> {
+  const params = new URLSearchParams();
+
+  params.append("JobId", id.toString());
+  params.append("Page", page.toString());
+  params.append("Size", DEFAULT_PAGE_SIZE.toString());
+  if (filter) params.append("Filter", filter);
+  if (sort) params.append("Sort", sort);
+
+  return (
+    await api.get<ApiPaginatedResponse<ApplicantSummary[]>>(
+      `${JOB_BASE_URL}/applicants/summary?${params.toString()}`
+    )
+  ).data;
 }

@@ -1,3 +1,5 @@
+import type { applicationStatus } from "@/features/jobApplications/applicationType";
+
 export interface ApplicantSummary {
   id: number;
   name: string;
@@ -5,5 +7,6 @@ export interface ApplicantSummary {
   email: string;
   experience: string;
   country: string;
+  status: applicationStatus;
   appliedDate: string;
 }

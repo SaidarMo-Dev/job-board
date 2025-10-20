@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreVertical } from "lucide-react";
 import type { ApplicantSummary } from "../types/ApplicantSummary";
+import { ApplicationStatusBadge } from "./ApplicationStatusBadge";
 
 export default function ApplicantInfoCard({
   applicant,
@@ -36,6 +37,7 @@ export default function ApplicantInfoCard({
         <div className="min-w-0 flex-1 space-y-1">
           <div className="flex items-center gap-2">
             <h4 className="font-semibold text-foreground">{applicant.name}</h4>
+            <ApplicationStatusBadge status={applicant.status} />
           </div>
           <p className="text-sm text-muted-foreground">{applicant.email}</p>
           <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
@@ -43,9 +45,12 @@ export default function ApplicantInfoCard({
             <span>•</span>
             <span>{applicant.country}</span>
             <span>•</span>
-            <span>Applied {applicant.appliedDate}</span>
+            <span>
+              Applied {new Date(applicant.appliedDate).toDateString()}
+            </span>
           </div>
         </div>
+        <Button variant="outline">Download resume</Button>
       </div>
 
       {/* Right side - Actions */}
@@ -57,9 +62,9 @@ export default function ApplicantInfoCard({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Schedule Interview</DropdownMenuItem>
-            <DropdownMenuItem>Move to Shortlist</DropdownMenuItem>
-            <DropdownMenuItem>Download Resume</DropdownMenuItem>
+            <DropdownMenuItem className="text-green-700">
+              Accept Application
+            </DropdownMenuItem>
             <DropdownMenuItem className="text-destructive">
               Reject Application
             </DropdownMenuItem>

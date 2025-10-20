@@ -19,6 +19,7 @@ export default function CustomPagination({
   pagination,
 }: CustomPaginationProps) {
   if (!pagination) return null;
+  if (pagination.totalRecords < pagination.pageSize) return null;
 
   const { currentPage, totalPages, hasNextPage } = pagination;
 

@@ -1,5 +1,4 @@
 import type { RoleType } from "@/features/admin/users/usersTypes";
-
 export function getStatusColor(status: boolean): string {
   return !status
     ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200"
@@ -29,3 +28,4 @@ export function getGender(gender: string | undefined) {
 
   return gender;
 }
+
