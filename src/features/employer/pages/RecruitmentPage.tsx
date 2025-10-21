@@ -11,8 +11,12 @@ import type { EmployerJob, employerJobActionType } from "../employerTypes";
 import { deleteJob } from "@/features/jobs/jobApi";
 import { toast } from "react-toastify";
 import { JobDetailsModal } from "@/shared/dialogs/JobDetailsModal";
+import { useNavigate } from "react-router";
+import { ROUTES } from "@/constants/routes";
 
 export default function RecruitmentPage() {
+  const navigate = useNavigate();
+
   const [searchJobs, setSearchJobs] = useState("");
 
   const [jobToDelete, setJobToDelete] = useState<EmployerJob | null>(null);
@@ -40,7 +44,8 @@ export default function RecruitmentPage() {
   const handleJobAction = (action: employerJobActionType, job: EmployerJob) => {
     if (action === "delete") setJobToDelete(job);
     else if (action === "view") setJobToView(job);
-    // TODO : Handle other actions
+    else if (action === "edit")
+      navigate(ROUTES.MEMBER.RECRUITMENT.JOBS.EDIT(job.id));
   };
 
   const confirmDeleteJob = async () => {
