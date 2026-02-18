@@ -6,15 +6,42 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreVertical } from "lucide-react";
+import { FileUser, MoreVertical } from "lucide-react";
 import type { ApplicantSummary } from "../types/ApplicantSummary";
 import { ApplicationStatusBadge } from "./ApplicationStatusBadge";
+import { getSignedUrl } from "../services/fileApi";
+import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 export default function ApplicantInfoCard({
   applicant,
 }: {
   applicant: ApplicantSummary;
 }) {
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    if (isDownloading) return;
+
+    if (!applicant.resumeFileId) {
+      toast.error("Resume not available", { position: "top-center" });
+      return;
+    }
+
+    try {
+      setIsDownloading(true);
+      const signedUrl = await getSignedUrl(applicant.resumeFileId, true);
+
+      window.location.href = signedUrl;
+    } catch (error) {
+      const mesage = extractAxiosErrorMessage(error);
+      toast.error(mesage, { position: "top-center" });
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <div
       key={applicant.id}
@@ -24,8 +51,8 @@ export default function ApplicantInfoCard({
       <div className="flex items-start gap-4 sm:items-center">
         <Avatar className="h-12 w-12 flex-shrink-0">
           <AvatarImage
-            src={applicant.imagePath || "/placeholder.svg"}
-            alt={applicant.name}
+            src={applicant.profileImageUrl || "/placeholder.svg"}
+            alt={applicant.name + "image profile"}
           />
           <AvatarFallback className="bg-primary/10 text-primary">
             {applicant.name
@@ -50,7 +77,16 @@ export default function ApplicantInfoCard({
             </span>
           </div>
         </div>
-        <Button variant="outline">Download resume</Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2 hover:text-white hover:bg-primary-hover"
+          disabled={isDownloading}
+          onClick={handleDownload}
+        >
+          <FileUser className="h-4 w-4" />
+          {isDownloading ? "Downloading..." : " Download Resume"}
+        </Button>
       </div>
 
       {/* Right side - Actions */}
@@ -62,9 +98,8 @@ export default function ApplicantInfoCard({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem className="text-green-700">
-              Accept Application
-            </DropdownMenuItem>
+            <DropdownMenuItem>Download Resume</DropdownMenuItem>
+            <DropdownMenuItem>Accept Application</DropdownMenuItem>
             <DropdownMenuItem className="text-destructive">
               Reject Application
             </DropdownMenuItem>

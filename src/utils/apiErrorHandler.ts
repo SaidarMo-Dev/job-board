@@ -3,7 +3,7 @@ import axios from "axios";
 
 export function extractAxiosErrorMessage<T>(
   err: unknown,
-  fallback = "Unexpected error"
+  fallback = "Unexpected error",
 ): string {
   if (axios.isAxiosError(err)) {
     const errorData = err.response?.data as ApiResponse<T> | undefined;

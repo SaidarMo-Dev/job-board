@@ -24,10 +24,11 @@ import { DEFAULT_PAGE_SIZE } from "@/constants/config";
 export function JobApplicantsTab({ jobId }: { jobId: number }) {
   const [filter, setFilter] = useState<FilterApplicantsKey>();
   const [sort, setSort] = useState<SortApplicantsKeys>();
+  const [page, setPage] = useState(1);
 
   const { data: applicants, isLoading } = useQuery({
-    queryKey: ["jobApplicants", filter],
-    queryFn: () => getJobApplicants(jobId, 1, filter, sort),
+    queryKey: ["jobApplicants", jobId, page, filter, sort],
+    queryFn: () => getJobApplicants(jobId, page, filter, sort),
   });
 
   if (isLoading)
@@ -50,14 +51,14 @@ export function JobApplicantsTab({ jobId }: { jobId: number }) {
           </h3>
 
           <CustomPagination
-            onChange={() => null}
+            onChange={(page) => setPage(page)}
             pagination={
               applicants
                 ? {
                     pageSize: DEFAULT_PAGE_SIZE,
                     totalPages: applicants.totalPages,
                     hasPreviousPage: applicants.hasPreviusPage,
-                    currentPage: applicants.currentPage,
+                    currentPage: page,
                     hasNextPage: applicants.hasNextPage,
                     totalRecords: applicants.totalRecords,
                   }

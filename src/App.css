@@ -29,6 +29,10 @@
   }
 }
 
+.hover\:bg-primary-hover:hover {
+  background-color: var(--primary-hover);
+}
+
 @font-face {
   font-family: "Inter";
   src: url("../src/assets/fonts/Inter-VariableFont_opsz\,wght.ttf")
