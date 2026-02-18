@@ -98,7 +98,9 @@ export default function ApplicantInfoCard({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Download Resume</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDownload}>
+              Download Resume
+            </DropdownMenuItem>
             <DropdownMenuItem>Accept Application</DropdownMenuItem>
             <DropdownMenuItem className="text-destructive">
               Reject Application
