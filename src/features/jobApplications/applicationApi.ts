@@ -25,7 +25,7 @@ export async function applyForJob(applicationData: ApplicationData) {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    }
+    },
   );
 
   return response.data;
@@ -34,7 +34,7 @@ export async function applyForJob(applicationData: ApplicationData) {
 export async function getUserApplications(
   page: number,
   size: number,
-  statusFilter: ApplicationStatusFilterType
+  statusFilter: ApplicationStatusFilterType,
 ) {
   const params = new URLSearchParams();
   params.append("Page", page.toString());
@@ -50,14 +50,30 @@ export async function getUserApplications(
 export async function fetchRecentApplications(take: number) {
   return (
     await api.get<ApiResponse<RecentApplication[]>>(
-      `${APPLICATIONS_BASE_URL}/recent-applications?take=${take}`
+      `${APPLICATIONS_BASE_URL}/recent-applications?take=${take}`,
     )
   ).data.data;
 }
 
 export async function getAppliedJobIds() {
   const response = await api.get<ApiResponse<number[]>>(
-    `${APPLICATIONS_BASE_URL}/applied-job-ids`
+    `${APPLICATIONS_BASE_URL}/applied-job-ids`,
+  );
+
+  return response.data;
+}
+
+export async function acceptApplication(applicationId: number) {
+  const response = await api.patch<ApiResponse<string>>(
+    `${APPLICATIONS_BASE_URL}/${applicationId}/accept`,
+  );
+
+  return response.data;
+}
+
+export async function rejectApplication(applicationId: number) {
+  const response = await api.patch<ApiResponse<string>>(
+    `${APPLICATIONS_BASE_URL}/${applicationId}/remove`,
   );
 
   return response.data;

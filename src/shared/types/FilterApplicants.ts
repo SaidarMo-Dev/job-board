@@ -1,4 +1,5 @@
 export const FilterApplicants = {
+  All: "All",
   Pending: "Pending",
   Accepted: "Accepted",
   Rejected: "Rejected",

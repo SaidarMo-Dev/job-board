@@ -13,13 +13,25 @@ import { getSignedUrl } from "../services/fileApi";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import {
+  acceptApplication,
+  rejectApplication,
+} from "@/features/jobApplications/applicationApi";
+import {
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 export default function ApplicantInfoCard({
   applicant,
+  jobId,
 }: {
   applicant: ApplicantSummary;
+  jobId: number;
 }) {
   const [isDownloading, setIsDownloading] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const handleDownload = async () => {
     if (isDownloading) return;
@@ -41,6 +53,28 @@ export default function ApplicantInfoCard({
       setIsDownloading(false);
     }
   };
+
+  const acceptMutation = useMutation({
+    mutationFn: acceptApplication,
+    onSuccess: () => {
+      toast.success("Application accepted");
+      queryClient.invalidateQueries({ queryKey: ["jobApplicants", jobId] });
+    },
+    onError: (error) => {
+      toast.error(extractAxiosErrorMessage(error));
+    },
+  });
+
+  const rejectMutation = useMutation({
+    mutationFn: rejectApplication,
+    onSuccess: () => {
+      toast.success("Application rejected");
+      queryClient.invalidateQueries({ queryKey: ["jobApplicants", jobId] });
+    },
+    onError: (error) => {
+      toast.error(extractAxiosErrorMessage(error));
+    },
+  });
 
   return (
     <div
@@ -101,8 +135,21 @@ export default function ApplicantInfoCard({
             <DropdownMenuItem onClick={handleDownload}>
               Download Resume
             </DropdownMenuItem>
-            <DropdownMenuItem>Accept Application</DropdownMenuItem>
-            <DropdownMenuItem className="text-destructive">
+            <DropdownMenuItem
+              onClick={() => acceptMutation.mutate(applicant.id)}
+              disabled={
+                applicant.status == "Accepted" || applicant.status == "Rejected"
+              }
+            >
+              Accept Application
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="text-destructive"
+              onClick={() => rejectMutation.mutate(applicant.id)}
+              disabled={
+                applicant.status == "Accepted" || applicant.status == "Rejected"
+              }
+            >
               Reject Application
             </DropdownMenuItem>
           </DropdownMenuContent>
