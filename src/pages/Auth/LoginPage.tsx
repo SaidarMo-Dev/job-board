@@ -11,6 +11,7 @@ import { ROUTES } from "@/constants/routes";
 import { getAdminProfileThunk } from "@/features/admin/auth/adminThunk";
 import { adminLogin } from "@/features/admin/auth/adminSlice";
 import { LogoBrand } from "@/features/auth/components/register/LogoBrand";
+import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [UsernameOrEmail, setUsernameOrEmail] = useState("");
@@ -32,7 +33,7 @@ export default function LoginPage() {
 
       try {
         const result = await dispatch(
-          handleLogin({ UsernameOrEmail, Password: password })
+          handleLogin({ UsernameOrEmail, Password: password }),
         ).unwrap();
 
         if (result.includes("Admin")) {
@@ -44,14 +45,12 @@ export default function LoginPage() {
         await dispatch(getCurrentUserThunk());
         navigate(ROUTES.MEMBER.HOME);
       } catch (error) {
-        const message =
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred";
+        const message = extractAxiosErrorMessage(error);
+
         setErrorMessage(message);
       }
     },
-    [dispatch, UsernameOrEmail, password, navigate]
+    [dispatch, UsernameOrEmail, password, navigate],
   );
 
   return (
