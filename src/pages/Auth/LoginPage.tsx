@@ -6,12 +6,10 @@ import { Link, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 
 import type { AppDispatch } from "@/store";
-import { getCurrentUserThunk, handleLogin } from "@/features/auth/authThunk";
+import { handleLogin } from "@/features/auth/authThunk";
 import { ROUTES } from "@/constants/routes";
-import { getAdminProfileThunk } from "@/features/admin/auth/adminThunk";
-import { adminLogin } from "@/features/admin/auth/adminSlice";
 import { LogoBrand } from "@/features/auth/components/register/LogoBrand";
-import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
+import { adminLogin } from "@/features/admin/auth/adminSlice";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [UsernameOrEmail, setUsernameOrEmail] = useState("");
@@ -20,7 +18,7 @@ export default function LoginPage() {
 
   const { handleShowCloseToast } = useToast();
 
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<null | string>(null);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -29,25 +27,22 @@ export default function LoginPage() {
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
-      setErrorMessage("");
 
       try {
+        // Perform login, returns identity with roles
         const result = await dispatch(
           handleLogin({ UsernameOrEmail, Password: password }),
         ).unwrap();
 
+        // Redirect based on role
         if (result.includes("Admin")) {
           dispatch(adminLogin());
-          await dispatch(getAdminProfileThunk());
           return navigate(ROUTES.ADMIN.DASHBOARD);
         }
 
-        await dispatch(getCurrentUserThunk());
         navigate(ROUTES.MEMBER.HOME);
       } catch (error) {
-        const message = extractAxiosErrorMessage(error);
-
-        setErrorMessage(message);
+        setErrorMessage(error as string);
       }
     },
     [dispatch, UsernameOrEmail, password, navigate],
@@ -88,7 +83,10 @@ export default function LoginPage() {
                     type="text"
                     placeholder="Email Or Username"
                     value={UsernameOrEmail}
-                    onChange={(e) => setUsernameOrEmail(e.target.value)}
+                    onChange={(e) => {
+                      if (errorMessage) setErrorMessage(null);
+                      setUsernameOrEmail(e.target.value);
+                    }}
                     className="w-full h-11 px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-2 focus:border-sky-600 transition-colors"
                     required
                   />
@@ -108,7 +106,10 @@ export default function LoginPage() {
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {
+                        if (errorMessage) setErrorMessage(null);
+                        setPassword(e.target.value);
+                      }}
                       className="w-full h-11 px-3 py-2 pr-10 rounded-md border border-gray-300 focus:outline-none focus:border-2 focus:border-sky-600 transition-colors"
                       required
                     />

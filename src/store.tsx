@@ -44,7 +44,7 @@ const persistConfig = {
   key: "root",
   storage,
   tranforms: [savedJobIdsTransform],
-  whitelist: ["authReducer", "bookmarkReducer", "adminAuthReducer"],
+  whitelist: ["bookmarkReducer"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -25,12 +25,7 @@ const handleLogin = createAsyncThunk<
 
     return response.data;
   } catch (error) {
-    console.log(error);
-    if (axios.isAxiosError(error)) {
-      const msg = error.response?.data as ApiResponse<null>;
-      return thunkApi.rejectWithValue(msg.message);
-    }
-    return thunkApi.rejectWithValue("Something wont wrong!");
+    return thunkApi.rejectWithValue(extractAxiosErrorMessage(error));
   }
 });
 
@@ -76,7 +71,7 @@ const SendChangeEmailVerificationThunk = createAsyncThunk<
       }
       return thunkApi.rejectWithValue("Something went wrong!");
     }
-  }
+  },
 );
 
 const VerifyEmailChangeThunk = createAsyncThunk<
@@ -151,6 +146,31 @@ const resendCodeThunk = createAsyncThunk<
     return rejectWithValue(extractAxiosErrorMessage(error));
   }
 });
+
+export const checkAuthThunk = createAsyncThunk(
+  "auth/check",
+  async (_, { rejectWithValue }) => {
+    try {
+      const user = await getCurrentUser();
+      return user;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+// export const checkAuthThunk = createAsyncThunk(
+//   'auth/checkAuth',
+//   async (_, { rejectWithValue }) => {
+//     console.log("checkAuthThunk started");
+//     // comment out real API call
+//     // const res = await api.get('/auth/me');
+//     // return res.data;
+
+//     await new Promise(r => setTimeout(r, 800)); // fake delay
+//     return rejectWithValue("forced test rejection");
+//   }
+// );
 
 export {
   handleLogin,

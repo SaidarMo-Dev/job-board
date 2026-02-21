@@ -26,9 +26,11 @@ import {
 import { Link } from "react-router";
 import type { MenuItem } from "@/shared/types/MenuItem";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectCurrentUser } from "@/features/auth/authSlice";
+import {
+  logoutMemberLocaly,
+  selectCurrentUser,
+} from "@/features/auth/authSlice";
 import { MenuSection } from "./MenuSection";
-import RemoveTokens from "@/utils/removeTokens";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { ROUTES } from "@/constants/routes";
 import { logoutThunk } from "@/features/auth/authThunk";
@@ -62,13 +64,13 @@ export function DashboardHeader() {
   const currentUser = useAppSelector(selectCurrentUser);
   const notificationsCount = 3; // TODO: replace with real data
   const isEmployer = useAppSelector((state) =>
-    state.authReducer.userRoles.includes("Employer")
+    state.authReducer.userRoles.includes("Employer"),
   );
   const dispatch = useAppDispatch();
 
   const handleSignOut = () => {
-    RemoveTokens();
     dispatch(logoutThunk());
+    logoutMemberLocaly();
   };
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

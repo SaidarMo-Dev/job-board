@@ -16,6 +16,7 @@ export interface AdminProfile {
 
 export interface adminAuthState {
   isAuthenticated: boolean;
+  hasCheckedAuth: boolean;
   error: {
     fetch: string | null;
     save: string | null;
@@ -23,8 +24,8 @@ export interface adminAuthState {
   };
   admin: AdminProfile | null;
   loading: {
-    fetch: false;
-    save: false;
-    remove: false;
+    fetch: boolean;
+    save: boolean;
+    remove: boolean;
   };
 }

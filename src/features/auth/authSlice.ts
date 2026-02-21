@@ -3,6 +3,7 @@ import type { AuthState } from "./authTypes";
 import {
   AddRecoveryContactInformationThunk,
   ChangePasswordThunk,
+  checkAuthThunk,
   getCurrentUserThunk,
   handleLogin,
   resendCodeThunk,
@@ -15,6 +16,7 @@ import { updateUserThunk } from "../users/userThunk";
 const initialState: AuthState = {
   isAuthenticated: false,
   currentUser: null,
+  authStatus: "idle",
   error: null,
   loading: false,
   userRoles: [],
@@ -23,22 +25,32 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logoutMemberLocaly(state) {
+      state.authStatus = "idle";
+      state.isAuthenticated = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // handle login
       .addCase(handleLogin.pending, (state) => {
         state.loading = true;
+        state.authStatus = "checking";
+        state.error = null;
       })
       .addCase(handleLogin.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.loading = false;
         state.userRoles = action.payload;
+        state.authStatus = "authenticated";
+        state.error = null;
       })
       .addCase(handleLogin.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.loading = false;
         state.error = action.payload;
+        state.authStatus = "unauthenticated";
       })
 
       // get current user
@@ -115,7 +127,7 @@ const authSlice = createSlice({
             state.currentUser.recoveryEmail = action.payload.email;
             state.currentUser.recoveryPhone = action.payload.phoneNumber;
           }
-        }
+        },
       )
       .addCase(AddRecoveryContactInformationThunk.rejected, (state, action) => {
         state.loading = false;
@@ -134,19 +146,38 @@ const authSlice = createSlice({
       .addCase(resendCodeThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Something went wrong!";
+      })
+
+      .addCase(checkAuthThunk.pending, (state) => {
+        state.loading = true;
+        state.authStatus = "checking";
+      })
+      .addCase(checkAuthThunk.fulfilled, (state, action) => {
+        state.currentUser = action.payload;
+        state.loading = false;
+        state.authStatus = action.payload ? "authenticated" : "unauthenticated";
+      })
+      .addCase(checkAuthThunk.rejected, (state) => {
+        state.currentUser = null;
+        state.loading = false;
+        state.authStatus = "unauthenticated";
       });
   },
 });
 
 export default authSlice.reducer;
 
+export const { logoutMemberLocaly } = authSlice.actions;
+
 export const logout = createAction("auth/logout");
 
 export const selectAuthError = (state: RootState) => state.authReducer.error;
 export const selectCurrentUser = (state: RootState) =>
   state.authReducer.currentUser;
+
 export const selectIsAuthenticated = (state: RootState) =>
-  state.authReducer.isAuthenticated;
+  Boolean(state.authReducer.currentUser);
+
 export const selectLoading = (state: RootState) => state.authReducer.loading;
 
 export const selectCurrentUserRecoveryInfo = (state: RootState) => {

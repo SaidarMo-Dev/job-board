@@ -35,6 +35,7 @@ import ContactPage from "@/pages/ContactUs";
 import ForgotPasswordPage from "@/features/forgot_password/ForgotPasswordPage";
 import ResetPasswordPage from "@/features/reset_password/ResetPasswordPage";
 import RecruitmentPage from "@/features/employer/pages/RecruitmentPage";
+import AuthGuard from "@/pages/Auth/authGuard";
 
 export default function AppRoutes() {
   return (
@@ -65,9 +66,11 @@ export default function AppRoutes() {
         <Route
           path=":jobId/apply"
           element={
-            <PublicLayout>
-              <JobApplicationWizardPage />
-            </PublicLayout>
+            <AuthGuard>
+              <PublicLayout>
+                <JobApplicationWizardPage />
+              </PublicLayout>
+            </AuthGuard>
           }
         />
       </Route>
