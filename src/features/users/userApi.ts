@@ -1,4 +1,3 @@
-import { getAccessToken } from "@/utils/gitAccessToken";
 import api from "../../api/axiosInstance";
 import type { ApiResponse } from "../../shared/types/ApiResponse";
 import type { CurrentUser, UpdateUserRequest, User } from "./userTypes";
@@ -11,7 +10,7 @@ export const createUser = (data: RegisterFormData) =>
     method: "post",
     url: `${USER_BASE_URL}/register`,
     data: { ...data },
-    timeout: 10000,
+    timeout: 5000,
   });
 
 export async function getCurrentUser(): Promise<CurrentUser> {
@@ -26,18 +25,31 @@ export async function updateUser(data: UpdateUserRequest) {
     {
       ...data,
     },
-    {
-      headers: {
-        Authorization: `bearer ${getAccessToken()}`,
-      },
-    }
   );
   return response.data;
 }
 
 export async function DeleteUser(Id: number) {
   const response = await api.delete<ApiResponse<string>>(
-    `${USER_BASE_URL}/${Id}`
+    `${USER_BASE_URL}/${Id}`,
+  );
+
+  return response.data;
+}
+
+export async function UplodUserProfileImage(file: File) {
+  const formData = new FormData();
+  formData.append("ProfileImage", file);
+
+  const response = await api.patch<ApiResponse<string>>(
+    `${USER_BASE_URL}/profile-image`,
+    formData,
+    {
+      timeout: 10000,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    },
   );
 
   return response.data;

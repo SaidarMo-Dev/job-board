@@ -1,14 +1,70 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { MapPin, Mail, Phone, Edit, Share2, Camera } from "lucide-react";
+import { MapPin, Mail, Phone, Share2, Camera } from "lucide-react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectCurrentUser } from "@/features/auth/authSlice";
+import { useRef, useState } from "react";
+import { UplodUserProfileImage } from "@/features/users/userApi";
+import { toast } from "react-toastify";
+import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 
 export default function ProfileHeader() {
   const currentUser = useAppSelector(selectCurrentUser);
 
+  const initials = currentUser
+    ? `${currentUser.firstName?.[0] ?? ""}${currentUser.lastName?.[0] ?? ""}` ||
+      "U"
+    : "U";
+
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select a valid image file", {
+        position: "top-center",
+      });
+
+      return;
+    }
+
+    setPreviewUrl(URL.createObjectURL(file));
+    setIsUploading(true);
+
+    try {
+      const res = await UplodUserProfileImage(file);
+      if (res.succeeded) {
+        toast.success("Profile image uploaded successfully", {
+          position: "top-center",
+        });
+      } else {
+        toast.error(res.message || "Failed to upload profile image", {
+          position: "top-center",
+        });
+        setPreviewUrl(null);
+      }
+    } catch (error) {
+      console.log(error);
+      const message = extractAxiosErrorMessage(error);
+
+      toast.error(message || "Failed to upload profile image", {
+        position: "top-center",
+      });
+      setPreviewUrl(null);
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
   return (
     <>
       <div className="flex items-center justify-between">
@@ -30,16 +86,33 @@ export default function ProfileHeader() {
             <div className="relative">
               <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
                 <AvatarImage
-                  src="/placeholder.svg?height=128&width=128"
-                  alt="Profile"
+                  src={
+                    previewUrl ||
+                    currentUser?.profileImageUrl ||
+                    "/images/avatar-placeholder.svg"
+                  }
+                  alt="Profile picture"
                 />
                 <AvatarFallback className="text-2xl bg-gray-200">
-                  MS
+                  {initials}
                 </AvatarFallback>
               </Avatar>
+              {/* Hidden file input */}
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+              />
+              {/* Upload button */}
               <Button
                 size="sm"
-                className="absolute bottom-2 right-2 rounded-full w-8 h-8 p-0 bg-white text-gray-600 hover:bg-gray-50 border border-gray-300"
+                disabled={isUploading}
+                className="absolute bottom-2 right-2 rounded-full w-8 h-8 p-0
+                  bg-white text-gray-600 hover:bg-gray-50 border 
+                  border-gray-300 cursor-pointer"
+                onClick={() => fileInputRef.current?.click()}
               >
                 <Camera className="w-4 h-4" />
               </Button>
@@ -70,16 +143,6 @@ export default function ProfileHeader() {
                   {currentUser?.phoneNumber ?? "Unknown"}
                 </div>
               </div>
-
-              {/* <div className="flex gap-2">
-                <Badge
-                  variant="secondary"
-                  className="bg-accent text-accent-foreground"
-                >
-                  Open to work
-                </Badge>
-                <Badge variant="outline">Remote friendly</Badge>
-              </div> */}
             </div>
           </div>
         </CardContent>

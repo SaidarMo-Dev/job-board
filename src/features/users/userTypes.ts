@@ -20,6 +20,7 @@ export interface CurrentUser {
   phoneNumber?: string;
   recoveryEmail?: string;
   recoveryPhone?: string;
+  profileImageUrl?: string;
 }
 
 export interface User {
