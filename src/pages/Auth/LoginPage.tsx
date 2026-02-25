@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 
 import type { AppDispatch } from "@/store";
-import { handleLogin } from "@/features/auth/authThunk";
+import { getCurrentUserThunk, handleLogin } from "@/features/auth/authThunk";
 import { ROUTES } from "@/constants/routes";
 import { LogoBrand } from "@/features/auth/components/register/LogoBrand";
 import { adminLogin } from "@/features/admin/auth/adminSlice";
@@ -40,6 +40,7 @@ export default function LoginPage() {
           return navigate(ROUTES.ADMIN.DASHBOARD);
         }
 
+        await dispatch(getCurrentUserThunk()).unwrap();
         navigate(ROUTES.MEMBER.HOME);
       } catch (error) {
         setErrorMessage(error as string);

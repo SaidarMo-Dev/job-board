@@ -1,34 +1,22 @@
 import Loader from "@/components/Loaders/Loader";
-import { checkAuthThunk } from "@/features/auth/authThunk";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import type { RootState } from "@/store";
-import { useEffect, type ReactNode } from "react";
-import { Navigate } from "react-router";
+import { type ReactNode } from "react";
+import { Navigate, useLocation } from "react-router";
 
 interface AuthGuardProps {
   children: ReactNode;
 }
 
 export default function AuthGuard({ children }: AuthGuardProps) {
-  const dispatch = useAppDispatch();
-
-  const { authStatus, currentUser, loading } = useAppSelector(
+  const { isInitializing, currentUser } = useAppSelector(
     (state: RootState) => state.authReducer,
   );
 
-  useEffect(() => {
-    if (!currentUser && authStatus == "authenticated") {
-      dispatch(checkAuthThunk());
-    }
-  }, [dispatch, currentUser, authStatus]);
+  const location = useLocation();
 
   // Show loader during any checking state or while loading is true or authneticated and no user loaded
-  if (
-    authStatus === "checking" ||
-    (authStatus === "authenticated" && !currentUser) ||
-    loading
-  ) {
+  if (isInitializing) {
     return (
       <div className="h-screen flex justify-center items-center">
         <Loader variant="spinner" size="sm" />
@@ -37,8 +25,8 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   }
 
   // redirect if not authenticated
-  if (authStatus !== "authenticated") {
-    return <Navigate to="/auth/login" replace />;
+  if (!currentUser) {
+    return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
 
   // Authenticated → render protected content

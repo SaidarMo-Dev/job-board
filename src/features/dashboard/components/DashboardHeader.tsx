@@ -26,14 +26,12 @@ import {
 import { Link } from "react-router";
 import type { MenuItem } from "@/shared/types/MenuItem";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import {
-  logoutMemberLocaly,
-  selectCurrentUser,
-} from "@/features/auth/authSlice";
+import { selectCurrentUser } from "@/features/auth/authSlice";
 import { MenuSection } from "./MenuSection";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { ROUTES } from "@/constants/routes";
 import { logoutThunk } from "@/features/auth/authThunk";
+import { useQueryClient } from "@tanstack/react-query";
 
 const menuItems: MenuItem[] = [
   { icon: User2, label: "Profile", href: ROUTES.MEMBER.PROFILE },
@@ -67,10 +65,11 @@ export function DashboardHeader() {
     state.authReducer.userRoles.includes("Employer"),
   );
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
   const handleSignOut = () => {
     dispatch(logoutThunk());
-    logoutMemberLocaly();
+    queryClient.clear();
   };
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

@@ -4,7 +4,7 @@ export interface AuthState {
   isAuthenticated: boolean;
   error: string | null | undefined;
   currentUser: CurrentUser | null;
-  authStatus: "idle" | "checking" | "authenticated" | "unauthenticated";
+  isInitializing: boolean;
   loading: boolean;
   userRoles: string[];
 }

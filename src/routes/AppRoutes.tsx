@@ -36,8 +36,18 @@ import ForgotPasswordPage from "@/features/forgot_password/ForgotPasswordPage";
 import ResetPasswordPage from "@/features/reset_password/ResetPasswordPage";
 import RecruitmentPage from "@/features/employer/pages/RecruitmentPage";
 import AuthGuard from "@/pages/Auth/authGuard";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useEffect } from "react";
+import { getCurrentUserThunk } from "@/features/auth/authThunk";
 
 export default function AppRoutes() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // Initial check on app load (refresh)
+    // The browser sends the HttpOnly cookie automatically
+    dispatch(getCurrentUserThunk());
+  }, [dispatch]);
   return (
     <Routes>
       {/* Public routes */}

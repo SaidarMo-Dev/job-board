@@ -2,6 +2,7 @@ import {
   AddRecoveryContactInformation,
   ChangePassword,
   Login,
+  Logout,
   resendCode,
   SendChangeEmailVerification,
   VerifyEmailChange,
@@ -13,7 +14,7 @@ import type { User } from "../users/userTypes";
 import { getCurrentUser } from "../users/userApi";
 import type { RecoveryContactInfo } from "./authTypes";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
-import axiosInstance from "@/api/axiosInstance";
+import { logoutMemberLocaly } from "./authSlice";
 
 const handleLogin = createAsyncThunk<
   string[],
@@ -29,8 +30,13 @@ const handleLogin = createAsyncThunk<
   }
 });
 
-const logoutThunk = createAsyncThunk("auth/logout", async () => {
-  await axiosInstance.post("/auth/logout");
+const logoutThunk = createAsyncThunk("auth/logout", async (_, { dispatch }) => {
+  try {
+    await Logout();
+  } finally {
+    // Clear Redux (even if the server call fails, we want the UI to log out)
+    dispatch(logoutMemberLocaly());
+  }
   return true;
 });
 
@@ -158,19 +164,6 @@ export const checkAuthThunk = createAsyncThunk(
     }
   },
 );
-
-// export const checkAuthThunk = createAsyncThunk(
-//   'auth/checkAuth',
-//   async (_, { rejectWithValue }) => {
-//     console.log("checkAuthThunk started");
-//     // comment out real API call
-//     // const res = await api.get('/auth/me');
-//     // return res.data;
-
-//     await new Promise(r => setTimeout(r, 800)); // fake delay
-//     return rejectWithValue("forced test rejection");
-//   }
-// );
 
 export {
   handleLogin,

@@ -10,13 +10,14 @@ import {
   SendChangeEmailVerificationThunk,
   VerifyEmailChangeThunk,
 } from "./authThunk";
-import type { RootState } from "@/store";
+
 import { updateUserThunk } from "../users/userThunk";
+import type { RootState } from "@/storeTypes";
 
 const initialState: AuthState = {
   isAuthenticated: false,
   currentUser: null,
-  authStatus: "idle",
+  isInitializing: true, //
   error: null,
   loading: false,
   userRoles: [],
@@ -27,8 +28,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logoutMemberLocaly(state) {
-      state.authStatus = "idle";
-      state.isAuthenticated = false;
+      {
+        state.currentUser = null;
+        state.isAuthenticated = false;
+        state.isInitializing = false;
+        state.error = null;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -36,35 +41,35 @@ const authSlice = createSlice({
       // handle login
       .addCase(handleLogin.pending, (state) => {
         state.loading = true;
-        state.authStatus = "checking";
         state.error = null;
       })
       .addCase(handleLogin.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.loading = false;
         state.userRoles = action.payload;
-        state.authStatus = "authenticated";
         state.error = null;
       })
       .addCase(handleLogin.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.loading = false;
         state.error = action.payload;
-        state.authStatus = "unauthenticated";
       })
 
       // get current user
       .addCase(getCurrentUserThunk.pending, (state) => {
         state.loading = true;
+        state.isInitializing = true;
       })
       .addCase(getCurrentUserThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.currentUser = action.payload;
         state.error = null;
+        state.isInitializing = false;
       })
       .addCase(getCurrentUserThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isInitializing = false;
       })
 
       //update user
@@ -150,17 +155,14 @@ const authSlice = createSlice({
 
       .addCase(checkAuthThunk.pending, (state) => {
         state.loading = true;
-        state.authStatus = "checking";
       })
       .addCase(checkAuthThunk.fulfilled, (state, action) => {
         state.currentUser = action.payload;
         state.loading = false;
-        state.authStatus = action.payload ? "authenticated" : "unauthenticated";
       })
       .addCase(checkAuthThunk.rejected, (state) => {
         state.currentUser = null;
         state.loading = false;
-        state.authStatus = "unauthenticated";
       });
   },
 });
