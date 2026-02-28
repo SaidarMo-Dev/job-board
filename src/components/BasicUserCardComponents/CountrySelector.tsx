@@ -25,7 +25,7 @@ const height = 35; // height of each item
 const maxItems = 7; // visible items
 
 const MenuList = <Option, IsMulti extends boolean = false>(
-  props: MenuListProps<Option, IsMulti>
+  props: MenuListProps<Option, IsMulti>,
 ) => {
   const { options, children, getValue } = props;
   const [value] = getValue();
@@ -64,12 +64,27 @@ export default function CountrySelector({ onSelect }: CountryselectorProps) {
   }));
 
   const customStyles: StylesConfig<CountryOption, false> = {
-    control: (base) => ({
+    control: (base, state) => ({
       ...base,
       height: "38px",
       minHeight: "38px",
-      borderColor: "#e4e4e4",
+      borderColor: state.isFocused ? "var(--ring)" : "var(--input)",
+      boxShadow: state.isFocused ? "0 0 0 1px var(--ring)" : "none",
+      "&:hover": {
+        borderColor: state.isFocused ? "var(--ring)" : "var(--input)",
+      },
       borderRadius: "8px",
+      backgroundColor: "var(--muted)",
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected
+        ? "var(--muted)" // selected background
+        : state.isFocused
+          ? "var(--accent)" // hover background
+          : "transparent",
+      color: "var(--foreground)",
+      cursor: "pointer",
     }),
   };
   return (

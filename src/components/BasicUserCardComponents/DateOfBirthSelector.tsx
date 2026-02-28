@@ -27,7 +27,7 @@ export function DateOfBirthSelector({ onSelect }: CalendarProps) {
           <Button
             variant="outline"
             id="date"
-            className="justify-between font-normal h-[41px]"
+            className="justify-between font-normal h-[41px] bg-muted border-input"
           >
             {date ? date.toLocaleDateString() : "Select date"}
             <ChevronDownIcon />

@@ -29,7 +29,7 @@ export default function AccountSettings() {
               Looking to change your email? You can edit it from the
               <Link
                 to="/members/password-security"
-                className="p-0 h-auto text-blus-600 font-medium underline-offset-4 hover:underline"
+                className="pl-1 h-auto text-gray-800 font-medium underline-offset-4 hover:underline"
               >
                 Password and Security page
               </Link>

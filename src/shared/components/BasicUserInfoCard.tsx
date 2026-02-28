@@ -1,7 +1,7 @@
 // Lucide react icons
-import { Edit3, Save } from "lucide-react";
+import { Edit3, Save, X } from "lucide-react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // redux
 import { useSelector } from "react-redux";
@@ -15,7 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
-import { Textarea } from "../../components/ui/textarea";
 import { Label } from "../../components/ui/label";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
@@ -29,22 +28,38 @@ import {
 
 // custom components
 import CountrySelector from "../../components/BasicUserCardComponents/CountrySelector";
-import UserInfoLabel from "../../components/BasicUserCardComponents/UserInfoLabel";
-import AddButton from "../../components/BasicUserCardComponents/AddButton";
 import { DateOfBirthSelector } from "../../components/BasicUserCardComponents/DateOfBirthSelector";
 
 // features
 import { updateUserThunk } from "@/features/users/userThunk";
 import type { UpdateUserRequest } from "@/features/users/userTypes";
-import { selectAuthError, selectCurrentUser } from "@/features/auth/authSlice";
+import { selectCurrentUser } from "@/features/auth/authSlice";
 import { Slide, toast } from "react-toastify";
 import { getCurrentUserThunk } from "@/features/auth/authThunk";
+import InfoRow from "./InfoRow";
 
 export default function BasicUserInfoCard() {
   const [isEditing, setIsEditing] = useState(false);
 
   const currentUser = useSelector(selectCurrentUser);
-  const [userInfo, setUserInfo] = useState({ ...currentUser });
+  const [userInfo, setUserInfo] = useState(
+    currentUser || {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      address: "",
+      gender: "",
+      dateOfBirth: "",
+      countryName: "",
+    },
+  );
+
+  // Sync userInfo when currentUser updates
+  useEffect(() => {
+    if (currentUser) {
+      setUserInfo(currentUser);
+    }
+  }, [currentUser]);
 
   // handle input change
   const handleInputChange = (field: string, value: string) => {
@@ -52,7 +67,14 @@ export default function BasicUserInfoCard() {
   };
 
   const dispatch = useDispatch<AppDispatch>();
-  const authError = useSelector(selectAuthError);
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    // Reset to current user data
+    if (currentUser) {
+      setUserInfo(currentUser);
+    }
+  };
 
   const handleSave = () => {
     setIsEditing(false);
@@ -66,14 +88,13 @@ export default function BasicUserInfoCard() {
         : undefined,
       phoneNumber: userInfo.phoneNumber,
       address: userInfo.address,
-      imagePath: userInfo.imagePath,
       countryName: userInfo.countryName,
     };
 
     async function handleUpdate() {
       const result = await dispatch(updateUserThunk(updatedUser));
       if (updateUserThunk.fulfilled.match(result)) {
-        toast.success("Saved Successfull", {
+        toast.success("Saved Successfully", {
           position: "bottom-left",
           hideProgressBar: true,
           transition: Slide,
@@ -82,7 +103,8 @@ export default function BasicUserInfoCard() {
 
         await dispatch(getCurrentUserThunk());
       } else {
-        toast.error(authError, {
+        const errorMessage = result.payload || "Failed to save changes";
+        toast.error(errorMessage, {
           position: "bottom-left",
           hideProgressBar: true,
           transition: Slide,
@@ -104,134 +126,115 @@ export default function BasicUserInfoCard() {
             Your personal details and contact information
           </p>
         </div>
-        <Button
-          variant={isEditing ? "default" : "outline"}
-          size="sm"
-          onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-          className="flex items-center gap-2"
-        >
-          {isEditing ? (
-            <>
+        {isEditing ? (
+          <div className="flex items-center gap-4">
+            {/* Save button */}
+            <Button
+              variant={"default"}
+              size="sm"
+              onClick={() => handleSave()}
+              className="flex items-center gap-2"
+            >
               <Save className="h-4 w-4" />
-              Save
-            </>
-          ) : (
-            <>
-              <Edit3 className="h-4 w-4" />
-              Edit
-            </>
-          )}
-        </Button>
+              Save Changes
+            </Button>
+
+            {/* Cancel button */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleCancel}
+              className="flex items-center gap-2"
+            >
+              <X className="h-4 w-4" />
+              Cancel
+            </Button>
+          </div>
+        ) : (
+          // Edit button
+          <Button
+            variant={"outline"}
+            size="sm"
+            onClick={() => setIsEditing(true)}
+            className="flex items-center gap-2"
+          >
+            <Edit3 className="h-4 w-4" />
+            Edit
+          </Button>
+        )}
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* FirstName Field */}
-          <div className="space-y-3">
-            <Label htmlFor="firstName">First Name</Label>
-            {isEditing ? (
+        {isEditing ? (
+          // Edit card
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* First Name */}
+            <div className="space-y-3">
+              <Label
+                htmlFor="firstName"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
+                First Name
+              </Label>
               <Input
                 id="firstName"
-                value={userInfo.firstName}
+                value={userInfo.firstName || ""}
                 onChange={(e) => handleInputChange("firstName", e.target.value)}
                 placeholder="Enter your first name"
-                className="rounded-md h-[41px]"
-                style={{ fontSize: "16px" }}
+                className="bg-muted border-input"
               />
-            ) : (
-              <div className="flex items-center gap-2">
-                {userInfo.firstName ? (
-                  <UserInfoLabel fieldInfo={userInfo.firstName} />
-                ) : (
-                  <AddButton field={"First Name"} />
-                )}
-              </div>
-            )}
-          </div>
+            </div>
 
-          {/* LastName field */}
-          <div className="space-y-3">
-            <Label htmlFor="lastName">Last Name</Label>
-            {isEditing ? (
+            {/* Last name */}
+            <div className="space-y-3">
+              <Label htmlFor="lastName" className="text-muted-foreground">
+                Last Name
+              </Label>
               <Input
                 id="lastName"
-                value={userInfo.lastName}
+                value={userInfo.lastName || ""}
                 onChange={(e) => handleInputChange("lastName", e.target.value)}
                 placeholder="Enter your last name"
-                className="rounded-md h-[41px]"
-                style={{ fontSize: "16px" }}
+                className="bg-muted border-input"
               />
-            ) : (
-              <div className="flex items-center gap-2">
-                {userInfo.lastName ? (
-                  <UserInfoLabel fieldInfo={userInfo.lastName} />
-                ) : (
-                  <AddButton field={"Last Name"} />
-                )}
-              </div>
-            )}
-          </div>
+            </div>
 
-          {/* Phone Field */}
-          <div className="space-y-3">
-            <Label htmlFor="phone">Phone Number</Label>
-            {isEditing ? (
+            {/* Phone Number */}
+            <div className="space-y-3">
+              <Label htmlFor="phone">Phone Number</Label>
               <Input
                 id="phone"
-                value={userInfo.phoneNumber}
+                value={userInfo.phoneNumber || ""}
                 onChange={(e) =>
                   handleInputChange("phoneNumber", e.target.value)
                 }
                 placeholder="Enter your phone number"
                 type="tel"
-                className="rounded-md h-[41px]"
-                style={{ fontSize: "16px" }}
+                className="bg-muted border-input"
               />
-            ) : (
-              <div className="flex items-center gap-2">
-                {userInfo.phoneNumber ? (
-                  <UserInfoLabel fieldInfo={userInfo.phoneNumber} />
-                ) : (
-                  <AddButton field={"Phone Number"} />
-                )}
-              </div>
-            )}
-          </div>
+            </div>
 
-          {/* Address Fields */}
-
-          <div className="space-y-3">
-            <Label htmlFor="address">Address</Label>
-            {isEditing ? (
+            {/* Address */}
+            <div className="space-y-3">
+              <Label htmlFor="address">Address</Label>
               <Input
                 id="address"
-                value={userInfo.address}
+                value={userInfo.address || ""}
                 onChange={(e) => handleInputChange("address", e.target.value)}
                 placeholder="Enter your address"
-                className="rounded-md h-[41px]"
-                style={{ fontSize: "16px" }}
+                className="bg-muted border-input"
               />
-            ) : (
-              <div className="flex items-center gap-2">
-                {userInfo.address ? (
-                  <UserInfoLabel fieldInfo={userInfo.address} />
-                ) : (
-                  <AddButton field={"Address"} />
-                )}
-              </div>
-            )}
-          </div>
+            </div>
 
-          {/* Gender field */}
-          <div className="space-y-3">
-            <Label htmlFor="phone">Gender</Label>
-            {isEditing ? (
+            {/* Gender */}
+            <div className="space-y-3">
+              <Label htmlFor="gender">Gender</Label>
               <Select
-                value={userInfo.gender}
+                value={userInfo.gender || ""}
                 onValueChange={(value) => {
                   handleInputChange("gender", value);
                 }}
               >
-                <SelectTrigger className="w-full !h-[41px]">
+                <SelectTrigger className="bg-muted border-input">
                   <SelectValue placeholder="Gender" />
                 </SelectTrigger>
                 <SelectContent>
@@ -240,72 +243,76 @@ export default function BasicUserInfoCard() {
                   <SelectItem value="Other">other</SelectItem>
                 </SelectContent>
               </Select>
-            ) : (
-              <div className="flex items-center gap-2">
-                {userInfo.gender ? (
-                  <UserInfoLabel fieldInfo={userInfo.gender} />
-                ) : (
-                  <AddButton field={"Gender"} />
-                )}
-              </div>
-            )}
-          </div>
+            </div>
 
-          {/* Country selection */}
-          <div className="space-y-3">
-            <Label htmlFor="phone">Nationality</Label>
-            {isEditing ? (
+            {/* Country selection */}
+            <div className="space-y-3">
+              <Label htmlFor="country">Nationality</Label>
               <CountrySelector
                 onSelect={(countryName) => {
-                  userInfo.countryName = countryName ? countryName : "";
+                  handleInputChange("countryName", countryName || "");
                 }}
               />
-            ) : (
-              <div className="flex items-center gap-2">
-                {userInfo.countryName ? (
-                  <UserInfoLabel fieldInfo={userInfo.countryName} />
-                ) : (
-                  <AddButton field="Country" />
-                )}
-              </div>
-            )}
-          </div>
+            </div>
 
-          {/* Date Of birth */}
-          <div className="space-y-2 md:col-span-2">
-            {isEditing ? (
+            {/* Date Of birth */}
+            <div className="space-y-2 md:col-span-2">
               <DateOfBirthSelector
                 onSelect={(date) => {
-                  userInfo.dateOfBirth = date?.toLocaleDateString();
+                  handleInputChange(
+                    "dateOfBirth",
+                    date?.toLocaleDateString() || "",
+                  );
                 }}
               />
-            ) : (
-              <div className="flex items-center gap-2">
-                {userInfo.countryName ? (
-                  <UserInfoLabel fieldInfo={userInfo.dateOfBirth} />
-                ) : (
-                  <AddButton field="Date of birth" />
-                )}
-              </div>
-            )}
+            </div>
           </div>
-          {/* Bio Section */}
-          {/* TODO : link with user bio */}
-          <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="bio">About</Label>
-            {isEditing ? (
-              <Textarea
-                id="bio"
-                placeholder="Tell us about yourself"
-                className="min-h-[100px] !text-[16px]"
-              />
-            ) : (
-              <div className="p-3 bg-gray-50 rounded-lg border min-h-[80px]">
-                <span className="text-gray-900">Test user bio</span>
-              </div>
-            )}
+        ) : (
+          // Info section
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <InfoRow
+              label="First Name"
+              onAddButtonClick={() => setIsEditing(true)}
+            >
+              {userInfo.firstName}
+            </InfoRow>
+            <InfoRow
+              label="Last Name"
+              onAddButtonClick={() => setIsEditing(true)}
+            >
+              {userInfo.lastName}
+            </InfoRow>
+            <InfoRow
+              label="Phone Number"
+              onAddButtonClick={() => setIsEditing(true)}
+            >
+              {userInfo.phoneNumber}
+            </InfoRow>
+
+            <InfoRow
+              label="Address"
+              onAddButtonClick={() => setIsEditing(true)}
+            >
+              {userInfo.address}
+            </InfoRow>
+            <InfoRow label="Gender" onAddButtonClick={() => setIsEditing(true)}>
+              {userInfo.gender}
+            </InfoRow>
+
+            <InfoRow
+              label="Country"
+              onAddButtonClick={() => setIsEditing(true)}
+            >
+              {userInfo.countryName}
+            </InfoRow>
+            <InfoRow
+              label="Date of Birth"
+              onAddButtonClick={() => setIsEditing(true)}
+            >
+              {userInfo.dateOfBirth}
+            </InfoRow>
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );

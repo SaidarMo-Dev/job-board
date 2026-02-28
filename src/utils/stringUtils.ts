@@ -11,3 +11,13 @@ export function formatTime(seconds: number): string {
   const remainingSeconds = seconds % 60;
   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
 }
+
+export const capitalizeWords = (value?: string) =>
+  value
+    ?.toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ") || "";
+
+export const capitalizeFirst = (value?: string) =>
+  value ? value[0].toUpperCase() + value.slice(1) : "";

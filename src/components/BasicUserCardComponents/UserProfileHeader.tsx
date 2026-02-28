@@ -1,13 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Mail, Phone, Share2, Camera } from "lucide-react";
+import { MapPin, Mail, Phone, Camera } from "lucide-react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectCurrentUser } from "@/features/auth/authSlice";
 import { useRef, useState } from "react";
 import { UplodUserProfileImage } from "@/features/users/userApi";
 import { toast } from "react-toastify";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
+import { capitalizeWords } from "@/utils/stringUtils";
 
 export default function ProfileHeader() {
   const currentUser = useAppSelector(selectCurrentUser);
@@ -67,21 +68,15 @@ export default function ProfileHeader() {
   };
   return (
     <>
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Profile</h1>
-          <p className="text-gray-600 mt-1">
-            Manage your personal information and preferences
-          </p>
-        </div>
-        <Button variant="outline" className="flex items-center gap-2">
-          <Share2 className="h-4 w-4" />
-          Share profile
-        </Button>
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900">Profile</h1>
+        <p className="text-gray-600 mt-1">
+          Manage your personal information and preferences
+        </p>
       </div>
 
       <Card className="bg-card border-border">
-        <CardContent className="p-6">
+        <CardContent className="p-2">
           <div className="flex flex-col md:flex-row gap-6 items-start">
             <div className="relative">
               <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
@@ -120,27 +115,30 @@ export default function ProfileHeader() {
 
             <div className="flex-1 space-y-4">
               <div>
-                <h1 className="text-3xl font-bold text-foreground">
-                  {currentUser?.firstName + " " + currentUser?.lastName}
+                <h1 className="text-2xl font-bold text-foreground">
+                  {capitalizeWords(
+                    currentUser?.firstName + " " + currentUser?.lastName,
+                  )}
                 </h1>
-
-                <p className="text-foreground mt-2 leading-relaxed">
-                  No bio speciefied
-                </p>
               </div>
 
-              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4" />
-                  {currentUser?.countryName ?? "Unknown"}
+              {/* Contact Info Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="flex items-center gap-3 text-sm">
+                  <Mail size={16} className="text-muted-foreground" />
+                  <span className="text-foreground">{currentUser?.email}</span>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Mail className="w-4 h-4" />
-                  {currentUser?.email ?? "Unknown"}
+                <div className="flex items-center gap-3 text-sm">
+                  <Phone size={16} className="text-muted-foreground" />
+                  <span className="text-foreground">
+                    {currentUser?.phoneNumber || "Not provided"}
+                  </span>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Phone className="w-4 h-4" />
-                  {currentUser?.phoneNumber ?? "Unknown"}
+                <div className="flex items-center gap-3 text-sm">
+                  <MapPin size={16} className="text-muted-foreground" />
+                  <span className="text-foreground">
+                    {currentUser?.countryName || "Not provided"}
+                  </span>
                 </div>
               </div>
             </div>
