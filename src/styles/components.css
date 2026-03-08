@@ -1,0 +1,42 @@
+.nav-ele {
+  @apply relative p-4 cursor-pointer hover:text-sky-600 text-lg;
+}
+
+.popular-search-btn {
+  @apply mr-3 bg-white rounded-4xl p-3.5 hover:bg-sky-500 hover:text-white duration-75;
+}
+
+.hover\:bg-primary-hover:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Small: Mobile (default) */
+.custom-container {
+  width: 100%;
+  margin: auto;
+  padding: 10px;
+}
+
+/* Medium: Tablet */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .custom-container {
+    width: 750px;
+    padding: 0;
+  }
+}
+
+/* Large: Desktop */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .custom-container {
+    width: 970px;
+    padding: 0;
+  }
+}
+
+/* Extra Large: Large Desktop */
+@media (min-width: 1200px) {
+  .custom-container {
+    width: 1170px;
+    padding: 0;
+  }
+}
