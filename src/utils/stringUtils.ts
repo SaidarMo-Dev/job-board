@@ -21,3 +21,6 @@ export const capitalizeWords = (value?: string) =>
 
 export const capitalizeFirst = (value?: string) =>
   value ? value[0].toUpperCase() + value.slice(1) : "";
+
+export const formatSalary = (minSalary: number, maxSalary: number) =>
+  `$${minSalary / 1000}k - $${maxSalary / 1000}k`;

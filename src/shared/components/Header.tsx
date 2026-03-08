@@ -50,7 +50,7 @@ const Header = () => {
             <Link
               key={link.to}
               to={link.to}
-              className="px-3 py-2 text-gray-700 hover:text-sky-600 font-medium"
+              className="px-3 py-2 text-gray-700 hover:text-primary-hover font-medium"
             >
               {link.label}
             </Link>
@@ -59,7 +59,7 @@ const Header = () => {
           {location.pathname === "/" && (
             <a
               href="#about"
-              className="px-3 py-2 text-gray-700 hover:text-sky-600 font-medium"
+              className="px-3 py-2 text-gray-700 hover:text-primary-hover font-medium"
             >
               About
             </a>
@@ -68,16 +68,16 @@ const Header = () => {
 
         {/* Auth Buttons */}
         {!isAuthenticated && (
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-2">
             <Link
               to="/auth/login"
-              className="text-gray-700 hover:text-sky-600 hover:bg-sky-100 py-2 px-6 rounded-md"
+              className="text-gray-700 hover:text-primary-hover hover:bg-sky-100 py-2 px-4 rounded-md"
             >
-              Log in
+              Login
             </Link>
             <Link
               to="/auth/register"
-              className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-md"
+              className="bg-primary hover:bg-primary-hover hover:-translate-y-0.5 transition-transform duration-200 text-white px-4 py-2 rounded-md"
             >
               Register
             </Link>
@@ -87,7 +87,7 @@ const Header = () => {
         {/* Mobile Menu Button */}
         <div className="md:hidden">
           <button
-            className="text-gray-700 hover:text-sky-600 p-2"
+            className="text-gray-700 hover:text-primary-hover p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (
@@ -108,7 +108,7 @@ const Header = () => {
               <Link
                 key={link.to}
                 to={link.to}
-                className="block py-2 text-gray-700 hover:text-sky-600"
+                className="block py-2 text-gray-700 hover:text-primary-hover"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.label}
@@ -116,14 +116,14 @@ const Header = () => {
             ))}
             <Link
               to="/auth/login"
-              className="block py-2 text-gray-700 hover:text-sky-600"
+              className="block py-2 text-gray-700 hover:text-primary-hover"
               onClick={() => setMobileMenuOpen(false)}
             >
               Log in
             </Link>
             <Link
               to="/auth/register"
-              className="block py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-md text-center"
+              className="block py-2 bg-primary hover:bg-primary-hover text-white rounded-md text-center"
               onClick={() => setMobileMenuOpen(false)}
             >
               Register

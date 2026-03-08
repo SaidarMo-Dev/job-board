@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/card";
 import type { JobResponse } from "../jobTypes";
 import { useState } from "react";
-import { JobDetailsModal } from "./JobDetailsModal";
+import JobDetailsModal from "./JobDetailsModal";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
 import SkillBadge from "@/shared/components/SkillBadge";
 

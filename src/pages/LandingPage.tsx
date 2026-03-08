@@ -1,7 +1,6 @@
 import "../App.css";
 
 import { HeroSection } from "../components/LandingPageComponents/HeroSection";
-import { StatusSection } from "../components/LandingPageComponents/StatusSection";
 import { FeaturedJobs } from "../components/LandingPageComponents/FeaturedJobs";
 import WhyChooseUs from "../components/LandingPageComponents/WhyChooseUS";
 import Footer from "../components/LandingPageComponents/Footer";
@@ -13,6 +12,9 @@ import { useEffect, useMemo } from "react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectIsAuthenticated } from "@/features/auth/authSlice";
 import { useNavigate } from "react-router";
+import { CategorySection } from "@/components/LandingPageComponents/CategorySection";
+import { TrustedCompanies } from "@/components/LandingPageComponents/TrustedCompanies";
+import { CTASection } from "@/components/LandingPageComponents/CTASection";
 export function LandingPage() {
   const query = useMemo(() => {
     const params = new URLSearchParams();
@@ -43,9 +45,11 @@ export function LandingPage() {
     <>
       <Header />
       <HeroSection />
-      <StatusSection />
+      <TrustedCompanies />
+      <CategorySection />
       <FeaturedJobs featuredJobs={jobs ?? []} />
       <WhyChooseUs />
+      <CTASection />
       <Footer />
     </>
   );
