@@ -15,7 +15,7 @@ function JobLinks({
         <Link
           key={cat.name}
           to={cat.href}
-          className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600"
+          className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-primary-hover font-medium"
           onClick={onClick}
         >
           {cat.name}
@@ -24,7 +24,7 @@ function JobLinks({
       <div className="border-t border-gray-100 mt-1 pt-1">
         <Link
           to="/jobs"
-          className="block px-4 py-2 font-medium text-sky-600 hover:bg-blue-50"
+          className="block px-4 py-2 font-medium text-primary hover:bg-blue-50"
           onClick={onClick}
         >
           View All Jobs
@@ -36,11 +36,9 @@ function JobLinks({
 
 export function JobDropdown({
   categories,
-  onClose,
   isMobile,
 }: {
   categories: { name: string; href: string }[];
-  onClose?: () => void;
   isMobile?: boolean;
 }) {
   const [open, setOpen] = useState(false);
@@ -96,7 +94,7 @@ export function JobDropdown({
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center text-gray-700 hover:text-sky-600 px-2 py-2 font-medium"
+            className="flex items-center text-gray-700 hover:text-primary-hover px-2 py-2 font-medium"
           >
             Find Jobs
             <ChevronDown
