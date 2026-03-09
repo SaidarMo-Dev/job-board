@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import store, { persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import "nprogress/nprogress.css";
-import { setupAxiosInterceptors } from "./api/axiosInstance";
+import { setupAxiosInterceptors } from "./api/refreshToken";
 import { enableMapSet } from "immer";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

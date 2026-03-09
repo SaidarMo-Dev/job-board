@@ -29,6 +29,7 @@ export interface JobResponseSummary {
   minSalary: number;
   experienceLevel: ExperienceLevelTypekey;
   datePosted: Date;
+  dateExpired: Date;
   status: string;
   skillIds: number[];
   cretaedByUser: string;

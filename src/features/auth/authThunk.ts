@@ -50,11 +50,7 @@ const getCurrentUserThunk = createAsyncThunk<
 
     return user;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      const msg = error.response?.data as ApiResponse<null>;
-      return thunkApi.rejectWithValue(msg.message);
-    }
-    return thunkApi.rejectWithValue("Something wont wrong!");
+    return thunkApi.rejectWithValue(extractAxiosErrorMessage(error));
   }
 });
 

@@ -43,7 +43,8 @@ export default function LoginPage() {
         await dispatch(getCurrentUserThunk()).unwrap();
         navigate(ROUTES.MEMBER.HOME);
       } catch (error) {
-        setErrorMessage(error as string);
+        if (!(error instanceof Error)) setErrorMessage(error as string);
+        else setErrorMessage("Uknown error");
       }
     },
     [dispatch, UsernameOrEmail, password, navigate],

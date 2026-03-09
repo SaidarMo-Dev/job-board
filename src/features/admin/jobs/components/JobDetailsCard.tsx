@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-import { Briefcase, MapPin } from "lucide-react";
+import { Briefcase, ChevronDownIcon, MapPin } from "lucide-react";
 import {
   Controller,
   type Control,
@@ -19,6 +19,14 @@ import {
   type UseFormRegister,
 } from "react-hook-form";
 import type { JobFormValues } from "../schemas/jobSchema";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
 
 interface JobDetailsCardProps {
   register: UseFormRegister<JobFormValues>;
@@ -109,6 +117,44 @@ export function JobDetailsCard({
               inputMode="numeric"
               placeholder="Max"
               className="bg-white dark:bg-secondary"
+            />
+          </div>
+        </div>
+
+        {/* Expiration Date */}
+        <div className="space-y-2" data-error={!!errors?.dateExpired}>
+          <label className="text-sm font-medium">Expire At</label>
+          <div>
+            <Controller
+              name="dateExpired"
+              control={control}
+              render={({ field }) => (
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      data-empty={!field.value}
+                      className="w-[212px] justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <ChevronDownIcon />
+                    </Button>
+                  </PopoverTrigger>
+
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      defaultMonth={field.value}
+                    />
+                  </PopoverContent>
+                </Popover>
+              )}
             />
           </div>
         </div>

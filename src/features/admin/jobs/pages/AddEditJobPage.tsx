@@ -38,6 +38,7 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
       location: "",
       jobType: "FullTime",
       experienceLevel: "Any",
+      dateExpired: new Date(),
     },
   });
 
@@ -59,6 +60,7 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
             maxSalary: data.maxSalary,
             skillIds: data.skillIds,
             categoryIds: data.categoryIds,
+            dateExpired: data.dateExpired,
           });
         })
         .catch((err) => {
@@ -69,7 +71,6 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
 
   // save job
   const onSubmit = async (data: JobFormValues) => {
-    console.log(data);
     setLoading(true);
     try {
       if (mode === "Add") {

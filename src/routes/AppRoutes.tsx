@@ -41,13 +41,13 @@ import { useEffect } from "react";
 import { getCurrentUserThunk } from "@/features/auth/authThunk";
 
 export default function AppRoutes() {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   // Initial check on app load (refresh)
-  //   // The browser sends the HttpOnly cookie automatically
-  //   dispatch(getCurrentUserThunk());
-  // }, [dispatch]);
+  useEffect(() => {
+    // Initial check on app load (refresh)
+    // The browser sends the HttpOnly cookie automatically
+    dispatch(getCurrentUserThunk());
+  }, [dispatch]);
   return (
     <Routes>
       {/* Public routes */}
