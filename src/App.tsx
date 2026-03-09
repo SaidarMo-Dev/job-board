@@ -10,6 +10,7 @@ import { setupAxiosInterceptors } from "./api/refreshToken";
 import { enableMapSet } from "immer";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AppInitializer from "./AppInitializer";
 
 enableMapSet();
 
@@ -27,8 +28,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <div className="">
-            {/* Toast provider */}
+          <AppInitializer>
             <ToastContextProvider>
               <ToastContainer
                 position="top-center"
@@ -39,7 +39,7 @@ function App() {
               />
               <AppRoutes />
             </ToastContextProvider>
-          </div>
+          </AppInitializer>
         </PersistGate>
       </Provider>
     </QueryClientProvider>

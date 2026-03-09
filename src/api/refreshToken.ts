@@ -36,19 +36,28 @@ const processQueue = (error: AxiosError | null): void => {
 /**
  * Sets up response interceptors for handling token refresh.
  */
+
 export const setupAxiosInterceptors = (dispatch: AppDispatch): void => {
   axiosInstance.interceptors.response.use(
     (res) => res,
     async (error: AxiosError) => {
       const originalRequest = error.config as AxiosRequestConfigWithRetry;
 
-      if (error.response?.status === 401 && !originalRequest._retry) {
+      // Check if the error is 401 AND it's not a refresh request already
+      const isRefreshRequest = originalRequest.url?.includes(
+        "/auth/refresh-token",
+      );
+
+      if (
+        error.response?.status === 401 &&
+        !originalRequest._retry &&
+        !isRefreshRequest
+      ) {
         if (isRefreshing) {
-          // Queue requests until refresh finishes
           return new Promise((resolve, reject) => {
             failedQueue.push({
               resolve: () => resolve(axiosInstance(originalRequest)),
-              reject,
+              reject: (err) => reject(err), // Ensure rejection is passed back
             });
           });
         }
@@ -57,20 +66,23 @@ export const setupAxiosInterceptors = (dispatch: AppDispatch): void => {
         isRefreshing = true;
 
         try {
-          // Backend sets new cookies
           await axiosInstance.post("/auth/refresh-token");
-
           processQueue(null);
-
-          // Retry original request
           return axiosInstance(originalRequest);
         } catch (err) {
           processQueue(err as AxiosError);
           dispatch(logout());
+          // Ensure we reject here so the Thunk hits .rejected
           return Promise.reject(err);
         } finally {
           isRefreshing = false;
         }
+      }
+
+      // If it's a 401 on a REFRESH request, logout immediately and reject
+      if (isRefreshRequest && error.response?.status === 401) {
+        dispatch(logout());
+        return Promise.reject(error);
       }
 
       return Promise.reject(error);
