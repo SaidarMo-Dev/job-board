@@ -20,9 +20,9 @@ export default function ActiveFilter({
     <Badge
       key={`${section}-${value}`}
       variant="secondary"
-      className="flex items-center gap-1 px-2 py-1 rounded-full bg-blue-100 
-              text-blue-800 dark:bg-blue-800 dark:text-blue-100 text-sm 
-              cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-700 transition"
+      className="flex items-center gap-1 px-2 py-1 rounded-full bg-gray-100 
+              text-primary dark:bg-blue-800 dark:text-blue-100 text-sm 
+              cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-700 transition"
     >
       {value}
       <button

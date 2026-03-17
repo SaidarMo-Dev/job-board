@@ -18,9 +18,15 @@ interface SaveButtonProps {
   className?: string;
   jobId: number;
   onToggle?: (updated: boolean) => void;
+  variant?: "button" | "icon";
 }
 
-const SaveButton = ({ jobId, className = "", onToggle }: SaveButtonProps) => {
+const SaveButton = ({
+  jobId,
+  className = "",
+  onToggle,
+  variant = "button",
+}: SaveButtonProps) => {
   const isSaved = useAppSelector((state) => selectIsJobSaved(state, jobId));
   const currentUserId = useSelector(selectCurrentUser)?.id ?? -1;
   const isLoading = useAppSelector(selectBookMarkIsLoading).save;
@@ -29,7 +35,7 @@ const SaveButton = ({ jobId, className = "", onToggle }: SaveButtonProps) => {
 
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector(
-    (state) => state.authReducer.isAuthenticated
+    (state) => state.authReducer.isAuthenticated,
   );
 
   function handleToggle() {
@@ -42,7 +48,11 @@ const SaveButton = ({ jobId, className = "", onToggle }: SaveButtonProps) => {
         if (onToggle) onToggle(true);
       } else {
         dispatch(
-          saveJobThunk({ userId: currentUserId, jobId, dateBooked: new Date() })
+          saveJobThunk({
+            userId: currentUserId,
+            jobId,
+            dateBooked: new Date(),
+          }),
         );
 
         // notify the parent that nothing change so it won't refresh the data
@@ -50,51 +60,69 @@ const SaveButton = ({ jobId, className = "", onToggle }: SaveButtonProps) => {
       }
     }
   }
+  if (variant == "button") {
+    return (
+      <Button
+        variant={isSaved ? "default" : "outline"}
+        onClick={handleToggle}
+        disabled={isLoading}
+        className={cn(
+          "group relative overflow-hidden transition-all duration-200 ease-in-out",
+          "hover:scale-105 active:scale-95",
+          isSaved
+            ? "bg-sky-600 hover:bg-sky-700 text-white border-sky-600"
+            : "hover:bg-sky-50 hover:border-sky-300 hover:text-sky-700",
+          isLoading && "opacity-70 cursor-not-allowed",
+          className,
+        )}
+        aria-label={isSaved ? "Remove from saved jobs" : "Save job"}
+      >
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            {isSaved ? (
+              <BookmarkCheck
+                className={cn(
+                  "h-4 w-4 transition-all duration-200",
+                  isLoading ? "animate-pulse" : "animate-in zoom-in-50",
+                )}
+              />
+            ) : (
+              <Bookmark
+                className={cn(
+                  "h-4 w-4 transition-all duration-200",
+                  isLoading ? "animate-pulse" : "",
+                )}
+              />
+            )}
+          </div>
 
-  return (
-    <Button
-      variant={isSaved ? "default" : "outline"}
-      onClick={handleToggle}
-      disabled={isLoading}
-      className={cn(
-        "group relative overflow-hidden transition-all duration-200 ease-in-out",
-        "hover:scale-105 active:scale-95",
-        isSaved
-          ? "bg-sky-600 hover:bg-sky-700 text-white border-sky-600"
-          : "hover:bg-sky-50 hover:border-sky-300 hover:text-sky-700",
-        isLoading && "opacity-70 cursor-not-allowed",
-        className
-      )}
-      aria-label={isSaved ? "Remove from saved jobs" : "Save job"}
-    >
-      <div className="flex items-center gap-2">
-        <div className="relative">
-          {isSaved ? (
-            <BookmarkCheck
-              className={cn(
-                "h-4 w-4 transition-all duration-200",
-                isLoading ? "animate-pulse" : "animate-in zoom-in-50"
-              )}
-            />
-          ) : (
-            <Bookmark
-              className={cn(
-                "h-4 w-4 transition-all duration-200",
-                isLoading ? "animate-pulse" : ""
-              )}
-            />
-          )}
+          <span className="text-sm font-medium transition-all duration-200">
+            {isLoading ? "..." : isSaved ? "Saved" : "Save"}
+          </span>
         </div>
 
-        <span className="text-sm font-medium transition-all duration-200">
-          {isLoading ? "..." : isSaved ? "Saved" : "Save"}
-        </span>
-      </div>
-
-      {/* Subtle shine effect on hover */}
-      <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-    </Button>
-  );
+        {/* Subtle shine effect on hover */}
+        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      </Button>
+    );
+  } else
+    return (
+      <Button
+        variant="ghost"
+        size="icon"
+        className={cn(
+          isSaved ? "text-primary" : "text-slate-400",
+          "cursor-pointer",
+        )}
+        onClick={handleToggle}
+        disabled={isLoading}
+      >
+        <Bookmark
+          className="w-5 h-5"
+          fill={isSaved ? "currentColor" : "none"}
+        />
+      </Button>
+    );
 };
 
 export default SaveButton;

@@ -1,84 +1,81 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { JobResponse } from "@/features/jobs/jobTypes";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
 import { formatSalary } from "@/utils/stringUtils";
-import { Bookmark, BriefcaseBusiness, Clock, MapPin } from "lucide-react";
 import { Link } from "react-router";
+import SaveButton from "./SaveButton";
 
-export default function InlineJobCard({ job }: { job: JobResponse }) {
+interface InlineJobCardProps {
+  job: JobResponse;
+  onShowDetails?: (job: JobResponse) => void;
+}
+export default function InlineJobCard({
+  job,
+  onShowDetails,
+}: InlineJobCardProps) {
+  console.log("Company logo", job.company.logoUrl);
   return (
-    <div
-      key={job.jobId}
-      className="flex flex-col md:flex-row items-start md:items-center justify-between  gap-6 p-6 bg-white border
-        border-gray-100 rounded-xl hover:shadow-md transition-shadow group"
-    >
-      {/* Company logo */}
-      {/* Todo: handle company logo */}
-      <div
-        className="w-14 h-14 bg-gray-200 rounded-lg flex items-center
-        justify-center text-gray-700 font-semibold text-lg flex-shrink-0"
-      >
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col md:flex-row gap-4 transition-all duration-200 hover:border-blue-200 dark:hover:border-blue-900 hover:-translate-y-0.5 hover:shadow-lg">
+      {/* Company Logo */}
+      <div className="h-12 w-12 bg-slate-100 dark:bg-slate-800 rounded-lg flex-shrink-0 flex items-center justify-center border border-slate-200 dark:border-slate-700 overflow-hidden">
         <img
-          className="rounded-lg"
-          src={"/images/avatar-placeholder.svg"}
-          alt="Company logo"
+          src={job.company.logoUrl || "/images/logov2.png"}
+          alt={`${job.companyName} logo`}
+          className="w-12 h-12 rounded-lg object-cover"
         />
       </div>
-      {/* Job info */}
+
+      {/* Job Info */}
       <div className="flex-1 min-w-0">
-        <h3 className="text-lg font-bold text-gray-900 mb-2">{job.title}</h3>
-        <div className="flex flex-wrap items-center gap-4  text-sm text-gray-600 ">
-          <div className="flex items-center gap-1">
-            <BriefcaseBusiness className="w-4 h-4" />
-            <span>{job.companyName}</span>
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <h3 className="text-base font-semibold text-slate-900 dark:text-white leading-tight">
+              {job.title}
+            </h3>
+            <div className="flex items-center gap-2 mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+              <span className="font-medium text-slate-700 dark:text-slate-200">
+                {job.company.name}
+              </span>
+              <span className="text-slate-300">•</span>
+              <span>{job.location}</span>
+            </div>
           </div>
-          <span aria-hidden="true">•</span>
-          <div className="flex items-center gap-1">
-            <MapPin className="w-4 h-4" aria-hidden="true" />
-            <span>{job.location}</span>
-          </div>
-          <span aria-hidden="true">•</span>
-          <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4" aria-hidden="true" />
-            <span>{getDaysSincePosted(job.datePosted)} days ago</span>
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center gap-6 flex-shrink-0">
-        {/* Salary */}
-        <div className="text-right">
-          <p className="text-sm font-medium text-green-700 bg-green-50 border border-green-100 rounded-xl py-1 px-2">
-            {formatSalary(job.minSalary, job.maxSalary)}
-          </p>
         </div>
 
-        {/* Job Type Badge */}
-        <span
-          className={`px-3 py-1 bg-sky-50 text-sky-700 text-sm font-medium rounded-full border border-sky-100`}
-          aria-label={`Job type: ${job.jobType}`}
-        >
-          {job.jobType}
-        </span>
+        {/* Badges */}
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <Badge className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-100">
+            {formatSalary(job.minSalary, job.maxSalary)}
+          </Badge>
+          <Badge className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100">
+            {job.jobType}
+          </Badge>
+          <span className="text-[10px] text-slate-400 font-medium">
+            Posted {getDaysSincePosted(job.datePosted)} days ago
+          </span>
+        </div>
       </div>
-      <div className="flex justify-center items-center w-full gap-3 md:w-auto">
-        {/* Apply Button */}
+
+      {/* Actions */}
+      <div className="flex flex-row justify-end items-center gap-2 min-w-fit">
+        <SaveButton variant="icon" jobId={job.jobId} />
+        <Button
+          variant="outline"
+          className="text-xs font-bold whitespace-nowrap"
+          onClick={() => {
+            if (onShowDetails) onShowDetails(job);
+          }}
+        >
+          View Details
+        </Button>
+
         <Link
           to={`/jobs/${job.jobId}/apply`}
-          className="flex-1 text-center inline-block bg-black text-white px-4 py-2 rounded-lg font-semibold
-            hover:bg-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
-          aria-label={`Apply for ${job.title} position`}
+          className="bg-primary hover:bg-primary-hover rounded-md text-white font-medium text-sm px-4 py-2"
         >
           Apply Now
         </Link>
-
-        {/* Bookmark Button */}
-        <Button
-          variant="outline"
-          className="p-2  text-gray-400 hover:!text-primary-hover"
-          aria-label={`Save ${job.title} job listing`}
-        >
-          <Bookmark className="w-5 h-5 transition-colors" aria-hidden="true" />
-        </Button>
       </div>
     </div>
   );

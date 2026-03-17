@@ -25,7 +25,6 @@ export default function CustomPagination({
 
   function handlePrevious() {
     if (currentPage > 1) onChange(currentPage - 1);
-    console.log(currentPage);
   }
 
   function handleNext() {
@@ -41,44 +40,75 @@ export default function CustomPagination({
     pageNumbers.push(i);
   }
 
+  const isPrevDisabled = currentPage === 1;
+
+  const isNextDisabled = !hasNextPage;
+
+  const controlClass = (disabled: boolean) => `
+  cursor-pointer
+  text-primary
+  hover:text-primary-hover
+  rounded-md px-2
+  ${disabled ? "pointer-events-none opacity-50 text-primary-300" : ""}
+`;
   return (
     <Pagination>
       <PaginationContent>
-        {/* Prev button */}
+        {/* Prev */}
         <PaginationItem
-          onClick={currentPage > 1 ? handlePrevious : undefined}
-          className={`cursor-pointer ${
-            currentPage === 1 ? "opacity-50 pointer-events-none" : ""
-          }`}
+          onClick={!isPrevDisabled ? handlePrevious : undefined}
+          className={controlClass(isPrevDisabled)}
+          aria-disabled={isPrevDisabled}
+          tabIndex={isPrevDisabled ? -1 : 0}
         >
-          <PaginationPrevious />
+          <PaginationPrevious
+            className="
+          text-primary
+          disabled:text-primary-300
+          hover:text-primary-hover
+        "
+          />
         </PaginationItem>
 
         {/* First page */}
         {start > 1 && (
           <>
             <PaginationItem>
-              <PaginationLink onClick={() => onChange(1)}>1</PaginationLink>
+              <PaginationLink
+                onClick={() => onChange(1)}
+                className="text-primary hover:bg-primary-100"
+              >
+                1
+              </PaginationLink>
             </PaginationItem>
+
             {start > 2 && (
               <PaginationItem>
-                <PaginationEllipsis />
+                <PaginationEllipsis className="text-primary-400" />
               </PaginationItem>
             )}
           </>
         )}
 
-        {/* Dynamic range */}
-        {pageNumbers.map((page) => (
-          <PaginationItem key={page}>
-            <PaginationLink
-              isActive={page === currentPage}
-              onClick={() => onChange(page)}
-            >
-              {page}
-            </PaginationLink>
-          </PaginationItem>
-        ))}
+        {/* Pages */}
+        {pageNumbers.map((page) => {
+          const isActive = page === currentPage;
+
+          return (
+            <PaginationItem key={page}>
+              <PaginationLink
+                onClick={() => onChange(page)}
+                isActive={isActive}
+                className={`
+              transition-colors
+              ${isActive ? "bg-primary text-white  hover:text-white hover:bg-primary-hover" : ""}
+            `}
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          );
+        })}
 
         {/* Last page */}
         {end < totalPages && (
@@ -88,6 +118,7 @@ export default function CustomPagination({
                 <PaginationEllipsis />
               </PaginationItem>
             )}
+
             <PaginationItem>
               <PaginationLink onClick={() => onChange(totalPages)}>
                 {totalPages}
@@ -96,14 +127,18 @@ export default function CustomPagination({
           </>
         )}
 
-        {/* Next button */}
+        {/* Next */}
         <PaginationItem
-          onClick={hasNextPage ? handleNext : undefined}
-          className={`cursor-pointer ${
-            !hasNextPage ? "opacity-50 pointer-events-none" : ""
-          }`}
+          onClick={!isNextDisabled ? handleNext : undefined}
+          className={controlClass(isNextDisabled)}
         >
-          <PaginationNext />
+          <PaginationNext
+            className="
+          text-primary
+          hover:text-primary-hover
+          disabled:text-primary-300
+        "
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

@@ -5,7 +5,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import type { ElementType } from "@/shared/types/ElementType";
 const FilterSection = memo(function FilterSection<
   TKey extends string,
-  TValue extends string
+  TValue extends string,
 >({
   id,
   title,
@@ -22,12 +22,12 @@ const FilterSection = memo(function FilterSection<
   toggleSection: (section: keyof JobQuickFilters) => void;
   toggleFilter: <K extends keyof JobQuickFilters>(
     key: K,
-    value: ElementType<JobQuickFilters[K]>
+    value: ElementType<JobQuickFilters[K]>,
   ) => void;
   selectedValues: TKey[];
 }) {
   return (
-    <div className="pb-4">
+    <div className="pb-3 pt-2 border-b border-gray-200">
       <button
         onClick={() => toggleSection(id)}
         className="flex items-center justify-between w-full text-left mb-3"
@@ -35,7 +35,9 @@ const FilterSection = memo(function FilterSection<
         aria-controls={`filter-${id}`}
         id={`filter-${id}-header`}
       >
-        <h3 className="font-medium text-gray-900">{title}</h3>
+        <h3 className="text-primary hover:no-underline py-2 text-sm font-medium">
+          {title}
+        </h3>
         {expanded ? (
           <ChevronUp className="h-4 w-4 text-gray-500" aria-hidden="true" />
         ) : (

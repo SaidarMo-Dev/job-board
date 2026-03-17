@@ -25,9 +25,9 @@ import QuickFilters from "@/features/jobs/components/QuickFilters";
 import { useQuery } from "@tanstack/react-query";
 import { fetchJobs } from "@/features/jobs/jobApi";
 import { capitalizeFirstLetter } from "@/features/admin/utils/capitalizeFirstLetter";
-import ModernJobCard from "@/features/jobs/components/ModernJobCard";
 import JobDetailsModal from "@/features/jobs/components/JobDetailsModal";
 import { DEFAULT_PAGE_SIZE } from "@/constants/config";
+import InlineJobCard from "@/shared/components/InlineJobCard";
 
 export default function JobsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -39,12 +39,12 @@ export default function JobsPage() {
     () => ({
       jobTypes: searchParams.getAll("JobTypes") as JobTypeKey[],
       experienceLevels: searchParams.getAll(
-        "ExperienceLevels"
+        "ExperienceLevels",
       ) as ExperienceLevelTypekey[],
       popularCompanies: searchParams.getAll("PopularCompanies"),
       popularCategories: searchParams.getAll("PopularCategories"),
     }),
-    [searchParams]
+    [searchParams],
   );
 
   const setFilters = useCallback(
@@ -55,22 +55,22 @@ export default function JobsPage() {
         Object.entries(filters).forEach(([key, value]) => {
           if (Array.isArray(value))
             value.forEach((val) =>
-              params.append(capitalizeFirstLetter(key), val)
+              params.append(capitalizeFirstLetter(key), val),
             );
         });
       }
 
       setSearchParams(params);
     },
-    [setSearchParams]
+    [setSearchParams],
   );
 
   const currentUserId = useAppSelector(
-    (state) => state.authReducer.currentUser?.id ?? -1
+    (state) => state.authReducer.currentUser?.id ?? -1,
   );
 
   const isAuthenticated = useAppSelector(
-    (state) => state.authReducer.isAuthenticated
+    (state) => state.authReducer.isAuthenticated,
   );
 
   const UpdateSearch = useCallback(
@@ -90,7 +90,7 @@ export default function JobsPage() {
       }
       setSearchParams(params);
     },
-    [searchParams, setSearchParams]
+    [searchParams, setSearchParams],
   );
 
   const UpdatePageNumber = useCallback(
@@ -104,18 +104,21 @@ export default function JobsPage() {
         setSearchParams(params);
       }
     },
-    [searchParams, setSearchParams]
+    [searchParams, setSearchParams],
   );
+
+  const [Sort, setSort] = useState<SortJobsBy>("HighestSalary");
 
   const UpdateSort = useCallback(
     (sortBy: SortJobsBy) => {
+      setSort(sortBy);
       const params = new URLSearchParams(searchParams.toString());
       if (sortBy) {
         params.set("SortBy", sortBy);
         setSearchParams(params);
       }
     },
-    [searchParams, setSearchParams]
+    [searchParams, setSearchParams],
   );
 
   // refresh savedJobIds
@@ -138,103 +141,110 @@ export default function JobsPage() {
 
   const query = useMemo(() => searchParams.toString(), [searchParams]);
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["fetchJobs", query],
     queryFn: () => fetchJobs(query),
   });
 
   return (
-    <div className="bg-gray-50">
+    <>
       {/* hero section */}
-      <div className="bg-gradient-to-bl from-[#0f172a] via-[#1e1a78] to-[#0f172a] py-15">
-        <div className="custom-container text-center">
-          <h2 className="text-5xl font-bold text-white">Find Your Dream Job</h2>
-          <h4 className="my-3 text-lg font-medium text-white">
-            Discover opportunities from top companies around the world
-          </h4>
-          <div className="max-w-4xl m-auto mt-7">
-            <JobSearch
-              title={searchParams.get("searchByTitle") ?? ""}
-              location={searchParams.get("searchByLocation") ?? ""}
-              className="w-200"
-              onSearch={(title, location) => UpdateSearch(title, location)}
-            />
-          </div>
+      <div className="custom-container">
+        <div className="my-7">
+          <JobSearch
+            title={searchParams.get("searchByTitle") ?? ""}
+            location={searchParams.get("searchByLocation") ?? ""}
+            onSearch={(title, location) => UpdateSearch(title, location)}
+            className="max-w-full"
+          />
+          {/* TODO : Fetch popular positions */}
+          <span className="block text-gray-500 mt-3 ml-1 font-medium text-xs ">
+            Popular: FrontEnd Engineer, Product Designer, Data Scientist
+          </span>
         </div>
       </div>
+      <div className="bg-gray-50 border-t border-gray-200">
+        {/* Jobs section */}
+        <div className="custom-container">
+          <div className="w-full flex flex-col py-7 gap-7 lg:flex-row">
+            <aside className="lg:w-95 space-y-5 lg:sticky lg:top-20 lg:self-start max-h-[80vh] overflow-y-auto">
+              <QuickFilters
+                filters={filters}
+                onFiltersChange={setFilters}
+                onClearFilters={clearFilters}
+              />
+            </aside>
 
-      {/* Jobs section */}
-      <div className="custom-container">
-        <div className="w-full flex flex-col py-7 gap-7 lg:flex-row">
-          <aside className="lg:w-95 space-y-5 lg:sticky lg:top-20 lg:self-start max-h-[80vh] overflow-y-auto">
-            <QuickFilters
-              filters={filters}
-              onFiltersChange={setFilters}
-              onClearFilters={clearFilters}
-            />
-          </aside>
+            {/* Job listing */}
+            <main className="w-full">
+              <div className="flex justify-between">
+                <h2 className="text-lg font-bold text-gray-600">
+                  Showing {data?.pagination.totalRecords ?? 0} results
+                </h2>
 
-          {/* Job listing */}
-          <main className="w-full">
-            <div className="flex justify-between">
-              <h2 className="text-2xl font-bold">Jobs Found</h2>
-              <Select
-                onValueChange={(value) => UpdateSort(value as SortJobsBy)}
-              >
-                <SelectTrigger className="w-50 py-5">
-                  <SelectValue placeholder="Sort By" />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.keys(SortJobsBy).map((key) => (
-                    <SelectItem key={key} value={key}>
-                      {SortJobsBy[key as SortJobsBy]}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            {/* Jobs */}
-            {isLoading ? (
-              <PageLoader message="loading jobs..." />
-            ) : (
-              <div className="">
-                <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {data?.jobs ? (
-                    data.jobs.map((job) => {
-                      return (
-                        <ModernJobCard
-                          key={job.jobId}
-                          job={job}
-                          onShowDetails={setSelectedJob}
-                        />
-                      );
-                    })
-                  ) : (
-                    <div className="col-span-2">
-                      <NoJobs />
-                    </div>
-                  )}
-                </div>
-                <div className="flex justify-center my-5">
-                  {data?.jobs && data.jobs.length > DEFAULT_PAGE_SIZE && (
-                    <CustomPagination
-                      pagination={data?.pagination}
-                      onChange={(page) => UpdatePageNumber(page)}
-                    />
-                  )}
+                {/* Sort */}
+                <div className="flex gap-2 items-center text-gray-500">
+                  <span className="font-medium text-sm">SORT BY:</span>
+                  <Select
+                    value={Sort}
+                    onValueChange={(value) => UpdateSort(value as SortJobsBy)}
+                  >
+                    <SelectTrigger className="text-primary font-medium shadow-none bg-transparent border-none focus-visible:border-0 focus-visible:ring-0">
+                      <SelectValue placeholder="Sort By" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.keys(SortJobsBy).map((key) => (
+                        <SelectItem key={key} value={key}>
+                          {SortJobsBy[key as SortJobsBy]}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
-            )}
-          </main>
+              {/* Jobs */}
+              {isLoading ? (
+                <PageLoader message="loading jobs..." />
+              ) : (
+                <div>
+                  <div className="mt-5">
+                    {data?.jobs ? (
+                      data.jobs.map((job) => {
+                        return (
+                          <InlineJobCard
+                            key={job.jobId}
+                            job={job}
+                            onShowDetails={setSelectedJob}
+                          />
+                        );
+                      })
+                    ) : (
+                      <div className="col-span-2">
+                        <NoJobs />
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex justify-center my-5">
+                    {data?.jobs && data.jobs.length > DEFAULT_PAGE_SIZE && (
+                      <CustomPagination
+                        pagination={data?.pagination}
+                        onChange={(page) => UpdatePageNumber(page)}
+                      />
+                    )}
+                  </div>
+                </div>
+              )}
+            </main>
+          </div>
         </div>
+        {/* Job Detail Modal */}
+        {selectedJob && (
+          <JobDetailsModal
+            selectedJob={selectedJob}
+            onClose={() => setSelectedJob(null)}
+          />
+        )}
       </div>
-      {/* Job Detail Modal */}
-      {selectedJob && (
-        <JobDetailsModal
-          selectedJob={selectedJob}
-          onClose={() => setSelectedJob(null)}
-        />
-      )}
-    </div>
+    </>
   );
 }

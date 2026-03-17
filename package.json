@@ -37,6 +37,7 @@
     "jwt-decode": "^3.1.2",
     "lucide-react": "^0.513.0",
     "nprogress": "^0.2.0",
+    "radix-ui": "^1.4.3",
     "react": "^19.2.3",
     "react-day-picker": "^9.7.0",
     "react-dom": "^19.2.3",

@@ -15,6 +15,18 @@
 
   /* Action colors */
   --color-primary: var(--primary);
+
+  --color-primary-50: var(--primary-50);
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-400: var(--primary-400);
+  --color-primary-500: var(--primary-500);
+  --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
+  --color-primary-800: var(--primary-800);
+  --color-primary-900: var(--primary-900);
+
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
 
@@ -65,6 +77,20 @@
 
   --primary: oklch(0.542 0.117 238.7);
   --primary-hover: oklch(0.6 0.117 238.7);
+
+  --primary-50: oklch(0.95 0.03 238.7);
+  --primary-100: oklch(0.9 0.05 238.7);
+  --primary-200: oklch(0.82 0.07 238.7);
+  --primary-300: oklch(0.72 0.09 238.7);
+  --primary-400: oklch(0.62 0.11 238.7);
+
+  --primary-500: oklch(0.542 0.117 238.7); /* base */
+
+  --primary-600: oklch(0.48 0.11 238.7);
+  --primary-700: oklch(0.42 0.1 238.7);
+  --primary-800: oklch(0.35 0.09 238.7);
+  --primary-900: oklch(0.28 0.08 238.7);
+
   --primary-foreground: oklch(0.985 0 0);
 
   --secondary: oklch(0.97 0 0);

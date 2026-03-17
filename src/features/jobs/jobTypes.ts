@@ -6,6 +6,7 @@ export interface JobResponse {
   title: string;
   description: string;
   companyName: string;
+  company: CompanyPreview;
   location: string;
   jobType: string;
   maxSalary: number;
@@ -16,6 +17,12 @@ export interface JobResponse {
   skills: SkillResponse[];
   cretaedByUser: string;
   categories: CategoryResponse[];
+}
+
+interface CompanyPreview {
+  companyId: number;
+  name: string;
+  logoUrl: string;
 }
 
 export interface JobResponseSummary {

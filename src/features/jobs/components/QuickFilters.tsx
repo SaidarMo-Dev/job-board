@@ -59,7 +59,7 @@ export default function QuickFilters({
     ([key, value]) => ({
       key: key as ExperienceLevelTypekey,
       value,
-    })
+    }),
   );
   const [expandedSections, setExpandedSections] = useState<
     Record<keyof JobQuickFilters, boolean>
@@ -77,7 +77,7 @@ export default function QuickFilters({
   const toggleFilter = useCallback(
     <K extends keyof JobQuickFilters>(
       key: K,
-      value: ElementType<JobQuickFilters[K]>
+      value: ElementType<JobQuickFilters[K]>,
     ) => {
       const section = filters[key] as JobQuickFilters[K];
       const arr = section as ElementType<JobQuickFilters[K]>[];
@@ -86,7 +86,7 @@ export default function QuickFilters({
         : [...filters[key], value];
       onFiltersChange({ ...filters, [key]: newSectionFilter });
     },
-    [filters, onFiltersChange]
+    [filters, onFiltersChange],
   );
 
   const totalFilters = useMemo(() => {
@@ -94,14 +94,11 @@ export default function QuickFilters({
   }, [filters]);
 
   return (
-    <div
-      className="bg-white shadow-sm border rounded-lg border-gray-200 p-6 max-h-full"
-      aria-label="Job Filters"
-    >
+    <div className="max-h-full pr-3" aria-label="Job Filters">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Filter className="h-5 w-5 text-gray-600" aria-hidden="true" />
-          <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
+          <Filter className="h-5 w-5 text-gray-400" aria-hidden="true" />
+          <h2 className="text-lg font-semibold text-gray-400">FILTERS</h2>
           {totalFilters > 0 && (
             <Badge
               variant="secondary"
@@ -182,7 +179,7 @@ export default function QuickFilters({
                   value={value}
                   toggleFilter={toggleFilter}
                 />
-              ))
+              )),
             )}
           </div>
         </div>

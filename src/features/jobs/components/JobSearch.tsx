@@ -29,49 +29,45 @@ const JobSearch = ({
   }
 
   return (
-    <>
-      <div
-        className={`flex w-full max-w-2xl flex-col gap-3 rounded-xl 
-          border border-border bg-card p-3 shadow-lg sm:flex-row 
-          sm:items-center ${className}`}
-      >
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+    <div className={`max-w-3xl ${className}`}>
+      <div className="flex flex-col md:flex-row gap-3 bg-slate-50 dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xs">
+        {/* Job Title Input */}
+        <div className="flex-1 flex items-center px-3 border-r-0 md:border-r border-slate-200 dark:border-slate-700">
+          <Search className="w-5 h-5 text-slate-400 mr-2 flex-shrink-0" />
+
           <Input
             value={searchValues.title}
             onChange={(e) => UpdateSearch("title", e.target.value)}
-            placeholder="Job title or keyword"
-            className="border-0 bg-transparent pl-9 shadow-none focus-visible:ring-0"
-            aria-label="Job title or keyword"
+            placeholder="Job title, keywords, or company"
+            className="w-full bg-transparent shadow-none border-none focus:ring-0 text-sm py-2 placeholder-slate-400 focus-visible:ring-0"
+            type="text"
           />
         </div>
-        <div
-          className="hidden h-8 w-px bg-border sm:block"
-          aria-hidden="true"
-        />
-        <div className="relative flex-1">
-          <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+
+        {/* Location Input */}
+        <div className="flex-1 flex items-center px-3">
+          <MapPin className="w-5 h-5 text-slate-400 mr-2 flex-shrink-0" />
           <Input
             value={searchValues.location}
             onChange={(e) => UpdateSearch("location", e.target.value)}
-            placeholder="Location"
-            className="border-0 bg-transparent pl-9 shadow-none focus-visible:ring-0"
+            placeholder="City, state, or remote"
+            className="w-full bg-transparent shadow-none border-none focus:ring-0 text-sm py-2 placeholder-slate-400 focus-visible:ring-0"
+            type="text"
             aria-label="Location"
           />
         </div>
+
+        {/* Search Button */}
         <Button
-          size="lg"
-          className="w-full sm:w-auto"
           onClick={() => {
             onSearch(searchValues.title, searchValues.location);
           }}
+          className="bg-primary hover:bg-primary-hover text-white px-8 py-2.5 rounded-lg text-sm font-bold transition-all shadow-sm whitespace-nowrap cursor-pointer"
         >
-          <Search className="mr-2 h-4 w-4" />
           Search
         </Button>
       </div>
-      
-    </>
+    </div>
   );
 };
 
