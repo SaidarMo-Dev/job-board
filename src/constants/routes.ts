@@ -1,8 +1,11 @@
 // src/constants/routes.ts
 export const ROUTES = {
   HOME: "/",
+
   LOGIN: "/auth/login",
+
   REGISTER: "/auth/register",
+
   ADMIN: {
     DASHBOARD: "/preview/admin",
     USERS: "/preview/admin/users",
@@ -20,6 +23,7 @@ export const ROUTES = {
       EDIT: (Id: number | string) => `/preview/admin/jobs/${Id}/Edit`,
     },
   },
+
   MEMBER: {
     HOME: "/members",
     PROFILE: "/members/profile",
@@ -37,16 +41,23 @@ export const ROUTES = {
       },
     },
   },
+
   PUBLIC: {
     ABOUT: "/about",
     CONTACT: "/contact",
     JOBS: "/jobs",
     FORGOT_PASSWORD: "/forgot-password",
     RESET_PASSWORD: "/reset-password",
+    COMPANIES: {
+      ROOT: "/companies",
+      PROFILE: (slug: string) => `/companies/${slug}`,
+    },
   },
+
   PRIVATE: {
     RESET_PASSWORD: "/reset-password",
   },
+
   ERROR: {
     NOT_FOUND: "/404",
     FORBIDDEN: "/403",

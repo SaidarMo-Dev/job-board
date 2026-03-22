@@ -36,6 +36,7 @@ import ForgotPasswordPage from "@/features/forgot_password/ForgotPasswordPage";
 import ResetPasswordPage from "@/features/reset_password/ResetPasswordPage";
 import RecruitmentPage from "@/features/employer/pages/RecruitmentPage";
 import AuthGuard from "@/pages/Auth/authGuard";
+import CompaniesPage from "@/features/companies/public/pages/CompaniesPage";
 
 export default function AppRoutes() {
   return (
@@ -53,6 +54,18 @@ export default function AppRoutes() {
           </PublicLayout>
         }
       />
+
+      {/* Public company routes */}
+
+      <Route
+        path={ROUTES.PUBLIC.COMPANIES.ROOT}
+        element={
+          <PublicLayout>
+            <CompaniesPage />
+          </PublicLayout>
+        }
+      />
+
       {/* Jobs */}
       <Route path="/jobs">
         <Route
@@ -74,6 +87,7 @@ export default function AppRoutes() {
           }
         />
       </Route>
+
       {/* Forgot password */}
       <Route
         path={ROUTES.PUBLIC.FORGOT_PASSWORD}
