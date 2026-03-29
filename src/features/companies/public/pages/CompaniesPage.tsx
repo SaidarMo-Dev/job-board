@@ -133,6 +133,7 @@ export default function CompaniesPage() {
               <div className="flex items-center gap-3">
                 <GenericSelect
                   label="Sort by"
+                  variant="ghost"
                   value={sortBy}
                   onChange={setSortBy}
                   options={COMPANY_SORT_BY_OPTIONS}

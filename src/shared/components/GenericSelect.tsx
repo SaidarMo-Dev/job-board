@@ -14,6 +14,7 @@ type Option<T> = {
 type GenericSelectProps<T extends string> = {
   label?: string;
   value: T;
+  variant?: "default" | "outline" | "ghost";
   onChange: (value: T) => void;
   options: Option<T>[];
   placeholder?: string;
@@ -24,6 +25,7 @@ type GenericSelectProps<T extends string> = {
 export function GenericSelect<T extends string>({
   label,
   value,
+  variant = "default",
   onChange,
   options,
   placeholder,
@@ -32,11 +34,13 @@ export function GenericSelect<T extends string>({
 }: GenericSelectProps<T>) {
   return (
     <div className={`flex items-center gap-1 ${className ?? ""}`}>
-      {label && <span className="font-medium text-sm uppercase">{label} :</span>}
+      {label && (
+        <span className="font-medium text-sm uppercase">{label} :</span>
+      )}
 
       <Select value={value} onValueChange={(v) => onChange(v as T)}>
         <SelectTrigger
-          className={`${triggerClassName ?? ""} text-primary font-medium shadow-none bg-transparent border-none focus-visible:border-0 focus-visible:ring-0`}
+          className={`${triggerClassName ?? ""} ${variant === "ghost" ? "text-primary font-medium shadow-none bg-transparent border-none focus-visible:border-0 focus-visible:ring-0" : ""}`}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
