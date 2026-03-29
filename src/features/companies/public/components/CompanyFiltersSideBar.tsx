@@ -1,15 +1,13 @@
-"use client";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 
-import {
-  COMPANY_SIZE_OPTIONS,
-  type CompanySize,
-} from "../../shared/types/companyEnums";
+import { COMPANY_SIZE_OPTIONS } from "../../shared/types/companyEnums";
 import type { CompanyFilters } from "../../shared/types/companyFilters";
 import { useCallback } from "react";
+import { MultiSelectCheckboxGroup } from "@/shared/components/MultiSelectCheckboxGroup";
+import { useQuery } from "@tanstack/react-query";
+import { fetchIndustries } from "@/features/industry/industryApi";
 interface FiltersSidebarProps {
   companyFilters?: CompanyFilters;
   onFiltersChange?: (filters: CompanyFilters) => void;
@@ -29,28 +27,17 @@ export function FiltersSidebar({
     [companyFilters, onFiltersChange],
   );
 
-  const handleSizeChange = useCallback(
-    (value: CompanySize, checked: boolean) => {
-      const currentSizes = companyFilters?.companySize ?? [];
-
-      const updatedSizes = checked
-        ? [...currentSizes, value]
-        : currentSizes.filter((size) => size !== value);
-
-      onFiltersChange?.({
-        ...companyFilters,
-        companySize: updatedSizes.length ? updatedSizes : undefined,
-      });
-    },
-    [companyFilters, onFiltersChange],
-  );
-
   const clearAll = () => {
     onFiltersChange?.({
       location: "",
       companySize: undefined,
     });
   };
+
+  const { data: industries, error: fetchIndustryError } = useQuery({
+    queryKey: ["industries"],
+    queryFn: () => fetchIndustries(),
+  });
 
   return (
     <aside className="w-full lg:w-72 shrink-0">
@@ -79,30 +66,48 @@ export function FiltersSidebar({
               />
             </div>
           </div>
+          <div>
+            <Label className="block text-sm font-semibold mb-2">
+              Industries
+            </Label>
+            <MultiSelectCheckboxGroup
+              options={
+                industries?.map((industry) => ({
+                  label: industry.name,
+                  value: industry.slug,
+                })) || []
+              }
+              value={companyFilters?.industries ?? []}
+              onChange={(selected) =>
+                onFiltersChange?.({
+                  ...companyFilters,
+                  industries: selected.length ? selected : undefined,
+                })
+              }
+            />
+
+            {fetchIndustryError && (
+              <p className="text-sm text-destructive mt-2">
+                Failed to load industries. Please try again later.
+              </p>
+            )}
+          </div>
 
           <div>
             <Label className="block text-sm font-semibold mb-2">
               Company Size
             </Label>
             <div className="space-y-2">
-              {COMPANY_SIZE_OPTIONS.map((size) => (
-                <div key={size.value} className="flex items-center gap-2">
-                  <Checkbox
-                    name="companySize"
-                    id={size.value}
-                    checked={companyFilters?.companySize?.includes(size.value)}
-                    onCheckedChange={(checked) =>
-                      handleSizeChange(size.value, checked as boolean)
-                    }
-                  />
-                  <Label
-                    htmlFor={size.value}
-                    className="text-sm text-muted-foreground cursor-pointer font-normal"
-                  >
-                    {size.label}
-                  </Label>
-                </div>
-              ))}
+              <MultiSelectCheckboxGroup
+                options={COMPANY_SIZE_OPTIONS}
+                value={companyFilters?.companySize ?? []}
+                onChange={(selected) =>
+                  onFiltersChange?.({
+                    ...companyFilters,
+                    companySize: selected.length ? selected : undefined,
+                  })
+                }
+              />
             </div>
           </div>
         </div>

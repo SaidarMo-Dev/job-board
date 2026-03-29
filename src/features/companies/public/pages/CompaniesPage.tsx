@@ -40,13 +40,14 @@ export default function CompaniesPage() {
     queryFn: () => fetchFeaturedCompanies(),
   });
 
-  const { data: companies, isLoading } = useQuery({
+  const { data: companies, isFetching } = useQuery({
     queryKey: [
       "companies",
       currentPage,
       sortBy,
       debouncedFilters.location,
       debouncedFilters.companySize,
+      debouncedFilters.industries,
       searchDebounce,
     ],
     queryFn: () =>
@@ -57,6 +58,7 @@ export default function CompaniesPage() {
         {
           location: debouncedFilters.location,
           companySize: debouncedFilters.companySize,
+          industries: debouncedFilters.industries,
         },
         sortBy,
       ),
@@ -141,18 +143,20 @@ export default function CompaniesPage() {
               </div>
             </div>
 
+            {isFetching && (
+              <div className="h-screen flex items-center justify-center">
+                <Loader variant="spinner" size="sm" />
+              </div>
+            )}
+
             {/* Company Grid */}
             <div className="grid grid-cols-1 gap-6">
-              {isLoading ? (
-                <div className="h-screen flex items-center justify-center">
-                  <Loader variant="spinner" size="sm" />
-                </div>
-              ) : (
-                companies?.data?.map((company) => (
-                  <CompanyCard key={company.companyId} company={company} />
-                )) || (
-                  <EmptyState message="No companies found matching your criteria." />
-                )
+              {companies?.data?.map((company) => (
+                <CompanyCard key={company.companyId} company={company} />
+              ))}
+
+              {!companies?.data && (
+                <EmptyState message="No companies found matching your criteria." />
               )}
             </div>
 

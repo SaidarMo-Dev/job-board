@@ -23,11 +23,13 @@ export function useCompaniesFilters() {
 
   const initialSort = (searchParams.get("sortBy") as CompanySortBy) || "Name";
 
-  const initialSizes = searchParams.getAll("companySize").filter(isCompanySize);
+  const initialSizes = searchParams.getAll("Size").filter(isCompanySize);
+  const initialIndustries = searchParams.getAll("Industries");
 
   const initialFilters: CompanyFilters = {
     location: searchParams.get("location") || "",
     companySize: initialSizes.length ? initialSizes : undefined,
+    industries: initialIndustries.length ? initialIndustries : undefined,
   };
 
   // 🔹 State
@@ -46,18 +48,19 @@ export function useCompaniesFilters() {
   useEffect(() => {
     const params = new URLSearchParams();
 
-    params.set("search", search);
+    if (search) params.set("Search", search);
 
-    params.set("sortBy", sortBy);
+    params.set("SortBy", sortBy);
 
     if (filters.location) {
-      params.set("location", filters.location);
+      params.set("Location", filters.location);
     }
 
     if (filters.companySize?.length) {
-      filters.companySize.forEach((size) => {
-        params.append("companySize", size);
-      });
+      params.set("Size", filters.companySize.join(","));
+    }
+    if (filters.industries?.length) {
+      params.set("Industries", filters.industries.join(","));
     }
 
     setSearchParams(params, { replace: true });

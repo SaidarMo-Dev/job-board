@@ -1,6 +1,6 @@
 import api from "@/api/axiosInstance";
 import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
-import type { Company } from "./shared/types/Company";
+import type { Company } from "./shared/types/company";
 import { buildCompaniesQuery } from "./utils/utils";
 import type { CompanySortBy } from "./shared/types/companyEnums";
 import type { CompanyFilters } from "./shared/types/companyFilters";

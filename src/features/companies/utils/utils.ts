@@ -16,18 +16,20 @@ export function buildCompaniesQuery({
 }) {
   const params = new URLSearchParams();
 
-  params.append("page", page.toString());
-  params.append("pageSize", pageSize.toString());
-  params.append("search", search);
-  if (sortBy) params.append("sortBy", sortBy);
+  params.append("Page", page.toString());
+  params.append("PageSize", pageSize.toString());
+  params.set("Search", search);
+  if (sortBy) params.append("SortBy", sortBy);
 
   if (filters?.location) {
-    params.append("search", filters.location);
+    params.set("Search", filters.location);
+  }
+  if (filters?.companySize?.length) {
+    params.set("Size", filters.companySize.join(","));
   }
 
-  if (filters?.companySize) {
-    filters.companySize.forEach((value) => params.append("companySize", value));
+  if (filters?.industries) {
+    params.set("Industries", filters.industries.join(","));
   }
-
   return params.toString();
 }
