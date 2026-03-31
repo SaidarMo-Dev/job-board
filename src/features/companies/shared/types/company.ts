@@ -37,4 +37,6 @@ export interface Company {
   createdAt: Date; // ISO date string
   totalJobs: number;
   createdByUser: string;
+
+  industries: string[];
 }

@@ -1,6 +1,8 @@
 import { Building2, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Company } from "../../shared/types/company";
+import { ROUTES } from "@/constants/routes";
+import { LinkButton } from "@/shared/components/LinkButton";
 
 interface CompanyCardProps {
   company: Company;
@@ -56,9 +58,12 @@ export function CompanyCard({ company }: CompanyCardProps) {
             <Button className="font-bold transition-transform active:scale-95">
               View Open Jobs
             </Button>
-            <Button variant="secondary" className="font-bold">
-              Company Profile
-            </Button>
+            <LinkButton
+              to={ROUTES.PUBLIC.COMPANIES.PROFILE(company.slug)}
+              variant="accent"
+            >
+              View Profile
+            </LinkButton>
           </div>
         </div>
       </div>

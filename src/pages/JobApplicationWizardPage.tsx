@@ -27,6 +27,11 @@ export default function JobApplicationWizardPage() {
     jobId: -1,
     title: "",
     description: "",
+    company: {
+      companyId: -1,
+      name: "",
+      logoUrl: "",
+    },
     companyName: "",
     location: "",
     jobType: "",

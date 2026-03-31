@@ -98,11 +98,15 @@ export default function JobDetailsModal({
 
             <div>
               <h3 className="font-semibold mb-2">Required Skills</h3>
-              <div className="flex flex-wrap gap-2">
-                {selectedJob.skills.map((skill, index) => (
-                  <SkillBadge key={index} skill={skill} index={index} />
-                ))}
-              </div>
+              {selectedJob.skills?.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {selectedJob.skills.map((skill, index) => (
+                    <SkillBadge key={index} skill={skill} index={index} />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500">No required skills specified.</p>
+              )}
             </div>
           </CardContent>
         </Card>

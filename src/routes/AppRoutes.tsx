@@ -37,6 +37,7 @@ import ResetPasswordPage from "@/features/reset_password/ResetPasswordPage";
 import RecruitmentPage from "@/features/employer/pages/RecruitmentPage";
 import AuthGuard from "@/pages/Auth/authGuard";
 import CompaniesPage from "@/features/companies/public/pages/CompaniesPage";
+import { CompanyProfilePage } from "@/features/companies/public/pages/CompanyProfilePage";
 
 export default function AppRoutes() {
   return (
@@ -65,7 +66,14 @@ export default function AppRoutes() {
           </PublicLayout>
         }
       />
-
+      <Route
+        path={ROUTES.PUBLIC.COMPANIES.PROFILE(":slug")}
+        element={
+          <PublicLayout>
+            <CompanyProfilePage />
+          </PublicLayout>
+        }
+      />
       {/* Jobs */}
       <Route path="/jobs">
         <Route
