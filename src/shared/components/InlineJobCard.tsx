@@ -14,7 +14,7 @@ export default function InlineJobCard({
   job,
   onShowDetails,
 }: InlineJobCardProps) {
-  console.log("Company logo", job.company.logoUrl);
+  console.log("jobs info", job);
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col md:flex-row gap-4 transition-all duration-200 hover:border-blue-200 dark:hover:border-blue-900 hover:-translate-y-0.5 hover:shadow-lg">
       {/* Company Logo */}
