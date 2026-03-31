@@ -10,7 +10,7 @@ type LinkButtonProps = LinkProps & {
 };
 
 const baseStyles =
-  "inline-flex items-center justify-center rounded-lg transition-colors focus:outline-none";
+  "inline-flex items-center justify-center rounded-lg transition-colors focus:outline-none font-medium";
 
 const variants = {
   default: "bg-primary text-white hover:bg-primary/90",

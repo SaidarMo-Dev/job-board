@@ -33,9 +33,12 @@ export interface Company {
   // Flags
   isFeatured: boolean;
   isVerified: boolean;
-
+  
   createdAt: Date; // ISO date string
+
   totalJobs: number;
+  totalOpenJobs: number;
+
   createdByUser: string;
 
   industries: string[];

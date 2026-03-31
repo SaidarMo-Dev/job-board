@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import type { Company } from "../../shared/types/company";
 import { ROUTES } from "@/constants/routes";
 import { LinkButton } from "@/shared/components/LinkButton";
+import NoOpenings from "../../shared/components/NoOpenings";
 
 interface CompanyCardProps {
   company: Company;
 }
 
 export function CompanyCard({ company }: CompanyCardProps) {
+  console.log("company info", company);
   return (
     <div className="bg-card p-6 rounded-xl border border-border shadow-sm hover:border-primary/50 transition-colors">
       <div className="flex flex-col md:flex-row gap-6">
@@ -43,12 +45,18 @@ export function CompanyCard({ company }: CompanyCardProps) {
               </div>
             </div>
             <div className="flex flex-col items-end">
-              <span className="text-2xl font-black text-primary">
-                {company.totalJobs}
-              </span>
-              <span className="text-xs font-bold text-muted-foreground uppercase tracking-tighter">
-                Open Positions
-              </span>
+              {company.totalOpenJobs > 0 ? (
+                <div className="flex flex-col items-end">
+                  <span className="text-lg font-semibold text-primary">
+                    {company.totalOpenJobs}
+                  </span>
+                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-tighter">
+                    Open Positions
+                  </span>
+                </div>
+              ) : (
+                <NoOpenings />
+              )}
             </div>
           </div>
           <p className="text-muted-foreground text-sm mb-6 leading-relaxed max-w-2xl">
@@ -60,7 +68,7 @@ export function CompanyCard({ company }: CompanyCardProps) {
             </Button>
             <LinkButton
               to={ROUTES.PUBLIC.COMPANIES.PROFILE(company.slug)}
-              variant="accent"
+              variant="link"
             >
               View Profile
             </LinkButton>

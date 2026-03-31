@@ -97,12 +97,6 @@ export default function CompaniesPage() {
             <h2 className="text-2xl font-bold text-foreground">
               Featured Companies
             </h2>
-            <a
-              href="#"
-              className="text-primary font-semibold text-sm hover:underline"
-            >
-              View All Featured
-            </a>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredCompanies?.data.map((company) => (

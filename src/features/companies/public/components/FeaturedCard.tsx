@@ -1,9 +1,11 @@
-import { Button } from "@/components/ui/button";
 import type { Company } from "../../shared/types/company";
+import { LinkButton } from "@/shared/components/LinkButton";
+import { ROUTES } from "@/constants/routes";
+import NoOpenings from "../../shared/components/NoOpenings";
 
 export function FeaturedCard({ company }: { company: Company }) {
   return (
-    <div className="bg-card p-8 rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+    <div className="bg-card p-8 rounded-xl border border-border shadow-sm hover:shadow-md transition relative overflow-hidden hover:-translate-y-1">
       <div className="flex items-start gap-4 mb-4">
         <img
           src={company.logoUrl || "images/default-company.webp"}
@@ -22,15 +24,29 @@ export function FeaturedCard({ company }: { company: Company }) {
         {company.description}
       </p>
       <div className="flex items-center justify-between mt-auto">
-        <span className="text-primary font-bold">
-          {company.totalJobs} Open Jobs
-        </span>
-        <Button
-          variant="secondary"
-          className="bg-primary/10 hover:bg-primary/20 text-primary font-bold"
+        <div className="flex gap-4 items-center">
+          <div className="flex flex-col">
+            <span className="text-lg font-semibold">{company.totalJobs}</span>
+            <span className="text-xs text-muted-foreground">Total Jobs</span>
+          </div>
+
+          {company.totalOpenJobs > 0 ? (
+            <div className="flex flex-col">
+              <span className="text-lg font-semibold text-primary">
+                {company.totalOpenJobs}
+              </span>
+              <span className="text-xs text-muted-foreground">Open Jobs</span>
+            </div>
+          ) : (
+            <NoOpenings />
+          )}
+        </div>
+        <LinkButton
+          to={ROUTES.PUBLIC.COMPANIES.PROFILE(company.slug)}
+          variant="link"
         >
           View Profile
-        </Button>
+        </LinkButton>
       </div>
     </div>
   );
