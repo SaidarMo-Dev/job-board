@@ -6,9 +6,10 @@ import { Navigate, useLocation } from "react-router";
 
 interface AuthGuardProps {
   children: ReactNode;
+  allowedRoles?: string[];
 }
 
-export default function AuthGuard({ children }: AuthGuardProps) {
+export default function AuthGuard({ children, allowedRoles }: AuthGuardProps) {
   const { isInitializing, currentUser } = useAppSelector(
     (state: RootState) => state.authReducer,
   );
@@ -27,6 +28,14 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   // redirect if not authenticated
   if (!currentUser) {
     return <Navigate to="/auth/login" state={{ from: location }} replace />;
+  }
+
+  // Role Check
+  if (
+    allowedRoles &&
+    !currentUser.roles?.some((role) => allowedRoles.includes(role))
+  ) {
+    return <Navigate to="/unauthorized" replace />;
   }
 
   // Authenticated → render protected content

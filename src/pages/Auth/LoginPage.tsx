@@ -41,7 +41,12 @@ export default function LoginPage() {
         }
 
         await dispatch(getCurrentUserThunk()).unwrap();
-        navigate(ROUTES.MEMBER.HOME);
+
+        if (result.includes("Employer")) {
+          return navigate(ROUTES.EMPLOYER.DASHBOARD);
+        } else {
+          return navigate(ROUTES.MEMBER.HOME);
+        }
       } catch (error) {
         if (!(error instanceof Error)) setErrorMessage(error as string);
         else setErrorMessage("Uknown error");

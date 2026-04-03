@@ -1,11 +1,11 @@
-import Header from "@/shared/components/Header";
 import Footer from "@/components/LandingPageComponents/Footer";
+import { DashboardHeader } from "@/features/dashboard/components/DashboardHeader";
 import { Outlet } from "react-router";
 
-export default function PublicLayout() {
+export default function AppLayout() {
   return (
     <>
-      <Header />
+      <DashboardHeader />
       <Outlet />
       <Footer />
     </>

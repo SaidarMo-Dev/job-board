@@ -1,7 +1,7 @@
 import AccountSettings from "@/shared/components/AccountSettings";
 import BasicUserInfoCard from "@/shared/components/BasicUserInfoCard";
 
-import AuthGuard from "./Auth/authGuard";
+import AuthGuard from "../guards/authGuard";
 import ProfileHeader from "@/components/BasicUserCardComponents/UserProfileHeader";
 
 export default function UserProfilePage() {

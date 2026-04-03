@@ -41,6 +41,13 @@ export const ROUTES = {
       },
     },
   },
+  EMPLOYER: {
+    DASHBOARD: "/employer",
+    JOBS: {
+      ADD: "/employer/jobs/create",
+      EDIT: (Id: number | string) => `/employer/jobs/${Id}/Edit`,
+    },
+  },
 
   PUBLIC: {
     ABOUT: "/about",

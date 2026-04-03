@@ -1,12 +1,16 @@
 import Footer from "@/components/LandingPageComponents/Footer";
-import AuthGuard from "@/guards/authGuard";
 import { Outlet } from "react-router";
 
-export default function MainLayout() {
+export default function EmployerLayout() {
   return (
-    <AuthGuard>
+    <>
+      <EmployerHeader />
       <Outlet />
       <Footer />
-    </AuthGuard>
+    </>
   );
+}
+
+function EmployerHeader() {
+  return <div>test employer layout</div>;
 }

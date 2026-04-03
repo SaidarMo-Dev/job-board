@@ -3,9 +3,6 @@ import "../App.css";
 import { HeroSection } from "../components/LandingPageComponents/HeroSection";
 import { FeaturedJobs } from "../components/LandingPageComponents/FeaturedJobs";
 import WhyChooseUs from "../components/LandingPageComponents/WhyChooseUS";
-import Footer from "../components/LandingPageComponents/Footer";
-
-import Header from "../shared/components/Header";
 import { useQuery } from "@tanstack/react-query";
 import { fetchJobs } from "@/features/jobs/jobApi";
 import { useEffect, useMemo } from "react";
@@ -43,14 +40,12 @@ export function LandingPage() {
   if (isAuthenticated) return null;
   return (
     <>
-      <Header />
       <HeroSection />
       <TrustedCompanies />
       <CategorySection />
       <FeaturedJobs featuredJobs={jobs ?? []} />
       <WhyChooseUs />
       <CTASection />
-      <Footer />
     </>
   );
 }
