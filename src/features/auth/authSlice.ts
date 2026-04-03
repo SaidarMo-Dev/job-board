@@ -189,3 +189,6 @@ export const selectCurrentUserRecoveryInfo = (state: RootState) => {
     recoveryPhone: state.authReducer.currentUser?.recoveryPhone,
   };
 };
+
+export const selectUserRoles = (state: RootState) =>
+  state.authReducer.currentUser?.roles || [];

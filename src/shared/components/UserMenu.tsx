@@ -30,7 +30,7 @@ export default function UserMenu({
   onClose: (value: boolean) => void;
 }) {
   const profileCompletion = useAppSelector(
-    (state) => state.dashboardStatsReducer.stats?.profileCompletion
+    (state) => state.dashboardStatsReducer.stats?.profileCompletion,
   );
   const dispatch = useDispatch<AppDispatch>();
   const userid = useSelector(selectCurrentUser)?.id ?? -1;

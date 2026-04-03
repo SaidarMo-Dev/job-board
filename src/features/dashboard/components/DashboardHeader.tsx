@@ -1,76 +1,12 @@
-import {
-  Bell,
-  BriefcaseBusiness,
-  FileText,
-  Heart,
-  HelpCircle,
-  History,
-  LayoutDashboard,
-  LogOutIcon,
-  Search,
-  Settings,
-  Shield,
-  User2,
-} from "lucide-react";
+import { Bell, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Link } from "react-router";
-import type { MenuItem } from "@/shared/types/MenuItem";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectCurrentUser } from "@/features/auth/authSlice";
-import { MenuSection } from "./MenuSection";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { ROUTES } from "@/constants/routes";
-import { logoutThunk } from "@/features/auth/authThunk";
-import { useQueryClient } from "@tanstack/react-query";
-
-const menuItems: MenuItem[] = [
-  { icon: User2, label: "Profile", href: ROUTES.MEMBER.PROFILE },
-  { icon: LayoutDashboard, label: "Dashboard", href: ROUTES.MEMBER.HOME },
-  { icon: FileText, label: "Applications", href: ROUTES.MEMBER.APPLICATIONS },
-  { icon: Heart, label: "Saved Jobs", href: ROUTES.MEMBER.SAVED_JOBS },
-  { icon: History, label: "History", href: ROUTES.MEMBER.HISTORY },
-];
-
-const settingsItems: MenuItem[] = [
-  {
-    icon: Settings,
-    label: "Settings & Notifications",
-    href: ROUTES.MEMBER.SETTINGS,
-  },
-  {
-    icon: Shield,
-    label: "Password & Security",
-    href: ROUTES.MEMBER.PASSWORD_SECURITY,
-  },
-];
-
-const supportItems: MenuItem[] = [
-  { icon: HelpCircle, label: "Contact Us", href: ROUTES.PUBLIC.CONTACT },
-];
+import UserMenu from "./UserMenu";
 
 export function DashboardHeader() {
-  const currentUser = useAppSelector(selectCurrentUser);
   const notificationsCount = 3; // TODO: replace with real data
-  const isEmployer = useAppSelector((state) =>
-    state.authReducer.userRoles.includes("Employer"),
-  );
-  const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
 
-  const handleSignOut = () => {
-    dispatch(logoutThunk());
-    queryClient.clear();
-  };
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="custom-container flex h-16 items-center justify-between px-4">
@@ -115,75 +51,7 @@ export function DashboardHeader() {
           </Button>
 
           {/* User Menu */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="relative h-8 w-8 rounded-full"
-                aria-label="User menu"
-              >
-                <Avatar className="h-8 w-8">
-                  <AvatarImage
-                    src="/placeholder.svg?height=32&width=32"
-                    alt={currentUser?.firstName ?? "User"}
-                  />
-                  <AvatarFallback>
-                    {currentUser
-                      ? `${currentUser.firstName?.[0] ?? ""}${
-                          currentUser.lastName?.[0] ?? ""
-                        }`.toUpperCase()
-                      : "TS"}
-                  </AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-              {/* User Info */}
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">
-                    {currentUser?.firstName} {currentUser?.lastName}
-                  </p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    {currentUser?.email}
-                  </p>
-                </div>
-              </DropdownMenuLabel>
-
-              <DropdownMenuSeparator />
-
-              {/* Menu Sections */}
-
-              {/* --Recruitment-- For employers */}
-              {isEmployer && (
-                <DropdownMenuItem asChild>
-                  <Link
-                    to={ROUTES.MEMBER.RECRUITMENT.HOME}
-                    className="flex items-center gap-2"
-                  >
-                    <BriefcaseBusiness className="h-6 w-6" />
-                    <span>Recruitment</span>
-                  </Link>
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuSeparator />
-
-              <MenuSection items={menuItems} />
-              <MenuSection items={settingsItems} />
-              <MenuSection items={supportItems} />
-
-              {/* Logout */}
-              <DropdownMenuItem onClick={handleSignOut} asChild>
-                <div className="pb-2">
-                  <LogOutIcon />
-                  <Link to={"/auth/login"} className="flex-1">
-                    Sign Out
-                  </Link>
-                </div>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <UserMenu />
         </div>
       </div>
     </header>

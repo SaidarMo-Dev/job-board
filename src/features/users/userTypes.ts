@@ -21,6 +21,7 @@ export interface CurrentUser {
   recoveryEmail?: string;
   recoveryPhone?: string;
   profileImageUrl?: string;
+  roles: string[];
 }
 
 export interface User {

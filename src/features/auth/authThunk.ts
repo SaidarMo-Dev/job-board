@@ -10,7 +10,7 @@ import {
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { ApiResponse } from "@/shared/types/ApiResponse";
-import type { User } from "../users/userTypes";
+import type { CurrentUser } from "../users/userTypes";
 import { getCurrentUser } from "../users/userApi";
 import type { RecoveryContactInfo } from "./authTypes";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
@@ -41,7 +41,7 @@ const logoutThunk = createAsyncThunk("auth/logout", async (_, { dispatch }) => {
 });
 
 const getCurrentUserThunk = createAsyncThunk<
-  User,
+  CurrentUser,
   void,
   { rejectValue: string }
 >("auth/me", async (_, thunkApi) => {
