@@ -137,22 +137,22 @@ export default function CompaniesPage() {
               </div>
             </div>
 
-            {isFetching && (
+            {isFetching ? (
+              /* 1. Loading State: Full screen center */
               <div className="h-screen flex items-center justify-center">
                 <Loader variant="spinner" size="sm" />
               </div>
+            ) : companies?.data && companies?.data?.length > 0 ? (
+              /* 2. Success State: Show the grid */
+              <div className="grid grid-cols-1 gap-6">
+                {companies.data.map((company) => (
+                  <CompanyCard key={company.companyId} company={company} />
+                ))}
+              </div>
+            ) : (
+              /* 3. Empty State: No data returned */
+              <EmptyState message="No companies found matching your criteria." />
             )}
-
-            {/* Company Grid */}
-            <div className="grid grid-cols-1 gap-6">
-              {companies?.data?.map((company) => (
-                <CompanyCard key={company.companyId} company={company} />
-              ))}
-
-              {!companies?.data && (
-                <EmptyState message="No companies found matching your criteria." />
-              )}
-            </div>
 
             {/* Companies pagination */}
             <CustomPagination
