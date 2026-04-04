@@ -1,6 +1,6 @@
+import AuthGuard from "@/guards/authGuard";
 import AppLayout from "@/layouts/AppLayout";
 import AccountRecovery from "@/pages/AccountRecovery";
-import AuthGuard from "@/guards/authGuard";
 import Home from "@/pages/Home";
 import JobsHistoryPage from "@/pages/JobsHistoryPage";
 import PasswordSecurityPage from "@/pages/PasswordAndSecurity";
