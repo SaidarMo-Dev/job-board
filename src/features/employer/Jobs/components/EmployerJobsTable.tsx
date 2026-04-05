@@ -33,8 +33,7 @@ import { getStatusBadgeVariant } from "@/features/admin/utils/getStatusVariant";
 import TablePagination from "@/features/admin/users/components/TablePagination";
 import type { PaginationInfo } from "@/features/admin/users/usersTypes";
 import Loader from "@/components/Loaders/Loader";
-import type { EmployerJob, employerJobActionType } from "../employerTypes";
-
+import type { EmployerJob, employerJobActionType } from "../../employerTypes";
 interface JobsTableProps {
   jobs: EmployerJob[];
   selectedJobs: number[];
@@ -71,8 +70,8 @@ export function EmployerJobsTable({
   const selectAllState = allSelected
     ? true
     : someSelected
-    ? "indeterminate"
-    : false;
+      ? "indeterminate"
+      : false;
 
   const getSortIcon = (field: string) => {
     if (sortBy !== field) return <ArrowUpDown className="h-4 w-4" />;
@@ -103,7 +102,7 @@ export function EmployerJobsTable({
   );
 
   return (
-    <div className="border rounded-lg">
+    <div className="w-full overflow-auto space-y-6 bg-white py-6 rounded-xl dark:bg-accent">
       <Table>
         <TableHeader>
           <TableRow>
@@ -122,12 +121,8 @@ export function EmployerJobsTable({
             <TableHead>Location</TableHead>
             <TableHead>Type</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>
-              <SortableHeader field="postedDate">Posted</SortableHeader>
-            </TableHead>
-            <TableHead>Expires</TableHead>
             <TableHead>Applicants</TableHead>
-            <TableHead className="w-12">Actions</TableHead>
+            <TableHead className="">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -185,10 +180,7 @@ export function EmployerJobsTable({
                     {job.status}
                   </Badge>
                 </TableCell>
-                <TableCell>{job.postedDate.toString() ?? ""}</TableCell>
-                <TableCell>
-                  {job.expiryDate?.toString() ?? "Not Specefied"}
-                </TableCell>
+
                 <TableCell className="text-center">
                   {job.applicantsCount}
                 </TableCell>

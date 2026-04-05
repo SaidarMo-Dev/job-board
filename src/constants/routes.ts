@@ -44,6 +44,7 @@ export const ROUTES = {
   EMPLOYER: {
     DASHBOARD: "/employer",
     JOBS: {
+      LIST: "/employer/jobs",
       ADD: "/employer/jobs/create",
       EDIT: (Id: number | string) => `/employer/jobs/${Id}/Edit`,
     },

@@ -1,7 +1,7 @@
 import { useAppSelector } from "@/hooks/useAppSelector";
 import PublicLayout from "./PublicLayout";
-import EmployerLayout from "./EmployerLayout";
 import AppLayout from "./AppLayout";
+import EmployerLayout from "@/features/employer/layouts/EmployerLayout";
 
 export default function ConditionalLayout() {
   const { currentUser } = useAppSelector((state) => state.authReducer);

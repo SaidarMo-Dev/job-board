@@ -1,7 +1,4 @@
-import { EmployerJobsTable } from "../components/EmployerJobsTable";
-import RecruitmentHeader from "../components/RecruitmentHeader";
-import RecruitmentOverview from "../components/RecruitmentOverview";
-import EmployerSearchJobs from "../components/EmployerSearchJobs";
+
 import { useQuery } from "@tanstack/react-query";
 import { fetchEmployerJobs, getEmployerDashboardStats } from "../employerApi";
 import { useState } from "react";
@@ -13,8 +10,16 @@ import { toast } from "react-toastify";
 import { JobDetailsModal } from "@/shared/dialogs/JobDetailsModal";
 import { useNavigate } from "react-router";
 import { ROUTES } from "@/constants/routes";
+import SectionHeader from "../shared/components/SectionHeader";
+import EmployerDashboardStats from "../shared/components/EmployerDashboardStats";
+import { EmployerJobsTable } from "./components/EmployerJobsTable";
+import EmployerSearchJobs from "./components/EmployerSearchJobs";
 
-export default function RecruitmentPage() {
+export default function EmployerJobsPage({
+  className,
+}: {
+  className?: string;
+}) {
   const navigate = useNavigate();
 
   const [searchJobs, setSearchJobs] = useState("");
@@ -59,22 +64,31 @@ export default function RecruitmentPage() {
   };
 
   return (
-    <div className="custom-container">
-      <div className="py-6 space-y-6">
-        <RecruitmentHeader />
-        <RecruitmentOverview
+    <>
+      <div
+        className={
+          `bg-primary-foreground space-y-6` + (className ? ` ${className}` : "")
+        }
+      >
+        <SectionHeader
+          to={ROUTES.EMPLOYER.JOBS.ADD}
+          title="Jobs"
+          description="Manage your active recruitement piplines listings."
+        />
+        <EmployerDashboardStats
           totalJobs={employerStats?.totalJobs ?? 0}
           ApplicationsReceived={employerStats?.applicationsReceived ?? 0}
           activeJobs={employerStats?.activeJobs ?? 0}
         />
 
-        <div className="flex justify-between">
-          <span className="font-medium text-gray-600">Job Postings</span>
+        <div className="flex justify-between mx-4">
+          <span className="font-medium text-foreground">Job Postings</span>
           <EmployerSearchJobs
             search={searchJobs}
             onSearchChange={setSearchJobs}
           />
         </div>
+
         <EmployerJobsTable
           jobs={employerJobs ?? []}
           selectedJobs={[]}
@@ -103,6 +117,6 @@ export default function RecruitmentPage() {
           onClose={() => setJobToView(null)}
         />
       )}
-    </div>
+    </>
   );
 }

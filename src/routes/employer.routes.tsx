@@ -1,7 +1,8 @@
 import { ROUTES } from "@/constants/routes";
 import AddEditJobPage from "@/features/admin/jobs/pages/AddEditJobPage";
-import RecruitmentPage from "@/features/employer/pages/RecruitmentPage";
-import EmployerLayout from "@/layouts/EmployerLayout";
+import EmployerDashboardPage from "@/features/employer/dashboard/EmployerDashboardPage";
+import EmployerJobsPage from "@/features/employer/Jobs/EmployerJobsPage";
+import EmployerLayout from "@/features/employer/layouts/EmployerLayout";
 import AuthGuard from "@/guards/authGuard";
 import { Route } from "react-router";
 
@@ -14,7 +15,8 @@ const EmployerRoutes = (
     }
   >
     <Route path={ROUTES.EMPLOYER.DASHBOARD}>
-      <Route index element={<RecruitmentPage />} />
+      <Route index element={<EmployerDashboardPage />} />
+      <Route path={ROUTES.EMPLOYER.JOBS.LIST} element={<EmployerJobsPage />} />
       <Route
         path={ROUTES.EMPLOYER.JOBS.ADD}
         element={<AddEditJobPage mode="Add" />}
