@@ -8,17 +8,14 @@ import {
   Sidebar,
   SidebarMenuItem,
   SidebarHeader,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
 
-import {
-  Briefcase,
-  Home,
-
-  Settings,
- 
-} from "lucide-react";
+import { Briefcase, Building, Home, LogOut, Settings } from "lucide-react";
 import { Link } from "react-router";
 import { ROUTES } from "@/constants/routes";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { logoutThunk } from "@/features/auth/authThunk";
 
 const menuItems = [
   {
@@ -33,7 +30,12 @@ const menuItems = [
     url: ROUTES.EMPLOYER.JOBS.LIST,
     Badge: 5,
   },
-
+  {
+    name: "Company Profile",
+    icon: Building,
+    url: ROUTES.EMPLOYER.COMPANY_PROFILE,
+    Badge: 5,
+  },
   {
     name: "Settings",
     icon: Settings,
@@ -43,6 +45,10 @@ const menuItems = [
 ];
 
 export default function EmployerSidebar() {
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    dispatch(logoutThunk());
+  };
   return (
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
@@ -95,19 +101,12 @@ export default function EmployerSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      {/* <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarUserMenu
-              user={{
-                name: "Admin",
-                email: "Admin.Exempla@ilink.com",
-                avatar: "A",
-              }}
-            />
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter> */}
+      <SidebarFooter>
+        <SidebarMenuButton onClick={handleLogout}>
+          <LogOut />
+          Log out
+        </SidebarMenuButton>
+      </SidebarFooter>
     </Sidebar>
   );
 }

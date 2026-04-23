@@ -1,5 +1,6 @@
 import { ROUTES } from "@/constants/routes";
 import AddEditJobPage from "@/features/admin/jobs/pages/AddEditJobPage";
+import CompanyProfilePageView from "@/features/employer/company/CompanyProfileViewPage";
 import EmployerDashboardPage from "@/features/employer/dashboard/EmployerDashboardPage";
 import EmployerJobsPage from "@/features/employer/Jobs/EmployerJobsPage";
 import EmployerLayout from "@/features/employer/layouts/EmployerLayout";
@@ -24,6 +25,11 @@ const EmployerRoutes = (
       <Route
         path={ROUTES.EMPLOYER.JOBS.EDIT(":id")}
         element={<AddEditJobPage mode="Edit" />}
+      />
+
+      <Route
+        path={ROUTES.EMPLOYER.COMPANY_PROFILE}
+        element={<CompanyProfilePageView />}
       />
     </Route>
   </Route>

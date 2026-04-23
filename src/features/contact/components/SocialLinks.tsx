@@ -1,23 +1,25 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Linkedin, Twitter, Instagram } from "lucide-react";
+import LinkedinIcon from "@/shared/components/LinkedinIcon";
+import TwitterIcon from "@/shared/components/TwitterIcon";
+import { PiIcon } from "lucide-react";
 
 const socialLinks = [
   {
     name: "LinkedIn",
-    icon: Linkedin,
+    icon: LinkedinIcon,
     url: "www.linkedin.com/in/mohammed-saidar-1b3477363",
     description: "Professional networking and career updates",
   },
   {
     name: "Twitter",
-    icon: Twitter,
+    icon: TwitterIcon,
     url: "https://twitter.com/jobportal",
     description: "Latest news and job market insights",
   },
   {
     name: "Instagram",
-    icon: Instagram,
+    icon: PiIcon,
     url: "https://instagram.com/jobportal",
     description: "Behind-the-scenes and company culture",
   },

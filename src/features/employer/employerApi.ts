@@ -3,6 +3,7 @@ import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { EmployerDashboardStats, EmployerJob } from "./employerTypes";
 import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
 import { DEFAULT_PAGE_SIZE } from "@/constants/config";
+import type { CompanyFull } from "./company/schemas/companySchema";
 
 const EMPLOYER_BASE_URL = "/employer";
 
@@ -19,7 +20,15 @@ export async function fetchEmployerJobs(page: number = 1, search: string = "") {
 
   return (
     await api.get<ApiPaginatedResponse<EmployerJob[]>>(
-      `${EMPLOYER_BASE_URL}/posted-jobs?${query.toString()}`
+      `${EMPLOYER_BASE_URL}/posted-jobs?${query.toString()}`,
+    )
+  ).data.data;
+}
+
+export async function getEmployerCompanyProfile(): Promise<CompanyFull> {
+  return (
+    await api.get<ApiResponse<CompanyFull>>(
+      `${EMPLOYER_BASE_URL}/company-profile`,
     )
   ).data.data;
 }

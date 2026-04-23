@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/command";
 import { Check, ChevronsUpDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { Option } from "../jobsType";
+import type { Option } from "../../features/admin/jobs/jobsType";
 import { InfiniteScrollObserver } from "@/shared/components/InfiniteScrollObserver";
 
 export function MultiSelectCombobox({
@@ -71,7 +71,7 @@ export function MultiSelectCombobox({
             <span
               className={cn(
                 "truncate text-left",
-                selected.length === 0 && "text-gray-600"
+                selected.length === 0 && "text-gray-600",
               )}
             >
               {selected && selected.length > 0
@@ -100,7 +100,7 @@ export function MultiSelectCombobox({
                       <Check
                         className={cn(
                           "h-4 w-4",
-                          isSelected ? "opacity-100" : "opacity-0"
+                          isSelected ? "opacity-100" : "opacity-0",
                         )}
                       />
                       <span className="truncate">{o.name}</span>
@@ -135,7 +135,7 @@ export function MultiSelectCombobox({
               <button
                 aria-label={`Remove ${labelFor(id)}`}
                 onClick={() => onChange(selected.filter((i) => i !== id))}
-                className="ml-1 inline-flex"
+                className="ml-1 inline-flex cursor-pointer"
               >
                 <X className="h-3.5 w-3.5" />
               </button>

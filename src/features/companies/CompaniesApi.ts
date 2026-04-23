@@ -6,6 +6,7 @@ import type { CompanySortBy } from "./shared/types/companyEnums";
 import type { CompanyFilters } from "./shared/types/companyFilters";
 import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { JobResponse } from "../jobs/jobTypes";
+import type { CompanyFormValues } from "../employer/company/schemas/companySchema";
 
 const COMPANY_BASE_URL = "/companies";
 
@@ -62,4 +63,25 @@ export async function fetchCompanyOpenJobs(
       `${COMPANY_BASE_URL}/${slug}/jobs?Page=${page}&Size=${pageSize}`,
     )
   ).data;
+}
+
+export async function addCompany(
+  company: CompanyFormValues,
+): Promise<ApiResponse<string>> {
+  const response = await api.post<ApiResponse<string>>(
+    `${COMPANY_BASE_URL}`,
+    company,
+  );
+  return response.data;
+}
+
+export async function updateCompany(
+  id: number,
+  company: CompanyFormValues,
+): Promise<ApiResponse<string>> {
+  const response = await api.put<ApiResponse<string>>(
+    `${COMPANY_BASE_URL}/${id}`,
+    company,
+  );
+  return response.data;
 }

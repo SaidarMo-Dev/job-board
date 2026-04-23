@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LinkIcon } from "lucide-react";
 import type { Option } from "../jobsType";
-import { MultiSelectCombobox } from "./MultiSelectCombobox";
+import { MultiSelectCombobox } from "../../../../shared/components/MultiSelectCombobox";
 import { AddSkillDialog } from "../dialogs/AddSkillDialog";
 import { Controller, type Control } from "react-hook-form";
 import type { JobFormValues } from "../schemas/jobSchema";

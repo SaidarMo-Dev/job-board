@@ -1,8 +1,6 @@
+import LinkedinIcon from "@/shared/components/LinkedinIcon";
+import TwitterIcon from "@/shared/components/TwitterIcon";
 import {
-  Facebook,
-  Twitter,
-  Linkedin,
-  Instagram,
   Mail,
   Phone,
   MapPin,
@@ -30,25 +28,25 @@ const Footer = () => {
                 href="#"
                 className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
               >
-                <Facebook className="h-5 w-5" />
+                FB
               </a>
               <a
                 href="#"
                 className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
               >
-                <Twitter className="h-5 w-5" />
+                <TwitterIcon />
               </a>
               <a
                 href="#"
                 className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
               >
-                <Linkedin className="h-5 w-5" />
+                <LinkedinIcon />
               </a>
               <a
                 href="#"
                 className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
               >
-                <Instagram className="h-5 w-5" />
+                Inst
               </a>
             </div>
           </div>

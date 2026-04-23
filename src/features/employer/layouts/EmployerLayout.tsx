@@ -1,6 +1,6 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import EmployerSidebar from "../dashboard/components/EmployerSidebar";
-import EmployerHeader from "../dashboard/components/EMployerHeader";
+import EmployerHeader from "../dashboard/components/EmployerHeader";
 import { Outlet } from "react-router";
 
 export default function EmployerLayout() {

@@ -48,6 +48,7 @@ export const ROUTES = {
       ADD: "/employer/jobs/create",
       EDIT: (Id: number | string) => `/employer/jobs/${Id}/Edit`,
     },
+    COMPANY_PROFILE: "/employer/company-profile",
   },
 
   PUBLIC: {

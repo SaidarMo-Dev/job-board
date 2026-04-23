@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tags } from "lucide-react";
-import { MultiSelectCombobox } from "./MultiSelectCombobox";
+import { MultiSelectCombobox } from "../../../../shared/components/MultiSelectCombobox";
 import { AddCategoryDialog } from "../dialogs/AddCategoryDialog";
 import { Controller, type Control } from "react-hook-form";
 import type { JobFormValues } from "../schemas/jobSchema";
@@ -14,7 +14,6 @@ export function CategoriesCard({
   control,
   onCreate,
   error,
-  
 }: {
   control: Control<JobFormValues>;
   onCreate: (option: Option) => void;
@@ -49,7 +48,6 @@ export function CategoriesCard({
                 hasMore={hasMore}
                 loading={loading}
                 placeholder={`Select categories...`}
-    
               />
               {error && <p className="text-sm text-destructive">{error}</p>}
             </>

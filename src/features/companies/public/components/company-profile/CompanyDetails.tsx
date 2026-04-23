@@ -1,5 +1,7 @@
 import type { Company } from "@/features/companies/shared/types/company";
-import { Globe, Linkedin, Twitter } from "lucide-react";
+import LinkedinIcon from "@/shared/components/LinkedinIcon";
+import TwitterIcon from "@/shared/components/TwitterIcon";
+import { Globe } from "lucide-react";
 import type React from "react";
 
 interface CompanyDetailsProps {
@@ -63,14 +65,14 @@ export function CompanyDetails({ company }: CompanyDetailsProps) {
             {company.linkedInUrl && (
               <SocialLink
                 href={company.linkedInUrl}
-                icon={<Linkedin />}
+                icon={<LinkedinIcon />}
                 label="LinkedIn"
               />
             )}
             {company.twitterUrl && (
               <SocialLink
                 href={company.twitterUrl}
-                icon={<Twitter />}
+                icon={<TwitterIcon />}
                 label="Twitter"
               />
             )}
