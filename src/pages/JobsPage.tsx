@@ -207,7 +207,7 @@ export default function JobsPage() {
                 <PageLoader message="loading jobs..." />
               ) : (
                 <div>
-                  <div className="mt-5">
+                  <div className="mt-5 space-y-3">
                     {data?.jobs ? (
                       data.jobs.map((job) => {
                         return (
