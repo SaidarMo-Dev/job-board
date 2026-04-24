@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CompanyProfileForm from "./components/CompanyProfileForm";
+import Loader from "@/components/Loaders/Loader";
 
 export default function CompanyProfilePageView() {
   const [isEditing, setIsEditing] = useState(false);
@@ -36,7 +37,14 @@ export default function CompanyProfilePageView() {
 
   const onSubmit = (data: CompanyFormValues) => mutate(data);
 
-  if (!company && !isEditing && !isLoading)
+  if (isLoading && !company)
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Loader size="xs" />
+      </div>
+    );
+
+  if (!company && !isEditing)
     return <CompanyEmptyState onStart={() => setIsEditing(true)} />;
 
   return (
