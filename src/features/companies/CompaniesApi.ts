@@ -85,3 +85,39 @@ export async function updateCompany(
   );
   return response.data;
 }
+
+export async function uploadCompanyLogo(
+  id: number,
+  logoFile: File,
+): Promise<ApiResponse<string>> {
+  const formData = new FormData();
+  formData.append("Logo", logoFile);
+
+  const response = await api.put<ApiResponse<string>>(
+    `${COMPANY_BASE_URL}/${id}/logo`,
+    formData,
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+      timeout: 8000,
+    },
+  );
+  return response.data;
+}
+
+export async function uploadCompanyBanner(
+  id: number,
+  banner: File,
+): Promise<ApiResponse<string>> {
+  const formData = new FormData();
+  formData.append("Banner", banner);
+
+  const response = await api.put<ApiResponse<string>>(
+    `${COMPANY_BASE_URL}/${id}/banner`,
+    formData,
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+      timeout: 8000,
+    },
+  );
+  return response.data;
+}

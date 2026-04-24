@@ -29,5 +29,5 @@
     }
   },
 
-  "include": ["src", "tailwind.config.ts"]
+  "include": ["src", "tailwind.config.ts", "src/features/employer/company/hooks/useUploadCompanyLogo.ts"]
 }

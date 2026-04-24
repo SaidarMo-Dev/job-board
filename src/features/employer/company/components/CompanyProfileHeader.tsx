@@ -1,5 +1,5 @@
 import {
-  Camera,
+  
   Pen,
   CheckCircle,
   MapPin,
@@ -9,6 +9,8 @@ import {
 import { Button } from "@/components/ui/button";
 import type { BaseCompanyComponentsProps } from "../types/baseCompanyComponentsType";
 import type { CompanyFull } from "../schemas/companySchema";
+import CompanyLogo from "./CompanyLogo";
+import CompanyBanner from "./CompanyBanner";
 
 interface CompanyProfileHeaderProps extends BaseCompanyComponentsProps {
   company: CompanyFull;
@@ -22,38 +24,20 @@ export function CompanyProfileHeader({
   return (
     <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden">
       {/* Banner */}
-      <div className="h-48 relative bg-secondary">
-        <img
-          src={company?.bannerUrl || "/images/default-banner.jpg"}
-          alt="Company Banner"
-          className="w-full h-full object-cover opacity-80"
-        />
-        <button
-          type="button"
-          className="absolute top-4 right-4 bg-card/90 backdrop-blur text-foreground px-3 py-1.5 rounded-lg text-sm font-medium shadow-sm hover:bg-card transition-colors flex items-center gap-2"
-        >
-          <Camera className="w-4 h-4" />
-          Change Cover
-        </button>
-      </div>
 
+      <CompanyBanner
+        companyId={company.companyId}
+        bannerUrl={company.bannerUrl}
+      />
       {/* Content */}
       <div className="px-6 pb-6 pt-0 relative">
         <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-end -mt-12 mb-4">
           {/* Logo */}
-          <div className="w-24 h-24 rounded-2xl bg-card p-1 shadow-md border border-border relative z-10 flex-shrink-0">
-            <img
-              src={company?.logoUrl || "/images/default-company.webp"}
-              alt="Company Logo"
-              className="w-full h-full object-cover rounded-xl"
-            />
-            <button
-              type="button"
-              className="absolute -bottom-2 -right-2 bg-card text-muted-foreground p-1.5 rounded-full shadow border border-border hover:text-primary transition-colors"
-            >
-              <Pen className="w-3 h-3" />
-            </button>
-          </div>
+
+          <CompanyLogo
+            companyId={company.companyId}
+            logoUrl={company.logoUrl}
+          />
 
           {/* Header Info */}
           <div className="flex-1 pt-12 sm:pt-0 w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
