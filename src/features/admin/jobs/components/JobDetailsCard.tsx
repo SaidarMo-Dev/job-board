@@ -104,20 +104,34 @@ export function JobDetailsCard({
         <div className="space-y-2">
           <label className="text-sm font-medium">Salary Range</label>
           <div className="grid grid-cols-3 gap-2">
-            <Input
-              {...register("minSalary", { valueAsNumber: true })}
-              type="number"
-              inputMode="numeric"
-              placeholder="Min"
-              className="bg-white dark:bg-secondary"
-            />
-            <Input
-              {...register("maxSalary", { valueAsNumber: true })}
-              type="number"
-              inputMode="numeric"
-              placeholder="Max"
-              className="bg-white dark:bg-secondary"
-            />
+            <div className="space-y-2">
+              <Input
+                {...register("minSalary", { valueAsNumber: true })}
+                type="number"
+                inputMode="numeric"
+                placeholder="Min"
+                className="bg-white dark:bg-secondary"
+              />
+              {errors?.minSalary && (
+                <p className="text-sm text-destructive">
+                  {errors.minSalary.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Input
+                {...register("maxSalary", { valueAsNumber: true })}
+                type="number"
+                inputMode="numeric"
+                placeholder="Max"
+                className="bg-white dark:bg-secondary"
+              />
+              {errors?.maxSalary && (
+                <p className="text-sm text-destructive">
+                  {errors.maxSalary.message}
+                </p>
+              )}
+            </div>
           </div>
         </div>
 
@@ -157,6 +171,11 @@ export function JobDetailsCard({
               )}
             />
           </div>
+          {errors?.dateExpired && (
+            <p className="text-sm text-destructive">
+              {errors.dateExpired.message}
+            </p>
+          )}
         </div>
 
         {/* Job Type */}

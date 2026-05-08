@@ -1,9 +1,6 @@
-"use client";
-
 import AddJobHeader from "../components/AddJobHeader";
 
 import { JobDetailsCard } from "../components/JobDetailsCard";
-import { CompanyCard } from "../components/CompanyCard";
 import { CategoriesCard } from "../components/CategoriesCard";
 import { SkillsCard } from "../components/SkillsCard";
 import { useNavigate, useParams } from "react-router";
@@ -16,6 +13,7 @@ import { toast } from "react-toastify";
 import { addJob, getJobByIdSummary, updateJob } from "@/features/jobs/jobApi";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 import { useEffect, useState } from "react";
+import CompanyGate from "../components/company-gate/CompanyGate";
 
 export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
   const navigate = useNavigate();
@@ -51,7 +49,6 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
         .then(({ data }) => {
           reset({
             title: data.title,
-            companyId: data.companyId,
             location: data.location,
             jobType: data.jobType,
             experienceLevel: data.experienceLevel,
@@ -98,9 +95,6 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
     navigate(-1);
   };
 
-  const handleCreateCompany = (id: number) => {
-    setValue("companyId", id);
-  };
   const handleCreateCategory = (option: Option) => {
     setValue("categoryIds", [...selectedCategoryIds, option.id]);
   };
@@ -108,6 +102,7 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
     setValue("skillIds", [...selectedSkillIds, option.id]);
   };
 
+  console.log("errors", errors);
   return (
     <div className="w-full">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -119,11 +114,7 @@ export default function AddEditJobPage({ mode = "Add" }: { mode: FormMode }) {
             control={control}
           />
 
-          <CompanyCard
-            control={control}
-            onCreate={handleCreateCompany}
-            error={errors.companyId?.message}
-          />
+          <CompanyGate />
 
           <CategoriesCard
             control={control}

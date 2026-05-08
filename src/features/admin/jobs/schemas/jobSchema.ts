@@ -13,8 +13,6 @@ export const JobSchema = z
       .max(2000, "Description cannot exceed 2000 characters")
       .optional(),
 
-    companyId: z.coerce.number({ invalid_type_error: "Company is required" }),
-
     location: z
       .string()
       .min(1, { message: "Location is required" })
