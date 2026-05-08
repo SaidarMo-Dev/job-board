@@ -27,7 +27,7 @@ export default function EmptyCompanyState({
             applications.
           </p>
           <Button
-          type
+            type="button"
             size="lg"
             onClick={() => onCreate?.()}
             className="gap-2 bg-foreground text-background hover:bg-foreground/90"

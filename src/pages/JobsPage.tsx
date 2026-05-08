@@ -28,6 +28,7 @@ import { capitalizeFirstLetter } from "@/features/admin/utils/capitalizeFirstLet
 import JobDetailsModal from "@/features/jobs/components/JobDetailsModal";
 import { DEFAULT_PAGE_SIZE } from "@/constants/config";
 import InlineJobCard from "@/shared/components/InlineJobCard";
+import InlineJobCardSkeleton from "@/shared/components/InlineJobCardSkeleton";
 
 export default function JobsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -204,7 +205,11 @@ export default function JobsPage() {
               </div>
               {/* Jobs */}
               {isLoading ? (
-                <PageLoader message="loading jobs..." />
+                <div className="space-y-3">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <InlineJobCardSkeleton key={i} />
+                  ))}
+                </div>
               ) : (
                 <div>
                   <div className="mt-5 space-y-3">
