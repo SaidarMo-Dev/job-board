@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Mail } from "lucide-react";
+import { ArrowLeft, Loader2, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { ConfirmEmailByCode } from "../../authApi";
@@ -9,11 +9,11 @@ import type { ApiResponse } from "@/shared/types/ApiResponse";
 import { formatTime } from "@/utils/stringUtils";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { resendCodeThunk } from "../../authThunk";
-import { useAppSelector } from "@/hooks/useAppSelector";
 export function ConfirmEmail() {
   const [count, setCount] = useState(0);
   const dispatch = useAppDispatch();
-  const resendError = useAppSelector((state) => state.authReducer.error);
+
+  const [isPending, setIsPending] = useState(false);
 
   const [verificationCode, setVerificationCode] = useState([
     "",
@@ -24,7 +24,9 @@ export function ConfirmEmail() {
     "",
   ]);
 
+  // code change handler: Update the corresponding index of the verificationCode state, and auto-focus the next input box if value is not empty
   function handleCodeChange(index: number, value: string) {
+    if (!/^\d*$/.test(value)) return; // Only allow numbers
     setVerifyError("");
     if (value.length <= 1) {
       const newCode = [...verificationCode];
@@ -36,27 +38,45 @@ export function ConfirmEmail() {
         const nextInput = document.getElementById(`code-${index + 1}`);
         nextInput?.focus();
       }
+      // Auto-submit check using the FRESH array data
+      const isComplete = newCode.every((digit) => digit !== "");
+      if (isComplete) {
+        const fullCode = newCode.join("");
+        handleVerifyCode(fullCode);
+      }
     }
   }
+
   function handleKeyDown(
     index: number,
-    e: React.KeyboardEvent<HTMLInputElement>
+    e: React.KeyboardEvent<HTMLInputElement>,
   ) {
     if (e.key === "Backspace" && !verificationCode[index] && index > 0) {
       const prevInput = document.getElementById(`code-${index - 1}`);
       prevInput?.focus();
     }
+
+    // Allow users to use left and right arrow keys to navigate between input boxes
+    if (e.key === "ArrowLeft" && index > 0) {
+      document.getElementById(`code-${index - 1}`)?.focus();
+    } else if (e.key === "ArrowRight" && index < 5) {
+      document.getElementById(`code-${index + 1}`)?.focus();
+    }
   }
+
   const [verifyError, setVerifyError] = useState<string>("");
 
   const email = sessionStorage.getItem("userEmail") ?? "";
   const navigate = useNavigate();
-  const handleVerifyCode = async () => {
+
+  // verify code handler: Call API to verify the code, if success navigate to success page, if error show error message
+  const handleVerifyCode = async (code?: string) => {
+    setIsPending(true);
+
     try {
-      const response = await ConfirmEmailByCode(
-        email,
-        verificationCode.join("")
-      );
+      const freshCode = code ?? verificationCode.join("");
+
+      const response = await ConfirmEmailByCode(email, freshCode);
       if (response.succeeded) {
         sessionStorage.setItem("emailVerified", "true");
         navigate("/auth/confirm-email/success", {
@@ -68,6 +88,8 @@ export function ConfirmEmail() {
         const res = error.response?.data as ApiResponse<string>;
         setVerifyError(res.message ?? "Something went wrong!");
       } else setVerifyError("Something went wrong!");
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -88,16 +110,24 @@ export function ConfirmEmail() {
     return () => clearInterval(interval);
   }, [count]);
 
+  // Paste feature: Allow users to paste the 6-digit code directly into the first input box
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text").trim();
+
+    // Check if pasted content is a 6-digit number
+    if (/^\d{6}$/.test(pastedData)) {
+      const newCode = pastedData.split("");
+      setVerificationCode(newCode);
+
+      // Focus the last input box
+      document.getElementById("code-5")?.focus();
+    }
+  };
+
   return (
     <div className="max-w-[450px] border border-gray-200 rounded-lg shadow-lg p-7 mx-auto mb-3">
       <div className="flex flex-col items-center">
-        {/* handle resend error */}
-        {resendError && (
-          <span className="bg-red-50 text-red-500 py-1 px-3 rounded-md font-medium mb-2">
-            {resendError}
-          </span>
-        )}
-
         {/* Logo  */}
 
         <div className="w-15 h-15 rounded-full bg-sky-100 flex items-center justify-center p-3">
@@ -116,6 +146,8 @@ export function ConfirmEmail() {
               inputMode="numeric"
               maxLength={1}
               value={digit}
+              disabled={isPending}
+              onPaste={handlePaste}
               onChange={(e) => handleCodeChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
               className={`w-12 h-12 text-center text-lg font-semibold ${
@@ -129,11 +161,18 @@ export function ConfirmEmail() {
         )}
 
         <Button
-          className="bg-primary hover:bg-sky-700 cursor-pointer w-full p-5 mt-5"
-          onClick={handleVerifyCode}
-          disabled={verificationCode.some((digit) => !digit)}
+          className="bg-primary hover:bg-sky-700 cursor-pointer w-full p-5 mt-5 disabled:bg-accent disabled:text-gray-500 disabled:cursor-not-allowed"
+          onClick={() => handleVerifyCode()}
+          disabled={isPending || verificationCode.some((digit) => !digit)}
         >
-          Verify email
+          {isPending ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Verifying...
+            </>
+          ) : (
+            "Verify email"
+          )}
         </Button>
         <h4 className="text-gray-500 mt-5">Didn't receive the code?</h4>
         {count === 0 ? (
