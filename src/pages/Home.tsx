@@ -27,7 +27,7 @@ export default function Home() {
     const fetchData = async () => {
       try {
         dispatch(
-          getUserDashboardStatsThunk({ userId: currentUserId })
+          getUserDashboardStatsThunk({ userId: currentUserId }),
         ).unwrap();
         dispatch(getSavedJobIdsThunk({ userId: currentUserId })).unwrap();
         dispatch(getAppliedJobIdsThunk()).unwrap();
@@ -77,7 +77,6 @@ export default function Home() {
 
           {/* recent applications */}
           <RecentApplications recentApplications={recentApplications ?? []} />
-          <QuickTips />
         </main>
       </div>
     </div>
