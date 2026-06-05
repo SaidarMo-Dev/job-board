@@ -34,12 +34,10 @@ const SaveButton = ({
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  const isAuthenticated = useAppSelector(
-    (state) => state.authReducer.isAuthenticated,
-  );
+  const currentUser = useAppSelector((state) => state.authReducer.currentUser);
 
   function handleToggle() {
-    if (!isAuthenticated) {
+    if (!currentUser) {
       navigate("/auth/login");
     } else {
       if (isSaved) {

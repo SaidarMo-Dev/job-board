@@ -5,7 +5,7 @@ import { splitCamelCase } from "@/utils/stringUtils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
-import IconSave from "@/features/bookmarks/Components/IconSave";
+import SaveButton from "@/shared/components/SaveButton";
 
 interface JobRecommendationCardProps {
   job: JobResponse;
@@ -59,7 +59,7 @@ export function JobRecommendationCard({
               </div>
             </div>
           </div>
-          <IconSave jobId={job.jobId} />
+          <SaveButton jobId={job.jobId} variant="icon" />
 
           {/* <Button variant="ghost" size="icon" className="h-8 w-8">
             <Bookmark className="h-4 w-4" />

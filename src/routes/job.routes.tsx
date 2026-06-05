@@ -6,9 +6,11 @@ import JobsPage from "@/pages/JobsPage";
 import { Route } from "react-router";
 
 const JobRoutes = (
-  <Route path="/jobs" element={<ConditionalLayout />}>
+  <>
     {/* Public */}
-    <Route index element={<JobsPage />} />
+    <Route path="/jobs" element={<ConditionalLayout />}>
+      <Route index element={<JobsPage />} />
+    </Route>
 
     {/* Private */}
     <Route
@@ -18,9 +20,9 @@ const JobRoutes = (
         </AuthGuard>
       }
     >
-      <Route path=":jobId/apply" element={<JobApplicationWizardPage />} />
+      <Route path="/jobs/:jobId/apply" element={<JobApplicationWizardPage />} />
     </Route>
-  </Route>
+  </>
 );
 
 export default JobRoutes;

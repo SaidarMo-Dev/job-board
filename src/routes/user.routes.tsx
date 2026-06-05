@@ -22,7 +22,6 @@ const UserRoutes = (
       <Route index element={<Home />} />
       <Route path="profile" element={<UserProfilePage />} />
       <Route path="applications" element={<UserApplications />} />
-      <Route path="applications" element={<UserApplications />} />
       <Route path="jobs" element={<UserSavedJobs />} />
       <Route path="history" element={<JobsHistoryPage />} />
       <Route path="password-security" element={<PasswordSecurityPage />} />
