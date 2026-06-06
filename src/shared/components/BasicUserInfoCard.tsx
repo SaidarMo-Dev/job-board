@@ -91,6 +91,7 @@ export default function BasicUserInfoCard() {
       countryName: userInfo.countryName,
     };
 
+    console.log("Updated User Info:", updatedUser);
     async function handleUpdate() {
       const result = await dispatch(updateUserThunk(updatedUser));
       if (updateUserThunk.fulfilled.match(result)) {

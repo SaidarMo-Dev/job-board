@@ -1,8 +1,8 @@
 import { ArrowRight, Briefcase, CircleCheck } from "lucide-react";
-import { useToast } from "../../contexts/ToastContext";
 import JobSearch from "../../features/jobs/components/JobSearch";
 import { Link, useNavigate } from "react-router";
 import { Button } from "../ui/button";
+import { ROUTES } from "@/constants/routes";
 
 export function HeroSection() {
   const navigate = useNavigate();
@@ -17,8 +17,6 @@ export function HeroSection() {
 
     navigate(`/jobs?${params.toString()}`);
   }
-
-  const { handleShowCloseToast } = useToast();
 
   return (
     <section
@@ -95,26 +93,25 @@ export function HeroSection() {
               </div>
 
               <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <Link to="/jobs">
-                  <Button className="transform hover:-translate-y-0.5 transition cursor-pointer bg-sky-500 hover:bg-sky-600 text-white">
+                <Button
+                  className="transform hover:-translate-y-0.5 transition cursor-pointer bg-sky-500 hover:bg-sky-600 text-white"
+                  asChild
+                >
+                  <Link to={ROUTES.PUBLIC.JOBS}>
                     Browse Jobs
                     <ArrowRight className="opacity-90" />
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
 
                 <Button
                   className="cursor-pointer bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm"
                   variant="outline"
-                  onClick={() =>
-                    handleShowCloseToast({
-                      title: "Not Yet Available",
-                      description:
-                        "Coming soon! This feature is under development.",
-                    })
-                  }
+                  asChild
                 >
-                  <Briefcase />
-                  Post a Job
+                  <Link to={ROUTES.EMPLOYER.JOBS.ADD}>
+                    <Briefcase />
+                    Post a Job
+                  </Link>
                 </Button>
               </div>
 

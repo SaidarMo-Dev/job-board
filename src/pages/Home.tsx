@@ -1,5 +1,4 @@
 import QuickStats from "../shared/components/QuickStats";
-import QuickTips from "../shared/components/QuickTips";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUserDashboardStatsThunk } from "@/features/dashboard_stats/dashboardStatsThunk";
