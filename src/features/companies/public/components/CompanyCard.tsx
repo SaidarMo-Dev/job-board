@@ -10,7 +10,6 @@ interface CompanyCardProps {
 }
 
 export function CompanyCard({ company }: CompanyCardProps) {
-  console.log("company info", company);
   return (
     <div className="bg-card p-6 rounded-xl border border-border shadow-sm hover:border-primary/50 transition-colors">
       <div className="flex flex-col md:flex-row gap-6">

@@ -7,19 +7,17 @@ import { GenericSelect } from "@/shared/components/GenericSelect";
 import { CompanyCard } from "../components/CompanyCard";
 import CustomPagination from "@/shared/components/CustomPagination";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCompanies, fetchFeaturedCompanies } from "../../CompaniesApi";
+import {
+  fetchCompanies,
+  fetchCompanyStats,
+  fetchFeaturedCompanies,
+} from "../../CompaniesApi";
 import { DEFAULT_PAGE_SIZE } from "@/constants/config";
 import type { PaginationInfo } from "@/features/admin/users/usersTypes";
 import Loader from "@/components/Loaders/Loader";
 import EmptyState from "@/shared/components/EmptyState";
 import { useCompaniesFilters } from "../../hooks/useCompaniesFilter";
 import { COMPANY_SORT_BY_OPTIONS } from "../../shared/types/companyEnums";
-
-const stats = [
-  { icon: Building2, label: "Total Companies", value: "120" },
-  { icon: Briefcase, label: "Open Positions", value: "800+" },
-  { icon: LayoutGrid, label: "Industries Covered", value: "20" },
-];
 
 export default function CompaniesPage() {
   const {
@@ -34,6 +32,11 @@ export default function CompaniesPage() {
     setFilters,
     debouncedFilters,
   } = useCompaniesFilters();
+
+  const { data: companyStats } = useQuery({
+    queryKey: ["companyStats"],
+    queryFn: () => fetchCompanyStats(),
+  });
 
   const { data: featuredCompanies } = useQuery({
     queryKey: ["featuredCompanies"],
@@ -81,7 +84,23 @@ export default function CompaniesPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-50">
         {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {stats.map((stat) => (
+          {[
+            {
+              icon: Building2,
+              label: "Total Companies",
+              value: companyStats?.totalCompanies?.toString() || "0",
+            },
+            {
+              icon: Briefcase,
+              label: "Open Positions",
+              value: companyStats?.totalOpenJobs?.toString() || "0",
+            },
+            {
+              icon: LayoutGrid,
+              label: "Industries Covered",
+              value: companyStats?.totalIndustries?.toString() || "0",
+            },
+          ].map((stat) => (
             <StatCard
               key={stat.label}
               icon={stat.icon}

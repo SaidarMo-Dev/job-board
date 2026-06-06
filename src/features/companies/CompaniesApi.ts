@@ -7,6 +7,7 @@ import type { CompanyFilters } from "./shared/types/companyFilters";
 import type { ApiResponse } from "@/shared/types/ApiResponse";
 import type { JobResponse } from "../jobs/jobTypes";
 import type { CompanyFormValues } from "../employer/company/schemas/companySchema";
+import type { CompanyStats } from "./public/types/companyStats";
 
 const COMPANY_BASE_URL = "/companies";
 
@@ -120,4 +121,10 @@ export async function uploadCompanyBanner(
     },
   );
   return response.data;
+}
+
+export async function fetchCompanyStats(): Promise<CompanyStats> {
+  return (
+    await api.get<ApiResponse<CompanyStats>>(`${COMPANY_BASE_URL}/statistics`)
+  ).data.data;
 }
