@@ -19,7 +19,6 @@ import CustomPagination from "@/shared/components/CustomPagination";
 import { NoJobs } from "@/features/jobs/components/NoJobs";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { getSavedJobIdsThunk } from "@/features/bookmarks/bookmarksThunk";
-import PageLoader from "@/components/Loaders/PageLoader";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import QuickFilters from "@/features/jobs/components/QuickFilters";
 import { useQuery } from "@tanstack/react-query";

@@ -69,8 +69,9 @@ export function CountryCombobox({ onSelect }: { onSelect: (country) => void }) {
       const startIndex = loadCountRef.current * BATCH_SIZE;
       const endIndex = startIndex + BATCH_SIZE;
 
-      // Filter all countries if there's a search query
-      const source = search ? allCountries : loadedCountries;
+      // // Filter all countries if there's a search query
+      // const source = search ? allCountries : loadedCountries;
+      
       const countriesToAdd = search
         ? allCountries.filter((c) =>
             c.label.toLowerCase().includes(search.toLowerCase())

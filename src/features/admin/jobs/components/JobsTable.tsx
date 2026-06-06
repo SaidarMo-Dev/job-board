@@ -1,4 +1,3 @@
-"use client";
 
 import type React from "react";
 import { Button } from "@/components/ui/button";
@@ -63,7 +62,6 @@ export function JobsTable({
   pagination,
   onPageChange,
   loading,
-  error,
 }: JobsTableProps) {
   const allSelected = jobs.length > 0 && selectedJobs.length === jobs.length;
   const someSelected =

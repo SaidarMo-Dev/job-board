@@ -1,4 +1,3 @@
-"use client";
 
 import { useState, useCallback } from "react";
 import { SkillsHeader } from "../skills/components/SkillsHeader";
@@ -13,7 +12,7 @@ import type { skillManagement } from "../skills/skillsTypes";
 
 export default function SkillsManagement() {
   const { skills, deleteSkill } = useSkills();
-  const { searchTerm, setSearchTerm, sort, setSort, page, setPage } =
+  const { searchTerm, setSearchTerm, sort, setSort, setPage } =
     useSkillsFilters();
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);

@@ -7,7 +7,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { logout } from "@/features/auth/authSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";

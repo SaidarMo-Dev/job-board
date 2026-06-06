@@ -26,8 +26,6 @@ import {
   UnsaveJobThunk,
 } from "@/features/bookmarks/bookmarksThunk";
 import { Link } from "react-router";
-import { useAppSelector } from "@/hooks/useAppSelector";
-
 interface JobCardMiniProps {
   job: JobResponse;
   savedSection?: boolean;
@@ -122,7 +120,7 @@ export default function SavedJobCard({
       {opneShowDetails && (
         <JobDetailsModal
           selectedJob={job}
-          onClose={(updated) => handleCloseModal(updated)}
+          onClose={() => handleCloseModal(false)}
         />
       )}
     </Card>

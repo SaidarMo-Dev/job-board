@@ -11,7 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ROUTES } from "@/constants/routes";
-import { useVerificationCode } from "@/hooks/useverificationCode";
 import { isEmailValid } from "@/utils/Validations";
 import { ArrowLeft, CheckCircle, Mail } from "lucide-react";
 import React, { useCallback, useState } from "react";
@@ -21,6 +20,7 @@ import {
   sendResetPasswordCode,
 } from "../auth/authApi";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
+import { useVerificationCode } from "@/hooks/useVerificationCode";
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();

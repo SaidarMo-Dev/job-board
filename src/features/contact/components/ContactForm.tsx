@@ -39,7 +39,7 @@ export function ContactForm() {
   // TODO : Handle submiting data t  our support
   const onSubmit = (data: ContactFormData) => {
     setIsSubmitting(true);
-
+    console.log("Form Data:", data);
     setTimeout(() => {
       setIsSubmitting(false);
       reset();

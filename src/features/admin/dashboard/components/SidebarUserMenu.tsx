@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
 import { ROUTES } from "@/constants/routes";
-import { logout } from "@/features/auth/authSlice";
 import { logoutThunk } from "@/features/auth/authThunk";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import {

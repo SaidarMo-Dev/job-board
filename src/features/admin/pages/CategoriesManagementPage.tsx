@@ -28,22 +28,29 @@ export default function CategoriesManagementPage() {
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectAdminCategories);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  
   // UI state
   const [mode, setMode] = useState<categoryMode>("AddNew");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sort, setSort] = useState<SortCategory>("NewestFirst");
-  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("Search") ?? "",
+  );
+
+  const [sort, setSort] = useState<SortCategory>(
+    (searchParams.get("SortBy") as SortCategory) ?? "NewestFirst",
+  );
+
+  const [page, setPage] = useState(Number(searchParams.get("Page")) || 1);
 
   // Dialogs state
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editCategory, setEditCategory] = useState<CategoryManagement | null>(
-    null
+    null,
   );
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryManagement | null>(null);
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 
-  const [searchParams, setSearchParams] = useSearchParams();
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   // Helpers
@@ -68,7 +75,7 @@ export default function CategoriesManagementPage() {
         size: 10,
         search: debouncedSearch,
         sort,
-      })
+      }),
     );
   }, [dispatch, page, debouncedSearch, sort]);
 
@@ -76,7 +83,7 @@ export default function CategoriesManagementPage() {
   const handleDeleteCategory = async () => {
     if (!selectedCategory) return;
     const res = await dispatch(
-      deleteCategoryThunk({ categoryId: selectedCategory.categoryId })
+      deleteCategoryThunk({ categoryId: selectedCategory.categoryId }),
     );
 
     if (deleteCategoryThunk.fulfilled.match(res)) {

@@ -5,10 +5,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ExperienceLevelType } from "../jobTypes";
+import { ExperienceLevelType, type ExperienceLevelTypekey } from "../jobTypes";
 
 type Props = {
-  onSelect: (value: ExperienceLevelType) => void;
+  onSelect: (value: ExperienceLevelTypekey) => void;
 };
 export function ExperienceLevelFilter({ onSelect }: Props) {
   return (
@@ -16,14 +16,14 @@ export function ExperienceLevelFilter({ onSelect }: Props) {
       <label htmlFor="" className="text-sm block mb-2 font-medium">
         Experience level
       </label>
-      <Select onValueChange={(value) => onSelect(value as ExperienceLevelType)}>
+      <Select onValueChange={(value) => onSelect(value as ExperienceLevelTypekey)}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Any Level" />
         </SelectTrigger>
         <SelectContent>
           {Object.keys(ExperienceLevelType).map((key) => (
             <SelectItem key={key} value={key}>
-              {ExperienceLevelType[key as ExperienceLevelType]}
+              {ExperienceLevelType[key as ExperienceLevelTypekey]}
             </SelectItem>
           ))}
         </SelectContent>

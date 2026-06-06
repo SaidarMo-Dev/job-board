@@ -28,13 +28,13 @@ export default function CompaniesManagementPage() {
     {
       search: "",
       sort: "NameAsc",
-    }
+    },
   );
-  const [page, setPage] = useState(1);
 
   const debouncedSearch = useDebounce(filters.search, 500);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const [page, setPage] = useState(Number(searchParams.get("Page")) || 1);
   // Dialog states
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openShowCompanyInfo, setOpenShowCompanyInfo] = useState(false);
@@ -43,7 +43,7 @@ export default function CompaniesManagementPage() {
 
   const companies = useAppSelector(selectAdminCompanies);
   const deleteLoading = useAppSelector(
-    (state) => state.adminCompaniesReducer.loading.remove
+    (state) => state.adminCompaniesReducer.loading.remove,
   );
 
   /** Build URL params from current state */
@@ -71,7 +71,7 @@ export default function CompaniesManagementPage() {
         size: 10,
         search: debouncedSearch,
         sort: filters.sort,
-      })
+      }),
     );
   }, [dispatch, page, debouncedSearch, filters.sort]);
 
@@ -80,7 +80,7 @@ export default function CompaniesManagementPage() {
     (companyId: number) => {
       navigate(ROUTES.ADMIN.COMPANIES.EDIT(companyId));
     },
-    [navigate]
+    [navigate],
   );
 
   const handleDeleteCompany = useCallback((company: CompanyManagement) => {
@@ -93,7 +93,7 @@ export default function CompaniesManagementPage() {
       setSelectedCompany(company);
       setOpenShowCompanyInfo(true);
     },
-    []
+    [],
   );
 
   const onDelete = useCallback(() => {

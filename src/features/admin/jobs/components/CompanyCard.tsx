@@ -1,13 +1,10 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2 } from "lucide-react";
-import { CompanyCombobox } from "./CompanyCombobox";
 import { AddCompanyDialog } from "../../companies/dialogs/AddCompanyDialog";
-import { Controller, type Control } from "react-hook-form";
+import { type Control } from "react-hook-form";
 import type { JobFormValues } from "../schemas/jobSchema";
 
 export function CompanyCard({
-  control,
   onCreate,
   error,
 }: {
@@ -24,20 +21,6 @@ export function CompanyCard({
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6 space-y-3" data-error={!!error}>
-        <Controller
-          name="companyId"
-          control={control}
-          render={({ field }) => (
-            <>
-              <CompanyCombobox
-                value={field.value}
-                onChange={field.onChange}
-                placeholder="Select a company..."
-              />
-              {error && <p className="text-sm text-destructive">{error}</p>}
-            </>
-          )}
-        />
         <AddCompanyDialog onCreate={onCreate} />
       </CardContent>
     </Card>
