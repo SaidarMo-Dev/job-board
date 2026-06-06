@@ -31,7 +31,7 @@ const menuItems = [
     Badge: 5,
   },
   {
-    name: "Company Profile",
+    name: "Company",
     icon: Building,
     url: ROUTES.EMPLOYER.COMPANY_PROFILE,
     Badge: 5,
@@ -84,14 +84,6 @@ export default function EmployerSidebar() {
                         {<item.icon className="w-5 h-5" />}
                         {item.name}
                       </div>
-                      {item.Badge !== 0 && (
-                        <span
-                          className="px-[7px] py-[3px] bg-gray-200/70 rounded-full text-xs
-                                        font-bold dark:bg-secondary dark:text-secondary-foreground"
-                        >
-                          {item.Badge}
-                        </span>
-                      )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
