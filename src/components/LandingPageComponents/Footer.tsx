@@ -2,6 +2,8 @@ import LinkedinIcon from "@/shared/components/LinkedinIcon";
 import { Mail, MapPin, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 
+import logo from "@/assets/ilink-logo.svg";
+
 const Footer = () => {
   return (
     <footer className="border-t border-gray-200 dark:border-gray-800 bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
@@ -11,7 +13,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center mb-4">
-              <span className="text-2xl font-bold text-primary">iLink</span>
+              <img src={logo} alt="logo" width={40} height={40} />
             </div>
             <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
               Connect with top employers and find your dream job. We help

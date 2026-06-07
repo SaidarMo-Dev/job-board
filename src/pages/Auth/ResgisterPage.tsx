@@ -14,7 +14,6 @@ import "react-toastify/ReactToastify.css";
 // axios
 import axios from "axios";
 import type { ApiResponse } from "../../shared/types/ApiResponse";
-import { LogoBrand } from "@/features/auth/components/register/LogoBrand";
 import { RoleSelector } from "@/features/auth/components/register/RoleSelector";
 import { NameInputs } from "@/features/auth/components/register/NameInput";
 import { PasswordsInput } from "@/features/auth/components/register/PasswordsInput";
@@ -23,6 +22,8 @@ import { SocialRegistrationAuth } from "@/features/auth/components/register/Soci
 import Loader from "@/components/Loaders/Loader";
 import { roles, type RoleType } from "@/features/admin/users/usersTypes";
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
+import logo from "@/assets/ilink-logo.svg";
+
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
 
@@ -56,7 +57,7 @@ type FormData = z.infer<typeof signUpSchema>;
 
 export default function RegisterPage() {
   useDocumentTitle("Sign Up | iLink");
-  
+
   const navigate = useNavigate();
 
   const {
@@ -115,8 +116,11 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-sky-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo/Brand Section */}
-        <LogoBrand />
-
+        <div className="flex items-center justify-center mb-5 mt-5">
+          <Link to="/">
+            <img src={logo} alt="logo" width={64} height={64} />
+          </Link>
+        </div>
         {/* Card */}
         <div className="bg-white rounded-lg shadow-xl border-0 overflow-hidden">
           {/* Card Header */}

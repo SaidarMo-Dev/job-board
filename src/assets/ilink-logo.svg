@@ -1,0 +1,69 @@
+<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#16A0E8"/>
+      <stop offset="100%" stop-color="#1EC3E8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- i dot -->
+  <circle cx="220" cy="150" r="42" fill="url(#g)"/>
+
+  <!-- i stem -->
+  <rect
+    x="178"
+    y="250"
+    width="84"
+    height="260"
+    rx="42"
+    fill="url(#g)"
+  />
+
+  <!-- L -->
+  <path
+    d="
+      M380 150
+      C380 127 399 108 422 108
+      L422 108
+      C445 108 464 127 464 150
+      L464 425
+      C464 455 489 480 519 480
+      L635 480
+      C665 480 690 505 690 535
+      C690 565 665 590 635 590
+      L485 590
+      C426 590 380 544 380 485
+      Z"
+    transform="translate(0,-100)"
+    fill="url(#g)"
+  />
+
+  <!-- swoosh -->
+  <path
+    d="
+      M220 100
+      C320 15 460 -10 610 10
+      L560 58
+      C480 50 390 70 310 130
+      Z"
+    fill="url(#g)"
+  />
+
+  <!-- lightning -->
+  <path
+    d="
+      M545 10
+      L655 40
+      L595 78
+      L660 88
+      L555 145
+      L585 145
+      L510 205
+      L535 150
+      L490 150
+      L555 85
+      L520 85
+      Z"
+    fill="url(#g)"
+  />
+</svg>

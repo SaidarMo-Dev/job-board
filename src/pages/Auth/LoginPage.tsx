@@ -8,9 +8,9 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store";
 import { getCurrentUserThunk, handleLogin } from "@/features/auth/authThunk";
 import { ROUTES } from "@/constants/routes";
-import { LogoBrand } from "@/features/auth/components/register/LogoBrand";
 import { adminLogin } from "@/features/admin/auth/adminSlice";
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
+import logo from "@/assets/ilink-logo.svg";
 
 export default function LoginPage() {
   useDocumentTitle("Sign In | iLink");
@@ -64,8 +64,11 @@ export default function LoginPage() {
       <div className="min-h-screen bg-gradient-to-br from-sky-50 to-sky-100 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           {/* Logo/Brand Section */}
-          <LogoBrand />
-
+          <div className="flex items-center justify-center mb-5 mt-5">
+            <Link to="/">
+              <img src={logo} alt="logo" width={64} height={64} />
+            </Link>
+          </div>
           {/* Card */}
           <div className="bg-white rounded-lg shadow-xl border-0 overflow-hidden">
             {/* Card Header */}

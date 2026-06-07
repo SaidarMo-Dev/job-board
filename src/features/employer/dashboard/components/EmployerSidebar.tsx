@@ -17,6 +17,8 @@ import { ROUTES } from "@/constants/routes";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { logoutThunk } from "@/features/auth/authThunk";
 
+import logo from "@/assets/ilink-logo.svg";
+
 const menuItems = [
   {
     name: "Dashboard",
@@ -55,17 +57,13 @@ export default function EmployerSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg">
-              <Link to={""} className="flex gap-2">
-                <div className="bg-sky-700 rounded-md p-2 text-white">
-                  <Briefcase className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-[18px] text-sky-600">iLink</h3>
-                  <span className="text-[13px] text-gray-700  dark:text-secondary-foreground">
-                    Employer Dashboard
-                  </span>
-                </div>
-              </Link>
+              <div className="flex gap-2">
+                <img src={logo} alt="logo" width={40} height={40} />
+
+                <span className="text-[13px] text-gray-700  dark:text-secondary-foreground">
+                  Employer Dashboard
+                </span>
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

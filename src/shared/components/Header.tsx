@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchPopularCategories } from "@/features/admin/categories/categoryApi";
 import { JobDropdown } from "./JobDropdown";
 
+import logo from "@/assets/ilink-logo.svg";
+
 // Dropdown Component (desktop + mobile shared)
 
 const Header = () => {
@@ -38,7 +40,7 @@ const Header = () => {
           to="/"
           className="text-2xl font-bold text-sky-600 hover:text-sky-600 transition-colors"
         >
-          iLink
+          <img src={logo} alt="logo" width={40} height={40} />
         </Link>
 
         {/* Desktop Navigation */}

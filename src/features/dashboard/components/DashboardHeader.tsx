@@ -3,8 +3,9 @@ import { Input } from "@/components/ui/input";
 import { Link } from "react-router";
 import UserMenu from "./UserMenu";
 
-export function DashboardHeader() {
+import logo from "@/assets/ilink-logo.svg";
 
+export function DashboardHeader() {
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="custom-container flex h-16 items-center justify-between px-4">
@@ -14,7 +15,7 @@ export function DashboardHeader() {
             to="/"
             className="text-2xl font-bold text-sky-600 hover:text-sky-700 transition-colors"
           >
-            iLink
+            <img src={logo} alt="logo" width={40} height={40} />
           </Link>
         </div>
 
@@ -36,7 +37,6 @@ export function DashboardHeader() {
 
         {/* Right Section */}
         <div className="flex items-center gap-4">
-    
           {/* User Menu */}
           <UserMenu />
         </div>

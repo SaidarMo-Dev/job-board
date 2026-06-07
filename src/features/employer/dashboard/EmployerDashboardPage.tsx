@@ -13,6 +13,7 @@ export default function EmployerDashboardPage() {
   );
 
   useDocumentTitle(`Dashboard - ${employerName} | iLink`);
+
   const { data: employerStats } = useQuery({
     queryKey: ["dashboardStats"],
     queryFn: () => getEmployerDashboardStats(),
