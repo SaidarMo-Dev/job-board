@@ -1,4 +1,3 @@
-
 import { useQuery } from "@tanstack/react-query";
 import { fetchEmployerJobs, getEmployerDashboardStats } from "../employerApi";
 import { useState } from "react";
@@ -14,12 +13,14 @@ import SectionHeader from "../shared/components/SectionHeader";
 import EmployerDashboardStats from "../shared/components/EmployerDashboardStats";
 import { EmployerJobsTable } from "./components/EmployerJobsTable";
 import EmployerSearchJobs from "./components/EmployerSearchJobs";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function EmployerJobsPage({
   className,
 }: {
   className?: string;
 }) {
+  useDocumentTitle("My Jobs | iLink");
   const navigate = useNavigate();
 
   const [searchJobs, setSearchJobs] = useState("");

@@ -1,9 +1,12 @@
 import RecoverContactInformation from "@/components/PasswordAndSecurity/RecoverContactInformation";
 import { Button } from "@/components/ui/button";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router";
 
 export default function AccountRecovery() {
+  useDocumentTitle("Account Recovery Setup | iLink");
+
   return (
     <div className="custom-conatiner max-w-2xl mx-auto">
       <div className="flex items-center space-x-4 my-6">

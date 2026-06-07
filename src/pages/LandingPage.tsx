@@ -12,7 +12,10 @@ import { useNavigate } from "react-router";
 import { CategorySection } from "@/components/LandingPageComponents/CategorySection";
 import { TrustedCompanies } from "@/components/LandingPageComponents/TrustedCompanies";
 import { CTASection } from "@/components/LandingPageComponents/CTASection";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 export function LandingPage() {
+  useDocumentTitle("iLink - Find your dream job today");
+
   const query = useMemo(() => {
     const params = new URLSearchParams();
     params.append("PageNumber", "1");

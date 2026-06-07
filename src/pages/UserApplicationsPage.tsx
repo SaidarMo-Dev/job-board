@@ -10,26 +10,29 @@ import Loader from "@/components/Loaders/Loader";
 import { NoApplications } from "@/features/jobApplications/components/NoApplications";
 import CustomPagination from "@/shared/components/CustomPagination";
 import type { PaginationInfo } from "@/features/admin/users/usersTypes";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 const tabsItem = ["All", "Pending", "Accepted", "Rejected"];
 
 export default function UserApplications() {
+  useDocumentTitle("My Applications | iLink");
+  
   const [statusTab, setTab] = useState<ApplicationStatusFilterType>("All");
   const userApplications = useAppSelector(
-    (state) => state.applicationReducer.userApplications
+    (state) => state.applicationReducer.userApplications,
   );
   const [pagination, setPagination] = useState<PaginationInfo | null>(null);
 
   const [page, setPage] = useState(1);
   const loading = useAppSelector(
-    (state) => state.applicationReducer.loading.fetch
+    (state) => state.applicationReducer.loading.fetch,
   );
   const dispatch = useAppDispatch();
 
   // fetch applications
   useEffect(() => {
     dispatch(
-      getUserApplicationsThunk({ page, size: 10, statusFilter: statusTab })
+      getUserApplicationsThunk({ page, size: 10, statusFilter: statusTab }),
     )
       .unwrap()
       .then((data) => {

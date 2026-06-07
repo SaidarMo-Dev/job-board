@@ -21,6 +21,7 @@ import { resetPassword } from "../auth/authApi";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 import Loader from "@/components/Loaders/Loader";
 import { ROUTES } from "@/constants/routes";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 interface PasswordStrength {
   score: number;
@@ -28,6 +29,8 @@ interface PasswordStrength {
 }
 
 export default function ResetPasswordPage() {
+  useDocumentTitle("Reset Password | iLink");
+
   const location = useLocation();
 
   const [password, setPassword] = useState("");
@@ -100,7 +103,7 @@ export default function ResetPasswordPage() {
       const res = await resetPassword(
         location.state?.resetToken ?? "",
         password,
-        confirmPassword
+        confirmPassword,
       );
       if (!res.succeeded) {
         setError(res.message);
@@ -213,8 +216,8 @@ export default function ResetPasswordPage() {
                         passwordStrength.score < 50
                           ? "text-destructive"
                           : passwordStrength.score < 75
-                          ? "text-yellow-600"
-                          : "text-green-600"
+                            ? "text-yellow-600"
+                            : "text-green-600"
                       }`}
                     >
                       {getStrengthText(passwordStrength.score)}

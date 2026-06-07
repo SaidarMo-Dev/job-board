@@ -10,7 +10,11 @@ import { getCurrentUserThunk, handleLogin } from "@/features/auth/authThunk";
 import { ROUTES } from "@/constants/routes";
 import { LogoBrand } from "@/features/auth/components/register/LogoBrand";
 import { adminLogin } from "@/features/admin/auth/adminSlice";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
+
 export default function LoginPage() {
+  useDocumentTitle("Sign In | iLink");
+
   const [showPassword, setShowPassword] = useState(false);
   const [UsernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -1,7 +1,9 @@
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 import { CheckCircle } from "lucide-react";
 import { Link } from "react-router";
 
 export default function VerificationSucess() {
+  useDocumentTitle("Email Verified | iLink");
   return (
     <div className="custom-container h-dvh w-full flex justify-center items-center">
       <div className="bg-white shadow-lg p-5 rounded-md flex flex-col items-center text-center md:w-120 sm:w-100">

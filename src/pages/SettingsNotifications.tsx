@@ -15,8 +15,11 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Link } from "react-router";
 import { ROUTES } from "@/constants/routes";
 import { useAppSelector } from "@/hooks/useAppSelector";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function SettingsAndNotificationsPage() {
+  useDocumentTitle("Settings & Notifications | iLink");
+  
   const [notifications, setNotifications] = useState({
     jobAlerts: true,
     adviceAndTips: true,
@@ -26,7 +29,7 @@ export default function SettingsAndNotificationsPage() {
 
   const profileCompletion =
     useAppSelector(
-      (state) => state.dashboardStatsReducer.stats?.profileCompletion
+      (state) => state.dashboardStatsReducer.stats?.profileCompletion,
     ) ?? 0;
 
   return (

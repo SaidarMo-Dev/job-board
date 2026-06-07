@@ -28,8 +28,11 @@ import JobDetailsModal from "@/features/jobs/components/JobDetailsModal";
 import { DEFAULT_PAGE_SIZE } from "@/constants/config";
 import InlineJobCard from "@/shared/components/InlineJobCard";
 import InlineJobCardSkeleton from "@/shared/components/InlineJobCardSkeleton";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function JobsPage() {
+  useDocumentTitle("Explore Jobs | iLink");
+  
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
 

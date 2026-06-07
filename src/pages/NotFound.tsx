@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 import { ArrowLeft, Home, Search } from "lucide-react";
 import { Link } from "react-router";
 
 export function NotFound() {
+  useDocumentTitle("404 Not Found | iLink");
   return (
     <div className="p-5 md:p-15 md:w-3xl m-auto">
       <Card className="text-center px-15">

@@ -5,12 +5,14 @@ import TopPerformingJobs from "./components/TopPerformingJobs";
 import EmployerDashboardStats from "../shared/components/EmployerDashboardStats";
 import { useQuery } from "@tanstack/react-query";
 import { getEmployerDashboardStats } from "../employerApi";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function EmployerDashboardPage() {
   const employerName = useAppSelector(
     (state) => state.authReducer.currentUser?.firstName,
   );
 
+  useDocumentTitle(`Dashboard - ${employerName} | iLink`);
   const { data: employerStats } = useQuery({
     queryKey: ["dashboardStats"],
     queryFn: () => getEmployerDashboardStats(),

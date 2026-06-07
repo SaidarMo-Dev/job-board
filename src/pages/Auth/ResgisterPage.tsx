@@ -22,6 +22,7 @@ import { TermsCheckBox } from "@/features/auth/components/register/TermsCheckBox
 import { SocialRegistrationAuth } from "@/features/auth/components/register/SocialRegistrationAuth";
 import Loader from "@/components/Loaders/Loader";
 import { roles, type RoleType } from "@/features/admin/users/usersTypes";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
 
@@ -54,6 +55,8 @@ type FormData = z.infer<typeof signUpSchema>;
 // register page
 
 export default function RegisterPage() {
+  useDocumentTitle("Sign Up | iLink");
+  
   const navigate = useNavigate();
 
   const {

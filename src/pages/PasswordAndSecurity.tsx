@@ -2,8 +2,10 @@ import AccountInformationCard from "@/components/PasswordAndSecurity/AccountInfo
 import PasswordManagementCard from "@/components/PasswordAndSecurity/PasswordManagementCard";
 import TwoFactorAuthenticationCard from "@/components/PasswordAndSecurity/TwoFactorAuthenticationCard";
 import SecuritySettingsCard from "@/components/PasswordAndSecurity/SecuritySettingsCard";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function PasswordSecurityPage() {
+  useDocumentTitle("Password & Security | iLink");
   return (
     <div className="min-h-screen bg-gray-50/50 py-10">
       <div className="custom-container max-w-4xl">

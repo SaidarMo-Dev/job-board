@@ -3,8 +3,10 @@ import BasicUserInfoCard from "@/shared/components/BasicUserInfoCard";
 
 import AuthGuard from "../guards/authGuard";
 import ProfileHeader from "@/components/BasicUserCardComponents/UserProfileHeader";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function UserProfilePage() {
+  useDocumentTitle("My Profile | iLink");
   return (
     <AuthGuard>
       <div className="min-h-screen bg-gray-50 p-4 md:p-8">

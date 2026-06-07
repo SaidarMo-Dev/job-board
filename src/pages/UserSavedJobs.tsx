@@ -12,17 +12,20 @@ import CustomPagination from "@/shared/components/CustomPagination";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import PageLoader from "@/components/Loaders/PageLoader";
 import type { PaginationInfo } from "@/features/admin/users/usersTypes";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function UserSavedJobs() {
+  useDocumentTitle("My Saved Jobs | iLink");
+  
   const bookmarkedJobs = useSelector(selectBookmarkedJobs);
   const [page, setPage] = useState(1);
 
   const loading = useAppSelector(
-    (state) => state.bookmarkReducer.loading
+    (state) => state.bookmarkReducer.loading,
   ).fetch;
 
   const userId = useSelector(
-    (state: RootState) => state.authReducer.currentUser?.id
+    (state: RootState) => state.authReducer.currentUser?.id,
   );
 
   const dispatch = useDispatch<AppDispatch>();

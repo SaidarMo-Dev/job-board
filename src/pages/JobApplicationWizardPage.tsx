@@ -3,11 +3,13 @@ import { getJobByIdThunk } from "@/features/jobs/jobThunk";
 import type { JobResponse } from "@/features/jobs/jobTypes";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useApplicationWizard } from "@/hooks/useApplicationWizard";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
 
 export default function JobApplicationWizardPage() {
+  useDocumentTitle("Apply | iLink");
   const {
     currentStep,
     applicationData,

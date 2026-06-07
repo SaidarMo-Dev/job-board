@@ -17,8 +17,13 @@ import { RecentApplications } from "@/features/dashboard/components/RecentApplic
 import { fetechRecentSavedJobs } from "@/features/bookmarks/bookmarksApi";
 import { fetchRecentApplications } from "@/features/jobApplications/applicationApi";
 import { getAppliedJobIdsThunk } from "@/features/jobApplications/applicationThunk";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function Home() {
+  useDocumentTitle(
+    `Dashboard - ${useSelector(selectCurrentUser)?.firstName} | iLink`,
+  );
+
   const dispatch = useDispatch<AppDispatch>();
   const currentUserId = useSelector(selectCurrentUser)?.id ?? -1;
 

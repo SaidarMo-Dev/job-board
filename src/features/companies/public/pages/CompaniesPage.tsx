@@ -18,8 +18,11 @@ import Loader from "@/components/Loaders/Loader";
 import EmptyState from "@/shared/components/EmptyState";
 import { useCompaniesFilters } from "../../hooks/useCompaniesFilter";
 import { COMPANY_SORT_BY_OPTIONS } from "../../shared/types/companyEnums";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function CompaniesPage() {
+  useDocumentTitle("Explore Companies | iLink");
+  
   const {
     search,
     setSearch,

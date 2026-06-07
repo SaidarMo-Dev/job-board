@@ -21,8 +21,10 @@ import {
 } from "../auth/authApi";
 import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 import { useVerificationCode } from "@/hooks/useVerificationCode";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function ForgotPasswordPage() {
+  useDocumentTitle("Forgot Password | iLink");
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -103,7 +105,7 @@ export default function ForgotPasswordPage() {
     (ie: HTMLInputElement | null, index: number) => {
       inputsRef.current[index] = ie;
     },
-    [inputsRef]
+    [inputsRef],
   );
 
   if (isSubmitted) {

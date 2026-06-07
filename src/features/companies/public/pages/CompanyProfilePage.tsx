@@ -7,8 +7,11 @@ import { fetchCompanyBySlug, fetchCompanyOpenJobs } from "../../CompaniesApi";
 import Loader from "@/components/Loaders/Loader";
 import { ROUTES } from "@/constants/routes";
 import { OpenJobs } from "../components/company-profile/OpenJobs";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export function CompanyProfilePage() {
+  useDocumentTitle("Company Profile | iLink");
+
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const {

@@ -8,8 +8,10 @@ import { extractAxiosErrorMessage } from "@/utils/apiErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CompanyProfileForm from "./components/CompanyProfileForm";
 import Loader from "@/components/Loaders/Loader";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function CompanyProfilePageView() {
+  useDocumentTitle("Company Profile | iLink");
   const [isEditing, setIsEditing] = useState(false);
 
   const queryClient = useQueryClient();

@@ -1,12 +1,12 @@
-// import { ContactForm } from "@/components/contact-form";
-// import { ContactFAQ } from "@/components/contact-faq";
 import { SocialLinks } from "@/features/contact/components/SocialLinks";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { ContactForm } from "@/features/contact/components/ContactForm";
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 
 export default function ContactPage() {
+  useDocumentTitle("Contact Us | iLink");
   return (
     <div className="min-h-screen bg-background custom-container">
       {/* Header Section */}
@@ -37,7 +37,9 @@ export default function ContactPage() {
                     <Mail className="h-5 w-5 text-primary" />
                     <div>
                       <p className="font-medium">Email</p>
-                      <p className="text-sm text-muted-foreground">ilink.panel@gmail.com</p>
+                      <p className="text-sm text-muted-foreground">
+                        ilink.panel@gmail.com
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
