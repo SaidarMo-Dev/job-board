@@ -50,6 +50,7 @@ export default function EmployerSidebar() {
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logoutThunk());
+    localStorage.setItem("IS_AUTHENCATED", "false");
   };
   return (
     <Sidebar variant="inset" collapsible="icon">

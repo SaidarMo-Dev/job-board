@@ -27,6 +27,7 @@ export default function SidebarUserMenu({
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logoutThunk());
+    localStorage.setItem("IS_AUTHENCATED", "false");
   };
   return (
     <DropdownMenu>

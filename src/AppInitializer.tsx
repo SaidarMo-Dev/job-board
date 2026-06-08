@@ -9,11 +9,12 @@ export default function AppInitializer({
   children: React.ReactNode;
 }) {
   const dispatch = useAppDispatch();
+  const authentoicated = localStorage.getItem("IS_AUTHENCATED") === "true";
 
   useEffect(() => {
     // Initial check on app load (refresh)
-    dispatch(getCurrentUserThunk());
-  }, [dispatch]);
+    if (authentoicated) dispatch(getCurrentUserThunk());
+  }, [dispatch, authentoicated]);
 
   return <>{children}</>;
 }

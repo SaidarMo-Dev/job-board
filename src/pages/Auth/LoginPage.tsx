@@ -38,6 +38,8 @@ export default function LoginPage() {
           handleLogin({ UsernameOrEmail, Password: password }),
         ).unwrap();
 
+        localStorage.setItem("IS_AUTHENCATED", "true");
+        
         // Redirect based on role
         if (result.includes("Admin")) {
           dispatch(adminLogin());

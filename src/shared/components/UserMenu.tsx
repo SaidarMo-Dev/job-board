@@ -88,6 +88,7 @@ export default function UserMenu({
   const handleSignOut = () => {
     RemoveTokens();
     dispatch(logout());
+    localStorage.setItem("IS_AUTHENCATED", "false");
   };
 
   return (
