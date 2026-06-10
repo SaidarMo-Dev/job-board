@@ -6,13 +6,21 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import JobDetailsModal from "@/features/jobs/components/JobDetailsModal";
 import InlineJobCard from "@/shared/components/InlineJobCard";
+import { useQuery } from "@tanstack/react-query";
+import { fetchJobs } from "@/features/jobs/jobApi";
 
-export default function FeaturedJobs({
-  featuredJobs,
-}: {
-  featuredJobs: JobResponse[];
-}) {
+// Static Query Params Configuration
+const LANDING_PAGE_JOBS_PARAMS = "PageNumber=1&PageSize=6";
+
+export default function FeaturedJobs() {
   const [selectedJob, setSelectedJob] = useState<JobResponse | null>(null);
+
+  const { data } = useQuery({
+    queryKey: ["fetchJobs", LANDING_PAGE_JOBS_PARAMS],
+    queryFn: () => fetchJobs(LANDING_PAGE_JOBS_PARAMS),
+    // Keeps data cached longer since landing page data doesn't change constantly
+    staleTime: 1000 * 60 * 5,
+  });
 
   return (
     <section className="bg-white py-15">
@@ -36,13 +44,13 @@ export default function FeaturedJobs({
         </div>
 
         {/* jobs */}
-        {featuredJobs.length === 0 ? (
+        {data?.jobs.length === 0 ? (
           <div className="mt-10 text-center text-gray-500">
             No featured jobs available at the moment. Please check back later.
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-5 mt-15">
-            {featuredJobs.map((job) => {
+            {data?.jobs.map((job) => {
               return <InlineJobCard job={job} key={job.jobId} />;
             })}
           </div>
