@@ -19,7 +19,7 @@ interface CategoryCard {
   hoverColor: string;
 }
 
-export function CategorySection() {
+export default function CategorySection() {
   const categories: CategoryCard[] = [
     {
       id: 1,

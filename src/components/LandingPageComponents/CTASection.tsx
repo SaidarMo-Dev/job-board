@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "../ui/button";
 
-export function CTASection() {
+export default function CTASection() {
   return (
     <section className="bg-white py-24">
       <div className="max-w-7xl mx-auto px-6">

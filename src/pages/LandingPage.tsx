@@ -1,54 +1,75 @@
-import "../App.css";
-
 import { HeroSection } from "../components/LandingPageComponents/HeroSection";
-import { FeaturedJobs } from "../components/LandingPageComponents/FeaturedJobs";
-import WhyChooseUs from "../components/LandingPageComponents/WhyChooseUS";
 import { useQuery } from "@tanstack/react-query";
 import { fetchJobs } from "@/features/jobs/jobApi";
-import { useEffect, useMemo } from "react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectIsAuthenticated } from "@/features/auth/authSlice";
-import { useNavigate } from "react-router";
-import { CategorySection } from "@/components/LandingPageComponents/CategorySection";
+import { Navigate } from "react-router";
 import { TrustedCompanies } from "@/components/LandingPageComponents/TrustedCompanies";
-import { CTASection } from "@/components/LandingPageComponents/CTASection";
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
+import LazyRender from "@/shared/components/LazyRender";
+import { lazy, Suspense } from "react";
+
+const CategorySection = lazy(
+  () => import("@/components/LandingPageComponents/CategorySection"),
+);
+
+const FeaturedJobs = lazy(
+  () => import("../components/LandingPageComponents/FeaturedJobs"),
+);
+
+const CTASection = lazy(
+  () => import("@/components/LandingPageComponents/CTASection"),
+);
+
+const WhyChooseUs = lazy(
+  () => import("../components/LandingPageComponents/WhyChooseUS"),
+);
+
+// Static Query Params Configuration
+const LANDING_PAGE_JOBS_PARAMS = "PageNumber=1&PageSize=6";
+
 export function LandingPage() {
   useDocumentTitle("iLink - Find your dream job today");
 
-  const query = useMemo(() => {
-    const params = new URLSearchParams();
-    params.append("PageNumber", "1");
-    params.append("PageSize", "6");
-    return params.toString();
-  }, []);
-
-  const jobs = useQuery({
-    queryKey: ["fetchJobs"],
-    queryFn: () => fetchJobs(query),
-  }).data?.jobs;
-
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
 
-  const navigate = useNavigate();
+  const { data } = useQuery({
+    queryKey: ["fetchJobs", LANDING_PAGE_JOBS_PARAMS],
+    queryFn: () => fetchJobs(LANDING_PAGE_JOBS_PARAMS),
+    // Keeps data cached longer since landing page data doesn't change constantly
+    staleTime: 1000 * 60 * 5,
+  });
 
-  // redirect immediately before rendering
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/members", { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
+  // Guard Clause: Immediate Redirect (Prevents downstream hooks execution if authed)
 
-  // Don't render anything while redirecting
-  if (isAuthenticated) return null;
+  if (isAuthenticated) return <Navigate to="/members" replace />;
+
+  const jobs = data?.jobs ?? [];
   return (
     <>
       <HeroSection />
       <TrustedCompanies />
-      <CategorySection />
-      <FeaturedJobs featuredJobs={jobs ?? []} />
-      <WhyChooseUs />
-      <CTASection />
+
+      <LazyRender placeholderHeight={250}>
+        <Suspense>
+          <CategorySection />
+        </Suspense>
+      </LazyRender>
+      <LazyRender placeholderHeight={400}>
+        <Suspense>
+          <FeaturedJobs featuredJobs={jobs ?? []} />
+        </Suspense>
+      </LazyRender>
+      <LazyRender placeholderHeight={800}>
+        <Suspense>
+          <WhyChooseUs />
+        </Suspense>
+      </LazyRender>
+      <LazyRender placeholderHeight={300}>
+        <Suspense>
+          <CTASection />
+        </Suspense>{" "}
+      </LazyRender>
     </>
   );
 }

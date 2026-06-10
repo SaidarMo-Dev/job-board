@@ -40,3 +40,41 @@
     padding: 0;
   }
 }
+
+
+/* Premium Spring Transition Hook */
+.premium-lazy-container {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  transition: 
+    opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+    transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: opacity, transform;
+}
+
+/* Revealed State */
+.premium-lazy-container.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Cascade/Stagger effect for children inside the section */
+.premium-lazy-container.is-visible .stagger-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.premium-lazy-container .stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 
+    opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+    transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: opacity, transform;
+}
+
+/* Stagger Delays */
+.stagger-delay-1 { transition-delay: 100ms; }
+.stagger-delay-2 { transition-delay: 200ms; }
+.stagger-delay-3 { transition-delay: 300ms; }
+.stagger-delay-4 { transition-delay: 400ms; }

@@ -7,7 +7,7 @@ import { useState } from "react";
 import JobDetailsModal from "@/features/jobs/components/JobDetailsModal";
 import InlineJobCard from "@/shared/components/InlineJobCard";
 
-export function FeaturedJobs({
+export default function FeaturedJobs({
   featuredJobs,
 }: {
   featuredJobs: JobResponse[];
@@ -19,7 +19,7 @@ export function FeaturedJobs({
       <div className="custom-container">
         {/* title */}
         <div>
-          <h2 className="text-4xl font-bold">
+          <h2 className="text-4xl font-bold stagger-item stagger-delay-1 text">
             Latest <span className="text-primary">Job Openings</span>
           </h2>
           <div className="flex justify-between">
