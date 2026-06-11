@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import type { RecentApplication } from "../dashboardTypes";
+import type { RecentApplication } from "../types/dashboardTypes";
 import ApplicationActivityItem from "./ApplicationActivityItem";
 import { Link } from "react-router";
 import { ROUTES } from "@/constants/routes";

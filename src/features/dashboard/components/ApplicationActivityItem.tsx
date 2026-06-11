@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Eye, CheckCheckIcon, UserX } from "lucide-react";
-import type { RecentApplication } from "../dashboardTypes";
+import type { RecentApplication } from "../types/dashboardTypes";
 import { getDaysSincePosted } from "@/utils/getDaysSincePosted";
 import { useMemo } from "react";
 
@@ -34,7 +34,7 @@ export default function ApplicationActivityItem({
 
   const createdDays = useMemo(
     () => getDaysSincePosted(recentApplication.applicantDate),
-    [recentApplication.applicantDate]
+    [recentApplication.applicantDate],
   );
 
   return (

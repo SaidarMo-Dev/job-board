@@ -3,9 +3,13 @@ import JobSearch from "../../features/jobs/components/JobSearch";
 import { Link, useNavigate } from "react-router";
 import { Button } from "../ui/button";
 import { ROUTES } from "@/constants/routes";
+import { selectCurrentUser } from "@/features/auth/authSlice";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 export function HeroSection() {
   const navigate = useNavigate();
+
+  const currentUser = useAppSelector(selectCurrentUser);
 
   function handleSearch(title: string, location: string) {
     const params = new URLSearchParams();
@@ -17,6 +21,14 @@ export function HeroSection() {
 
     navigate(`/jobs?${params.toString()}`);
   }
+
+  const handlePostJobUrl = () => {
+    if (!currentUser) return "/auth/login";
+    else if (currentUser.roles.includes("Admin")) return ROUTES.ADMIN.JOBS.ADD;
+    else if (currentUser.roles.includes("Employer"))
+      return ROUTES.EMPLOYER.JOBS.ADD;
+    else return "/members";
+  };
 
   return (
     <section
@@ -108,7 +120,7 @@ export function HeroSection() {
                   variant="outline"
                   asChild
                 >
-                  <Link to={ROUTES.EMPLOYER.JOBS.ADD}>
+                  <Link to={handlePostJobUrl()}>
                     <Briefcase />
                     Post a Job
                   </Link>

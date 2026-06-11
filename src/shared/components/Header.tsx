@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router";
-import { useSelector } from "react-redux";
-import { selectIsAuthenticated } from "@/features/auth/authSlice";
+import { selectCurrentUser } from "@/features/auth/authSlice";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPopularCategories } from "@/features/admin/categories/categoryApi";
 import { JobDropdown } from "./JobDropdown";
 
 import logo from "@/assets/ilink-logo.svg";
-
-// Dropdown Component (desktop + mobile shared)
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { DashboardButton } from "@/features/dashboard/components/DashboardButton";
 
 const Header = () => {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const currentUser = useAppSelector(selectCurrentUser);
 
   const location = useLocation();
   // Fetch categories
@@ -69,7 +69,7 @@ const Header = () => {
         </nav>
 
         {/* Auth Buttons */}
-        {!isAuthenticated && (
+        {!currentUser ? (
           <div className="hidden md:flex items-center space-x-2">
             <Link
               to="/auth/login"
@@ -84,6 +84,8 @@ const Header = () => {
               Register
             </Link>
           </div>
+        ) : (
+          <DashboardButton />
         )}
 
         {/* Mobile Menu Button */}
@@ -116,20 +118,24 @@ const Header = () => {
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/auth/login"
-              className="block py-2 text-gray-700 hover:text-primary-hover"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Log in
-            </Link>
-            <Link
-              to="/auth/register"
-              className="block py-2 bg-primary hover:bg-primary-hover text-white rounded-md text-center"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Register
-            </Link>
+            {!currentUser ? (
+              <div className="hidden md:flex items-center space-x-2">
+                <Link
+                  to="/auth/login"
+                  className="text-gray-700 hover:text-primary-hover hover:bg-sky-100 py-2 px-4 rounded-md"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/auth/register"
+                  className="bg-primary hover:bg-primary-hover hover:-translate-y-0.5 transition-transform duration-200 text-white px-4 py-2 rounded-md"
+                >
+                  Register
+                </Link>
+              </div>
+            ) : (
+              <DashboardButton />
+            )}
           </>
         </div>
       )}

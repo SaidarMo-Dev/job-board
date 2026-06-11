@@ -6,7 +6,7 @@ import type {
   UserApplicationResponse,
 } from "./applicationType";
 import type { ApiPaginatedResponse } from "@/shared/types/ApiPaginatedResponse";
-import type { RecentApplication } from "../dashboard/dashboardTypes";
+import type { RecentApplication } from "../dashboard/types/dashboardTypes";
 
 const APPLICATIONS_BASE_URL = "/applications";
 
