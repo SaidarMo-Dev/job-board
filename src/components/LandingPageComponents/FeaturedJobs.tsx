@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness } from "lucide-react";
 
 import type { JobResponse } from "@/features/jobs/jobTypes";
 import { Link } from "react-router";
@@ -44,9 +44,20 @@ export default function FeaturedJobs() {
         </div>
 
         {/* jobs */}
-        {data?.jobs.length === 0 ? (
-          <div className="mt-10 text-center text-gray-500">
-            No featured jobs available at the moment. Please check back later.
+        {!data?.jobs || data?.jobs?.length === 0 ? (
+          <div className="mt-16 flex flex-col items-center rounded-2xl  py-12">
+            <div className="mb-5 rounded-full bg-white p-4 shadow-sm">
+              <BriefcaseBusiness className="h-10 w-10 text-indigo-500" />
+            </div>
+
+            <h3 className="text-xl font-semibold text-gray-900">
+              No Featured Jobs Available
+            </h3>
+
+            <p className="mt-2 max-w-md text-center text-gray-500">
+              We're adding new featured opportunities. Check back soon or browse
+              all available jobs.
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-5 mt-15">
